@@ -1,7 +1,14 @@
-public static class InputManager
+using BulletHellGame.Managers;
+
+public class InputManager
 {
+    private static InputManager _instance;
+    public static InputManager Instance => _instance ??= new InputManager();
+
     private static KeyboardState _lastKeyboard;
     private static KeyboardState _currentKeyboard;
+
+    private InputManager() { }
 
     public static bool KeyPressed(Keys key)
     {

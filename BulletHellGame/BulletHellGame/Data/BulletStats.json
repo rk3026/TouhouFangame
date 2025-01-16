@@ -1,0 +1,10 @@
+{
+  "StandardBullet": {
+    "Damage": 10,
+    "Speed": 5
+  },
+  "HomingBullet": {
+    "Damage": 5,
+    "Speed": 3
+  }
+}

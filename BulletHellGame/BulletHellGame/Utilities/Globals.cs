@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework.Content;
+using BulletHellGame.Managers;
 
 public static class Globals
 {

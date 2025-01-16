@@ -1,0 +1,17 @@
+{
+  "Bullets": {
+    "StandardBullet": "Textures/Bullets/StandardBullet",
+    "HomingBullet": "Textures/Bullets/HomingBullet",
+    "PowerUp": "Textures/Collectibles/PowerUp"
+  },
+  "Enemies": {
+    "EnemyType1": "Textures/Enemies/EnemyType1",
+    "EnemyType2": "Textures/Enemies/EnemyType2"
+  },
+  "Collectibles": {
+    "PowerUp1": "Textures/Collectibles/Collectible1"
+  },
+  "Characters": {
+    "Character1": "Textures/Characters/Character1"
+  }
+}

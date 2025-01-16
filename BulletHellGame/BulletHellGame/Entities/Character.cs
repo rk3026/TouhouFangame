@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace BulletHellGame.Entities
 {
-    internal class Flyer
+    public class Character : Sprite
     {
+        public Character(Texture2D texture, Vector2 position) : base(texture, position)
+        {
+        }
     }
 }
