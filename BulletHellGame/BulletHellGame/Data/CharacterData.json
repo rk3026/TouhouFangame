@@ -1,0 +1,75 @@
+{
+  "characters": [
+    {
+      "id": "character1",
+      "name": "Reimu Hakurei",
+      "health": 100,
+      "speed": 5,
+      "weapons": [
+        {
+          "id": "weapon1",
+          "name": "Reimu's Yin-Yang Orbs",
+          "type": "bullet",
+          "damage": 10,
+          "fire_rate": 0.5,
+          "speed": 4,
+          "range": 500
+        },
+        {
+          "id": "weapon2",
+          "name": "Reimu's Needle Attack",
+          "type": "melee",
+          "damage": 25,
+          "range": 50
+        }
+      ],
+      "abilities": [
+        {
+          "id": "ability1",
+          "name": "Fantasy Seal",
+          "cooldown": 10,
+          "effect": "Damage over time",
+          "duration": 5,
+          "area_of_effect": 100
+        }
+      ],
+      "sprite": "reimu_sprite.png",
+      "audio": {
+        "attack_sound": "reimu_attack.wav",
+        "ability_sound": "fantasy_seal.wav"
+      }
+    },
+    {
+      "id": "character2",
+      "name": "Marisa Kirisame",
+      "health": 120,
+      "speed": 5.5,
+      "weapons": [
+        {
+          "id": "weapon1",
+          "name": "Marisa's Master Spark",
+          "type": "laser",
+          "damage": 30,
+          "fire_rate": 1.0,
+          "speed": 6,
+          "range": 800
+        }
+      ],
+      "abilities": [
+        {
+          "id": "ability1",
+          "name": "Magic Missile",
+          "cooldown": 8,
+          "effect": "Single-target burst damage",
+          "duration": 0,
+          "area_of_effect": 0
+        }
+      ],
+      "sprite": "marisa_sprite.png",
+      "audio": {
+        "attack_sound": "marisa_attack.wav",
+        "ability_sound": "master_spark.wav"
+      }
+    }
+  ]
+}

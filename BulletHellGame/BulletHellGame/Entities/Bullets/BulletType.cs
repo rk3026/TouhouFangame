@@ -3,6 +3,7 @@
     public enum BulletType
     {
         Standard,
+        Pellet,
         Homing,
     }
 }

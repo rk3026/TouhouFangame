@@ -1,6 +1,6 @@
 namespace BulletHellGame.Scenes
 {
-    public enum Scenes
+    public enum SceneType
     {
         GameplayScene,
         MainMenu,

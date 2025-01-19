@@ -1,0 +1,105 @@
+{
+  "UI": {
+    "SpriteSheet": "MenuAndOtherScreens",
+    "Sprites": {
+      "MainMenu": {
+        "X": 32,
+        "Y": 56,
+        "Width": 640,
+        "Height": 480
+      },
+      "GameLogo": {
+        "X": 1276,
+        "Y": 60,
+        "Width": 425,
+        "Height": 197
+      }
+    }
+  },
+  "Bullets": {
+    "SpriteSheet": "ProjectilesAndObjects",
+    "Sprites": {
+      "StandardBullet": {
+        "X": 1276,
+        "Y": 60,
+        "Width": 425,
+        "Height": 197
+      },
+      "HomingBullet": {
+        "X": 1276,
+        "Y": 60,
+        "Width": 425,
+        "Height": 197
+      }
+    }
+  },
+  "Enemies": {
+    "SpriteSheet": "ProjectilesAndObjects",
+    "Sprites": {
+      "EnemyType1": {
+        "X": -276,
+        "Y": 60,
+        "Width": 425,
+        "Height": 197
+      },
+      "EnemyType2": {
+        "X": 1276,
+        "Y": 60,
+        "Width": 425,
+        "Height": 197
+      }
+    }
+  },
+  "Collectibles": {
+    "SpriteSheet": "ProjectilesAndObjects",
+    "Sprites": {
+      "PowerUp1": {
+        "X": 1276,
+        "Y": 60,
+        "Width": 425,
+        "Height": 197
+      }
+    }
+  },
+  "Characters": {
+    "SpriteSheet": "Characters",
+    "Sprites": {
+      "Reimu.Idle.1": {
+        "X": 0,
+        "Y": 6,
+        "Width": 28,
+        "Height": 42
+      },
+      "Reimu.Idle.2": {
+        "X": 30,
+        "Y": 6,
+        "Width": 32,
+        "Height": 32
+      },
+      "Reimu.Idle.3": {
+        "X": 62,
+        "Y": 6,
+        "Width": 28,
+        "Height": 42
+      },
+      "Reimu.Idle.4": {
+        "X": 94,
+        "Y": 6,
+        "Width": 29,
+        "Height": 42
+      },
+      "Reimu.MoveLeft.1": {
+        "X": 0,
+        "Y": 32,
+        "Width": 32,
+        "Height": 32
+      },
+      "Reimu.MoveLeft.2": {
+        "X": 32,
+        "Y": 32,
+        "Width": 32,
+        "Height": 32
+      }
+    }
+  }
+}

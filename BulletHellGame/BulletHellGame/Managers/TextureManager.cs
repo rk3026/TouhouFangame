@@ -9,37 +9,53 @@ namespace BulletHellGame.Managers
         private static TextureManager _instance;
         public static TextureManager Instance => _instance ??= new TextureManager();
 
-        private ContentManager _contentManager;
         private readonly Dictionary<string, Texture2D> _textures = new();
+        private readonly Dictionary<string, Dictionary<string, Rectangle>> _spriteRegions = new();
 
-        // Private constructor to prevent external instantiation
         private TextureManager() { }
 
-        // Method to initialize the ContentManager (called during game initialization)
-        public void Initialize(ContentManager contentManager)
+        public void LoadTexturesFromJson(ContentManager contentManager, string jsonPath)
         {
-            _contentManager = contentManager;
+            var json = File.ReadAllText(jsonPath);
+            var spriteData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(json);
+
+            foreach (var category in spriteData)
+            {
+                string spriteSheetName = category.Value.SpriteSheet;
+                if (!HasTexture(spriteSheetName))
+                {
+                    // Load the texture if it's not already loaded
+                    LoadTexture(contentManager, spriteSheetName, $"SpriteSheets/{spriteSheetName}");
+                }
+
+                // Parse sprite regions
+                if (!_spriteRegions.ContainsKey(spriteSheetName))
+                {
+                    _spriteRegions[spriteSheetName] = new Dictionary<string, Rectangle>();
+                }
+
+                foreach (var sprite in category.Value.Sprites)
+                {
+                    string spriteName = sprite.Name;
+
+                    int x = sprite.Value.X;
+                    int y = sprite.Value.Y;
+                    int width = sprite.Value.Width;
+                    int height = sprite.Value.Height;
+
+                    // Add the sprite region to the dictionary
+                    _spriteRegions[spriteSheetName][spriteName] = new Rectangle(x, y, width, height);
+                }
+            }
         }
 
-        public void LoadTexturesFromJson(string jsonPath)
+        public bool HasTexture(string key) => _textures.ContainsKey(key);
+
+        public void LoadTexture(ContentManager contentManager, string key, string texturePath)
         {
-            if (_contentManager == null)
+            if (!_textures.ContainsKey(key))
             {
-                throw new InvalidOperationException("TextureManager has not been initialized with a ContentManager.");
-            }
-
-            var json = File.ReadAllText(jsonPath);
-            var assets = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(json);
-
-            if (assets.TryGetValue("Textures", out var textures))
-            {
-                foreach (var asset in textures)
-                {
-                    if (!_textures.ContainsKey(asset.Key))
-                    {
-                        _textures[asset.Key] = _contentManager.Load<Texture2D>(asset.Value);
-                    }
-                }
+                _textures[key] = contentManager.Load<Texture2D>(texturePath);
             }
         }
 
@@ -49,7 +65,17 @@ namespace BulletHellGame.Managers
             {
                 return texture;
             }
-            throw new KeyNotFoundException($"Texture with key '{key}' not found.");
+            throw new KeyNotFoundException($"Texture '{key}' not found.");
+        }
+
+        public Rectangle GetSpriteRegion(string spriteSheetName, string spriteName)
+        {
+            if (_spriteRegions.TryGetValue(spriteSheetName, out var regions) &&
+                regions.TryGetValue(spriteName, out var rectangle))
+            {
+                return rectangle;
+            }
+            throw new KeyNotFoundException($"Sprite region '{spriteName}' in '{spriteSheetName}' not found.");
         }
     }
 }

@@ -13,11 +13,13 @@ namespace BulletHellGame.Factories
             switch (type)
             {
                 case BulletType.Standard:
-                    return new Bullet(TextureManager.Instance.GetTexture("StandardBullet"), position, velocity);
+                    return new Bullet(TextureManager.Instance.GetTexture("Sprites/ReimuBullet"), position, velocity);
+                case BulletType.Pellet:
+                    return new Bullet(TextureManager.Instance.GetTexture("Sprites/ReimuPellet"), position, velocity);
                 case BulletType.Homing:
-                    return new HomingBullet(TextureManager.Instance.GetTexture("Bullet"), position, velocity);
+                    return new HomingBullet(TextureManager.Instance.GetTexture(""), position, velocity);
                 default:
-                    return new Bullet(TextureManager.Instance.GetTexture("StandardBullet"), position, velocity);
+                    return new Bullet(TextureManager.Instance.GetTexture(""), position, velocity);
             }
         }
     }

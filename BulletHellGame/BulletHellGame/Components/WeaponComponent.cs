@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Entities;
 using BulletHellGame.Entities.Bullets;
 using BulletHellGame.Factories;
-using BulletHellGame.Managers;
 
 namespace BulletHellGame.Components
 {
@@ -19,21 +18,29 @@ namespace BulletHellGame.Components
         public void Update(GameTime gameTime)
         {
             _timeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        }
 
-            // Fire a bullet if Space is pressed and fire rate allows it
-            if (InputManager.KeyDown(Keys.Space) && _timeSinceLastShot >= _fireRate)
+        public void Shoot()
+        {
+            if (_timeSinceLastShot >= _fireRate)
             {
-                Shoot();
+                // Define the offset for bullet spawn relative to the owner's position
+                Vector2 bulletPosition = _owner.Position + new Vector2(16, -10);
+
+                // Define velocities for each bullet
+                Vector2 straightUpVelocity = new Vector2(0, -500);      // Straight up
+                Vector2 leftUpVelocity = new Vector2(-300, -400);       // Diagonally left (northwest)
+                Vector2 rightUpVelocity = new Vector2(300, -400);       // Diagonally right (northeast)
+
+                // Create three bullets with their respective velocities
+                EntityManager.Instance.CreateBullet(BulletType.Standard, bulletPosition, straightUpVelocity);
+                EntityManager.Instance.CreateBullet(BulletType.Pellet, bulletPosition, leftUpVelocity);
+                EntityManager.Instance.CreateBullet(BulletType.Pellet, bulletPosition, rightUpVelocity);
+
+                // Reset the shot timer
                 _timeSinceLastShot = 0f;
             }
         }
 
-        private void Shoot()
-        {
-            // Create a bullet at the player's position
-            Vector2 bulletPosition = _owner.Position + new Vector2(16, -10); // Offset for bullet spawn
-            Vector2 bulletSpeed = new Vector2(0, -500); // Upward Velocity
-            EntityManager.Instance.CreateBullet(BulletType.Standard, bulletPosition, bulletSpeed);
-        }
     }
 }

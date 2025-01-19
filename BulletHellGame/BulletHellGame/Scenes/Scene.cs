@@ -1,3 +1,5 @@
+using BulletHellGame.Managers;
+
 public abstract class Scene
 {
     protected readonly RenderTarget2D target;

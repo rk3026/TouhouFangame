@@ -1,0 +1,70 @@
+{
+  "enemies": [
+    {
+      "id": "enemy1",
+      "name": "Fairy",
+      "health": 30,
+      "speed": 2,
+      "attack_patterns": [
+        {
+          "type": "bullet",
+          "bullet_type": "small_bullet",
+          "fire_rate": 0.5,
+          "spread": 5
+        }
+      ],
+      "movement_pattern": "zigzag",
+      "spawn_position": {
+        "x": 100,
+        "y": -50
+      },
+      "loot": [
+        {
+          "item_type": "collectible",
+          "item_id": "small_heal"
+        }
+      ],
+      "sprite": "fairy_sprite.png",
+      "audio": {
+        "hit_sound": "enemy_hit.wav",
+        "death_sound": "enemy_death.wav"
+      }
+    },
+    {
+      "id": "enemy2",
+      "name": "Boss Fairy",
+      "health": 300,
+      "speed": 3,
+      "attack_patterns": [
+        {
+          "type": "laser",
+          "laser_type": "red_laser",
+          "fire_rate": 0.2,
+          "spread": 0
+        },
+        {
+          "type": "bullet",
+          "bullet_type": "big_bullet",
+          "fire_rate": 1.0,
+          "spread": 3
+        }
+      ],
+      "movement_pattern": "circular",
+      "spawn_position": {
+        "x": 250,
+        "y": -100
+      },
+      "loot": [
+        {
+          "item_type": "collectible",
+          "item_id": "large_heal"
+        }
+      ],
+      "sprite": "boss_fairy_sprite.png",
+      "audio": {
+        "hit_sound": "boss_hit.wav",
+        "death_sound": "boss_death.wav"
+      }
+    }
+  ]
+}

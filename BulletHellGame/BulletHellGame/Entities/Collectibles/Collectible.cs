@@ -1,7 +1,6 @@
-﻿
-using BulletHellGame.Components;
+﻿using BulletHellGame.Components;
 
-namespace BulletHellGame.Entities
+namespace BulletHellGame.Entities.Collectibles
 {
     public class Collectible : Entity
     {

@@ -5,8 +5,8 @@ namespace BulletHellGame.Managers
     {
         private static SceneManager _instance;
         public static SceneManager Instance => _instance ??= new SceneManager();
-        public Scenes ActiveScene { get; private set; }
-        private readonly Dictionary<Scenes, Scene> _scenes = [];
+        public SceneType ActiveScene { get; private set; }
+        private readonly Dictionary<SceneType, Scene> _scenes = [];
         private readonly RenderTarget2D _transitionFrame;
         private readonly Dictionary<Transitions, Transition> _transitions = [];
         private Transition _transition;
@@ -14,7 +14,10 @@ namespace BulletHellGame.Managers
 
         private SceneManager()
         {
-            ActiveScene = Scenes.MainMenu;
+            _scenes.Add(SceneType.MainMenu, new MainMenu());
+            _scenes.Add(SceneType.GameplayScene, new GameplayScene());
+
+            ActiveScene = SceneType.MainMenu;
             _scenes[ActiveScene].Activate();
 
             _transitionFrame = Globals.GetNewRenderTarget();
@@ -26,7 +29,7 @@ namespace BulletHellGame.Managers
             _transitions.Add(Transitions.Checker, new CheckerTransition(_transitionFrame));
         }
 
-        public void SwitchScene(Scenes scene, Transitions transition, float duration = 0.5f)
+        public void SwitchScene(SceneType scene, Transitions transition, float duration = 0.5f)
         {
             var oldScene = _scenes[ActiveScene].GetFrame();
             ActiveScene = scene;

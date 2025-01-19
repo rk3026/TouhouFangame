@@ -11,8 +11,42 @@
         <ApplicationIcon>Icon.ico</ApplicationIcon>
     </PropertyGroup>
     <ItemGroup>
+        <None Remove="Data\AudioData.json" />
+        <None Remove="Data\BulletPatterns.json" />
+        <None Remove="Data\CharacterData.json" />
+        <None Remove="Data\Collectibles.json" />
+        <None Remove="Data\EnemyData.json" />
+        <None Remove="Data\Levels.json" />
+        <None Remove="Data\SpriteSheetData.json" />
+        <None Remove="Data\WeaponData.json" />
         <None Remove="Icon.ico" />
         <None Remove="Icon.bmp" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="Data\AudioData.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\BulletPatterns.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\CharacterData.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Collectibles.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\EnemyData.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Levels.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheetData.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\WeaponData.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
     <ItemGroup>
         <EmbeddedResource Include="Icon.ico">
@@ -27,6 +61,20 @@
         <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.1105" />
         <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.2.1105" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="Content\SpriteSheets\Characters.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Content\SpriteSheets\Fonts.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Content\SpriteSheets\MenuAndOtherScreens.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Content\SpriteSheets\ProjectilesAndObjects.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
     <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
         <Message Text="Restoring dotnet tools" Importance="High" />

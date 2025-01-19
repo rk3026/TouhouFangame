@@ -1,0 +1,25 @@
+{
+  "collectibles": [
+    {
+      "id": "small_heal",
+      "name": "Small Health Pack",
+      "type": "health",
+      "value": 20,
+      "sprite": "small_heal.png"
+    },
+    {
+      "id": "large_heal",
+      "name": "Large Health Pack",
+      "type": "health",
+      "value": 50,
+      "sprite": "large_heal.png"
+    },
+    {
+      "id": "score_boost",
+      "name": "Score Boost",
+      "type": "score",
+      "value": 100,
+      "sprite": "score_boost.png"
+    }
+  ]
+}

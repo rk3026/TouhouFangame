@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BulletHellGame.Entities
+namespace BulletHellGame.Entities.Characters
 {
     public class Character : Sprite
     {

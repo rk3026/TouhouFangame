@@ -1,0 +1,62 @@
+﻿{
+  "level_id": 1,
+  "level_name": "Forest of Despair",
+  "background": "forest_bg.png",
+  "music": "forest_theme.mp3",
+  "enemies": [
+    {
+      "type": "EnemyTypeA",
+      "spawn_position": {
+        "x": 100,
+        "y": -50
+      },
+      "movement_pattern": "zigzag",
+      "health": 10
+    },
+    {
+      "type": "EnemyTypeB",
+      "spawn_position": {
+        "x": 200,
+        "y": -50
+      },
+      "movement_pattern": "sin_wave",
+      "health": 20
+    }
+  ],
+  "bullet_patterns": [
+    {
+      "type": "spiral",
+      "speed": 5,
+      "fire_rate": 0.1,
+      "spawn_position": {
+        "x": 150,
+        "y": 100
+      }
+    },
+    {
+      "type": "random",
+      "speed": 4,
+      "fire_rate": 0.2,
+      "spawn_position": {
+        "x": 200,
+        "y": 150
+      }
+    }
+  ],
+  "boss": {
+    "name": "Forest Guardian",
+    "health": 500,
+    "phases": [
+      {
+        "health_threshold": 300,
+        "bullet_patterns": [
+          {
+            "type": "laser_beam",
+            "speed": 6,
+            "fire_rate": 0.05
+          }
+        ]
+      }
+    ]
+  }
+}
