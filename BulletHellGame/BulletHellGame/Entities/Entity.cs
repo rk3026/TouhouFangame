@@ -7,7 +7,16 @@ namespace BulletHellGame.Entities
     {
         private List<IComponent> _components = new List<IComponent>();
 
-        public Entity(Texture2D texture, Vector2 position) : base(texture, position) { }
+        // When specifying the initialVelocity:
+        public Entity(Texture2D texture, Vector2 position, Vector2 initialVelocity) : base(texture, position)
+        {
+            AddComponent(new SpriteEffectComponent());
+            AddComponent(new HitboxComponent(this, new Rectangle(new Point((int)this.Position.X, (int)this.Position.Y), new Point(this.Texture.Width, this.Texture.Height))));
+            AddComponent(new MovementComponent(this));
+
+            // Set initial initialVelocity
+            GetComponent<MovementComponent>().Velocity = initialVelocity;
+        }
 
         public void AddComponent(IComponent component)
         {
@@ -31,6 +40,16 @@ namespace BulletHellGame.Entities
                 component.Update(gameTime);
             }
         }
-    }
 
+        public void Reset(Vector2 position, Vector2 velocity)
+        {
+            foreach (IComponent component in _components)
+            {
+                component.Reset();
+            }
+
+            this.Position = position;
+            this.GetComponent<MovementComponent>().Velocity = velocity;
+        }
+    }
 }

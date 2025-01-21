@@ -8,7 +8,7 @@ namespace BulletHellGame.Entities.Bullets
 {
     internal class HomingBullet : Bullet
     {
-        public HomingBullet(Texture2D texture, Vector2 position, Vector2 velocity) : base(texture, position, velocity)
+        public HomingBullet(BulletType type, Texture2D texture, Vector2 position, Vector2 velocity) : base(BulletType.Homing, texture, position, velocity)
         {
         }
     }

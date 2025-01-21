@@ -1,6 +1,6 @@
 ﻿using BulletHellGame.Entities;
 using BulletHellGame.Entities.Bullets;
-using BulletHellGame.Factories;
+using BulletHellGame.Managers;
 
 namespace BulletHellGame.Components
 {

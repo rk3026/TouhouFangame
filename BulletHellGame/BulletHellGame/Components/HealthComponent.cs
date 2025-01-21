@@ -23,6 +23,11 @@
             if (CurrentHealth > MaxHealth) CurrentHealth = MaxHealth;
         }
 
+        public void Reset()
+        {
+            this.CurrentHealth = this.MaxHealth;
+        }
+
         public void Update(GameTime gameTime)
         {
             // Logic for health regeneration or effects could go here

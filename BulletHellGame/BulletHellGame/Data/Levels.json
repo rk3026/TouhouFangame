@@ -1,50 +1,69 @@
 ﻿{
   "level_id": 1,
-  "level_name": "Forest of Despair",
-  "background": "forest_bg.png",
-  "music": "forest_theme.mp3",
+  "level_name": "level1",
+  "background": "level1_bg.png",
+  "music": "level1_theme.mp3",
   "enemies": [
     {
       "type": "EnemyTypeA",
+      "spawn_time": 2.0,
       "spawn_position": {
         "x": 100,
-        "y": -50
+        "y": -100
+      },
+      "start_position": {
+        "x": 100,
+        "y": 50
+      },
+      "exit_time": 8.0,
+      "exit_position": {
+        "x": 400,
+        "y": 600
       },
       "movement_pattern": "zigzag",
-      "health": 10
-    },
-    {
-      "type": "EnemyTypeB",
-      "spawn_position": {
-        "x": 200,
-        "y": -50
-      },
-      "movement_pattern": "sin_wave",
-      "health": 20
-    }
-  ],
-  "bullet_patterns": [
-    {
-      "type": "spiral",
-      "speed": 5,
-      "fire_rate": 0.1,
-      "spawn_position": {
-        "x": 150,
-        "y": 100
+      "health": 10,
+      "bullet_pattern": {
+        "type": "spiral",
+        "speed": 5,
+        "fire_rate": 0.2
       }
     },
     {
-      "type": "random",
-      "speed": 4,
-      "fire_rate": 0.2,
+      "type": "EnemyTypeB",
+      "spawn_time": 5.0,
       "spawn_position": {
         "x": 200,
-        "y": 150
+        "y": -100
+      },
+      "start_position": {
+        "x": 200,
+        "y": 100
+      },
+      "exit_time": 12.0,
+      "exit_position": {
+        "x": -50,
+        "y": 300
+      },
+      "movement_pattern": "sin_wave",
+      "health": 20,
+      "bullet_pattern": {
+        "type": "random",
+        "speed": 4,
+        "fire_rate": 0.15
       }
     }
   ],
   "boss": {
-    "name": "Forest Guardian",
+    "name": "Boss1",
+    "spawn_time": 15.0,
+    "spawn_position": {
+      "x": 150,
+      "y": -200
+    },
+    "start_position": {
+      "x": 150,
+      "y": 150
+    },
     "health": 500,
     "phases": [
       {

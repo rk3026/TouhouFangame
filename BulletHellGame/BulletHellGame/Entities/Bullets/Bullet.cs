@@ -1,43 +1,33 @@
 ﻿using BulletHellGame.Components;
-using Microsoft.Xna.Framework;
 
 namespace BulletHellGame.Entities.Bullets
 {
     public class Bullet : Entity
     {
-        private float _rotation; // Rotation angle in radians
-
-        public Bullet(Texture2D texture, Vector2 position, Vector2 velocity) : base(texture, position)
+        public BulletType BulletType { get; private set; }
+        public Bullet(BulletType type, Texture2D texture, Vector2 position, Vector2 velocity) : base(texture, position, velocity)
         {
-            AddComponent(new MovementComponent(this));
-            this.GetComponent<MovementComponent>().Velocity = velocity;
-            _rotation = 0f; // Initialize rotation
-        }
-
-        public void SetRotation(float rotation)
-        {
-            _rotation = rotation;
+            this.BulletType = type;
+            // Add components for damage and rotation
+            AddComponent(new RotationComponent(this));
+            AddComponent(new DamageComponent(25));
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            // Optionally, you could modify the rotation based on the velocity direction or other factors
-            // For example, to rotate the bullet based on its velocity:
-            _rotation = (float)Math.Atan2(GetComponent<MovementComponent>().Velocity.Y, GetComponent<MovementComponent>().Velocity.X);
+            // Components will handle their own logic (e.g., rotation based on velocity)
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            // Draw the bullet with the specified rotation
-            spriteBatch.Draw(Texture, Position, null, Color.White, _rotation, new Vector2(Texture.Width / 2, Texture.Height / 2), 1f, SpriteEffects.None, 0f);
-        }
+            // Use the rotation from the RotationComponent
+            var rotation = GetComponent<RotationComponent>()?.Rotation ?? 0f;
 
-        public enum BulletType
-        {
-            Standard,
-            Homing,
+            // Draw the bullet with the specified rotation
+            spriteBatch.Draw(Texture, Position, null, Color.White, rotation,
+                new Vector2(Texture.Width / 2, Texture.Height / 2), 1f, SpriteEffects.None, 0f);
         }
     }
 }

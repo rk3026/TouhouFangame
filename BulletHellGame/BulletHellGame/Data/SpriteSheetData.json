@@ -34,7 +34,7 @@
     }
   },
   "Enemies": {
-    "SpriteSheet": "ProjectilesAndObjects",
+    "SpriteSheet": "EnemiesAndBosses",
     "Sprites": {
       "EnemyType1": {
         "X": -276,

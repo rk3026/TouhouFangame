@@ -1,16 +1,12 @@
 using BulletHellGame.Components;
-using BulletHellGame.Entities;
-using Microsoft.Xna.Framework.Input;
+using BulletHellGame.Entities.Characters;
 
-public class PlayableCharacter : Entity
+public class PlayableCharacter : Character
 {
     private static readonly float MOVE_SPEED = 500f;
 
-    public PlayableCharacter(Texture2D texture, Vector2 position) : base(texture, position)
+    public PlayableCharacter(Texture2D texture, Vector2 position, Vector2 velocity) : base(texture, position, velocity)
     {
-        AddComponent(new HealthComponent(100));              // Health handling
-        AddComponent(new MovementComponent(this));           // Movement handling
-        AddComponent(new WeaponComponent(this));             // Shooting logic
     }
 
     public override void Update(GameTime gameTime)
