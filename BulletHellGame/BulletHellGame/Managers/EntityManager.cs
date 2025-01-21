@@ -133,7 +133,26 @@ namespace BulletHellGame.Managers
             // Update active enemies
             foreach (var enemy in _activeEnemies.ToList())
             {
+                // Update position based on the velocity or movement pattern
                 enemy.Update(gameTime);
+
+                // Get the MovementComponent to access the velocity
+                var movementComponent = enemy.GetComponent<MovementComponent>();
+
+                // Check for collisions with screen boundaries and reverse the velocity (bounce effect)
+                if (enemy.Position.Y < 0 || enemy.Position.Y > Globals.WindowSize.Y)
+                {
+                    // Reverse the Y velocity to simulate a bounce
+                    movementComponent.Velocity = new Vector2(movementComponent.Velocity.X, -movementComponent.Velocity.Y);
+                }
+
+                if (enemy.Position.X < 0 || enemy.Position.X > Globals.WindowSize.X)
+                {
+                    // Reverse the X velocity to simulate a bounce
+                    movementComponent.Velocity = new Vector2(-movementComponent.Velocity.X, movementComponent.Velocity.Y);
+                }
+
+                // If the enemy's health is <= 0, queue for removal
                 if (enemy.GetComponent<HealthComponent>().CurrentHealth <= 0)
                 {
                     QueueEntityForRemoval(enemy);
@@ -216,7 +235,7 @@ namespace BulletHellGame.Managers
             }
             else
             {
-                enemy = _enemyFactory.CreateEnemy(type, position, new Vector2(0, 0));
+                enemy = _enemyFactory.CreateEnemy(type, position);
             }
             AddToActiveEntities(enemy);
             return enemy;
@@ -232,7 +251,7 @@ namespace BulletHellGame.Managers
             }
             else
             {
-                collectible = _collectibleFactory.CreateCollectible(type, position, velocity);
+                collectible = _collectibleFactory.CreateCollectible(type, position);
             }
             AddToActiveEntities(collectible);
             return collectible;

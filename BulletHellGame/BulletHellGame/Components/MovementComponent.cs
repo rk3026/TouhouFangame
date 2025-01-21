@@ -1,4 +1,6 @@
-﻿namespace BulletHellGame.Components
+﻿using BulletHellGame.Entities;
+
+namespace BulletHellGame.Components
 {
     public class MovementComponent : IComponent
     {

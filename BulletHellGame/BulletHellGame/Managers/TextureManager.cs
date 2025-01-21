@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework.Content;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json.Linq;
+using Microsoft.Xna.Framework.Content;
 using System.IO;
+using BulletHellGame.Data;
+
 namespace BulletHellGame.Managers
 {
     public class TextureManager
@@ -8,73 +10,75 @@ namespace BulletHellGame.Managers
         private static TextureManager _instance;
         public static TextureManager Instance => _instance ??= new TextureManager();
 
-        private readonly Dictionary<string, Texture2D> _textures = new();
-        private readonly Dictionary<string, Dictionary<string, Rectangle>> _spriteRegions = new();
+        // Dictionary to store sprite information by name
+        private readonly Dictionary<string, SpriteInfo> _sprites = new();
 
         private TextureManager() { }
 
-        public void LoadTexturesFromJson(ContentManager contentManager, string jsonPath)
+        /// <summary>
+        /// Loads textures and sprite data from a JSON file.
+        /// </summary>
+        public void LoadTexturesFromJson(ContentManager content, string jsonFilePath)
         {
-            var json = File.ReadAllText(jsonPath);
-            var spriteData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(json);
+            // Read and parse the JSON file
+            string jsonString = File.ReadAllText(jsonFilePath);
+            JObject json = JObject.Parse(jsonString);
 
-            foreach (var category in spriteData)
+            foreach (var category in json.Properties())
             {
-                string spriteSheetName = category.Value.SpriteSheet;
-                if (!HasTexture(spriteSheetName))
+                string spriteSheetName = category.Name; // Sprite Sheet name (e.g., "Characters", "MenuAndOtherScreens")
+                string spriteSheetTexturePath = $"SpriteSheets/{spriteSheetName}";
+
+                // Load the SpriteSheet
+                Texture2D texture = content.Load<Texture2D>(spriteSheetTexturePath);
+
+                // Parse sprite data
+                var spriteData = category.Value["Sprites"];
+                if (spriteData == null) continue;
+
+                foreach (var sprite in spriteData.Children<JProperty>())
                 {
-                    // Load the texture if it's not already loaded
-                    LoadTexture(contentManager, spriteSheetName, $"SpriteSheets/{spriteSheetName}");
-                }
+                    string spriteName = sprite.Name; // Sprite name (e.g., "MainMenu", "GameLogo")
+                    var framesData = sprite.Value["Frames"];
+                    if (framesData == null) continue;
 
-                // Parse sprite regions
-                if (!_spriteRegions.ContainsKey(spriteSheetName))
-                {
-                    _spriteRegions[spriteSheetName] = new Dictionary<string, Rectangle>();
-                }
+                    // Create a list to store the frames (rectangles)
+                    List<Rectangle> frames = new();
 
-                foreach (var sprite in category.Value.Sprites)
-                {
-                    string spriteName = sprite.Name;
+                    foreach (var frame in framesData)
+                    {
+                        var rectData = frame["Rect"];
+                        if (rectData != null)
+                        {
+                            // Create a Rectangle for each frame
+                            Rectangle rect = new Rectangle(
+                                (int)rectData["X"],
+                                (int)rectData["Y"],
+                                (int)rectData["Width"],
+                                (int)rectData["Height"]
+                            );
 
-                    int x = sprite.Value.X;
-                    int y = sprite.Value.Y;
-                    int width = sprite.Value.Width;
-                    int height = sprite.Value.Height;
+                            frames.Add(rect);
+                        }
+                    }
 
-                    // Add the sprite region to the dictionary
-                    _spriteRegions[spriteSheetName][spriteName] = new Rectangle(x, y, width, height);
+                    // Store the sprite information (now with multiple frames)
+                    _sprites[spriteName] = new SpriteInfo
+                    {
+                        Texture = texture,
+                        Rects = frames,  // Store the list of frames
+                        Name = spriteName
+                    };
                 }
             }
         }
 
-        public bool HasTexture(string key) => _textures.ContainsKey(key);
-
-        public void LoadTexture(ContentManager contentManager, string key, string texturePath)
+        /// <summary>
+        /// Gets a SpriteInfo by name.
+        /// </summary>
+        public SpriteInfo GetSpriteInfo(string spriteName)
         {
-            if (!_textures.ContainsKey(key))
-            {
-                _textures[key] = contentManager.Load<Texture2D>(texturePath);
-            }
-        }
-
-        public Texture2D GetTexture(string key)
-        {
-            if (_textures.TryGetValue(key, out var texture))
-            {
-                return texture;
-            }
-            throw new KeyNotFoundException($"Texture '{key}' not found.");
-        }
-
-        public Rectangle GetSpriteRegion(string spriteSheetName, string spriteName)
-        {
-            if (_spriteRegions.TryGetValue(spriteSheetName, out var regions) &&
-                regions.TryGetValue(spriteName, out var rectangle))
-            {
-                return rectangle;
-            }
-            throw new KeyNotFoundException($"Sprite region '{spriteName}' in '{spriteSheetName}' not found.");
+            return _sprites.TryGetValue(spriteName, out var spriteInfo) ? spriteInfo : null;
         }
     }
 }

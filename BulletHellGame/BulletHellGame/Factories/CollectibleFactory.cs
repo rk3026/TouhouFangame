@@ -1,4 +1,5 @@
-﻿using BulletHellGame.Entities.Bullets;
+﻿using BulletHellGame.Data;
+using BulletHellGame.Entities.Bullets;
 using BulletHellGame.Entities.Collectibles;
 using BulletHellGame.Managers;
 
@@ -8,18 +9,23 @@ namespace BulletHellGame.Factories
     {
         public CollectibleFactory() { }
 
-        public Collectible CreateCollectible(CollectibleType type, Vector2 position, Vector2 velocity)
+        public Collectible CreateCollectible(CollectibleType type, Vector2 position)
         {
+            SpriteInfo si = null;
             switch (type)
             {
                 case CollectibleType.PowerUp:
-                    return new Collectible(TextureManager.Instance.GetTexture("Sprites/Bullets/ReimuPellet"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Collectible");
+                    return new Collectible(si.Texture, position, si.Rects);
                 case CollectibleType.SpeedBoost:
-                    return new Collectible(TextureManager.Instance.GetTexture("Sprites/Bullets/ReimuPellet"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Collectible");
+                    return new Collectible(si.Texture, position, si.Rects);
                 case CollectibleType.ScoreBoost:
-                    return new Collectible(TextureManager.Instance.GetTexture("Sprites/Bullets/ReimuPellet"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Collectible");
+                    return new Collectible(si.Texture, position, si.Rects);
                 default:
-                    return new Collectible(TextureManager.Instance.GetTexture("Sprites/Bullets/ReimuPellet"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Collectible");
+                    return new Collectible(si.Texture, position, si.Rects);
             }
         }
     }

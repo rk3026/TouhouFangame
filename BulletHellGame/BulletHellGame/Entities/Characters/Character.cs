@@ -4,26 +4,24 @@ namespace BulletHellGame.Entities.Characters
 {
     public class Character : Entity
     {
-        public Character(Texture2D texture, Vector2 position, Vector2 velocity) : base(texture, position, velocity)
+        public Character(Texture2D texture, Vector2 position, List<Rectangle> frameRects = null, double frameDuration = 0.1, bool isAnimating = false) : base(texture, position, frameRects, frameDuration, isAnimating)
         {
             AddComponent(new HealthComponent(100));
             AddComponent(new WeaponComponent(this));
             AddComponent(new SpriteEffectComponent());  // Make sure to add this component as well
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Update(GameTime gameTime)
         {
-            // Access the SpriteEffectComponent and check if it's flashing
+            base.Update(gameTime);
             var spriteEffect = this.GetComponent<SpriteEffectComponent>();
             if (spriteEffect != null && spriteEffect.IsFlashing())
             {
-                // Draw the sprite with a red tint when flashing
-                spriteBatch.Draw(this.Texture, this.Position, Color.Red);
+                this.Color = Color.Red;
             }
             else
             {
-                // Otherwise, call the base Draw method
-                base.Draw(spriteBatch);
+                this.Color = Color.White;
             }
         }
     }

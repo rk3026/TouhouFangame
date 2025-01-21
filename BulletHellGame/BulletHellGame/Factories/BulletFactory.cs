@@ -1,4 +1,4 @@
-﻿using BulletHellGame.Entities;
+﻿using BulletHellGame.Data;
 using BulletHellGame.Entities.Bullets;
 using BulletHellGame.Managers;
 
@@ -10,16 +10,21 @@ namespace BulletHellGame.Factories
 
         public Bullet CreateBullet(BulletType type, Vector2 position, Vector2 velocity)
         {
+            SpriteInfo si = null;
             switch (type)
             {
                 case BulletType.Standard:
-                    return new Bullet(BulletType.Standard,TextureManager.Instance.GetTexture("Sprites/Bullets/ReimuBullet"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Reimu.OrangeBullet");
+                    return new Bullet(BulletType.Standard, si.Texture, position, si.Rects);
                 case BulletType.Pellet:
-                    return new Bullet(BulletType.Pellet,TextureManager.Instance.GetTexture("Sprites/Bullets/ReimuPellet"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Reimu.WhiteBullet");
+                    return new Bullet(BulletType.Pellet, si.Texture, position, si.Rects);
                 case BulletType.Homing:
-                    return new HomingBullet(BulletType.Homing,TextureManager.Instance.GetTexture(""), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Reimu.OrangeBullet");
+                    return new Bullet(BulletType.Standard, si.Texture, position, si.Rects);
                 default:
-                    return new Bullet(BulletType.Standard, TextureManager.Instance.GetTexture(""), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Reimu.OrangeBullet");
+                    return new Bullet(BulletType.Standard, si.Texture, position, si.Rects);
             }
         }
     }

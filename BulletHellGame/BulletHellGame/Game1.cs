@@ -1,4 +1,5 @@
-﻿using BulletHellGame.Entities;
+﻿using BulletHellGame.Components;
+using BulletHellGame.Data;
 using BulletHellGame.Entities.Characters.Enemies;
 using BulletHellGame.Factories;
 using BulletHellGame.Managers;
@@ -60,9 +61,6 @@ namespace BulletHellGame
 
         private void UpdateWindowSize(object sender, EventArgs e)
         {
-            // Update the global window size
-            //Globals.WindowSize = new Point(this.Window.ClientBounds.Width, this.Window.ClientBounds.Height);
-
             // Update graphics device settings based on the new window size
             _graphics.PreferredBackBufferWidth = this.Window.ClientBounds.Width;
             _graphics.PreferredBackBufferHeight = this.Window.ClientBounds.Height;
@@ -81,29 +79,12 @@ namespace BulletHellGame
             // Load content
             Globals.SpriteBatch = new SpriteBatch(GraphicsDevice);
             ContentManager content = Content;
-            string jsonPath = "Data/SpriteSheetData.json";
-
-            TextureManager.Instance.LoadTexturesFromJson(content, jsonPath);
-
-            // Example: Draw MainMenu from "MenuAndOtherScreens" sprite sheet
-            /*
-            string spriteSheet = "MenuAndOtherScreens";
-            string spriteName = "MainMenu";
-            Texture2D texture = TextureManager.Instance.GetTexture(spriteSheet);
-            Rectangle sourceRectangle = TextureManager.Instance.GetSpriteRegion(spriteSheet, spriteName);
-            */
+            TextureManager.Instance.LoadTexturesFromJson(content, "Data/SpriteSheetData.json");
 
             // Create Player Character:
-            Texture2D reimuTexture = Content.Load<Texture2D>("Sprites/Characters/Reimu/ReimuIdle1");
-            PlayableCharacter reimu = new PlayableCharacter(reimuTexture, new Vector2(Globals.WindowSize.X / 2, Globals.WindowSize.Y - reimuTexture.Height), new Vector2(0,0));
+            SpriteInfo si = TextureManager.Instance.GetSpriteInfo("Reimu.Idle");
+            PlayableCharacter reimu = new PlayableCharacter(si.Texture, new Vector2(Globals.WindowSize.X / 2, Globals.WindowSize.Y / 2), si.Rects, 0.1, true);
             EntityManager.Instance.SetPlayerCharacter(reimu);
-
-            // Load Bullet Textures:
-            TextureManager.Instance.LoadTexture(Content, "Sprites/Bullets/ReimuBullet", "Sprites/Bullets/ReimuBullet");
-            TextureManager.Instance.LoadTexture(Content, "Sprites/Bullets/ReimuPellet", "Sprites/Bullets/ReimuPellet");
-
-            // Load Enemy Texture:
-            TextureManager.Instance.LoadTexture(Content, "Sprites/Enemies/GenericEnemy1Idle1", "Sprites/Enemies/GenericEnemy1Idle1");
         }
 
         protected override void Update(GameTime gameTime)
@@ -156,7 +137,8 @@ namespace BulletHellGame
                             float spawnOffsetY = (row + 2) * offset;  // Offset up/down based on the row
 
                             // Create the enemy at the calculated position
-                            EntityManager.Instance.CreateEnemy(EnemyType.Generic1, new Vector2(spawnX, spawnY + spawnOffsetY));
+                            Enemy enemy = EntityManager.Instance.CreateEnemy(EnemyType.Generic1, new Vector2(spawnX, spawnY + spawnOffsetY));
+                            enemy.AddComponent(new MovementPatternComponent(enemy, "zigzag"));
                         }
                     }
                 }

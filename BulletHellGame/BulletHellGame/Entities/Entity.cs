@@ -1,4 +1,5 @@
 ﻿using BulletHellGame.Components;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BulletHellGame.Entities
@@ -7,15 +8,11 @@ namespace BulletHellGame.Entities
     {
         private List<IComponent> _components = new List<IComponent>();
 
-        // When specifying the initialVelocity:
-        public Entity(Texture2D texture, Vector2 position, Vector2 initialVelocity) : base(texture, position)
+        public Entity(Texture2D texture, Vector2 position, List<Rectangle> frameRects = null, double frameDuration = 0.1, bool isAnimating = false) : base(texture, position, frameRects, frameDuration, isAnimating)
         {
             AddComponent(new SpriteEffectComponent());
-            AddComponent(new HitboxComponent(this, new Rectangle(new Point((int)this.Position.X, (int)this.Position.Y), new Point(this.Texture.Width, this.Texture.Height))));
+            AddComponent(new HitboxComponent(this, new Rectangle(new Point((int)this.Position.X, (int)this.Position.Y), new Point(this.SourceRect.Value.Width, this.SourceRect.Value.Height))));
             AddComponent(new MovementComponent(this));
-
-            // Set initial initialVelocity
-            GetComponent<MovementComponent>().Velocity = initialVelocity;
         }
 
         public void AddComponent(IComponent component)
@@ -28,17 +25,13 @@ namespace BulletHellGame.Entities
             return _components.OfType<T>().FirstOrDefault();
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            base.Draw(spriteBatch);
-        }
-
         public virtual void Update(GameTime gameTime)
         {
             foreach (var component in _components)
             {
                 component.Update(gameTime);
             }
+            base.Update(gameTime);
         }
 
         public void Reset(Vector2 position, Vector2 velocity)

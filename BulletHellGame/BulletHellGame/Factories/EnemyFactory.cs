@@ -1,4 +1,5 @@
-﻿using BulletHellGame.Entities.Characters.Enemies;
+﻿using BulletHellGame.Data;
+using BulletHellGame.Entities.Characters.Enemies;
 using BulletHellGame.Managers;
 
 namespace BulletHellGame.Factories
@@ -7,22 +8,29 @@ namespace BulletHellGame.Factories
     {
         public EnemyFactory() { }
 
-        public Enemy CreateEnemy(EnemyType type, Vector2 position, Vector2 velocity)
+        public Enemy CreateEnemy(EnemyType type, Vector2 position)
         {
+            SpriteInfo si = null;
             switch (type)
             {
                 case EnemyType.Generic1:
-                    return new GenericEnemy(TextureManager.Instance.GetTexture("Sprites/Enemies/GenericEnemy1Idle1"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
+                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
                 case EnemyType.Generic2:
-                    return new GenericEnemy(TextureManager.Instance.GetTexture("Sprites/Enemies/GenericEnemy1Idle1"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
+                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
                 case EnemyType.Generic3:
-                    return new GenericEnemy(TextureManager.Instance.GetTexture("Sprites/Enemies/GenericEnemy1Idle1"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
+                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
                 case EnemyType.Generic4:
-                    return new GenericEnemy(TextureManager.Instance.GetTexture("Sprites/Enemies/GenericEnemy1Idle1"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
+                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
                 case EnemyType.Generic5:
-                    return new GenericEnemy(TextureManager.Instance.GetTexture("Sprites/Enemies/GenericEnemy1Idle1"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
+                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
                 default:
-                    return new GenericEnemy(TextureManager.Instance.GetTexture("Sprites/Enemies/GenericEnemy1Idle1"), position, velocity);
+                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
+                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
             }
         }
     }
