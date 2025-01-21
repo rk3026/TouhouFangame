@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Newtonsoft.Json;
 using System.IO;
-
 namespace BulletHellGame.Managers
 {
     public class TextureManager
