@@ -2,7 +2,6 @@ using BulletHellGame.Components;
 using BulletHellGame.Data;
 using BulletHellGame.Entities.Characters;
 using BulletHellGame.Managers;
-using SharpFont.PostScript;
 using System.Linq;
 
 public class PlayableCharacter : Character
@@ -94,44 +93,18 @@ public class PlayableCharacter : Character
 
     private void UpdateAnimation()
     {
-        // Get the movement component to track the velocity
         MovementComponent movementComponent = this.GetComponent<MovementComponent>();
-        float speedX = movementComponent.Velocity.X; // Get the horizontal speed (X component of velocity)
+        float speedX = movementComponent.Velocity.X;
 
-        // Get the sprite component for changing the animation
         SpriteComponent spriteComponent = this.GetComponent<SpriteComponent>();
 
-        // Only change the animation based on horizontal movement (X velocity)
-        if (speedX != 0) // Check if the player is moving left or right
+        if (Math.Abs(speedX) > 0)
         {
-            // Calculate the frame to display based on the horizontal speed (X)
-            int maxFrames = spriteComponent.SpriteData.Animations["MoveLeft"].Count;  // Total frames in the "MoveLeft" animation
-
-            float normalizedSpeed = MathHelper.Clamp(Math.Abs(speedX) / MOVE_SPEED, 0, 1);
-            int speedFrame = (int)(normalizedSpeed * (maxFrames - 1));
-            spriteComponent.SetFrameIndex(speedFrame);
-
-            // Switch the animation to "MoveLeft" and set the frame based on horizontal speed
-            spriteComponent.SwitchAnimation("MoveLeft");
-            spriteComponent.SetFrameIndex(speedFrame); // This method will update the frame index dynamically
-
-            // Optional: Flip sprite horizontally if moving right
-            if (speedX > 0)
-            {
-                spriteComponent.SpriteEffect = SpriteEffects.FlipHorizontally;
-            }
-            else
-            {
-                spriteComponent.SpriteEffect = SpriteEffects.None;
-            }
+            spriteComponent.SwitchAnimation("MoveLeft", false);
         }
-        else
+        else  // When not moving horizontally
         {
-            // If not moving horizontally, switch to idle animation
-            spriteComponent.SwitchAnimation("Idle");
-            spriteComponent.SpriteEffect = SpriteEffects.None;
+            spriteComponent.SwitchAnimation("Idle", true);
         }
     }
-
-
 }

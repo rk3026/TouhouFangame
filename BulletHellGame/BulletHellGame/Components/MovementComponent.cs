@@ -17,11 +17,11 @@ namespace BulletHellGame.Components
         {
             // Update the position based on the velocity and elapsed time
             _owner.Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (Velocity.X < 0)
+            if (Velocity.X > 0)
             {
                 _owner.GetComponent<SpriteComponent>().SpriteEffect = SpriteEffects.FlipHorizontally;
             }
-            else
+            else if (Velocity.X < 0)
             {
                 _owner.GetComponent<SpriteComponent>().SpriteEffect = SpriteEffects.None;
             }
