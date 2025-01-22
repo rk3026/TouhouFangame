@@ -1,10 +1,11 @@
 ﻿using BulletHellGame.Components;
+using BulletHellGame.Data;
 
 namespace BulletHellGame.Entities.Characters
 {
     public class Character : Entity
     {
-        public Character(Texture2D texture, Vector2 position, List<Rectangle> frameRects = null, double frameDuration = 0.1, bool isAnimating = false) : base(texture, position, frameRects, frameDuration, isAnimating)
+        public Character(SpriteData spriteData, Vector2 position) : base(spriteData, position)
         {
             AddComponent(new HealthComponent(100));
             AddComponent(new WeaponComponent(this));
@@ -17,11 +18,11 @@ namespace BulletHellGame.Entities.Characters
             var spriteEffect = this.GetComponent<SpriteEffectComponent>();
             if (spriteEffect != null && spriteEffect.IsFlashing())
             {
-                this.Color = Color.Red;
+                this.GetComponent<SpriteComponent>().Color = Color.Red;
             }
             else
             {
-                this.Color = Color.White;
+                this.GetComponent<SpriteComponent>().Color = Color.White;
             }
         }
     }

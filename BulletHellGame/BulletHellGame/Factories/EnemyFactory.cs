@@ -10,27 +10,27 @@ namespace BulletHellGame.Factories
 
         public Enemy CreateEnemy(EnemyType type, Vector2 position)
         {
-            SpriteInfo si = null;
+            SpriteData spriteData = null;
             switch (type)
             {
                 case EnemyType.Generic1:
-                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
-                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
+                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    return new Enemy(spriteData, position);
                 case EnemyType.Generic2:
-                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
-                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
+                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    return new Enemy(spriteData, position);
                 case EnemyType.Generic3:
-                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
-                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
+                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    return new Enemy(spriteData, position);
                 case EnemyType.Generic4:
-                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
-                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
+                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    return new Enemy(spriteData, position);
                 case EnemyType.Generic5:
-                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
-                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
+                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    return new Enemy(spriteData, position);
                 default:
-                    si = TextureManager.Instance.GetSpriteInfo("Enemy1.Idle");
-                    return new Enemy(si.Texture, position, si.Rects, 0.1, true);
+                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    return new Enemy(spriteData, position);
             }
         }
     }

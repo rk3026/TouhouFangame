@@ -5,7 +5,6 @@ namespace BulletHellGame.Components
 {
     public class SpriteEffectComponent : IComponent
     {
-        private List<SpriteEffects> spriteEffects = new List<SpriteEffects>();
         private bool isFlashing;
         private float flashTime;
         private const float FlashDuration = 0.2f; // Duration for flashing red

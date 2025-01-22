@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Entities.Bullets;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
-using System.Collections.Immutable;
 using BulletHellGame.Entities.Characters.Enemies;
 
 namespace BulletHellGame.Components
@@ -23,8 +22,8 @@ namespace BulletHellGame.Components
             Hitbox = new Rectangle(
                 (int)_owner.Position.X,
                 (int)_owner.Position.Y,
-                Hitbox.Width,
-                Hitbox.Height
+                _owner.GetComponent<SpriteComponent>().CurrentFrame.Width,
+                _owner.GetComponent<SpriteComponent>().CurrentFrame.Height
             );
 
             // Check for collisions with other entities

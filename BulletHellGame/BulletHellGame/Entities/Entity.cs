@@ -1,17 +1,26 @@
-﻿using BulletHellGame.Components;
-using System.Collections.Generic;
+using BulletHellGame.Components;
+using BulletHellGame.Data;
 using System.Linq;
 
 namespace BulletHellGame.Entities
 {
-    public abstract class Entity : Sprite
+    public class Entity
     {
-        private List<IComponent> _components = new List<IComponent>();
+        private List<IComponent> _components = new();
 
-        public Entity(Texture2D texture, Vector2 position, List<Rectangle> frameRects = null, double frameDuration = 0.1, bool isAnimating = false) : base(texture, position, frameRects, frameDuration, isAnimating)
+        public Entity(SpriteData spriteInfo, Vector2 position)
         {
-            AddComponent(new SpriteEffectComponent());
-            AddComponent(new HitboxComponent(this, new Rectangle(new Point((int)this.Position.X, (int)this.Position.Y), new Point(this.SourceRect.Value.Width, this.SourceRect.Value.Height))));
+            if (spriteInfo == null)
+            {
+                throw new ArgumentNullException(nameof(spriteInfo), "SpriteData cannot be null.");
+            }
+
+            // Add SpriteComponent with default frame duration and animation state
+            AddComponent(new SpriteComponent(spriteInfo, position));
+
+            // Add other components (e.g., Hitbox, Movement)
+            var sprite = GetComponent<SpriteComponent>();
+            AddComponent(new HitboxComponent(this, sprite.CurrentFrame));
             AddComponent(new MovementComponent(this));
         }
 
@@ -31,18 +40,42 @@ namespace BulletHellGame.Entities
             {
                 component.Update(gameTime);
             }
-            base.Update(gameTime);
+        }
+
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            var spriteComponent = GetComponent<SpriteComponent>();
+            spriteComponent?.Draw(spriteBatch);
         }
 
         public void Reset(Vector2 position, Vector2 velocity)
         {
-            foreach (IComponent component in _components)
+            foreach (var component in _components)
             {
                 component.Reset();
             }
 
-            this.Position = position;
-            this.GetComponent<MovementComponent>().Velocity = velocity;
+            Position = position;
+            GetComponent<MovementComponent>().Velocity = velocity;
+        }
+
+        public Vector2 Position
+        {
+            get => GetComponent<SpriteComponent>()?.Position ?? Vector2.Zero;
+            set
+            {
+                var spriteComponent = GetComponent<SpriteComponent>();
+                if (spriteComponent != null)
+                {
+                    spriteComponent.Position = value;
+                }
+            }
+        }
+
+        public void SwitchAnimation(string animationName)
+        {
+            var spriteComponent = GetComponent<SpriteComponent>();
+            spriteComponent?.SwitchAnimation(animationName);
         }
     }
 }
