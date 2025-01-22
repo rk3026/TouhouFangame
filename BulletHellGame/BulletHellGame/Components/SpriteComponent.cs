@@ -5,7 +5,7 @@ namespace BulletHellGame.Components
 {
     public class SpriteComponent : IComponent
     {
-        public SpriteData SpriteInfo { get; private set; }
+        public SpriteData SpriteData { get; private set; }
         public Color Color { get; set; } = Color.White;
         public Vector2 Position { get; set; }
         public float Rotation { get; set; } = 0f;
@@ -23,11 +23,11 @@ namespace BulletHellGame.Components
 
         public SpriteComponent(SpriteData spriteInfo, Vector2 position)
         {
-            SpriteInfo = spriteInfo ?? throw new ArgumentNullException(nameof(spriteInfo));
+            SpriteData = spriteInfo ?? throw new ArgumentNullException(nameof(spriteInfo));
             Position = position;
 
             // Initialize animation and set the first rectangle
-            _currentAnimation = SpriteInfo.Animations.Keys.FirstOrDefault()
+            _currentAnimation = SpriteData.Animations.Keys.FirstOrDefault()
                 ?? throw new InvalidOperationException("No animations found in the provided SpriteData.");
 
             _frameIndex = 0;
@@ -37,7 +37,7 @@ namespace BulletHellGame.Components
 
         public void Update(GameTime gameTime)
         {
-            if (SpriteInfo.Animations[_currentAnimation].Count > 1)
+            if (SpriteData.Animations[_currentAnimation].Count > 1)
             {
                 _isAnimating = true;
             }
@@ -47,7 +47,7 @@ namespace BulletHellGame.Components
 
                 if (_timeSinceLastFrame >= _frameDuration)
                 {
-                    _frameIndex = (_frameIndex + 1) % SpriteInfo.Animations[_currentAnimation].Count;
+                    _frameIndex = (_frameIndex + 1) % SpriteData.Animations[_currentAnimation].Count;
                     _timeSinceLastFrame = 0;
                     _currentRect = GetCurrentFrameRect();
                 }
@@ -57,12 +57,12 @@ namespace BulletHellGame.Components
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                SpriteInfo.Texture,
+                SpriteData.Texture,
                 Position,
                 CurrentFrame,
                 Color,
                 Rotation,
-                SpriteInfo.Origin,
+                SpriteData.Origin,
                 Scale,
                 SpriteEffect,
                 0f
@@ -85,7 +85,7 @@ namespace BulletHellGame.Components
         {
             if (_currentAnimation == animationName) return;
 
-            if (!SpriteInfo.HasAnimation(animationName))
+            if (!SpriteData.HasAnimation(animationName))
             {
                 throw new ArgumentException($"Animation '{animationName}' not found in the SpriteData.");
             }
@@ -98,7 +98,7 @@ namespace BulletHellGame.Components
 
         private Rectangle GetCurrentFrameRect()
         {
-            return SpriteInfo.Animations.TryGetValue(_currentAnimation, out var frames) && frames.Count > 0
+            return SpriteData.Animations.TryGetValue(_currentAnimation, out var frames) && frames.Count > 0
                 ? frames[_frameIndex]
                 : Rectangle.Empty;
         }
@@ -113,7 +113,7 @@ namespace BulletHellGame.Components
         public void SetFrameIndex(int frameIndex)
         {
             // Check if the index is valid before setting it
-            if (frameIndex >= 0 && frameIndex < SpriteInfo.Animations[_currentAnimation].Count)
+            if (frameIndex >= 0 && frameIndex < SpriteData.Animations[_currentAnimation].Count)
             {
                 _frameIndex = frameIndex;
                 _currentRect = GetCurrentFrameRect(); // Update the frame rectangle

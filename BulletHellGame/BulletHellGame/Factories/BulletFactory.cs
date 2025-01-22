@@ -14,16 +14,16 @@ namespace BulletHellGame.Factories
             switch (type)
             {
                 case BulletType.Standard:
-                    si = TextureManager.Instance.GetSpriteInfo("Reimu.OrangeBullet");
+                    si = TextureManager.Instance.GetSpriteData("Reimu.OrangeBullet");
                     return new Bullet(BulletType.Standard, si, position);
                 case BulletType.Pellet:
-                    si = TextureManager.Instance.GetSpriteInfo("Reimu.WhiteBullet");
+                    si = TextureManager.Instance.GetSpriteData("Reimu.WhiteBullet");
                     return new Bullet(BulletType.Pellet, si, position);
                 case BulletType.Homing:
-                    si = TextureManager.Instance.GetSpriteInfo("Reimu.OrangeBullet");
+                    si = TextureManager.Instance.GetSpriteData("Reimu.OrangeBullet");
                     return new Bullet(BulletType.Standard, si, position);
                 default:
-                    si = TextureManager.Instance.GetSpriteInfo("Reimu.OrangeBullet");
+                    si = TextureManager.Instance.GetSpriteData("Reimu.OrangeBullet");
                     return new Bullet(BulletType.Standard, si, position);
             }
         }

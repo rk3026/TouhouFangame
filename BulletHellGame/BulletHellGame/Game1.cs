@@ -79,7 +79,7 @@ namespace BulletHellGame
             TextureManager.Instance.LoadTexturesFromJson(content, "Data/SpriteSheetData.json");
 
             // Create Player Character:
-            SpriteData spriteData = TextureManager.Instance.GetSpriteInfo("Reimu");
+            SpriteData spriteData = TextureManager.Instance.GetSpriteData("Reimu");
             PlayableCharacter reimu = new PlayableCharacter(spriteData, new Vector2(Globals.WindowSize.X / 2, Globals.WindowSize.Y / 2));
             EntityManager.Instance.SetPlayerCharacter(reimu);
         }

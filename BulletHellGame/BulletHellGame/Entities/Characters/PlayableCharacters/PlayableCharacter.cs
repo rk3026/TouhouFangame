@@ -3,13 +3,43 @@ using BulletHellGame.Data;
 using BulletHellGame.Entities.Characters;
 using BulletHellGame.Managers;
 using SharpFont.PostScript;
+using System.Linq;
 
 public class PlayableCharacter : Character
 {
     private static readonly float MOVE_SPEED = 500f;
+    private List<WeaponComponent> _weapons = new List<WeaponComponent>();
 
     public PlayableCharacter(SpriteData spriteData, Vector2 position) : base(spriteData, position)
     {
+        // Get the sprite component
+        SpriteData weaponSpriteData = TextureManager.Instance.GetSpriteData("Reimu.YinYangOrb");
+        Rectangle weaponSprite = weaponSpriteData.Animations["Default"].First<Rectangle>();
+        SpriteComponent spriteComponent = this.GetComponent<SpriteComponent>();
+        Rectangle characterRect = spriteComponent.CurrentFrame;
+
+        // Add another weapon to the right side of the character
+        int WEAPON_OFFSET = 6;
+        _weapons.Add(new WeaponComponent(this, weaponSpriteData, new Vector2(WEAPON_OFFSET + characterRect.Width, characterRect.Height / 2 -weaponSprite.Height)));
+
+        // Add a weapon to the left side of the character
+        _weapons.Add(new WeaponComponent(this, weaponSpriteData, new Vector2(-weaponSprite.Width - WEAPON_OFFSET, characterRect.Height / 2 -weaponSprite.Height)));
+
+        // Add the weapons to the character's component list
+        foreach (var weapon in _weapons)
+        {
+            AddComponent(weapon);
+        }
+    }
+
+
+    public override void Draw(SpriteBatch spriteBatch)
+    {
+        base.Draw(spriteBatch);
+        foreach (var weapon in _weapons)
+        {
+            weapon.Draw(spriteBatch);
+        }
     }
 
     public override void Update(GameTime gameTime)
@@ -53,8 +83,10 @@ public class PlayableCharacter : Character
         // Handle shooting input: if Space is pressed, call the Shoot method on the WeaponComponent
         if (InputManager.KeyDown(Keys.Space))
         {
-            var weaponComponent = this.GetComponent<WeaponComponent>();
-            weaponComponent.Shoot();
+            foreach (var weapon in _weapons)
+            {
+                weapon.Shoot(new List<Vector2> { Vector2.UnitY * -1 }); // Shoot straight up
+            }
         }
 
         base.Update(gameTime); // Ensure components are updated
@@ -73,11 +105,11 @@ public class PlayableCharacter : Character
         if (speedX != 0) // Check if the player is moving left or right
         {
             // Calculate the frame to display based on the horizontal speed (X)
-            int speedFrame = (int)(Math.Abs(speedX) / 100);  // You can adjust the divisor (e.g., 100) for better control
-            int maxFrames = spriteComponent.SpriteInfo.Animations["MoveLeft"].Count;  // Total frames in the "MoveLeft" animation
+            int maxFrames = spriteComponent.SpriteData.Animations["MoveLeft"].Count;  // Total frames in the "MoveLeft" animation
 
-            // Ensure the frame doesn't exceed the total number of frames
-            speedFrame = Math.Min(speedFrame, maxFrames - 1); // Avoid going beyond the last frame
+            float normalizedSpeed = MathHelper.Clamp(Math.Abs(speedX) / MOVE_SPEED, 0, 1);
+            int speedFrame = (int)(normalizedSpeed * (maxFrames - 1));
+            spriteComponent.SetFrameIndex(speedFrame);
 
             // Switch the animation to "MoveLeft" and set the frame based on horizontal speed
             spriteComponent.SwitchAnimation("MoveLeft");

@@ -14,22 +14,22 @@ namespace BulletHellGame.Factories
             switch (type)
             {
                 case EnemyType.Generic1:
-                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
                     return new Enemy(spriteData, position);
                 case EnemyType.Generic2:
-                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
                     return new Enemy(spriteData, position);
                 case EnemyType.Generic3:
-                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
                     return new Enemy(spriteData, position);
                 case EnemyType.Generic4:
-                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
                     return new Enemy(spriteData, position);
                 case EnemyType.Generic5:
-                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
                     return new Enemy(spriteData, position);
                 default:
-                    spriteData = TextureManager.Instance.GetSpriteInfo("Enemy1");
+                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
                     return new Enemy(spriteData, position);
             }
         }

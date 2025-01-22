@@ -6,14 +6,7 @@
           {
             "Name": "Default",
             "Frames": [
-              {
-                "Rect": {
-                  "X": 32,
-                  "Y": 56,
-                  "Width": 640,
-                  "Height": 480
-                }
-              }
+              { "Rect": { "X": 32, "Y": 56, "Width": 640, "Height": 480 } }
             ]
           }
         ]
@@ -23,14 +16,7 @@
           {
             "Name": "Default",
             "Frames": [
-              {
-                "Rect": {
-                  "X": 1276,
-                  "Y": 60,
-                  "Width": 425,
-                  "Height": 197
-                }
-              }
+              { "Rect": { "X": 1276, "Y": 60, "Width": 425, "Height": 197 } }
             ]
           }
         ]
@@ -44,14 +30,7 @@
           {
             "Name": "Default",
             "Frames": [
-              {
-                "Rect": {
-                  "X": 8,
-                  "Y": 42,
-                  "Width": 16,
-                  "Height": 14
-                }
-              }
+              { "Rect": { "X": 8, "Y": 42, "Width": 16, "Height": 14 } }
             ]
           }
         ]
@@ -61,14 +40,7 @@
           {
             "Name": "Default",
             "Frames": [
-              {
-                "Rect": {
-                  "X": 8,
-                  "Y": 10,
-                  "Width": 16,
-                  "Height": 14
-                }
-              }
+              { "Rect": { "X": 8, "Y": 10, "Width": 16, "Height": 14 } }
             ]
           }
         ]

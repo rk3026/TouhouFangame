@@ -14,16 +14,16 @@ namespace BulletHellGame.Factories
             switch (type)
             {
                 case CollectibleType.PowerUp:
-                    si = TextureManager.Instance.GetSpriteInfo("Collectible");
+                    si = TextureManager.Instance.GetSpriteData("Collectible");
                     return new Collectible(si, position);
                 case CollectibleType.SpeedBoost:
-                    si = TextureManager.Instance.GetSpriteInfo("Collectible");
+                    si = TextureManager.Instance.GetSpriteData("Collectible");
                     return new Collectible(si, position);
                 case CollectibleType.ScoreBoost:
-                    si = TextureManager.Instance.GetSpriteInfo("Collectible");
+                    si = TextureManager.Instance.GetSpriteData("Collectible");
                     return new Collectible(si, position);
                 default:
-                    si = TextureManager.Instance.GetSpriteInfo("Collectible");
+                    si = TextureManager.Instance.GetSpriteData("Collectible");
                     return new Collectible(si, position);
             }
         }
