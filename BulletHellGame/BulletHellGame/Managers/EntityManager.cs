@@ -45,7 +45,8 @@ namespace BulletHellGame.Managers
         {
             return _activeBullets.ToList()
                 .Concat<Entity>(_activeEnemies.ToList())
-                .Concat<Entity>(_activeCollectibles.ToList());
+                .Concat<Entity>(_activeCollectibles.ToList())
+                .Concat<Entity>(new[] { _playerCharacter }); // Wrap _playerCharacter in an array
         }
 
         private void AddToActiveEntities(Entity entity)

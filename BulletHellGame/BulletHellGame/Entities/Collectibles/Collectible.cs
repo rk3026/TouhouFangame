@@ -1,8 +1,10 @@
-﻿namespace BulletHellGame.Entities.Collectibles
+﻿using BulletHellGame.Data;
+
+namespace BulletHellGame.Entities.Collectibles
 {
     public class Collectible : Entity
     {
-        public Collectible(Texture2D texture, Vector2 position, List<Rectangle> frameRects = null, double frameDuration = 0.1, bool isAnimating = false) : base(texture, position, frameRects, frameDuration, isAnimating)
+        public Collectible(SpriteData spriteData, Vector2 position) : base(spriteData, position)
         {
         }
     }

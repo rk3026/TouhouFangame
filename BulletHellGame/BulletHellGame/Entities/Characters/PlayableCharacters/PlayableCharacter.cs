@@ -1,12 +1,14 @@
 using BulletHellGame.Components;
+using BulletHellGame.Data;
 using BulletHellGame.Entities.Characters;
 using BulletHellGame.Managers;
+using SharpFont.PostScript;
 
 public class PlayableCharacter : Character
 {
     private static readonly float MOVE_SPEED = 500f;
 
-    public PlayableCharacter(Texture2D texture, Vector2 position, List<Rectangle> frameRects = null, double frameDuration = 0.1, bool isAnimating = false) : base(texture, position, frameRects, frameDuration, isAnimating)
+    public PlayableCharacter(SpriteData spriteData, Vector2 position) : base(spriteData, position)
     {
     }
 
@@ -23,7 +25,7 @@ public class PlayableCharacter : Character
         {
             movementDirection.Y -= 1;
         }
-        if (InputManager.KeyDown(Keys.S) && Position.Y <= Globals.WindowSize.Y - this.SourceRect.Value.Height)
+        if (InputManager.KeyDown(Keys.S) && Position.Y <= Globals.WindowSize.Y - this.GetComponent<SpriteComponent>().CurrentFrame.Height)
         {
             movementDirection.Y += 1;
         }
@@ -31,41 +33,22 @@ public class PlayableCharacter : Character
         {
             movementDirection.X -= 1;
         }
-        if (InputManager.KeyDown(Keys.D) && Position.X <= Globals.WindowSize.X - this.SourceRect.Value.Width)
+        if (InputManager.KeyDown(Keys.D) && Position.X <= Globals.WindowSize.X - this.GetComponent<SpriteComponent>().CurrentFrame.Width)
         {
             movementDirection.X += 1;
         }
 
+        // Normalize the movement direction to avoid faster diagonal movement
+        if (movementDirection.Length() > 0)
+        {
+            movementDirection.Normalize();  // Normalize the vector to a unit length
+        }
 
-        // Update the velocity in the MovementComponent
+        // Update the velocity in the MovementComponent (scaled by MOVE_SPEED)
         var movementComponent = this.GetComponent<MovementComponent>();
         movementComponent.Velocity = movementDirection * MOVE_SPEED;
 
-        // Check if moving:
-        /*
-        if (movementComponent.Velocity != Vector2.Zero)
-        {
-            if (movementComponent.Velocity.X > 0) // Moving right
-            {
-                // Set the texture for moving right
-                this._frameRects = TextureManager.Instance.GetSpriteInfo("Reimu.MoveRight").Rects;
-
-                // Make sure the sprite is not flipped when moving right
-                var spriteEffectComponent = this.GetComponent<SpriteEffectComponent>();
-                spriteEffectComponent.spriteEffects.Add(SpriteEffects.FlipHorizontally); // No flip
-            }
-            else // Moving left
-            {
-                // Set the texture for moving left
-                this._frameRects = TextureManager.Instance.GetSpriteInfo("Reimu.MoveLeft").Rects;
-
-                // Flip the sprite horizontally when moving left
-                var spriteEffectComponent = this.GetComponent<SpriteEffectComponent>();
-                spriteEffectComponent.Effect = SpriteEffect.FlipHorizontally; // Flip the sprite
-            }
-        }
-        */
-
+        this.UpdateAnimation();
 
         // Handle shooting input: if Space is pressed, call the Shoot method on the WeaponComponent
         if (InputManager.KeyDown(Keys.Space))
@@ -76,4 +59,47 @@ public class PlayableCharacter : Character
 
         base.Update(gameTime); // Ensure components are updated
     }
+
+    private void UpdateAnimation()
+    {
+        // Get the movement component to track the velocity
+        MovementComponent movementComponent = this.GetComponent<MovementComponent>();
+        float speedX = movementComponent.Velocity.X; // Get the horizontal speed (X component of velocity)
+
+        // Get the sprite component for changing the animation
+        SpriteComponent spriteComponent = this.GetComponent<SpriteComponent>();
+
+        // Only change the animation based on horizontal movement (X velocity)
+        if (speedX != 0) // Check if the player is moving left or right
+        {
+            // Calculate the frame to display based on the horizontal speed (X)
+            int speedFrame = (int)(Math.Abs(speedX) / 100);  // You can adjust the divisor (e.g., 100) for better control
+            int maxFrames = spriteComponent.SpriteInfo.Animations["MoveLeft"].Count;  // Total frames in the "MoveLeft" animation
+
+            // Ensure the frame doesn't exceed the total number of frames
+            speedFrame = Math.Min(speedFrame, maxFrames - 1); // Avoid going beyond the last frame
+
+            // Switch the animation to "MoveLeft" and set the frame based on horizontal speed
+            spriteComponent.SwitchAnimation("MoveLeft");
+            spriteComponent.SetFrameIndex(speedFrame); // This method will update the frame index dynamically
+
+            // Optional: Flip sprite horizontally if moving right
+            if (speedX > 0)
+            {
+                spriteComponent.SpriteEffect = SpriteEffects.FlipHorizontally;
+            }
+            else
+            {
+                spriteComponent.SpriteEffect = SpriteEffects.None;
+            }
+        }
+        else
+        {
+            // If not moving horizontally, switch to idle animation
+            spriteComponent.SwitchAnimation("Idle");
+            spriteComponent.SpriteEffect = SpriteEffects.None;
+        }
+    }
+
+
 }

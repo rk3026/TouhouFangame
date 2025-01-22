@@ -10,21 +10,21 @@ namespace BulletHellGame.Factories
 
         public Bullet CreateBullet(BulletType type, Vector2 position, Vector2 velocity)
         {
-            SpriteInfo si = null;
+            SpriteData si = null;
             switch (type)
             {
                 case BulletType.Standard:
                     si = TextureManager.Instance.GetSpriteInfo("Reimu.OrangeBullet");
-                    return new Bullet(BulletType.Standard, si.Texture, position, si.Rects);
+                    return new Bullet(BulletType.Standard, si, position);
                 case BulletType.Pellet:
                     si = TextureManager.Instance.GetSpriteInfo("Reimu.WhiteBullet");
-                    return new Bullet(BulletType.Pellet, si.Texture, position, si.Rects);
+                    return new Bullet(BulletType.Pellet, si, position);
                 case BulletType.Homing:
                     si = TextureManager.Instance.GetSpriteInfo("Reimu.OrangeBullet");
-                    return new Bullet(BulletType.Standard, si.Texture, position, si.Rects);
+                    return new Bullet(BulletType.Standard, si, position);
                 default:
                     si = TextureManager.Instance.GetSpriteInfo("Reimu.OrangeBullet");
-                    return new Bullet(BulletType.Standard, si.Texture, position, si.Rects);
+                    return new Bullet(BulletType.Standard, si, position);
             }
         }
     }

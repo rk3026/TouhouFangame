@@ -1,14 +1,11 @@
 ﻿using BulletHellGame.Components;
 using BulletHellGame.Data;
+using BulletHellGame.Entities.Bullets;
 using BulletHellGame.Entities.Characters.Enemies;
-using BulletHellGame.Factories;
+using BulletHellGame.Entities.Collectibles;
 using BulletHellGame.Managers;
 using BulletHellGame.Scenes;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
 using System.Linq;
 
 namespace BulletHellGame
@@ -82,8 +79,8 @@ namespace BulletHellGame
             TextureManager.Instance.LoadTexturesFromJson(content, "Data/SpriteSheetData.json");
 
             // Create Player Character:
-            SpriteInfo si = TextureManager.Instance.GetSpriteInfo("Reimu.Idle");
-            PlayableCharacter reimu = new PlayableCharacter(si.Texture, new Vector2(Globals.WindowSize.X / 2, Globals.WindowSize.Y / 2), si.Rects, 0.1, true);
+            SpriteData spriteData = TextureManager.Instance.GetSpriteInfo("Reimu");
+            PlayableCharacter reimu = new PlayableCharacter(spriteData, new Vector2(Globals.WindowSize.X / 2, Globals.WindowSize.Y / 2));
             EntityManager.Instance.SetPlayerCharacter(reimu);
         }
 
@@ -138,7 +135,14 @@ namespace BulletHellGame
 
                             // Create the enemy at the calculated position
                             Enemy enemy = EntityManager.Instance.CreateEnemy(EnemyType.Generic1, new Vector2(spawnX, spawnY + spawnOffsetY));
-                            enemy.AddComponent(new MovementPatternComponent(enemy, "zigzag"));
+                            enemyCount = EntityManager.Instance.GetActiveEntities().OfType<Enemy>().Count();
+                            if (enemyCount % 2 == 0) {
+                                enemy.AddComponent(new MovementPatternComponent(enemy, "zigzag"));
+                            }
+                            else
+                            {
+                                enemy.AddComponent(new MovementPatternComponent(enemy, "circular"));
+                            }
                         }
                     }
                 }
@@ -161,10 +165,32 @@ namespace BulletHellGame
             // Draw all entities
             EntityManager.Instance.Draw(Globals.SpriteBatch);
 
+            // Get counts for bullets, enemies, collectibles, and playable characters
+            int bulletCount = EntityManager.Instance.GetActiveEntities().OfType<Bullet>().Count();
+            int enemyCount = EntityManager.Instance.GetActiveEntities().OfType<Enemy>().Count();
+            int collectibleCount = EntityManager.Instance.GetActiveEntities().OfType<Collectible>().Count();
+            int characterCount = EntityManager.Instance.GetActiveEntities().OfType<PlayableCharacter>().Count();
+
+            // Set up the font for drawing text
+            SpriteFont font = Content.Load<SpriteFont>("Fonts/Arial");  // Make sure to load an appropriate font in LoadContent
+
+            // Define a position to draw the counts (top-right corner)
+            Vector2 position = new Vector2(10, 10);  // Start drawing a bit away from the corner to avoid clipping
+
+            // Draw the text showing the counts
+            Globals.SpriteBatch.DrawString(font, $"Bullets: {bulletCount}", position, Color.White);
+            position.Y += 20;  // Move down for the next line
+            Globals.SpriteBatch.DrawString(font, $"Enemies: {enemyCount}", position, Color.White);
+            position.Y += 20;  // Move down for the next line
+            Globals.SpriteBatch.DrawString(font, $"Collectibles: {collectibleCount}", position, Color.White);
+            position.Y += 20;  // Move down for the next line
+            Globals.SpriteBatch.DrawString(font, $"Playable Characters: {characterCount}", position, Color.White);
+
             // End sprite batch
             Globals.SpriteBatch.End();
 
             base.Draw(gameTime);
         }
+
     }
 }

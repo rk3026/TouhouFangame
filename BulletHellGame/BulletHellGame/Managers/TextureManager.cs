@@ -11,7 +11,7 @@ namespace BulletHellGame.Managers
         public static TextureManager Instance => _instance ??= new TextureManager();
 
         // Dictionary to store sprite information by name
-        private readonly Dictionary<string, SpriteInfo> _sprites = new();
+        private readonly Dictionary<string, SpriteData> _sprites = new();
 
         private TextureManager() { }
 
@@ -26,7 +26,7 @@ namespace BulletHellGame.Managers
 
             foreach (var category in json.Properties())
             {
-                string spriteSheetName = category.Name; // Sprite Sheet name (e.g., "Characters", "MenuAndOtherScreens")
+                string spriteSheetName = category.Name; // Entity Sheet name (e.g., "Characters", "MenuAndOtherScreens")
                 string spriteSheetTexturePath = $"SpriteSheets/{spriteSheetName}";
 
                 // Load the SpriteSheet
@@ -38,45 +38,55 @@ namespace BulletHellGame.Managers
 
                 foreach (var sprite in spriteData.Children<JProperty>())
                 {
-                    string spriteName = sprite.Name; // Sprite name (e.g., "MainMenu", "GameLogo")
-                    var framesData = sprite.Value["Frames"];
-                    if (framesData == null) continue;
+                    string spriteName = sprite.Name; // Entity name (e.g., "MainMenu", "GameLogo")
+                    var animationsData = sprite.Value["Animations"];
+                    if (animationsData == null) continue;
 
-                    // Create a list to store the frames (rectangles)
-                    List<Rectangle> frames = new();
+                    // Dictionary to store animations for the sprite
+                    Dictionary<string, List<Rectangle>> animations = new();
 
-                    foreach (var frame in framesData)
+                    foreach (var animation in animationsData)
                     {
-                        var rectData = frame["Rect"];
-                        if (rectData != null)
-                        {
-                            // Create a Rectangle for each frame
-                            Rectangle rect = new Rectangle(
-                                (int)rectData["X"],
-                                (int)rectData["Y"],
-                                (int)rectData["Width"],
-                                (int)rectData["Height"]
-                            );
+                        string animationName = animation["Name"]?.ToString();
+                        if (string.IsNullOrEmpty(animationName)) continue;
 
-                            frames.Add(rect);
+                        var framesData = animation["Frames"];
+                        if (framesData == null) continue;
+
+                        // Create a list to store the frames (rectangles) for this animation
+                        List<Rectangle> frames = new();
+
+                        foreach (var frame in framesData)
+                        {
+                            var rectData = frame["Rect"];
+                            if (rectData != null)
+                            {
+                                // Create a Rectangle for each frame
+                                Rectangle rect = new Rectangle(
+                                    (int)rectData["X"],
+                                    (int)rectData["Y"],
+                                    (int)rectData["Width"],
+                                    (int)rectData["Height"]
+                                );
+
+                                frames.Add(rect);
+                            }
                         }
+
+                        // Store the animation frames under its name
+                        animations[animationName] = frames;
                     }
 
-                    // Store the sprite information (now with multiple frames)
-                    _sprites[spriteName] = new SpriteInfo
-                    {
-                        Texture = texture,
-                        Rects = frames,  // Store the list of frames
-                        Name = spriteName
-                    };
+                    // Store the sprite information (including animations)
+                    _sprites[spriteName] = new SpriteData(texture, animations, spriteName);
                 }
             }
         }
 
         /// <summary>
-        /// Gets a SpriteInfo by name.
+        /// Gets a SpriteData by name.
         /// </summary>
-        public SpriteInfo GetSpriteInfo(string spriteName)
+        public SpriteData GetSpriteInfo(string spriteName)
         {
             return _sprites.TryGetValue(spriteName, out var spriteInfo) ? spriteInfo : null;
         }

@@ -2,38 +2,36 @@
   "MenuAndOtherScreens": {
     "Sprites": {
       "MainMenu": {
-        "Rect": {
-          "X": 32,
-          "Y": 56,
-          "Width": 640,
-          "Height": 480
-        },
-        "Frames": [
+        "Animations": [
           {
-            "Rect": {
-              "X": 32,
-              "Y": 56,
-              "Width": 640,
-              "Height": 480
-            }
+            "Name": "Default",
+            "Frames": [
+              {
+                "Rect": {
+                  "X": 32,
+                  "Y": 56,
+                  "Width": 640,
+                  "Height": 480
+                }
+              }
+            ]
           }
         ]
       },
       "GameLogo": {
-        "Rect": {
-          "X": 1276,
-          "Y": 60,
-          "Width": 425,
-          "Height": 197
-        },
-        "Frames": [
+        "Animations": [
           {
-            "Rect": {
-              "X": 1276,
-              "Y": 60,
-              "Width": 425,
-              "Height": 197
-            }
+            "Name": "Default",
+            "Frames": [
+              {
+                "Rect": {
+                  "X": 1276,
+                  "Y": 60,
+                  "Width": 425,
+                  "Height": 197
+                }
+              }
+            ]
           }
         ]
       }
@@ -42,38 +40,36 @@
   "ProjectilesAndObjects": {
     "Sprites": {
       "WhiteCircle": {
-        "Rect": {
-          "X": 8,
-          "Y": 42,
-          "Width": 16,
-          "Height": 14
-        },
-        "Frames": [
+        "Animations": [
           {
-            "Rect": {
-              "X": 8,
-              "Y": 42,
-              "Width": 16,
-              "Height": 14
-            }
+            "Name": "Default",
+            "Frames": [
+              {
+                "Rect": {
+                  "X": 8,
+                  "Y": 42,
+                  "Width": 16,
+                  "Height": 14
+                }
+              }
+            ]
           }
         ]
       },
       "WhiteLazer": {
-        "Rect": {
-          "X": 8,
-          "Y": 10,
-          "Width": 16,
-          "Height": 14
-        },
-        "Frames": [
+        "Animations": [
           {
-            "Rect": {
-              "X": 8,
-              "Y": 10,
-              "Width": 16,
-              "Height": 14
-            }
+            "Name": "Default",
+            "Frames": [
+              {
+                "Rect": {
+                  "X": 8,
+                  "Y": 10,
+                  "Width": 16,
+                  "Height": 14
+                }
+              }
+            ]
           }
         ]
       }
@@ -81,51 +77,26 @@
   },
   "EnemiesAndBosses": {
     "Sprites": {
-      "Enemy1.Idle": {
-        "Frames": [
+      "Enemy1": {
+        "Animations": [
           {
-            "Rect": {
-              "X": 794,
-              "Y": 985,
-              "Width": 24,
-              "Height": 27
-            }
-          },
-          {
-            "Rect": {
-              "X": 825,
-              "Y": 985,
-              "Width": 26,
-              "Height": 27
-            }
-          },
-          {
-            "Rect": {
-              "X": 856,
-              "Y": 985,
-              "Width": 28,
-              "Height": 27
-            }
-          },
-          {
-            "Rect": {
-              "X": 889,
-              "Y": 985,
-              "Width": 27,
-              "Height": 27
-            }
+            "Name": "Idle",
+            "Frames": [
+              { "Rect": { "X": 794, "Y": 985, "Width": 24, "Height": 27 } },
+              { "Rect": { "X": 825, "Y": 985, "Width": 26, "Height": 27 } },
+              { "Rect": { "X": 856, "Y": 985, "Width": 28, "Height": 27 } },
+              { "Rect": { "X": 889, "Y": 985, "Width": 27, "Height": 27 } }
+            ]
           }
         ]
       },
-      "Enemy2.Idle": {
-        "Frames": [
+      "Enemy2": {
+        "Animations": [
           {
-            "Rect": {
-              "X": 794,
-              "Y": 1017,
-              "Width": 24,
-              "Height": 27
-            }
+            "Name": "Idle",
+            "Frames": [
+              { "Rect": { "X": 794, "Y": 1017, "Width": 24, "Height": 27 } }
+            ]
           }
         ]
       }
@@ -133,135 +104,58 @@
   },
   "Characters": {
     "Sprites": {
-      "Reimu.Idle": {
-        "Frames": [
+      "Reimu": {
+        "Animations": [
           {
-            "Rect": {
-              "X": 0,
-              "Y": 6,
-              "Width": 28,
-              "Height": 42
-            }
+            "Name": "Idle",
+            "Frames": [
+              { "Rect": { "X": 0, "Y": 6, "Width": 28, "Height": 42 } },
+              { "Rect": { "X": 30, "Y": 6, "Width": 29, "Height": 42 } },
+              { "Rect": { "X": 62, "Y": 6, "Width": 28, "Height": 42 } },
+              { "Rect": { "X": 94, "Y": 6, "Width": 29, "Height": 42 } }
+            ]
           },
           {
-            "Rect": {
-              "X": 30,
-              "Y": 6,
-              "Width": 29,
-              "Height": 42
-            }
-          },
-          {
-            "Rect": {
-              "X": 62,
-              "Y": 6,
-              "Width": 28,
-              "Height": 42
-            }
-          },
-          {
-            "Rect": {
-              "X": 94,
-              "Y": 6,
-              "Width": 29,
-              "Height": 42
-            }
-          }
-        ]
-      },
-      "Reimu.MoveLeft": {
-        "Frames": [
-          {
-            "Rect": {
-              "X": 0,
-              "Y": 54,
-              "Width": 28,
-              "Height": 42
-            }
-          },
-          {
-            "Rect": {
-              "X": 32,
-              "Y": 53,
-              "Width": 29,
-              "Height": 43
-            }
-          },
-          {
-            "Rect": {
-              "X": 67,
-              "Y": 54,
-              "Width": 26,
-              "Height": 40
-            }
-          },
-          {
-            "Rect": {
-              "X": 108,
-              "Y": 54,
-              "Width": 26,
-              "Height": 42
-            }
-          },
-          {
-            "Rect": {
-              "X": 131,
-              "Y": 54,
-              "Width": 26,
-              "Height": 42
-            }
-          },
-          {
-            "Rect": {
-              "X": 163,
-              "Y": 54,
-              "Width": 26,
-              "Height": 42
-            }
-          },
-          {
-            "Rect": {
-              "X": 194,
-              "Y": 54,
-              "Width": 29,
-              "Height": 42
-            }
+            "Name": "MoveLeft",
+            "Frames": [
+              { "Rect": { "X": 0, "Y": 54, "Width": 28, "Height": 42 } },
+              { "Rect": { "X": 32, "Y": 53, "Width": 29, "Height": 43 } },
+              { "Rect": { "X": 67, "Y": 54, "Width": 26, "Height": 40 } },
+              { "Rect": { "X": 108, "Y": 54, "Width": 26, "Height": 42 } },
+              { "Rect": { "X": 131, "Y": 54, "Width": 26, "Height": 42 } },
+              { "Rect": { "X": 163, "Y": 54, "Width": 26, "Height": 42 } },
+              { "Rect": { "X": 194, "Y": 54, "Width": 29, "Height": 42 } }
+            ]
           }
         ]
       },
       "Reimu.OrangeBullet": {
-        "Frames": [
+        "Animations": [
           {
-            "Rect": {
-              "X": 126,
-              "Y": 0,
-              "Width": 16,
-              "Height": 16
-            }
+            "Name": "Default",
+            "Frames": [
+              { "Rect": { "X": 126, "Y": 0, "Width": 16, "Height": 16 } }
+            ]
           }
         ]
       },
       "Reimu.WhiteBullet": {
-        "Frames": [
+        "Animations": [
           {
-            "Rect": {
-              "X": 142,
-              "Y": 0,
-              "Width": 16,
-              "Height": 16
-            }
+            "Name": "Default",
+            "Frames": [
+              { "Rect": { "X": 142, "Y": 0, "Width": 16, "Height": 16 } }
+            ]
           }
         ]
       },
       "Reimu.YinYangOrb": {
-        "Frames": [
+        "Animations": [
           {
-            "Rect": {
-              "X": 126,
-              "Y": 16,
-              "Width": 16,
-              "Height": 16
-            }
+            "Name": "Default",
+            "Frames": [
+              { "Rect": { "X": 126, "Y": 16, "Width": 16, "Height": 16 } }
+            ]
           }
         ]
       }
