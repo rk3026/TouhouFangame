@@ -1,0 +1,20 @@
+{
+  "patterns": [
+    {
+      "id": "spiral",
+      "type": "bullet",
+      "speed": 5,
+      "angle_offset": 0,
+      "spread": 5,
+      "fire_rate": 0.1
+    },
+    {
+      "id": "random",
+      "type": "bullet",
+      "speed": 4,
+      "angle_offset": 45,
+      "spread": 3,
+      "fire_rate": 0.2
+    }
+  ]
+}

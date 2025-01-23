@@ -1,0 +1,42 @@
+{
+  "enemies": [
+    {
+      "id": "EnemyTypeA",
+      "name": "Fairy",
+      "sprite": "fairy_sprite.png",
+      "audio": {
+        "hit_sound": "enemy_hit.wav",
+        "death_sound": "enemy_death.wav"
+      },
+      "loot": [
+        {
+          "item_type": "collectible",
+          "item_id": "small_heal"
+        }
+      ],
+      "default_attributes": {
+        "health": 10,
+        "speed": 2
+      }
+    },
+    {
+      "id": "EnemyTypeB",
+      "name": "Bat",
+      "sprite": "bat_sprite.png",
+      "audio": {
+        "hit_sound": "bat_hit.wav",
+        "death_sound": "bat_death.wav"
+      },
+      "loot": [
+        {
+          "item_type": "collectible",
+          "item_id": "mana_orb"
+        }
+      ],
+      "default_attributes": {
+        "health": 20,
+        "speed": 3
+      }
+    }
+  ]
+}
