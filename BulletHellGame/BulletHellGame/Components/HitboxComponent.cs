@@ -16,6 +16,11 @@ namespace BulletHellGame.Components
             Hitbox = hitbox;
         }
 
+        public Entity GetOwner()
+        {
+            return _owner;
+        }
+
         public void Update(GameTime gameTime)
         {
             // Keep the hitbox position synced with the owner's position
@@ -26,8 +31,9 @@ namespace BulletHellGame.Components
                 _owner.GetComponent<SpriteComponent>().CurrentFrame.Height
             );
 
-            // Check for collisions with other entities
-            CheckCollisions();
+            // Queue check for collisions with other entities
+            HitboxManager.Instance.EnqueueInsertion(this);
+            HitboxManager.Instance.EnqueueCheck(this);
         }
 
         private void CheckCollisions()
@@ -45,7 +51,7 @@ namespace BulletHellGame.Components
             }
         }
 
-        private void OnCollision(Entity other)
+        public void OnCollision(Entity other)
         {
             if (_owner is Enemy && other is Bullet bullet)
             {
