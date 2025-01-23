@@ -9,7 +9,7 @@ public class PlayableCharacter : Character
     private static readonly float MOVE_SPEED = 500f;
     private List<WeaponComponent> _weapons = new List<WeaponComponent>();
 
-    public PlayableCharacter(SpriteData spriteData, Vector2 position) : base(spriteData, position)
+    public PlayableCharacter(SpriteData spriteData) : base(spriteData)
     {
         // Get the sprite component
         SpriteData weaponSpriteData = TextureManager.Instance.GetSpriteData("Reimu.YinYangOrb");
@@ -30,7 +30,6 @@ public class PlayableCharacter : Character
             AddComponent(weapon);
         }
     }
-
 
     public override void Draw(SpriteBatch spriteBatch)
     {
@@ -86,6 +85,11 @@ public class PlayableCharacter : Character
             {
                 weapon.Shoot(new List<Vector2> { Vector2.UnitY * -1 }); // Shoot straight up
             }
+        }
+
+        if (InputManager.KeyDown(Keys.LeftShift))
+        {
+
         }
 
         base.Update(gameTime); // Ensure components are updated

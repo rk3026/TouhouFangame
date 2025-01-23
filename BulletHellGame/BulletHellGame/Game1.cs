@@ -80,7 +80,7 @@ namespace BulletHellGame
 
             // Create Player Character:
             SpriteData spriteData = TextureManager.Instance.GetSpriteData("Reimu");
-            PlayableCharacter reimu = new PlayableCharacter(spriteData, new Vector2(Globals.WindowSize.X / 2, Globals.WindowSize.Y / 2));
+            PlayableCharacter reimu = new PlayableCharacter(spriteData);
             EntityManager.Instance.SetPlayerCharacter(reimu);
         }
 
@@ -92,6 +92,7 @@ namespace BulletHellGame
                 Exit();
 
             // Change the current scene based on input
+            /*
             if (_sceneManager.Ready)
             {
                 var newScene = _sceneManager.ActiveScene == SceneType.MainMenu ? SceneType.GameplayScene : SceneType.MainMenu;
@@ -104,6 +105,7 @@ namespace BulletHellGame
                 else if (InputManager.KeyPressed(Keys.F6)) _sceneManager.SwitchScene(newScene, Transitions.Checker);
             }
             _sceneManager.Update();
+            */
 
             // Spawn a batch of enemies on F key press:
             if (InputManager.KeyPressed(Keys.F))
@@ -112,7 +114,7 @@ namespace BulletHellGame
                 int enemyCount = EntityManager.Instance.GetActiveEntities().OfType<Enemy>().Count();
 
                 // Only spawn a new batch if there are no enemies currently in the game
-                if (true/*enemyCount == 0*/)
+                if (true)//if (enemyCount == 0)
                 {
                     // Define the grid size (5x5)
                     int gridSize = 5;
@@ -134,7 +136,7 @@ namespace BulletHellGame
                             float spawnOffsetY = (row + 2) * offset;  // Offset up/down based on the row
 
                             // Create the enemy at the calculated position
-                            Enemy enemy = EntityManager.Instance.CreateEnemy(EnemyType.Generic1, new Vector2(spawnX, spawnY + spawnOffsetY));
+                            Enemy enemy = EntityManager.Instance.SpawnEnemy(EnemyType.Generic1, new Vector2(spawnX, spawnY + spawnOffsetY));
                             enemyCount = EntityManager.Instance.GetActiveEntities().OfType<Enemy>().Count();
                             if (enemyCount % 2 == 0) {
                                 enemy.AddComponent(new MovementPatternComponent(enemy, "zigzag"));
@@ -150,9 +152,6 @@ namespace BulletHellGame
 
             // Update all entities
             EntityManager.Instance.Update(gameTime);
-
-            // Perform queued collision checks
-            HitboxManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
         }

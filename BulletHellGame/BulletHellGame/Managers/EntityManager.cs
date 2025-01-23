@@ -43,10 +43,11 @@ namespace BulletHellGame.Managers
 
         public IEnumerable<Entity> GetActiveEntities()
         {
-            return _activeBullets.ToList()
-                .Concat<Entity>(_activeEnemies.ToList())
-                .Concat<Entity>(_activeCollectibles.ToList())
-                .Concat<Entity>(new[] { _playerCharacter }); // Wrap _playerCharacter in an array
+            return _activeBullets
+                .Where(b => b.IsActive)
+                .Concat<Entity>(_activeEnemies.Where(e => e.IsActive))
+                .Concat<Entity>(_activeCollectibles.Where(c => c.IsActive))
+                .Concat<Entity>(new[] { _playerCharacter }.Where(pc => pc?.IsActive == true)); // Filter active player
         }
 
         private void AddToActiveEntities(Entity entity)
@@ -114,14 +115,17 @@ namespace BulletHellGame.Managers
         public void QueueEntityForRemoval(Entity entity)
         {
             // Remove the entity from active entities and add it to the pool
+            entity.Deactivate();
             RemoveFromActiveEntities(entity);
             AddToPool(entity);
         }
 
         public void Update(GameTime gameTime)
         {
+            HitboxManager.Instance.Update(gameTime);
+
             // Update active bullets
-            foreach (var bullet in _activeBullets.ToList())
+            foreach (var bullet in _activeBullets.Where(b => b.IsActive).ToList())
             {
                 bullet.Update(gameTime);
                 if (bullet.Position.Y < 0 || bullet.Position.Y > Globals.WindowSize.Y ||
@@ -132,28 +136,22 @@ namespace BulletHellGame.Managers
             }
 
             // Update active enemies
-            foreach (var enemy in _activeEnemies.ToList())
+            foreach (var enemy in _activeEnemies.Where(e => e.IsActive).ToList())
             {
-                // Update position based on the velocity or movement pattern
                 enemy.Update(gameTime);
 
-                // Get the MovementComponent to access the velocity
+                // Handle movement and screen boundary behavior
                 var movementComponent = enemy.GetComponent<MovementComponent>();
-
-                // Check for collisions with screen boundaries and reverse the velocity (bounce effect)
                 if (enemy.Position.Y < 0 || enemy.Position.Y > Globals.WindowSize.Y)
                 {
-                    // Reverse the Y velocity to simulate a bounce
                     movementComponent.Velocity = new Vector2(movementComponent.Velocity.X, -movementComponent.Velocity.Y);
                 }
-
                 if (enemy.Position.X < 0 || enemy.Position.X > Globals.WindowSize.X)
                 {
-                    // Reverse the X velocity to simulate a bounce
                     movementComponent.Velocity = new Vector2(-movementComponent.Velocity.X, movementComponent.Velocity.Y);
                 }
 
-                // If the enemy's health is <= 0, queue for removal
+                // Remove if health is <= 0
                 if (enemy.GetComponent<HealthComponent>().CurrentHealth <= 0)
                 {
                     QueueEntityForRemoval(enemy);
@@ -161,99 +159,94 @@ namespace BulletHellGame.Managers
             }
 
             // Update active collectibles
-            foreach (var collectible in _activeCollectibles.ToList())
+            foreach (var collectible in _activeCollectibles.Where(c => c.IsActive).ToList())
             {
                 collectible.Update(gameTime);
             }
 
             // Update the player character
-            _playerCharacter?.Update(gameTime);
+            if (_playerCharacter?.IsActive == true)
+            {
+                _playerCharacter.Update(gameTime);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Draw active entities
-            foreach (var bullet in _activeBullets)
+            // Draw active bullets
+            foreach (var bullet in _activeBullets.Where(b => b.IsActive))
             {
                 bullet.Draw(spriteBatch);
             }
-            foreach (var enemy in _activeEnemies)
+
+            // Draw active enemies
+            foreach (var enemy in _activeEnemies.Where(e => e.IsActive))
             {
                 enemy.Draw(spriteBatch);
             }
-            foreach (var collectible in _activeCollectibles)
+
+            // Draw active collectibles
+            foreach (var collectible in _activeCollectibles.Where(c => c.IsActive))
             {
                 collectible.Draw(spriteBatch);
             }
 
-            _playerCharacter?.Draw(spriteBatch);
+            // Draw the player character if active
+            if (_playerCharacter?.IsActive == true)
+            {
+                _playerCharacter.Draw(spriteBatch);
+            }
         }
 
-        public Bullet CreateBullet(BulletType type, Vector2 position, Vector2 velocity)
+        public Bullet SpawnBullet(BulletType type, Vector2 position, Vector2 velocity)
         {
             Bullet bullet = null;
 
-            // Check the pool for a bullet of the correct type
+            // Retrieve from the pool if available
             if (_bulletPool.Count > 0)
             {
-                var poolCount = _bulletPool.Count;
-                for (int i = 0; i < poolCount; i++)
-                {
-                    var pooledBullet = _bulletPool.Dequeue();
-                    // Check if the bullet type matches
-                    if (pooledBullet.BulletType == type)
-                    {
-                        bullet = pooledBullet;
-                        break;
-                    }
-                    else
-                    {
-                        // Put the bullet back in the pool if it doesn't match
-                        _bulletPool.Enqueue(pooledBullet);
-                    }
-                }
+                bullet = _bulletPool.Dequeue();
             }
-
-            // If no matching bullet was found, create a new one
-            if (bullet == null)
+            else
             {
-                bullet = _bulletFactory.CreateBullet(type, position, velocity);
+                bullet = _bulletFactory.CreateBullet(type);
             }
 
-            // Reset the bullet and add it to the active list
-            bullet.Reset(position, velocity);
+            bullet.Activate(position, velocity);
             AddToActiveEntities(bullet);
             return bullet;
         }
 
-        public Enemy CreateEnemy(EnemyType type, Vector2 position)
+        public Enemy SpawnEnemy(EnemyType type, Vector2 position)
         {
             Enemy enemy;
             if (_enemyPool.Count > 0)
             {
                 enemy = _enemyPool.Dequeue();
-                enemy.Reset(position, new Vector2(0,0));
             }
             else
             {
-                enemy = _enemyFactory.CreateEnemy(type, position);
+                enemy = _enemyFactory.CreateEnemy(type);
             }
+
+            enemy.Activate(position, new Vector2(0,0)); // Spawn the enemy with 0 velocity at start
             AddToActiveEntities(enemy);
             return enemy;
         }
 
-        public Collectible CreateCollectible(CollectibleType type, Vector2 position, Vector2 velocity)
+        public Collectible SpawnCollectible(CollectibleType type, Vector2 position, Vector2 velocity)
         {
             Collectible collectible;
             if (_collectiblePool.Count > 0)
             {
                 collectible = _collectiblePool.Dequeue();
-                collectible.Reset(position, new Vector2(0,0));
             }
             else
             {
-                collectible = _collectibleFactory.CreateCollectible(type, position);
+                collectible = _collectibleFactory.CreateCollectible(type);
             }
+
+            collectible.Activate(position, velocity);
             AddToActiveEntities(collectible);
             return collectible;
         }
@@ -261,6 +254,10 @@ namespace BulletHellGame.Managers
         public void SetPlayerCharacter(PlayableCharacter character)
         {
             _playerCharacter = character;
+            if (_playerCharacter != null)
+            {
+                _playerCharacter.Activate(new Vector2(Globals.WindowSize.X / 2, Globals.WindowSize.Y / 2), new Vector2(0, 0));
+            }
         }
     }
 }

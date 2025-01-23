@@ -2,6 +2,7 @@
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 using BulletHellGame.Entities.Characters.Enemies;
+using System.Diagnostics;
 
 namespace BulletHellGame.Components
 {
@@ -36,24 +37,9 @@ namespace BulletHellGame.Components
             HitboxManager.Instance.EnqueueCheck(this);
         }
 
-        private void CheckCollisions()
-        {
-            foreach (var entity in EntityManager.Instance.GetActiveEntities()) // Ensure a stable collection during iteration
-            {
-                if (entity == _owner) continue; // Skip self-collision
-
-                var otherHitbox = entity.GetComponent<HitboxComponent>();
-                if (otherHitbox != null && Hitbox.Intersects(otherHitbox.Hitbox))
-                {
-                    // Handle collision logic
-                    OnCollision(entity);
-                }
-            }
-        }
-
         public void OnCollision(Entity other)
         {
-            if (_owner is Enemy && other is Bullet bullet)
+            if (_owner is Enemy && other is Bullet bullet && bullet.IsActive)
             {
                 var health = _owner.GetComponent<HealthComponent>();
                 if (health != null)

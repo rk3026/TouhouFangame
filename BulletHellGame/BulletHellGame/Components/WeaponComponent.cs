@@ -14,7 +14,7 @@ namespace BulletHellGame.Components
         private int _currentFrame = 0; // Current frame in the animation
         private float _frameTime = 0.1f; // Time per frame in seconds
         private float _timeSinceLastFrame = 0f; // Time accumulator for animation
-        private float _fireRate = 0.2f; // Seconds between shots
+        private float _fireRate = 0.1f; // Seconds between shots
         private float _timeSinceLastShot = 0f;
         private float _rotation = 0f; // Rotation in radians
 
@@ -63,7 +63,7 @@ namespace BulletHellGame.Components
                 {
                     // Spawn a bullet for each firing direction
                     Vector2 bulletVelocity = direction * 500; // Adjust the speed as needed
-                    EntityManager.Instance.CreateBullet(BulletType.Standard, weaponPosition, bulletVelocity);
+                    EntityManager.Instance.SpawnBullet(BulletType.Standard, weaponPosition, bulletVelocity);
                 }
 
                 // Reset the shot timer
@@ -96,12 +96,6 @@ namespace BulletHellGame.Components
                     0f                      // Layer depth
                 );
             }
-        }
-
-        // Optionally, you can expose a method to manually set the rotation if needed
-        public void SetRotation(float rotation)
-        {
-            _rotation = rotation;
         }
     }
 }
