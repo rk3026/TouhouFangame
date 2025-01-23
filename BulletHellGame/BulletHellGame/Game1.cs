@@ -79,7 +79,7 @@ namespace BulletHellGame
             TextureManager.Instance.LoadTexturesFromJson(content, "Data/SpriteSheetData.json");
 
             // Create Player Character:
-            SpriteData spriteData = TextureManager.Instance.GetSpriteInfo("Reimu");
+            SpriteData spriteData = TextureManager.Instance.GetSpriteData("Reimu");
             PlayableCharacter reimu = new PlayableCharacter(spriteData, new Vector2(Globals.WindowSize.X / 2, Globals.WindowSize.Y / 2));
             EntityManager.Instance.SetPlayerCharacter(reimu);
         }
@@ -112,7 +112,7 @@ namespace BulletHellGame
                 int enemyCount = EntityManager.Instance.GetActiveEntities().OfType<Enemy>().Count();
 
                 // Only spawn a new batch if there are no enemies currently in the game
-                if (enemyCount == 0)
+                if (true/*enemyCount == 0*/)
                 {
                     // Define the grid size (5x5)
                     int gridSize = 5;
@@ -150,6 +150,9 @@ namespace BulletHellGame
 
             // Update all entities
             EntityManager.Instance.Update(gameTime);
+
+            // Perform queued collision checks
+            HitboxManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
         }

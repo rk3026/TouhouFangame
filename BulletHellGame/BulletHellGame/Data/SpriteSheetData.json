@@ -6,14 +6,7 @@
           {
             "Name": "Default",
             "Frames": [
-              {
-                "Rect": {
-                  "X": 32,
-                  "Y": 56,
-                  "Width": 640,
-                  "Height": 480
-                }
-              }
+              { "Rect": { "X": 32, "Y": 56, "Width": 640, "Height": 480 } }
             ]
           }
         ]
@@ -23,14 +16,7 @@
           {
             "Name": "Default",
             "Frames": [
-              {
-                "Rect": {
-                  "X": 1276,
-                  "Y": 60,
-                  "Width": 425,
-                  "Height": 197
-                }
-              }
+              { "Rect": { "X": 1276, "Y": 60, "Width": 425, "Height": 197 } }
             ]
           }
         ]
@@ -44,14 +30,7 @@
           {
             "Name": "Default",
             "Frames": [
-              {
-                "Rect": {
-                  "X": 8,
-                  "Y": 42,
-                  "Width": 16,
-                  "Height": 14
-                }
-              }
+              { "Rect": { "X": 8, "Y": 42, "Width": 16, "Height": 14 } }
             ]
           }
         ]
@@ -61,14 +40,7 @@
           {
             "Name": "Default",
             "Frames": [
-              {
-                "Rect": {
-                  "X": 8,
-                  "Y": 10,
-                  "Width": 16,
-                  "Height": 14
-                }
-              }
+              { "Rect": { "X": 8, "Y": 10, "Width": 16, "Height": 14 } }
             ]
           }
         ]
@@ -99,7 +71,59 @@
             ]
           }
         ]
+      },
+      "Cirno": {
+        "Animations": [
+          {
+            "Name": "Idle",
+            "Frames": [
+              { "Rect": { "X": 145, "Y": 38, "Width": 43, "Height": 55 } },
+              { "Rect": { "X": 191, "Y": 42, "Width": 46, "Height": 51 } },
+              { "Rect": { "X": 242, "Y": 42, "Width": 44, "Height": 51 } },
+              { "Rect": { "X": 293, "Y": 42, "Width": 35, "Height": 51 } }
+            ]
+          },
+          {
+            "Name": "Move",
+            "Frames": [
+              { "Rect": { "X": 64, "Y": 40, "Width": 28, "Height": 52 } },
+              { "Rect": { "X": 104, "Y": 42, "Width": 33, "Height": 49 } }
+            ]
+          }
+        ]
+      },
+      "LettyWhiterock": {
+        "Animations": [
+          {
+            "Name": "Idle",
+            "Frames": [
+              { "Rect": { "X": 42, "Y": 145, "Width": 29, "Height": 63 } },
+              { "Rect": { "X": 91, "Y": 145, "Width": 29, "Height": 63 } },
+              { "Rect": { "X": 139, "Y": 145, "Width": 29, "Height": 63 } },
+              { "Rect": { "X": 187, "Y": 145, "Width": 29, "Height": 63 } }
+            ]
+          },
+          {
+            "Name": "Move",
+            "Frames": [
+              { "Rect": { "X": 42, "Y": 209, "Width": 29, "Height": 63 } },
+              { "Rect": { "X": 91, "Y": 209, "Width": 29, "Height": 63 } },
+              { "Rect": { "X": 139, "Y": 209, "Width": 30, "Height": 62 } },
+              { "Rect": { "X": 184, "Y": 209, "Width": 33, "Height": 61 } }
+            ]
+          },
+          {
+            "Name": "Attack",
+            "Frames": [
+              { "Rect": { "X": 43, "Y": 273, "Width": 27, "Height": 63 } },
+              { "Rect": { "X": 87, "Y": 273, "Width": 35, "Height": 61 } },
+              { "Rect": { "X": 135, "Y": 273, "Width": 37, "Height": 60 } },
+              { "Rect": { "X": 181, "Y": 273, "Width": 41, "Height": 55 } }
+            ]
+          }
+        ]
       }
+
     }
   },
   "Characters": {
@@ -121,7 +145,7 @@
               { "Rect": { "X": 0, "Y": 54, "Width": 28, "Height": 42 } },
               { "Rect": { "X": 32, "Y": 53, "Width": 29, "Height": 43 } },
               { "Rect": { "X": 67, "Y": 54, "Width": 26, "Height": 40 } },
-              { "Rect": { "X": 108, "Y": 54, "Width": 26, "Height": 42 } },
+              { "Rect": { "X": 105, "Y": 54, "Width": 26, "Height": 42 } },
               { "Rect": { "X": 131, "Y": 54, "Width": 26, "Height": 42 } },
               { "Rect": { "X": 163, "Y": 54, "Width": 26, "Height": 42 } },
               { "Rect": { "X": 194, "Y": 54, "Width": 29, "Height": 42 } }

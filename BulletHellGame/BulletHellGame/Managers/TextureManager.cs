@@ -86,7 +86,7 @@ namespace BulletHellGame.Managers
         /// <summary>
         /// Gets a SpriteData by name.
         /// </summary>
-        public SpriteData GetSpriteInfo(string spriteName)
+        public SpriteData GetSpriteData(string spriteName)
         {
             return _sprites.TryGetValue(spriteName, out var spriteInfo) ? spriteInfo : null;
         }

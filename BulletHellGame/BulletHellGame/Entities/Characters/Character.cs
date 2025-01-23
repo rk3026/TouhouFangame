@@ -8,7 +8,6 @@ namespace BulletHellGame.Entities.Characters
         public Character(SpriteData spriteData, Vector2 position) : base(spriteData, position)
         {
             AddComponent(new HealthComponent(100));
-            AddComponent(new WeaponComponent(this));
             AddComponent(new SpriteEffectComponent());  // Make sure to add this component as well
         }
 
