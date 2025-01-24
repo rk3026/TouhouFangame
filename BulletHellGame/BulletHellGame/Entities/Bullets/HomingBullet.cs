@@ -1,5 +1,6 @@
 ﻿using BulletHellGame.Components;
 using BulletHellGame.Data;
+using BulletHellGame.Entities.Characters.Enemies;
 using BulletHellGame.Managers;
 using System.Linq;
 
@@ -35,7 +36,7 @@ namespace BulletHellGame.Entities.Bullets
 
         private void FindNewTarget()
         {
-            List<Entity> potentialTargets = EntityManager.Instance.GetActiveEntities().OfType<Entity>().ToList();
+            List<Enemy> potentialTargets = EntityManager.Instance.GetActiveEntities().OfType<Enemy>().ToList();
             float closestDistanceSquared = HomingRange * HomingRange;
             Entity closestTarget = null;
 

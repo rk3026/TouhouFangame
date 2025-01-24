@@ -1,61 +1,115 @@
 namespace BulletHellGame.Managers
 {
-    using BulletHellGame.Scenes;
     public class SceneManager
     {
         private static SceneManager _instance;
         public static SceneManager Instance => _instance ??= new SceneManager();
-        public SceneType ActiveScene { get; private set; }
-        private readonly Dictionary<SceneType, Scene> _scenes = [];
-        private readonly RenderTarget2D _transitionFrame;
-        private readonly Dictionary<Transitions, Transition> _transitions = [];
-        private Transition _transition;
-        public bool Ready { get; private set; } = true;
+
+        private readonly Stack<IScene> _sceneStack = new Stack<IScene>();
+        private readonly Dictionary<Transitions, Transition> _transitions = new Dictionary<Transitions, Transition>();
+
+        private Transition _activeTransition;
+        private bool _isTransitioning = false;
+        private IScene _newScene;
 
         private SceneManager()
         {
-            _scenes.Add(SceneType.MainMenu, new MainMenu());
-            _scenes.Add(SceneType.GameplayScene, new GameplayScene());
-
-            ActiveScene = SceneType.MainMenu;
-            _scenes[ActiveScene].Activate();
-
-            _transitionFrame = Globals.GetNewRenderTarget();
-            _transitions.Add(Transitions.Fade, new FadeTransition(_transitionFrame));
-            _transitions.Add(Transitions.Wipe, new WipeTransition(_transitionFrame));
-            _transitions.Add(Transitions.Push, new PushTransition(_transitionFrame));
-            _transitions.Add(Transitions.Curtains, new CurtainsTransition(_transitionFrame));
-            _transitions.Add(Transitions.Rectangle, new RectangleTransition(_transitionFrame));
-            _transitions.Add(Transitions.Checker, new CheckerTransition(_transitionFrame));
+            // Initialize transitions:
+            _transitions.Add(Transitions.Fade, new FadeTransition());
+            _transitions.Add(Transitions.Wipe, new WipeTransition());
+            _transitions.Add(Transitions.Push, new PushTransition());
+            _transitions.Add(Transitions.Curtains, new CurtainsTransition());
+            _transitions.Add(Transitions.Rectangle, new RectangleTransition());
+            _transitions.Add(Transitions.Checker, new CheckerTransition());
         }
 
-        public void SwitchScene(SceneType scene, Transitions transition, float duration = 0.5f)
+        public void AddScene(IScene newScene, Transitions transition = Transitions.None, float duration = 0.5f)
         {
-            var oldScene = _scenes[ActiveScene].GetFrame();
-            ActiveScene = scene;
-            _scenes[ActiveScene].Activate();
-            var newScene = _scenes[ActiveScene].GetFrame();
+            if (_isTransitioning) return;
 
-            _transition = _transitions[transition];
-            _transition.Start(oldScene, newScene, duration);
-            Ready = false;
-        }
-
-        public void Update()
-        {
-            if (Ready)
+            if (transition != Transitions.None)
             {
-                _scenes[ActiveScene].Update();
+                _isTransitioning = true;
+                _newScene = newScene;
+                _activeTransition = _transitions[transition];
+                _activeTransition.Start(_sceneStack.Peek().GetFrame(), newScene.GetFrame(), duration);
             }
             else
             {
-                Ready = _transition.Update();
+                // No transition; just push the scene immediately
+                _sceneStack.Push(newScene);
             }
         }
 
-        public RenderTarget2D GetFrame()
+        public void RemoveScene(Transitions transition = Transitions.None, float duration = 0.5f)
         {
-            return Ready ? _scenes[ActiveScene].GetFrame() : _transition.GetFrame();
+            if (_isTransitioning || _sceneStack.Count == 0) return;
+
+            if (transition != Transitions.None)
+            {
+                _isTransitioning = true;
+                _newScene = _sceneStack.Count > 1 ? _sceneStack.Peek() : null;
+                _activeTransition = _transitions[transition];
+                _activeTransition.Start(_sceneStack.Peek().GetFrame(), _newScene.GetFrame(), duration);
+            }
+            else
+            {
+                // No transition; just remove the scene immediately
+                _sceneStack.Pop();
+            }
+        }
+
+        public IScene GetCurrentScene()
+        {
+            return _sceneStack.Count > 0 ? _sceneStack.Peek() : null;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if (_isTransitioning)
+            {
+                // Update the active transition
+                if (_activeTransition.Update(gameTime))
+                {
+                    // Transition finished
+                    if (_newScene != null)
+                    {
+                        _sceneStack.Push(_newScene);
+                        _newScene = null;
+                    }
+                    else
+                    {
+                        _sceneStack.Pop();
+                    }
+
+                    _isTransitioning = false;
+                    _activeTransition = null;
+                }
+            }
+            else
+            {
+                // Update the current scene
+                _sceneStack.Peek()?.Update(gameTime);
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (_isTransitioning)
+            {
+                // Draw transition
+                _activeTransition.Draw(spriteBatch);
+
+                if (_sceneStack.Count > 0)
+                {
+                    _sceneStack.Peek()?.Draw(spriteBatch);
+                }
+            }
+            else
+            {
+                // Draw the current scene
+                _sceneStack.Peek()?.Draw(spriteBatch);
+            }
         }
     }
 }

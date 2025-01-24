@@ -42,26 +42,23 @@ public class PlayableCharacter : Character
 
     public override void Update(GameTime gameTime)
     {
-        // Update the input manager to get the latest keyboard state
-        InputManager.Update();
-
         // Get the current movement direction based on WASD keys
         Vector2 movementDirection = Vector2.Zero;
 
         // Use the InputManager to check if keys are pressed
-        if (InputManager.KeyDown(Keys.W) && Position.Y >= 0)
+        if (InputManager.Instance.KeyDown(Keys.W) && Position.Y >= 0)
         {
             movementDirection.Y -= 1;
         }
-        if (InputManager.KeyDown(Keys.S) && Position.Y <= Globals.WindowSize.Y - this.GetComponent<SpriteComponent>().CurrentFrame.Height)
+        if (InputManager.Instance.KeyDown(Keys.S) && Position.Y <= Globals.WindowSize.Y - this.GetComponent<SpriteComponent>().CurrentFrame.Height)
         {
             movementDirection.Y += 1;
         }
-        if (InputManager.KeyDown(Keys.A) && Position.X >= 0)
+        if (InputManager.Instance.KeyDown(Keys.A) && Position.X >= 0)
         {
             movementDirection.X -= 1;
         }
-        if (InputManager.KeyDown(Keys.D) && Position.X <= Globals.WindowSize.X - this.GetComponent<SpriteComponent>().CurrentFrame.Width)
+        if (InputManager.Instance.KeyDown(Keys.D) && Position.X <= Globals.WindowSize.X - this.GetComponent<SpriteComponent>().CurrentFrame.Width)
         {
             movementDirection.X += 1;
         }
@@ -79,7 +76,7 @@ public class PlayableCharacter : Character
         this.UpdateAnimation();
 
         // Handle shooting input: if Space is pressed, call the Shoot method on the WeaponComponent
-        if (InputManager.KeyDown(Keys.Space))
+        if (InputManager.Instance.KeyDown(Keys.Space))
         {
             foreach (var weapon in _weapons)
             {
@@ -87,7 +84,8 @@ public class PlayableCharacter : Character
             }
         }
 
-        if (InputManager.KeyDown(Keys.LeftShift))
+        // Slow Mode:
+        if (InputManager.Instance.KeyDown(Keys.LeftShift))
         {
 
         }

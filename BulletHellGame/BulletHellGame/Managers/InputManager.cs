@@ -10,17 +10,17 @@ public class InputManager
 
     private InputManager() { }
 
-    public static bool KeyPressed(Keys key)
+    public bool KeyPressed(Keys key)
     {
         return _currentKeyboard.IsKeyDown(key) && _lastKeyboard.IsKeyUp(key);
     }
 
-    public static bool KeyDown(Keys key)
+    public bool KeyDown(Keys key)
     {
         return _currentKeyboard.IsKeyDown(key);
     }
 
-    public static void Update()
+    public void Update()
     {
         _lastKeyboard = _currentKeyboard;
         _currentKeyboard = Keyboard.GetState();

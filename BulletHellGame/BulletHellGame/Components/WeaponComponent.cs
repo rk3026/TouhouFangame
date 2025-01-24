@@ -63,7 +63,7 @@ namespace BulletHellGame.Components
                 {
                     // Spawn a bullet for each firing direction
                     Vector2 bulletVelocity = direction * 500; // Adjust the speed as needed
-                    EntityManager.Instance.SpawnBullet(BulletType.Standard, weaponPosition, bulletVelocity);
+                    EntityManager.Instance.SpawnBullet(BulletType.Homing, weaponPosition, bulletVelocity);
                 }
 
                 // Reset the shot timer

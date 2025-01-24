@@ -1,6 +1,6 @@
-public class CheckerTransition(RenderTarget2D transitionFrame) : Transition(transitionFrame)
+public class CheckerTransition() : Transition()
 {
-    protected override void Process()
+    public override void Draw(SpriteBatch spriteBatch)
     {
         int w = (int)(newScene.Width / 6f);
         int w2 = w / 2;
@@ -20,11 +20,11 @@ public class CheckerTransition(RenderTarget2D transitionFrame) : Transition(tran
             }
         }
 
-        Globals.SpriteBatch.Draw(oldScene, Vector2.Zero, Color.White);
+        spriteBatch.Draw(oldScene, Vector2.Zero, Color.White);
 
         foreach (var r in newR)
         {
-            Globals.SpriteBatch.Draw(newScene, r, r, Color.White);
+            spriteBatch.Draw(newScene, r, r, Color.White);
         }
     }
 }
