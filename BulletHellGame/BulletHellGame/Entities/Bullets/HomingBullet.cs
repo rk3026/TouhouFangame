@@ -1,5 +1,5 @@
 ﻿using BulletHellGame.Components;
-using BulletHellGame.Data;
+using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities.Characters.Enemies;
 using BulletHellGame.Managers;
 using System.Linq;

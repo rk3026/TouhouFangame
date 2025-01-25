@@ -13,9 +13,9 @@
     <ItemGroup>
         <None Remove="Data\BulletPatterns.json" />
         <None Remove="Data\CharacterData.json" />
-        <None Remove="Data\Collectibles.json" />
+        <None Remove="Data\CollectibleData.json" />
         <None Remove="Data\EnemyData.json" />
-        <None Remove="Data\Levels.json" />
+        <None Remove="Data\level1.json" />
         <None Remove="Data\SpriteSheetData.json" />
         <None Remove="Data\WeaponData.json" />
         <None Remove="Icon.ico" />
@@ -28,13 +28,13 @@
       <Content Include="Data\CharacterData.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Include="Data\Collectibles.json">
+      <Content Include="Data\CollectibleData.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\EnemyData.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Include="Data\Levels.json">
+      <Content Include="Data\LevelData\level1.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\SpriteSheetData.json">

@@ -1,4 +1,4 @@
-﻿using BulletHellGame.Data;
+﻿using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities.Bullets;
 using BulletHellGame.Managers;
 
@@ -20,7 +20,7 @@ namespace BulletHellGame.Factories
                     si = TextureManager.Instance.GetSpriteData("Reimu.WhiteBullet");
                     return new Bullet(si);
                 case BulletType.Homing:
-                    si = TextureManager.Instance.GetSpriteData("Reimu.OrangeBullet");
+                    si = TextureManager.Instance.GetSpriteData("Reimu.WhiteBullet");
                     return new HomingBullet(si);
                 default:
                     si = TextureManager.Instance.GetSpriteData("Reimu.OrangeBullet");

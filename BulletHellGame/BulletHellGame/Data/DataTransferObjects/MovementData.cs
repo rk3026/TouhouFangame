@@ -1,4 +1,4 @@
-﻿namespace BulletHellGame.Data
+﻿namespace BulletHellGame.Data.DataTransferObjects
 {
     public class MovementData
     {

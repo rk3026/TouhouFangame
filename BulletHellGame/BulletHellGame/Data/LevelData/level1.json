@@ -53,9 +53,9 @@
       }
     }
   ],
-  "boss": {
-    "name": "Boss1",
-    "spawn_time": 15.0,
+  "subboss": {
+    "name": "Cirno",
+    "spawn_time": 120.0,
     "spawn_position": {
       "x": 150,
       "y": -200
@@ -64,13 +64,58 @@
       "x": 150,
       "y": 150
     },
-    "health": 500,
+    "health": 3000,
     "phases": [
       {
-        "health_threshold": 300,
+        "health_threshold": 1500,
+        "bullet_patterns": [
+          {
+            "type": "bullet",
+            "speed": 6,
+            "fire_rate": 0.05
+          }
+        ]
+      }
+    ]
+  },
+  "boss": {
+    "name": "Letty Whiterock",
+    "spawn_time": 240.0,
+    "spawn_position": {
+      "x": 150,
+      "y": -200
+    },
+    "start_position": {
+      "x": 150,
+      "y": 150
+    },
+    "health": 10000,
+    "phases": [
+      {
+        "health_threshold": 7500,
         "bullet_patterns": [
           {
             "type": "laser_beam",
+            "speed": 6,
+            "fire_rate": 0.05
+          }
+        ]
+      },
+      {
+        "health_threshold": 5000,
+        "bullet_patterns": [
+          {
+            "type": "bullet",
+            "speed": 6,
+            "fire_rate": 0.05
+          }
+        ]
+      },
+      {
+        "health_threshold": 2500,
+        "bullet_patterns": [
+          {
+            "type": "spiral",
             "speed": 6,
             "fire_rate": 0.05
           }

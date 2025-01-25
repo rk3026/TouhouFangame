@@ -1,7 +1,7 @@
-﻿using BulletHellGame.Data;
-using BulletHellGame.Entities.Bullets;
+﻿using BulletHellGame.Entities.Bullets;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
+using BulletHellGame.Data.DataTransferObjects;
 
 namespace BulletHellGame.Components
 {

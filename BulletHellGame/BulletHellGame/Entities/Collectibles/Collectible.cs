@@ -1,4 +1,4 @@
-﻿using BulletHellGame.Data;
+﻿using BulletHellGame.Data.DataTransferObjects;
 
 namespace BulletHellGame.Entities.Collectibles
 {

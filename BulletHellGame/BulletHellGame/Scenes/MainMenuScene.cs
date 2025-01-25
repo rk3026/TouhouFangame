@@ -1,10 +1,13 @@
-﻿using BulletHellGame.Managers;
+﻿using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.Managers;
 using Microsoft.Xna.Framework.Content;
+using System.Linq;
 
 namespace BulletHellGame.Scenes
 {
     public class MainMenuScene : IScene
     {
+        private SpriteData background;
         private ContentManager _contentManager;
         private int selectedIndex;
         private string[] menuOptions = { "Start Game", "Settings", "Exit" };
@@ -17,6 +20,8 @@ namespace BulletHellGame.Scenes
         public void Load()
         {
             // Load with contentmanager
+            background = TextureManager.Instance.GetSpriteData("MainMenu");
+            FontManager.Instance.LoadFont(_contentManager, "DFPPOPCorn-W12");
         }
 
         public void Update(GameTime gameTime)
@@ -34,7 +39,11 @@ namespace BulletHellGame.Scenes
                 {
                     case 0:
                         // Change the current scene based on input
-                        SceneManager.Instance.AddScene(new GameplayScene(this._contentManager), Transitions.Fade);
+                        /*
+                        LevelData leveldata = LevelManager.LoadLevel("level1");
+                        SceneManager.Instance.AddScene(new GameplayScene(this._contentManager, leveldata), Transitions.Fade);
+                        */
+                        SceneManager.Instance.AddScene(new TestScene(_contentManager));
                         break;
                     case 1:
                         // Handle Settings
@@ -51,12 +60,14 @@ namespace BulletHellGame.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(background.Texture, Vector2.Zero, background.Animations.First().Value[0], Color.White);
+
             // Draw the menu options to the screen
             for (int i = 0; i < menuOptions.Length; i++)
             {
                 Color color = (i == selectedIndex) ? Color.Red : Color.White;
                 // Set up the font for drawing text
-                spriteBatch.DrawString(FontManager.Instance.GetFont("Arial"), menuOptions[i], new Vector2(100, 100 + i * 40), color);
+                spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), menuOptions[i], new Vector2(100, 100 + i * 40), color);
             }
         }
     }

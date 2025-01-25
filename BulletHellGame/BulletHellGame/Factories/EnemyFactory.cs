@@ -1,4 +1,4 @@
-﻿using BulletHellGame.Data;
+﻿using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities.Characters.Enemies;
 using BulletHellGame.Managers;
 
@@ -13,23 +13,26 @@ namespace BulletHellGame.Factories
             SpriteData spriteData = null;
             switch (type)
             {
-                case EnemyType.Generic1:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
+                case EnemyType.FairyBlue:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
                     return new Enemy(spriteData);
-                case EnemyType.Generic2:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
+                case EnemyType.FairyWhite:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
                     return new Enemy(spriteData);
-                case EnemyType.Generic3:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
+                case EnemyType.FairyPink:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
                     return new Enemy(spriteData);
-                case EnemyType.Generic4:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
+                case EnemyType.FairyRed:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
                     return new Enemy(spriteData);
-                case EnemyType.Generic5:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
+                case EnemyType.FairyOrange:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
+                    return new Enemy(spriteData);
+                case EnemyType.FairyGreen:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
                     return new Enemy(spriteData);
                 default:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
                     return new Enemy(spriteData);
             }
         }

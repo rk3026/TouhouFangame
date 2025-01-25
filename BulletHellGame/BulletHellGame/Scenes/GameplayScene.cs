@@ -1,100 +1,75 @@
 ﻿using BulletHellGame.Components;
-using BulletHellGame.Entities.Bullets;
-using BulletHellGame.Entities.Characters.Enemies;
-using BulletHellGame.Entities.Collectibles;
 using BulletHellGame.Managers;
+using BulletHellGame.Data.DataTransferObjects;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using System.Linq;
+using System.IO;
 
-namespace BulletHellGame.Scenes
+public class GameplayScene : IScene
 {
-    public class GameplayScene : IScene
+    private ContentManager _contentManager;
+    private LevelData _levelData;
+
+    public GameplayScene(ContentManager contentManager, LevelData levelData)
     {
-        private ContentManager _contentManager;
+        _contentManager = contentManager;
+    }
 
-        public GameplayScene(ContentManager contentManager) {
-            this._contentManager = contentManager;
-        }
+    public void Load()
+    {
+        // Load level data from a JSON file
+        string levelFilePath = Path.Combine(_contentManager.RootDirectory, "Levels", "level1.json");
+        _levelData = LevelManager.LoadLevel(levelFilePath);
 
-        public void Load()
+        // Load assets like background and music
+        Texture2D background = _contentManager.Load<Texture2D>(_levelData.Background);
+        SoundEffect music = _contentManager.Load<SoundEffect>(_levelData.Music);
+
+        // Play background music and initialize other assets
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        /*
+        // Use level data to spawn enemies at the appropriate times
+        foreach (var enemy in _levelData.Enemies)
         {
-            // Use content manager to load assets
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            // Update all entities
-            EntityManager.Instance.Update(gameTime);
-
-            // Spawn a batch of enemies on F key press:
-            if (InputManager.Instance.KeyPressed(Keys.F))
+            if (gameTime.TotalGameTime.TotalSeconds >= enemy.SpawnTime)
             {
-                // Check how many enemies are currently in the game
-                int enemyCount = EntityManager.Instance.GetActiveEntities().OfType<Enemy>().Count();
+                // Spawn the enemy based on the data
+                var newEnemy = EntityManager.Instance.SpawnEnemy(enemy.Type, enemy.SpawnPosition);
+                HealthComponent health = newEnemy.GetComponent<HealthComponent>();
+                health.Heal(health.MaxHealth);
+                newEnemy.AddComponent(new MovementPatternComponent(newEnemy, enemy.MovementPattern));
 
-                // Only spawn a new batch if there are no enemies currently in the game
-                if (true)//if (enemyCount == 0)
+                // Handle bullet patterns
+                if (enemy.BulletPattern != null)
                 {
-                    // Define the grid size (5x5)
-                    int gridSize = 5;
-
-                    // Offset from the center to the left or right to create a 5x5 grid
-                    float offset = 50;  // Adjust this to control the distance between enemies
-
-                    // Calculate the base spawn position at the top middle of the screen
-                    float baseSpawnX = Globals.WindowSize.X / 2;  // Start from the middle of the screen
-                    float spawnY = 0;  // At the top of the screen
-
-                    // Spawn the enemies in a 5x5 grid, centered on the screen
-                    for (int row = 0; row < gridSize; row++)
-                    {
-                        for (int col = 0; col < gridSize; col++)
-                        {
-                            // Calculate the spawn position for each enemy
-                            float spawnX = baseSpawnX + (col - 2) * offset;  // Offset left/right based on the column
-                            float spawnOffsetY = (row + 2) * offset;  // Offset up/down based on the row
-
-                            // Create the enemy at the calculated position
-                            Enemy enemy = EntityManager.Instance.SpawnEnemy(EnemyType.Generic1, new Vector2(spawnX, spawnY + spawnOffsetY));
-                            enemyCount = EntityManager.Instance.GetActiveEntities().OfType<Enemy>().Count();
-                            if (enemyCount % 2 == 0)
-                            {
-                                enemy.AddComponent(new MovementPatternComponent(enemy, "zigzag"));
-                            }
-                            else
-                            {
-                                enemy.AddComponent(new MovementPatternComponent(enemy, "circular"));
-                            }
-                        }
-                    }
+                    newEnemy.AddComponent(new BulletPatternComponent(newEnemy, enemy.BulletPattern.Type, enemy.BulletPattern.Speed, enemy.BulletPattern.FireRate));
                 }
             }
         }
-
-        public void Draw(SpriteBatch spriteBatch)
+        
+        // Handle boss spawning
+        if (_levelData.Boss != null && gameTime.TotalGameTime.TotalSeconds >= _levelData.Boss.SpawnTime)
         {
-            // Draw all entities
-            EntityManager.Instance.Draw(spriteBatch);
+            var boss = EntityManager.Instance.SpawnBoss(_levelData.Boss.Name, _levelData.Boss.SpawnPosition);
+            boss.SetHealth(_levelData.Boss.Health);
 
-            // Get counts for bullets, enemies, collectibles, and playable characters
-            int bulletCount = EntityManager.Instance.GetActiveEntities().OfType<Bullet>().Count();
-            int enemyCount = EntityManager.Instance.GetActiveEntities().OfType<Enemy>().Count();
-            int collectibleCount = EntityManager.Instance.GetActiveEntities().OfType<Collectible>().Count();
-            int characterCount = EntityManager.Instance.GetActiveEntities().OfType<PlayableCharacter>().Count();
-
-            SpriteFont font = FontManager.Instance.GetFont("Arial");  // Make sure to load an appropriate font in LoadContent
-
-            // Define a position to draw the counts (top-right corner)
-            Vector2 position = new Vector2(10, 10);  // Start drawing a bit away from the corner to avoid clipping
-
-            // Draw the text showing the counts
-            spriteBatch.DrawString(font, $"Bullets: {bulletCount}", position, Color.White);
-            position.Y += 20;  // Move down for the next line
-            spriteBatch.DrawString(font, $"Enemies: {enemyCount}", position, Color.White);
-            position.Y += 20;  // Move down for the next line
-            spriteBatch.DrawString(font, $"Collectibles: {collectibleCount}", position, Color.White);
-            position.Y += 20;  // Move down for the next line
-            spriteBatch.DrawString(font, $"Playable Characters: {characterCount}", position, Color.White);
+            foreach (var phase in _levelData.Boss.Phases)
+            {
+                boss.AddPhase(phase.HealthThreshold, phase.BulletPatterns);
+            }
         }
+        */
+
+        // Update other game logic
+        EntityManager.Instance.Update(gameTime);
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        // Draw all entities and background
+        EntityManager.Instance.Draw(spriteBatch);
     }
 }

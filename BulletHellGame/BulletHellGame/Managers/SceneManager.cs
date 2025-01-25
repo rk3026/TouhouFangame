@@ -26,6 +26,7 @@ namespace BulletHellGame.Managers
         public void AddScene(IScene newScene, Transitions transition = Transitions.None, float duration = 0.5f)
         {
             if (_isTransitioning) return;
+            newScene.Load();
 
             if (transition != Transitions.None)
             {

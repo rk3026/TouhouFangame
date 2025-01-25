@@ -1,4 +1,4 @@
-﻿using BulletHellGame.Data;
+﻿using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Managers;
 using BulletHellGame.Scenes;
 using Microsoft.Xna.Framework.Content;
@@ -54,8 +54,6 @@ namespace BulletHellGame
 
             _spriteBatch = new SpriteBatch(this.GraphicsDevice);
             Globals.GraphicsDevice = this.GraphicsDevice;
-
-            _sceneManager.AddScene(new MainMenuScene(this.Content));
             Globals.SpriteBatch = this._spriteBatch;
 
             base.Initialize();
@@ -89,8 +87,7 @@ namespace BulletHellGame
             PlayableCharacter reimu = new PlayableCharacter(spriteData);
             EntityManager.Instance.SetPlayerCharacter(reimu);
 
-            // Load the Arial Font:
-            _fontManager.LoadFont(this.Content, "Arial");
+            _sceneManager.AddScene(new MainMenuScene(this.Content));
         }
 
         protected override void Update(GameTime gameTime)
