@@ -32,13 +32,17 @@ namespace BulletHellGame.Managers
         private readonly List<Bullet> _activeBullets = new();
         private readonly List<Enemy> _activeEnemies = new();
         private readonly List<Collectible> _activeCollectibles = new();
-        private PlayableCharacter _playerCharacter;
+        public PlayableCharacter _playerCharacter;
+
+        // Bounds for entity behavior
+        public Rectangle Bounds { get; set; } // Define the bounds within which entities can move
 
         private EntityManager()
         {
             _bulletFactory = new BulletFactory();
             _enemyFactory = new EnemyFactory();
             _collectibleFactory = new CollectibleFactory();
+            Bounds = new Rectangle(0, 0, Globals.WindowSize.X, Globals.WindowSize.Y); // Set default bounds (for example, the window size)
         }
 
         public IEnumerable<Entity> GetActiveEntities()
@@ -128,8 +132,7 @@ namespace BulletHellGame.Managers
             foreach (var bullet in _activeBullets.Where(b => b.IsActive).ToList())
             {
                 bullet.Update(gameTime);
-                if (bullet.Position.Y < 0 || bullet.Position.Y > Globals.WindowSize.Y ||
-                    bullet.Position.X < 0 || bullet.Position.X > Globals.WindowSize.X)
+                if (!Bounds.Contains(bullet.Position))
                 {
                     QueueEntityForRemoval(bullet);
                 }
@@ -140,15 +143,19 @@ namespace BulletHellGame.Managers
             {
                 enemy.Update(gameTime);
 
-                // Handle movement and screen boundary behavior
+                // Handle movement and boundary behavior
                 var movementComponent = enemy.GetComponent<MovementComponent>();
-                if (enemy.Position.Y < 0 || enemy.Position.Y > Globals.WindowSize.Y)
+                if (!Bounds.Contains(enemy.Position))
                 {
-                    movementComponent.Velocity = new Vector2(movementComponent.Velocity.X, -movementComponent.Velocity.Y);
-                }
-                if (enemy.Position.X < 0 || enemy.Position.X > Globals.WindowSize.X)
-                {
-                    movementComponent.Velocity = new Vector2(-movementComponent.Velocity.X, movementComponent.Velocity.Y);
+                    // Reflect movement when hitting the bounds
+                    if (enemy.Position.Y < Bounds.Top || enemy.Position.Y > Bounds.Bottom)
+                    {
+                        movementComponent.Velocity = new Vector2(movementComponent.Velocity.X, -movementComponent.Velocity.Y);
+                    }
+                    if (enemy.Position.X < Bounds.Left || enemy.Position.X > Bounds.Right)
+                    {
+                        movementComponent.Velocity = new Vector2(-movementComponent.Velocity.X, movementComponent.Velocity.Y);
+                    }
                 }
 
                 // Remove if health is <= 0
@@ -229,7 +236,7 @@ namespace BulletHellGame.Managers
                 enemy = _enemyFactory.CreateEnemy(type);
             }
 
-            enemy.Activate(position, new Vector2(0,0)); // Spawn the enemy with 0 velocity at start
+            enemy.Activate(position, new Vector2(0, 0)); // Spawn the enemy with 0 velocity at start
             AddToActiveEntities(enemy);
             return enemy;
         }
@@ -256,7 +263,7 @@ namespace BulletHellGame.Managers
             _playerCharacter = character;
             if (_playerCharacter != null)
             {
-                _playerCharacter.Activate(new Vector2(Globals.WindowSize.X / 2, Globals.WindowSize.Y / 2), new Vector2(0, 0));
+                _playerCharacter.Activate(new Vector2(Bounds.Width / 2, Bounds.Height / 2), new Vector2(0, 0));
             }
         }
     }

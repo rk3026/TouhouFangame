@@ -2,6 +2,7 @@
 using BulletHellGame.Managers;
 using BulletHellGame.Scenes;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace BulletHellGame
 {
@@ -87,7 +88,7 @@ namespace BulletHellGame
             PlayableCharacter reimu = new PlayableCharacter(spriteData);
             EntityManager.Instance.SetPlayerCharacter(reimu);
 
-            _sceneManager.AddScene(new MainMenuScene(this.Content));
+            _sceneManager.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));
         }
 
         protected override void Update(GameTime gameTime)
@@ -101,7 +102,7 @@ namespace BulletHellGame
         protected override void Draw(GameTime gameTime)
         {
             // Clear the screen
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // Begin sprite batch with the updated scale matrix
             this._spriteBatch.Begin(transformMatrix: _scaleMatrix);
