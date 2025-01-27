@@ -1,5 +1,5 @@
 using BulletHellGame.Components;
-using BulletHellGame.Data;
+using BulletHellGame.Data.DataTransferObjects;
 using System.Linq;
 
 namespace BulletHellGame.Entities
@@ -8,20 +8,43 @@ namespace BulletHellGame.Entities
     {
         private List<IComponent> _components = new();
 
-        public Entity(SpriteData spriteInfo, Vector2 position)
+        public bool IsActive { get; private set; } = false;
+
+        public Entity(SpriteData spriteInfo)
         {
             if (spriteInfo == null)
             {
                 throw new ArgumentNullException(nameof(spriteInfo), "SpriteData cannot be null.");
             }
 
-            // Add SpriteComponent with default frame duration and animation state
-            AddComponent(new SpriteComponent(spriteInfo, position));
+            AddComponent(new SpriteComponent(spriteInfo));
 
             // Add other components (e.g., Hitbox, Movement)
             var sprite = GetComponent<SpriteComponent>();
             AddComponent(new HitboxComponent(this, sprite.CurrentFrame));
             AddComponent(new MovementComponent(this));
+        }
+
+        public void Activate(Vector2 position, Vector2 velocity)
+        {
+            IsActive = true;
+            Reset(position, velocity);
+        }
+
+        public void Deactivate()
+        {
+            IsActive = false;
+        }
+
+        private void Reset(Vector2 position, Vector2 velocity)
+        {
+            foreach (var component in _components)
+            {
+                component.Reset();
+            }
+
+            Position = position;
+            GetComponent<MovementComponent>().Velocity = velocity;
         }
 
         public void AddComponent(IComponent component)
@@ -36,6 +59,8 @@ namespace BulletHellGame.Entities
 
         public virtual void Update(GameTime gameTime)
         {
+            if (!IsActive) return; // Skip if not active
+
             foreach (var component in _components)
             {
                 component.Update(gameTime);
@@ -44,19 +69,10 @@ namespace BulletHellGame.Entities
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            if (!IsActive) return; // Skip if not active
+
             var spriteComponent = GetComponent<SpriteComponent>();
             spriteComponent?.Draw(spriteBatch);
-        }
-
-        public void Reset(Vector2 position, Vector2 velocity)
-        {
-            foreach (var component in _components)
-            {
-                component.Reset();
-            }
-
-            Position = position;
-            GetComponent<MovementComponent>().Velocity = velocity;
         }
 
         public Vector2 Position

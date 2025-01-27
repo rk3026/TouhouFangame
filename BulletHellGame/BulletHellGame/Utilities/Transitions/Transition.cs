@@ -1,16 +1,10 @@
-using Microsoft.Xna.Framework.Graphics;
-
-public abstract class Transition(RenderTarget2D transitionFrame)
+public abstract class Transition()
 {
-    protected RenderTarget2D frame = transitionFrame;
     protected RenderTarget2D oldScene;
     protected RenderTarget2D newScene;
     protected float duration;
     protected float durationLeft;
     protected float percentage;
-
-    protected abstract void Process();
-
     public void Start(RenderTarget2D oldS, RenderTarget2D newS, float length)
     {
         oldScene = oldS;
@@ -19,21 +13,17 @@ public abstract class Transition(RenderTarget2D transitionFrame)
         durationLeft = duration;
     }
 
-    public virtual bool Update()
+    public virtual bool Update(GameTime gameTime)
     {
-        durationLeft -= Globals.Time;
-        percentage = durationLeft / duration;
-        return durationLeft < 0f;
+        // Reduce the remaining duration by the elapsed time
+        durationLeft -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        // Calculate the percentage of completion, clamped between 0 and 1
+        percentage = MathHelper.Clamp(1 - (durationLeft / duration), 0, 1);
+
+        // Return true when the transition is complete
+        return durationLeft <= 0f;
     }
 
-    public RenderTarget2D GetFrame()
-    {
-        Globals.GraphicsDevice.SetRenderTarget(frame);
-        Globals.GraphicsDevice.Clear(Color.Black);
-        Globals.SpriteBatch.Begin();
-        Process();
-        Globals.SpriteBatch.End();
-        Globals.GraphicsDevice.SetRenderTarget(null);
-        return frame;
-    }
+    public abstract void Draw(SpriteBatch spriteBatch);
 }

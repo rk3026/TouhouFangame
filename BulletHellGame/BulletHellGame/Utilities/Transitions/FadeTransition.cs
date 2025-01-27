@@ -1,8 +1,8 @@
-public class FadeTransition(RenderTarget2D transitionFrame) : Transition(transitionFrame)
+public class FadeTransition() : Transition()
 {
-    protected override void Process()
+    public override void Draw(SpriteBatch spriteBatch)
     {
-        Globals.SpriteBatch.Draw(oldScene, Vector2.Zero, Color.White * percentage);
-        Globals.SpriteBatch.Draw(newScene, Vector2.Zero, Color.White * (1 - percentage));
+        spriteBatch.Draw(oldScene, Vector2.Zero, Color.White * percentage);
+        spriteBatch.Draw(newScene, Vector2.Zero, Color.White * (1 - percentage));
     }
 }

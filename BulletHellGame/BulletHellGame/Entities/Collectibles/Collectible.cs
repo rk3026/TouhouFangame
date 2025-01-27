@@ -1,10 +1,10 @@
-﻿using BulletHellGame.Data;
+﻿using BulletHellGame.Data.DataTransferObjects;
 
 namespace BulletHellGame.Entities.Collectibles
 {
     public class Collectible : Entity
     {
-        public Collectible(SpriteData spriteData, Vector2 position) : base(spriteData, position)
+        public Collectible(SpriteData spriteData) : base(spriteData)
         {
         }
     }

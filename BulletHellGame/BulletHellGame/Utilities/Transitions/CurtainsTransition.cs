@@ -1,11 +1,11 @@
-public class CurtainsTransition(RenderTarget2D transitionFrame) : Transition(transitionFrame)
+public class CurtainsTransition() : Transition()
 {
-    protected override void Process()
+    public override void Draw(SpriteBatch spriteBatch)
     {
         int amount = (int)(oldScene.Width * percentage / 2);
         Rectangle newR = new(amount, 0, oldScene.Width - 2 * amount, newScene.Height);
 
-        Globals.SpriteBatch.Draw(oldScene, Vector2.Zero, Color.White);
-        Globals.SpriteBatch.Draw(newScene, newR, newR, Color.White);
+        spriteBatch.Draw(oldScene, Vector2.Zero, Color.White);
+        spriteBatch.Draw(newScene, newR, newR, Color.White);
     }
 }

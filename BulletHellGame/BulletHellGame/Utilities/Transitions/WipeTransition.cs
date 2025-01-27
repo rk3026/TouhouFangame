@@ -1,11 +1,11 @@
-public class WipeTransition(RenderTarget2D transitionFrame) : Transition(transitionFrame)
+public class WipeTransition() : Transition()
 {
-    protected override void Process()
+    public override void Draw(SpriteBatch spriteBatch)
     {
         int mid = (int)(oldScene.Width * percentage);
         Rectangle newR = new(mid, 0, newScene.Width, newScene.Height);
 
-        Globals.SpriteBatch.Draw(oldScene, Vector2.Zero, Color.White);
-        Globals.SpriteBatch.Draw(newScene, newR, newR, Color.White);
+        spriteBatch.Draw(oldScene, Vector2.Zero, Color.White);
+        spriteBatch.Draw(newScene, newR, newR, Color.White);
     }
 }

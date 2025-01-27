@@ -1,12 +1,12 @@
 ﻿using BulletHellGame.Components;
-using BulletHellGame.Data;
+using BulletHellGame.Data.DataTransferObjects;
 using System.Linq;
 
 public class SpriteComponent : IComponent
 {
     public SpriteData SpriteData { get; private set; }
     public Color Color { get; set; } = Color.White;
-    public Vector2 Position { get; set; }
+    public Vector2 Position { get; set; } = Vector2.Zero;
     public float Rotation { get; set; } = 0f;
     public Vector2 Scale { get; set; } = Vector2.One;
     public SpriteEffects SpriteEffect { get; set; } = SpriteEffects.None;
@@ -22,10 +22,9 @@ public class SpriteComponent : IComponent
 
     public Rectangle CurrentFrame => _currentRect;
 
-    public SpriteComponent(SpriteData spriteInfo, Vector2 position)
+    public SpriteComponent(SpriteData spriteInfo)
     {
         SpriteData = spriteInfo ?? throw new ArgumentNullException(nameof(spriteInfo));
-        Position = position;
 
         // Initialize animation and set the first rectangle
         _currentAnimation = SpriteData.Animations.Keys.FirstOrDefault()

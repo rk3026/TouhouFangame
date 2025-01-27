@@ -1,9 +1,9 @@
-﻿using BulletHellGame.Data;
+﻿using BulletHellGame.Data.DataTransferObjects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
 
-namespace BulletHellGame.Components
+namespace BulletHellGame.Managers
 {
     public class MovementPatternManager
     {

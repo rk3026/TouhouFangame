@@ -1,4 +1,4 @@
-﻿using BulletHellGame.Data;
+﻿using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities.Characters.Enemies;
 using BulletHellGame.Managers;
 
@@ -8,29 +8,32 @@ namespace BulletHellGame.Factories
     {
         public EnemyFactory() { }
 
-        public Enemy CreateEnemy(EnemyType type, Vector2 position)
+        public Enemy CreateEnemy(EnemyType type)
         {
             SpriteData spriteData = null;
             switch (type)
             {
-                case EnemyType.Generic1:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
-                    return new Enemy(spriteData, position);
-                case EnemyType.Generic2:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
-                    return new Enemy(spriteData, position);
-                case EnemyType.Generic3:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
-                    return new Enemy(spriteData, position);
-                case EnemyType.Generic4:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
-                    return new Enemy(spriteData, position);
-                case EnemyType.Generic5:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
-                    return new Enemy(spriteData, position);
+                case EnemyType.FairyBlue:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
+                    return new Enemy(spriteData);
+                case EnemyType.FairyWhite:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
+                    return new Enemy(spriteData);
+                case EnemyType.FairyPink:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
+                    return new Enemy(spriteData);
+                case EnemyType.FairyRed:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
+                    return new Enemy(spriteData);
+                case EnemyType.FairyOrange:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
+                    return new Enemy(spriteData);
+                case EnemyType.FairyGreen:
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
+                    return new Enemy(spriteData);
                 default:
-                    spriteData = TextureManager.Instance.GetSpriteData("Enemy1");
-                    return new Enemy(spriteData, position);
+                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
+                    return new Enemy(spriteData);
             }
         }
     }

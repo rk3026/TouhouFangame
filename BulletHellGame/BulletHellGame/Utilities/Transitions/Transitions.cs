@@ -6,4 +6,6 @@ public enum Transitions
     Curtains,
     Rectangle,
     Checker,
+
+    None
 }

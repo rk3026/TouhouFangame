@@ -2,10 +2,11 @@
 {
     public enum EnemyType
     {
-        Generic1,
-        Generic2,
-        Generic3,
-        Generic4,
-        Generic5,
+        FairyBlue,
+        FairyWhite,
+        FairyPink,
+        FairyRed,
+        FairyOrange,
+        FairyGreen,
     }
 }

@@ -1,14 +1,14 @@
 ﻿using BulletHellGame.Components;
-using BulletHellGame.Data;
+using BulletHellGame.Data.DataTransferObjects;
 
 namespace BulletHellGame.Entities.Characters
 {
     public class Character : Entity
     {
-        public Character(SpriteData spriteData, Vector2 position) : base(spriteData, position)
+        public Character(SpriteData spriteData) : base(spriteData)
         {
             AddComponent(new HealthComponent(100));
-            AddComponent(new SpriteEffectComponent());  // Make sure to add this component as well
+            AddComponent(new SpriteEffectComponent());
         }
 
         public override void Update(GameTime gameTime)
