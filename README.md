@@ -1,2 +1,2 @@
-# CPT_S 487 Touhou game
-## Tinker with Ross' implementation
+## CPT_S 487 Touhou game
+A Bullet Hell Game written with MonoGame. In development...
