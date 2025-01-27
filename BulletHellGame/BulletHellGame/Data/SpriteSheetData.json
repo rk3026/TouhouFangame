@@ -167,7 +167,7 @@
           {
             "Name": "Default",
             "Frames": [
-              { "Rect": { "X": 126, "Y": 0, "Width": 16, "Height": 16 } }
+              { "Rect": { "X": 128, "Y": 2, "Width": 12, "Height": 12 } }
             ]
           }
         ]
