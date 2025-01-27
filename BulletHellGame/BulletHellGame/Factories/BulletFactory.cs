@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Components;
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
-using BulletHellGame.Managers;
 
 namespace BulletHellGame.Factories
 {
@@ -15,7 +14,7 @@ namespace BulletHellGame.Factories
             // Add the components that bullets will need:
             Entity bullet = new Entity();
             bullet.AddComponent(new SpriteComponent(spriteData));
-            bullet.AddComponent(new HitboxComponent(bullet));
+            bullet.AddComponent(new HitboxComponent(bullet, 1));
             bullet.AddComponent(new MovementComponent());
             bullet.AddComponent(new DamageComponent(bulletData.Damage));
 

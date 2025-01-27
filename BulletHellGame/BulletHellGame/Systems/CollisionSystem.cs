@@ -8,15 +8,11 @@ namespace BulletHellGame.Systems
     public class CollisionSystem : ISystem
     {
         private const int CELL_WIDTH = 100;
-
-        private bool _changed;
-        private List<HitboxComponent> _checkList;
-        private List<HitboxComponent> _insertList;
+        private Dictionary<(int, int), List<HitboxComponent>> hitboxGrid;
 
         public CollisionSystem()
         {
-            _checkList = new List<HitboxComponent>();
-            _insertList = new List<HitboxComponent>();
+            hitboxGrid = new Dictionary<(int, int), List<HitboxComponent>>();
         }
 
         private void ApplyCollision(EntityManager entityManager, Entity owner, Entity other)
@@ -44,10 +40,10 @@ namespace BulletHellGame.Systems
 
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            _insertList.Clear();
-            _checkList.Clear();
+            hitboxGrid.Clear();
 
-            foreach (Entity entity in entityManager.GetActiveEntities().Where(e => e.HasComponent<HitboxComponent>()))
+            // Precompute the hitboxes for entities with the relevant components
+            foreach (var entity in entityManager.GetActiveEntities().Where(e => e.HasComponent<HitboxComponent>()))
             {
                 if (entity.TryGetComponent<HitboxComponent>(out var hitboxComponent) &&
                     entity.TryGetComponent<MovementComponent>(out var movementComponent) &&
@@ -61,83 +57,57 @@ namespace BulletHellGame.Systems
                         spriteComponent.CurrentFrame.Height
                     );
 
-                    _insertList.Add(hitboxComponent);
-                    _checkList.Add(hitboxComponent);
+                    // Insert the hitbox into the appropriate grid cells
+                    InsertIntoGrid(hitboxComponent);
                 }
             }
 
             DoCollisionLogic(entityManager);
         }
 
-        private void DoCollisionLogic(EntityManager entityManager)
+        private void InsertIntoGrid(HitboxComponent hitboxComponent)
         {
-            if (_insertList.Count == 0) return;
+            int minX = hitboxComponent.Hitbox.Left;
+            int minY = hitboxComponent.Hitbox.Top;
+            int maxX = hitboxComponent.Hitbox.Right;
+            int maxY = hitboxComponent.Hitbox.Bottom;
 
-            int minX = int.MaxValue, minY = int.MaxValue;
-            int maxX = int.MinValue, maxY = int.MinValue;
+            int lowCol = minX / CELL_WIDTH;
+            int highCol = maxX / CELL_WIDTH;
+            int lowRow = minY / CELL_WIDTH;
+            int highRow = maxY / CELL_WIDTH;
 
-            // determine boundaries and density of grid
-            foreach (var hitbox in _insertList)
+            for (int c = lowCol; c <= highCol; ++c)
             {
-                minX = Math.Min(minX, hitbox.Hitbox.Left);
-                minY = Math.Min(minY, hitbox.Hitbox.Top);
-                maxX = Math.Max(maxX, hitbox.Hitbox.Right);
-                maxY = Math.Max(maxY, hitbox.Hitbox.Bottom);
-            }
-
-            // dimensions of grid
-            int cols = (maxX - minX) / CELL_WIDTH + 1;
-            int rows = (maxY - minY) / CELL_WIDTH + 1;
-
-            // grid cells containing linked lists of hitboxes
-            LinkedList<HitboxComponent>[,] hitboxGrid = new LinkedList<HitboxComponent>[cols, rows];
-
-            // insert all queued hitboxes into grid
-            foreach (var cHitbox in _insertList)
-            {
-                int lowCol = (cHitbox.Hitbox.Left - minX) / CELL_WIDTH;
-                int highCol = (cHitbox.Hitbox.Right - minX) / CELL_WIDTH;
-                int lowRow = (cHitbox.Hitbox.Top - minY) / CELL_WIDTH;
-                int highRow = (cHitbox.Hitbox.Bottom - minY) / CELL_WIDTH;
-
-                // insert hitbox into all grid cells it occupies
-                for (int c = lowCol; c <= highCol; ++c)
+                for (int r = lowRow; r <= highRow; ++r)
                 {
-                    for (int r = lowRow; r <= highRow; ++r)
+                    var gridKey = (c, r);
+                    if (!hitboxGrid.ContainsKey(gridKey))
                     {
-                        if (hitboxGrid[c, r] == null)
-                        {
-                            hitboxGrid[c, r] = new LinkedList<HitboxComponent>();
-                        }
-
-                        hitboxGrid[c, r].AddLast(cHitbox);
+                        hitboxGrid[gridKey] = new List<HitboxComponent>();
                     }
+                    hitboxGrid[gridKey].Add(hitboxComponent);
                 }
             }
+        }
 
-            // check all queued collision checks
-            foreach (var cHitbox in _checkList)
+        private void DoCollisionLogic(EntityManager entityManager)
+        {
+            // Check collisions for each grid cell
+            foreach (var cell in hitboxGrid)
             {
-                int lowCol = (cHitbox.Hitbox.Left - minX) / CELL_WIDTH;
-                int highCol = (cHitbox.Hitbox.Right - minX) / CELL_WIDTH;
-                int lowRow = (cHitbox.Hitbox.Top - minY) / CELL_WIDTH;
-                int highRow = (cHitbox.Hitbox.Bottom - minY) / CELL_WIDTH;
-
-                // check all grid cells hitbox occupies
-                for (int c = lowCol; c <= highCol; ++c)
+                var hitboxes = cell.Value;
+                for (int i = 0; i < hitboxes.Count; i++)
                 {
-                    for (int r = lowRow; r <= highRow; ++r)
+                    for (int j = i + 1; j < hitboxes.Count; j++) // Avoid redundant checks
                     {
-                        if (hitboxGrid[c, r] != null)
+                        var hitboxA = hitboxes[i];
+                        var hitboxB = hitboxes[j];
+                        if (hitboxA.Layer == hitboxB.Layer) continue;
+
+                        if (hitboxA.Hitbox.Intersects(hitboxB.Hitbox))
                         {
-                            foreach (var hitbox in hitboxGrid[c, r])
-                            {
-                                if (cHitbox == hitbox) continue;
-                                if (cHitbox.Hitbox.Intersects(hitbox.Hitbox))
-                                {
-                                    ApplyCollision(entityManager, hitbox.Owner, cHitbox.Owner);
-                                }
-                            }
+                            ApplyCollision(entityManager, hitboxA.Owner, hitboxB.Owner);
                         }
                     }
                 }

@@ -14,7 +14,7 @@ namespace BulletHellGame.Factories
             Entity player = new Entity();
             player.AddComponent(new HealthComponent(playerData.Health));
             player.AddComponent(new SpriteComponent(spriteData));
-            player.AddComponent(new HitboxComponent(player));
+            player.AddComponent(new HitboxComponent(player, 4));
             player.AddComponent(new SpeedComponent(playerData.MovementSpeed, playerData.FocusedSpeed));
             player.AddComponent(new PlayerInputComponent());
             player.AddComponent(new MovementComponent());

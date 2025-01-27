@@ -13,7 +13,7 @@ namespace BulletHellGame.Factories
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
             Entity enemy = new Entity();
-            enemy.AddComponent(new HitboxComponent(enemy));
+            enemy.AddComponent(new HitboxComponent(enemy, 2));
             enemy.AddComponent(new HealthComponent());
             enemy.AddComponent(new SpriteComponent(spriteData));
             enemy.AddComponent(new MovementComponent());
