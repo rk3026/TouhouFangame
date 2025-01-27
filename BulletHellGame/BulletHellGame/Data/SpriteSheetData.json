@@ -167,7 +167,7 @@
           {
             "Name": "Default",
             "Frames": [
-              { "Rect": { "X": 126, "Y": 0, "Width": 16, "Height": 16 } }
+              { "Rect": { "X": 128, "Y": 2, "Width": 12, "Height": 12 } }
             ]
           }
         ]
@@ -177,7 +177,7 @@
           {
             "Name": "Default",
             "Frames": [
-              { "Rect": { "X": 142, "Y": 0, "Width": 16, "Height": 16 } }
+              { "Rect": { "X": 143, "Y": 1, "Width": 14, "Height": 14 } }
             ]
           }
         ]
