@@ -12,7 +12,7 @@ namespace BulletHellGame.Systems
             {
                 if (entity.HasComponent<MovementPatternComponent>())
                 {
-                    var mpc = entity.GetComponent<MovementPatternComponent>();
+                    MovementPatternComponent mpc = entity.GetComponent<MovementPatternComponent>();
 
                     // Update the movement pattern
                     mpc.TimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;

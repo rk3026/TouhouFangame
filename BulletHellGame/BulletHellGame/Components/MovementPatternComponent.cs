@@ -19,6 +19,7 @@ namespace BulletHellGame.Components
         public void Reset()
         {
             TimeElapsed = 0f;
+            CurrentStepIndex = 0;
         }
     }
 }

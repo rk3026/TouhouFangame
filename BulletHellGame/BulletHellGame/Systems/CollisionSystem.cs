@@ -7,39 +7,36 @@ namespace BulletHellGame.Systems
 {
     public class CollisionSystem : ISystem
     {
-        public CollisionSystem()
-        {
-            _checkQueue = new Queue<HitboxComponent>();
-            _insertQueue = new Queue<HitboxComponent>();
-        }
-
         private const int CELL_WIDTH = 100;
 
         private bool _changed;
-        private Queue<HitboxComponent> _checkQueue;
-        private Queue<HitboxComponent> _insertQueue;
+        private List<HitboxComponent> _checkList;
+        private List<HitboxComponent> _insertList;
+
+        public CollisionSystem()
+        {
+            _checkList = new List<HitboxComponent>();
+            _insertList = new List<HitboxComponent>();
+        }
 
         private void ApplyCollision(EntityManager entityManager, Entity owner, Entity other)
         {
-            if (owner.HasComponent<HealthComponent>() && other.HasComponent<DamageComponent>())
+            if (owner.TryGetComponent<HealthComponent>(out var health) &&
+                other.TryGetComponent<DamageComponent>(out var damage))
             {
-                if (other.HasComponent<OwnerComponent>())
+                if (other.TryGetComponent<OwnerComponent>(out var otherOwner) &&
+                    otherOwner.Owner == owner)
                 {
-                    OwnerComponent otherOwner = other.GetComponent<OwnerComponent>();
-
-                    // (Owned things don't apply damage to their owner)
-                    if (otherOwner.Owner == owner)
-                    {
-                        return;
-                    }
+                    return; // Owned things don't apply damage to their owner
                 }
 
                 // Apply damage if no ownership conflict exists
-                HealthComponent health = owner.GetComponent<HealthComponent>();
-                DamageComponent damage = other.GetComponent<DamageComponent>();
-                SpriteComponent sprite = owner.GetComponent<SpriteComponent>();
                 health.TakeDamage(damage.CalculateDamage());
-                sprite.FlashRed(0.1f);
+
+                if (owner.TryGetComponent<SpriteComponent>(out var sprite))
+                {
+                    sprite.FlashRed(0.1f);
+                }
 
                 entityManager.QueueEntityForRemoval(other);
             }
@@ -47,23 +44,26 @@ namespace BulletHellGame.Systems
 
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
+            _insertList.Clear();
+            _checkList.Clear();
+
             foreach (Entity entity in entityManager.GetActiveEntities().Where(e => e.HasComponent<HitboxComponent>()))
             {
-                var hitboxComponent = entity.GetComponent<HitboxComponent>();
-                var movementComponent = entity.GetComponent<MovementComponent>();
-                var spriteComponent = entity.GetComponent<SpriteComponent>();
+                if (entity.TryGetComponent<HitboxComponent>(out var hitboxComponent) &&
+                    entity.TryGetComponent<MovementComponent>(out var movementComponent) &&
+                    entity.TryGetComponent<SpriteComponent>(out var spriteComponent))
+                {
+                    // Update hitbox position based on movement
+                    hitboxComponent.Hitbox = new Rectangle(
+                        (int)movementComponent.Position.X,
+                        (int)movementComponent.Position.Y,
+                        spriteComponent.CurrentFrame.Width,
+                        spriteComponent.CurrentFrame.Height
+                    );
 
-                // Update hitbox position based on movement
-
-                hitboxComponent.Hitbox = new Rectangle(
-                    (int)movementComponent.Position.X,
-                    (int)movementComponent.Position.Y,
-                    spriteComponent.CurrentFrame.Width,
-                    spriteComponent.CurrentFrame.Height
-                );
-
-                _insertQueue.Enqueue(entity.GetComponent<HitboxComponent>());
-                _checkQueue.Enqueue(entity.GetComponent<HitboxComponent>());
+                    _insertList.Add(hitboxComponent);
+                    _checkList.Add(hitboxComponent);
+                }
             }
 
             DoCollisionLogic(entityManager);
@@ -71,24 +71,18 @@ namespace BulletHellGame.Systems
 
         private void DoCollisionLogic(EntityManager entityManager)
         {
-            if (_insertQueue.Count() == 0)
-                return;
+            if (_insertList.Count == 0) return;
 
-            int minX, minY, maxX, maxY;
-            minX = minY = int.MaxValue;
-            maxX = maxY = int.MinValue;
+            int minX = int.MaxValue, minY = int.MaxValue;
+            int maxX = int.MinValue, maxY = int.MinValue;
 
             // determine boundaries and density of grid
-            foreach (var hitbox in _insertQueue)
+            foreach (var hitbox in _insertList)
             {
-                if (hitbox.Hitbox.Left < minX)
-                    minX = hitbox.Hitbox.Left;
-                if (hitbox.Hitbox.Top < minY)
-                    minY = hitbox.Hitbox.Top;
-                if (hitbox.Hitbox.Right > maxX)
-                    maxX = hitbox.Hitbox.Right;
-                if (hitbox.Hitbox.Bottom > maxY)
-                    maxY = hitbox.Hitbox.Bottom;
+                minX = Math.Min(minX, hitbox.Hitbox.Left);
+                minY = Math.Min(minY, hitbox.Hitbox.Top);
+                maxX = Math.Max(maxX, hitbox.Hitbox.Right);
+                maxY = Math.Max(maxY, hitbox.Hitbox.Bottom);
             }
 
             // dimensions of grid
@@ -99,15 +93,14 @@ namespace BulletHellGame.Systems
             LinkedList<HitboxComponent>[,] hitboxGrid = new LinkedList<HitboxComponent>[cols, rows];
 
             // insert all queued hitboxes into grid
-            HitboxComponent cHitbox;
-            while (_insertQueue.TryDequeue(out cHitbox))
+            foreach (var cHitbox in _insertList)
             {
                 int lowCol = (cHitbox.Hitbox.Left - minX) / CELL_WIDTH;
                 int highCol = (cHitbox.Hitbox.Right - minX) / CELL_WIDTH;
                 int lowRow = (cHitbox.Hitbox.Top - minY) / CELL_WIDTH;
                 int highRow = (cHitbox.Hitbox.Bottom - minY) / CELL_WIDTH;
 
-                // insert hitbox into all grid cells that it occupies
+                // insert hitbox into all grid cells it occupies
                 for (int c = lowCol; c <= highCol; ++c)
                 {
                     for (int r = lowRow; r <= highRow; ++r)
@@ -123,7 +116,7 @@ namespace BulletHellGame.Systems
             }
 
             // check all queued collision checks
-            while (_checkQueue.TryDequeue(out cHitbox))
+            foreach (var cHitbox in _checkList)
             {
                 int lowCol = (cHitbox.Hitbox.Left - minX) / CELL_WIDTH;
                 int highCol = (cHitbox.Hitbox.Right - minX) / CELL_WIDTH;
