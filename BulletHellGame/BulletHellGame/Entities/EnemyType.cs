@@ -1,4 +1,4 @@
-﻿namespace BulletHellGame.Entities.Characters.Enemies
+﻿namespace BulletHellGame.Entities
 {
     public enum EnemyType
     {

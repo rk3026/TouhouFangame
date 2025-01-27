@@ -2,13 +2,12 @@
 {
     public class HealthComponent : IComponent
     {
-        public int MaxHealth { get; private set; }
-        public int CurrentHealth { get; private set; }
+        public int MaxHealth { get; private set; } = 0;
+        public int CurrentHealth { get; private set; } = 0;
 
-        public HealthComponent(int maxHealth)
-        {
-            MaxHealth = maxHealth;
-            CurrentHealth = maxHealth;
+        public HealthComponent(int health = 100) {
+            this.MaxHealth = health;
+            this.CurrentHealth = health;
         }
 
         public void TakeDamage(int amount)
@@ -26,11 +25,6 @@
         public void Reset()
         {
             this.CurrentHealth = this.MaxHealth;
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            // Logic for health regeneration or effects could go here
         }
     }
 

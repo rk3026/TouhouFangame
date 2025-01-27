@@ -1,9 +1,9 @@
-﻿namespace BulletHellGame.Entities.Bullets
+﻿namespace BulletHellGame.Entities
 {
     public enum BulletType
     {
         Standard,
-        Pellet,
         Homing,
+        Explosive,
     }
 }

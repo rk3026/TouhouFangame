@@ -1,9 +1,7 @@
-﻿using BulletHellGame.Components;
-using BulletHellGame.Data.DataTransferObjects;
-using BulletHellGame.Entities.Bullets;
-using BulletHellGame.Entities.Characters.Enemies;
-using BulletHellGame.Entities.Collectibles;
+﻿using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.Entities;
 using BulletHellGame.Managers;
+using BulletHellGame.Systems;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
 
@@ -11,6 +9,8 @@ namespace BulletHellGame.Scenes
 {
     public class TestScene : IScene
     {
+        private EntityManager _entityManager;
+        private SystemManager _systemManager;
         private ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
 
@@ -29,9 +29,30 @@ namespace BulletHellGame.Scenes
         {
             playableArea = new Rectangle(0, 0, Globals.WindowSize.X * 2 / 3, Globals.WindowSize.Y);
             uiArea = new Rectangle(playableArea.Width, 0, Globals.WindowSize.X / 3, Globals.WindowSize.Y);
+
             this._contentManager = contentManager;
             this._graphicsDevice = graphicsDevice;
-            EntityManager.Instance.Bounds = playableArea;
+            this._entityManager = new EntityManager(this.playableArea);
+
+            // Set up system manager and systems:
+            this._systemManager = new SystemManager();
+            _systemManager.AddSystem(new CollisionSystem());
+            _systemManager.AddSystem(new HealthSystem());
+            _systemManager.AddSystem(new MovementSystem());
+            _systemManager.AddSystem(new PlayerInputSystem());
+            _systemManager.AddSystem(new ShootingSystem());
+            _systemManager.AddSystem(new DrawingSystem());
+            _systemManager.AddSystem(new HomingSystem());
+            _systemManager.AddSystem(new MovementPatternSystem());
+
+            // Set the player:
+            PlayerData pd = new PlayerData();
+            pd.Name = "Reimu";
+            pd.SpriteName = "Reimu";
+            pd.MovementSpeed = 7f;
+            pd.FocusedSpeed = 3f;
+            pd.Health = 100;
+            this._entityManager.SetPlayerCharacter(pd);
         }
 
         public void Load()
@@ -49,41 +70,7 @@ namespace BulletHellGame.Scenes
         public void Update(GameTime gameTime)
         {
             // Update all entities
-            EntityManager.Instance.Update(gameTime);
-
-            PlayableCharacter character = EntityManager.Instance._playerCharacter;
-
-            if (character != null)
-            {
-                // Get the current movement direction
-                Vector2 movementDirection = Vector2.Zero;
-                if (InputManager.Instance.KeyDown(Keys.W) && character.Position.Y > playableArea.Top)
-                {
-                    movementDirection.Y -= 1;
-                }
-                if (InputManager.Instance.KeyDown(Keys.S) && character.Position.Y < playableArea.Bottom - character.GetComponent<SpriteComponent>().CurrentFrame.Height)
-                {
-                    movementDirection.Y += 1;
-                }
-                if (InputManager.Instance.KeyDown(Keys.A) && character.Position.X > playableArea.Left)
-                {
-                    movementDirection.X -= 1;
-                }
-                if (InputManager.Instance.KeyDown(Keys.D) && character.Position.X < playableArea.Right - character.GetComponent<SpriteComponent>().CurrentFrame.Width)
-                {
-                    movementDirection.X += 1;
-                }
-
-                // Normalize movement to prevent diagonal speed increase
-                if (movementDirection.Length() > 0)
-                {
-                    movementDirection.Normalize();
-                }
-
-                // Update character movement based on normalized direction
-                var movementComponent = character.GetComponent<MovementComponent>();
-                movementComponent.Velocity = movementDirection * character.MOVE_SPEED;
-            }
+            _systemManager.Update(_entityManager, gameTime);
 
             // Update scroll offset based on time elapsed
             scrollOffset = (scrollOffset + (float)(scrollSpeed * gameTime.ElapsedGameTime.TotalSeconds)) % bush1Sprite.Animations.First().Value.First().Height;
@@ -111,16 +98,20 @@ namespace BulletHellGame.Scenes
                         spawnX = MathHelper.Clamp(spawnX, playableArea.Left, playableArea.Right);
                         spawnY = MathHelper.Clamp(spawnY, playableArea.Top, playableArea.Bottom);
 
-                        Enemy enemy = EntityManager.Instance.SpawnEnemy(EnemyType.FairyBlue, new Vector2(spawnX, spawnY));
-                        int enemyCount = EntityManager.Instance.GetActiveEntities().OfType<Enemy>().Count();
-                        if (enemyCount % 2 == 0)
-                        {
-                            enemy.AddComponent(new MovementPatternComponent(enemy, "zigzag"));
-                        }
-                        else
-                        {
-                            enemy.AddComponent(new MovementPatternComponent(enemy, "left_right"));
-                        }
+                        EnemyData enemyData = new EnemyData();
+                        enemyData.SpawnPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
+                        enemyData.StartPosition = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 2);
+                        enemyData.ExitPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
+                        enemyData.MovementPattern = MovementPattern.Zigzag;
+                        BulletPatternData bpd = new BulletPatternData();
+                        bpd.FireRate = 0.5f;
+                        bpd.Speed = 50f;
+                        enemyData.BulletPattern = bpd;
+                        enemyData.Health = 100;
+                        enemyData.Type = EnemyType.FairyBlue;
+
+                        _entityManager.SpawnEnemy(enemyData, new Vector2(spawnX, spawnY));
+
                     }
                 }
             }
@@ -174,7 +165,7 @@ namespace BulletHellGame.Scenes
             }
 
             // Draw all entities within the playable area (left 2/3 of the screen)
-            EntityManager.Instance.Draw(spriteBatch);
+            _systemManager.Draw(_entityManager, spriteBatch);
 
             // Draw UI elements (this area is reserved for the right part of the screen)
             DrawUI(spriteBatch);
@@ -193,10 +184,10 @@ namespace BulletHellGame.Scenes
             SpriteFont font = FontManager.Instance.GetFont("DFPPOPCorn-W12");
             Vector2 position = new Vector2(uiArea.Left + 10, uiArea.Top + 10);
 
-            int bulletCount = EntityManager.Instance.GetActiveEntities().OfType<Bullet>().Count();
-            int enemyCount = EntityManager.Instance.GetActiveEntities().OfType<Enemy>().Count();
-            int collectibleCount = EntityManager.Instance.GetActiveEntities().OfType<Collectible>().Count();
-            int characterCount = EntityManager.Instance.GetActiveEntities().OfType<PlayableCharacter>().Count();
+            int bulletCount = _entityManager.GetBulletCount();
+            int enemyCount = _entityManager.GetEnemyCount();
+            int collectibleCount = _entityManager.GetCollectibleCount();
+            int characterCount = _entityManager.GetPlayerCount();
             spriteBatch.DrawString(font, $"Bullets: {bulletCount}", position, Color.White);
             position.Y += 20;
             spriteBatch.DrawString(font, $"Enemies: {enemyCount}", position, Color.White);

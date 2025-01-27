@@ -1,5 +1,6 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
-using BulletHellGame.Entities.Characters.Enemies;
+﻿using BulletHellGame.Components;
+using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 
 namespace BulletHellGame.Factories
@@ -8,33 +9,16 @@ namespace BulletHellGame.Factories
     {
         public EnemyFactory() { }
 
-        public Enemy CreateEnemy(EnemyType type)
+        public Entity CreateEnemy(EnemyData enemyData)
         {
-            SpriteData spriteData = null;
-            switch (type)
-            {
-                case EnemyType.FairyBlue:
-                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
-                    return new Enemy(spriteData);
-                case EnemyType.FairyWhite:
-                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
-                    return new Enemy(spriteData);
-                case EnemyType.FairyPink:
-                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
-                    return new Enemy(spriteData);
-                case EnemyType.FairyRed:
-                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
-                    return new Enemy(spriteData);
-                case EnemyType.FairyOrange:
-                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
-                    return new Enemy(spriteData);
-                case EnemyType.FairyGreen:
-                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
-                    return new Enemy(spriteData);
-                default:
-                    spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
-                    return new Enemy(spriteData);
-            }
+            SpriteData spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
+            Entity enemy = new Entity();
+            enemy.AddComponent(new HitboxComponent(enemy));
+            enemy.AddComponent(new HealthComponent());
+            enemy.AddComponent(new SpriteComponent(spriteData));
+            enemy.AddComponent(new MovementComponent());
+            enemy.AddComponent(new MovementPatternComponent("zigzag"));
+            return enemy;
         }
     }
 }

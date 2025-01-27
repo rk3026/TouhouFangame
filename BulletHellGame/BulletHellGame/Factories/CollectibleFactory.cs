@@ -1,6 +1,6 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
-using BulletHellGame.Entities.Collectibles;
-using BulletHellGame.Managers;
+﻿using BulletHellGame.Components;
+using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.Entities;
 
 namespace BulletHellGame.Factories
 {
@@ -8,24 +8,14 @@ namespace BulletHellGame.Factories
     {
         public CollectibleFactory() { }
 
-        public Collectible CreateCollectible(CollectibleType type)
+        public Entity CreateCollectible(CollectibleData collectibleData)
         {
-            SpriteData si = null;
-            switch (type)
-            {
-                case CollectibleType.PowerUp:
-                    si = TextureManager.Instance.GetSpriteData("Collectible");
-                    return new Collectible(si);
-                case CollectibleType.SpeedBoost:
-                    si = TextureManager.Instance.GetSpriteData("Collectible");
-                    return new Collectible(si);
-                case CollectibleType.ScoreBoost:
-                    si = TextureManager.Instance.GetSpriteData("Collectible");
-                    return new Collectible(si);
-                default:
-                    si = TextureManager.Instance.GetSpriteData("Collectible");
-                    return new Collectible(si);
-            }
+            Entity collectible = new Entity();
+            collectible.AddComponent(new SpriteComponent());
+            collectible.AddComponent(new MovementComponent());
+            collectible.AddComponent(new HitboxComponent(collectible));
+            collectible.AddComponent(new ScoreComponent());
+            return collectible;
         }
     }
 }

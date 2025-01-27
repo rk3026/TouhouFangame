@@ -1,5 +1,4 @@
 using BulletHellGame.Components;
-using BulletHellGame.Data.DataTransferObjects;
 using System.Linq;
 
 namespace BulletHellGame.Entities
@@ -10,20 +9,7 @@ namespace BulletHellGame.Entities
 
         public bool IsActive { get; private set; } = false;
 
-        public Entity(SpriteData spriteInfo)
-        {
-            if (spriteInfo == null)
-            {
-                throw new ArgumentNullException(nameof(spriteInfo), "SpriteData cannot be null.");
-            }
-
-            AddComponent(new SpriteComponent(spriteInfo));
-
-            // Add other components (e.g., Hitbox, Movement)
-            var sprite = GetComponent<SpriteComponent>();
-            AddComponent(new HitboxComponent(this, sprite.CurrentFrame));
-            AddComponent(new MovementComponent(this));
-        }
+        public Entity() { }
 
         public void Activate(Vector2 position, Vector2 velocity)
         {
@@ -43,8 +29,9 @@ namespace BulletHellGame.Entities
                 component.Reset();
             }
 
-            Position = position;
-            GetComponent<MovementComponent>().Velocity = velocity;
+            MovementComponent mc = GetComponent<MovementComponent>();
+            mc.Position = position;
+            mc.Velocity = velocity;
         }
 
         public void AddComponent(IComponent component)
@@ -57,41 +44,15 @@ namespace BulletHellGame.Entities
             return _components.OfType<T>().FirstOrDefault();
         }
 
-        public virtual void Update(GameTime gameTime)
+        public bool HasComponent<T>() where T : class, IComponent
         {
-            if (!IsActive) return; // Skip if not active
-
-            foreach (var component in _components)
-            {
-                component.Update(gameTime);
-            }
+            return _components.OfType<T>().Any();
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public bool TryGetComponent<T>(out T component) where T : class, IComponent
         {
-            if (!IsActive) return; // Skip if not active
-
-            var spriteComponent = GetComponent<SpriteComponent>();
-            spriteComponent?.Draw(spriteBatch);
-        }
-
-        public Vector2 Position
-        {
-            get => GetComponent<SpriteComponent>()?.Position ?? Vector2.Zero;
-            set
-            {
-                var spriteComponent = GetComponent<SpriteComponent>();
-                if (spriteComponent != null)
-                {
-                    spriteComponent.Position = value;
-                }
-            }
-        }
-
-        public void SwitchAnimation(string animationName)
-        {
-            var spriteComponent = GetComponent<SpriteComponent>();
-            spriteComponent?.SwitchAnimation(animationName);
+            component = _components.OfType<T>().FirstOrDefault();
+            return component != null;
         }
     }
 }

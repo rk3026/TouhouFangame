@@ -1,5 +1,6 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
-using BulletHellGame.Entities.Bullets;
+﻿using BulletHellGame.Components;
+using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 
 namespace BulletHellGame.Factories
@@ -8,24 +9,26 @@ namespace BulletHellGame.Factories
     {
         public BulletFactory() { }
 
-        public Bullet CreateBullet(BulletType type)
+        public Entity CreateBullet(BulletData bulletData)
         {
-            SpriteData si = null;
-            switch (type)
+            SpriteData spriteData = bulletData.SpriteData;
+            // Add the components that bullets will need:
+            Entity bullet = new Entity();
+            bullet.AddComponent(new SpriteComponent(spriteData));
+            bullet.AddComponent(new HitboxComponent(bullet));
+            bullet.AddComponent(new MovementComponent());
+            bullet.AddComponent(new DamageComponent(bulletData.Damage));
+
+            switch (bulletData.BulletType)
             {
                 case BulletType.Standard:
-                    si = TextureManager.Instance.GetSpriteData("Reimu.OrangeBullet");
-                    return new Bullet(si);
-                case BulletType.Pellet:
-                    si = TextureManager.Instance.GetSpriteData("Reimu.WhiteBullet");
-                    return new Bullet(si);
+                    break;
                 case BulletType.Homing:
-                    si = TextureManager.Instance.GetSpriteData("Reimu.WhiteBullet");
-                    return new HomingBullet(si);
-                default:
-                    si = TextureManager.Instance.GetSpriteData("Reimu.OrangeBullet");
-                    return new Bullet(si);
+                    bullet.AddComponent(new HomingComponent());
+                    break;
             }
+
+            return bullet;
         }
     }
 }

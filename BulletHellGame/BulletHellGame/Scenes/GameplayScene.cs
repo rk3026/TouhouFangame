@@ -9,6 +9,8 @@ public class GameplayScene : IScene
 {
     private ContentManager _contentManager;
     private LevelData _levelData;
+    private EntityManager _entityManager;
+    private SystemManager _systemManager;
 
     public GameplayScene(ContentManager contentManager, LevelData levelData)
     {
@@ -62,14 +64,10 @@ public class GameplayScene : IScene
             }
         }
         */
-
-        // Update other game logic
-        EntityManager.Instance.Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        // Draw all entities and background
-        EntityManager.Instance.Draw(spriteBatch);
+        _systemManager.Draw(_entityManager, spriteBatch);
     }
 }

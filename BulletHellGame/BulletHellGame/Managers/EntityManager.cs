@@ -1,270 +1,170 @@
 ﻿using BulletHellGame.Components;
-using BulletHellGame.Entities.Bullets;
-using BulletHellGame.Entities.Characters.Enemies;
-using BulletHellGame.Entities.Collectibles;
+using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Factories;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace BulletHellGame.Managers
 {
     public class EntityManager
     {
-        private static EntityManager _instance;
-        public static EntityManager Instance => _instance ??= new EntityManager();
+        public Rectangle Bounds { get; set; }
 
-        // Maximum pool sizes
-        private const int MAX_BULLET_POOL_SIZE = 100;
-        private const int MAX_ENEMY_POOL_SIZE = 50;
-        private const int MAX_COLLECTIBLE_POOL_SIZE = 30;
-
-        // Factories
-        private readonly BulletFactory _bulletFactory;
+        // Factories for entity creation
         private readonly EnemyFactory _enemyFactory;
+        private readonly BulletFactory _bulletFactory;
         private readonly CollectibleFactory _collectibleFactory;
+        private readonly PlayerFactory _playerFactory;
+
+        // Maximum pool sizes per entity type
+        private const int MAX_BULLET_POOL_SIZE = 300;
+        private const int MAX_ENEMY_POOL_SIZE = 100;
+        private const int MAX_COLLECTIBLE_POOL_SIZE = 100;
 
         // Pools for reusable entities
-        private readonly Queue<Bullet> _bulletPool = new();
-        private readonly Queue<Enemy> _enemyPool = new();
-        private readonly Queue<Collectible> _collectiblePool = new();
+        private readonly Queue<Entity> _enemyPool = new();
+        private readonly Queue<Entity> _bulletPool = new();
+        private readonly Queue<Entity> _collectiblePool = new();
 
-        // Active entities in the game world
-        private readonly List<Bullet> _activeBullets = new();
-        private readonly List<Enemy> _activeEnemies = new();
-        private readonly List<Collectible> _activeCollectibles = new();
-        public PlayableCharacter _playerCharacter;
+        // Lists of active entities
+        private readonly List<Entity> _activeEnemies = new();
+        private readonly List<Entity> _activeBullets = new();
+        private readonly List<Entity> _activeCollectibles = new();
+        private Entity _playerCharacter;
 
-        // Bounds for entity behavior
-        public Rectangle Bounds { get; set; } // Define the bounds within which entities can move
-
-        private EntityManager()
+        public EntityManager(Rectangle bounds)
         {
-            _bulletFactory = new BulletFactory();
+            this.Bounds = bounds;
+            // Initialize factories
             _enemyFactory = new EnemyFactory();
+            _bulletFactory = new BulletFactory();
             _collectibleFactory = new CollectibleFactory();
-            Bounds = new Rectangle(0, 0, Globals.WindowSize.X, Globals.WindowSize.Y); // Set default bounds (for example, the window size)
+            _playerFactory = new PlayerFactory();
         }
 
-        public IEnumerable<Entity> GetActiveEntities()
+        public int GetEnemyCount() => _activeEnemies.Count;
+
+        public int GetBulletCount() => _activeBullets.Count;
+
+        public int GetCollectibleCount() => _activeCollectibles.Count;
+
+        public int GetPlayerCount() => 1;
+
+        public List<Entity> GetActiveEntities()
         {
-            return _activeBullets
-                .Where(b => b.IsActive)
-                .Concat<Entity>(_activeEnemies.Where(e => e.IsActive))
-                .Concat<Entity>(_activeCollectibles.Where(c => c.IsActive))
-                .Concat<Entity>(new[] { _playerCharacter }.Where(pc => pc?.IsActive == true)); // Filter active player
-        }
-
-        private void AddToActiveEntities(Entity entity)
-        {
-            switch (entity)
-            {
-                case Bullet bullet:
-                    _activeBullets.Add(bullet);
-                    break;
-                case Enemy enemy:
-                    _activeEnemies.Add(enemy);
-                    break;
-                case Collectible collectible:
-                    _activeCollectibles.Add(collectible);
-                    break;
-            }
-        }
-
-        private void AddToPool(Entity entity)
-        {
-            switch (entity)
-            {
-                case Bullet bullet:
-                    if (_bulletPool.Count >= MAX_BULLET_POOL_SIZE)
-                    {
-                        _bulletPool.Dequeue(); // Remove the oldest bullet
-                    }
-                    _bulletPool.Enqueue(bullet);
-                    break;
-
-                case Enemy enemy:
-                    if (_enemyPool.Count >= MAX_ENEMY_POOL_SIZE)
-                    {
-                        _enemyPool.Dequeue(); // Remove the oldest enemy
-                    }
-                    _enemyPool.Enqueue(enemy);
-                    break;
-
-                case Collectible collectible:
-                    if (_collectiblePool.Count >= MAX_COLLECTIBLE_POOL_SIZE)
-                    {
-                        _collectiblePool.Dequeue(); // Remove the oldest collectible
-                    }
-                    _collectiblePool.Enqueue(collectible);
-                    break;
-            }
-        }
-
-        private void RemoveFromActiveEntities(Entity entity)
-        {
-            switch (entity)
-            {
-                case Bullet bullet:
-                    _activeBullets.Remove(bullet);
-                    break;
-                case Enemy enemy:
-                    _activeEnemies.Remove(enemy);
-                    break;
-                case Collectible collectible:
-                    _activeCollectibles.Remove(collectible);
-                    break;
-            }
+            return _activeEnemies.Concat<Entity>(_activeBullets)
+                                 .Concat<Entity>(_activeCollectibles)
+                                 .Concat(new[] { _playerCharacter })
+                                 .ToList();
         }
 
         public void QueueEntityForRemoval(Entity entity)
         {
-            // Remove the entity from active entities and add it to the pool
+            if (entity == null) return;  // Ensure the entity isn't null before processing
+
             entity.Deactivate();
-            RemoveFromActiveEntities(entity);
-            AddToPool(entity);
-        }
 
-        public void Update(GameTime gameTime)
-        {
-            HitboxManager.Instance.Update(gameTime);
-
-            // Update active bullets
-            foreach (var bullet in _activeBullets.Where(b => b.IsActive).ToList())
+            if (_activeBullets.Contains(entity))
             {
-                bullet.Update(gameTime);
-                if (!Bounds.Contains(bullet.Position))
-                {
-                    QueueEntityForRemoval(bullet);
-                }
+                _activeBullets.Remove(entity);
+                ReturnEntityToPool(_bulletPool, entity, MAX_BULLET_POOL_SIZE);
             }
-
-            // Update active enemies
-            foreach (var enemy in _activeEnemies.Where(e => e.IsActive).ToList())
+            else if (_activeCollectibles.Contains(entity))
             {
-                enemy.Update(gameTime);
-
-                // Handle movement and boundary behavior
-                var movementComponent = enemy.GetComponent<MovementComponent>();
-                if (!Bounds.Contains(enemy.Position))
-                {
-                    // Reflect movement when hitting the bounds
-                    if (enemy.Position.Y < Bounds.Top || enemy.Position.Y > Bounds.Bottom)
-                    {
-                        movementComponent.Velocity = new Vector2(movementComponent.Velocity.X, -movementComponent.Velocity.Y);
-                    }
-                    if (enemy.Position.X < Bounds.Left || enemy.Position.X > Bounds.Right)
-                    {
-                        movementComponent.Velocity = new Vector2(-movementComponent.Velocity.X, movementComponent.Velocity.Y);
-                    }
-                }
-
-                // Remove if health is <= 0
-                if (enemy.GetComponent<HealthComponent>().CurrentHealth <= 0)
-                {
-                    QueueEntityForRemoval(enemy);
-                }
+                _activeCollectibles.Remove(entity);
+                ReturnEntityToPool(_collectiblePool, entity, MAX_COLLECTIBLE_POOL_SIZE);
             }
-
-            // Update active collectibles
-            foreach (var collectible in _activeCollectibles.Where(c => c.IsActive).ToList())
+            else if (_activeEnemies.Contains(entity))
             {
-                collectible.Update(gameTime);
-            }
-
-            // Update the player character
-            if (_playerCharacter?.IsActive == true)
-            {
-                _playerCharacter.Update(gameTime);
+                _activeEnemies.Remove(entity);
+                ReturnEntityToPool(_enemyPool, entity, MAX_ENEMY_POOL_SIZE);
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        private void ReturnEntityToPool(Queue<Entity> pool, Entity entity, int maxPoolSize)
         {
-            // Draw active bullets
-            foreach (var bullet in _activeBullets.Where(b => b.IsActive))
+            // Only return to pool if pool size is less than max
+            if (pool.Count < maxPoolSize)
             {
-                bullet.Draw(spriteBatch);
+                pool.Enqueue(entity);
             }
-
-            // Draw active enemies
-            foreach (var enemy in _activeEnemies.Where(e => e.IsActive))
+            else
             {
-                enemy.Draw(spriteBatch);
-            }
-
-            // Draw active collectibles
-            foreach (var collectible in _activeCollectibles.Where(c => c.IsActive))
-            {
-                collectible.Draw(spriteBatch);
-            }
-
-            // Draw the player character if active
-            if (_playerCharacter?.IsActive == true)
-            {
-                _playerCharacter.Draw(spriteBatch);
+                pool.Dequeue();  // Remove an old entity if pool is full
+                pool.Enqueue(entity);
             }
         }
 
-        public Bullet SpawnBullet(BulletType type, Vector2 position, Vector2 velocity)
+        public void SpawnBullet(BulletData bulletData, Vector2 position, Vector2 velocity = default, Entity owner = null)
         {
-            Bullet bullet = null;
+            Entity entity = null;
 
-            // Retrieve from the pool if available
+            // Reuse or create a new bullet entity
             if (_bulletPool.Count > 0)
             {
-                bullet = _bulletPool.Dequeue();
+                entity = _bulletPool.Dequeue();
             }
             else
             {
-                bullet = _bulletFactory.CreateBullet(type);
+                entity = _bulletFactory.CreateBullet(bulletData);
             }
 
-            bullet.Activate(position, velocity);
-            AddToActiveEntities(bullet);
-            return bullet;
+            if (entity != null)
+            {
+                entity.AddComponent(new OwnerComponent(owner));
+                _activeBullets.Add(entity);
+                entity.Activate(position, velocity);
+            }
         }
 
-        public Enemy SpawnEnemy(EnemyType type, Vector2 position)
+        public void SpawnEnemy(EnemyData enemyData, Vector2 position, Vector2 velocity = default)
         {
-            Enemy enemy;
+            Entity entity = null;
+
+            // Reuse or create a new enemy entity
             if (_enemyPool.Count > 0)
             {
-                enemy = _enemyPool.Dequeue();
+                entity = _enemyPool.Dequeue();
             }
             else
             {
-                enemy = _enemyFactory.CreateEnemy(type);
+                entity = _enemyFactory.CreateEnemy(enemyData);
             }
 
-            enemy.Activate(position, new Vector2(0, 0)); // Spawn the enemy with 0 velocity at start
-            AddToActiveEntities(enemy);
-            return enemy;
+            if (entity != null)
+            {
+                _activeEnemies.Add(entity);
+                entity.Activate(position, velocity);
+            }
         }
 
-        public Collectible SpawnCollectible(CollectibleType type, Vector2 position, Vector2 velocity)
+        public void SpawnCollectible(CollectibleData collectibleData, Vector2 position, Vector2 velocity = default)
         {
-            Collectible collectible;
+            Entity entity = null;
+
+            // Reuse or create a new collectible entity
             if (_collectiblePool.Count > 0)
             {
-                collectible = _collectiblePool.Dequeue();
+                entity = _collectiblePool.Dequeue();
             }
             else
             {
-                collectible = _collectibleFactory.CreateCollectible(type);
+                entity = _collectibleFactory.CreateCollectible(collectibleData);
             }
 
-            collectible.Activate(position, velocity);
-            AddToActiveEntities(collectible);
-            return collectible;
-        }
-
-        public void SetPlayerCharacter(PlayableCharacter character)
-        {
-            _playerCharacter = character;
-            if (_playerCharacter != null)
+            if (entity != null)
             {
-                _playerCharacter.Activate(new Vector2(Bounds.Width / 2, Bounds.Height / 2), new Vector2(0, 0));
+                _activeCollectibles.Add(entity);
+                entity.Activate(position, velocity);
             }
         }
+
+        public void SetPlayerCharacter(PlayerData playerData)
+        {
+            this._playerCharacter = _playerFactory.CreatePlayer(playerData);
+            _playerCharacter.Activate(new Vector2(Bounds.Width / 2, Bounds.Height - (Bounds.Height / 10)), Vector2.Zero);
+        }
+
     }
 }

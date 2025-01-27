@@ -81,13 +81,31 @@ namespace BulletHellGame
 
             // Load all spritesheets:
             ContentManager content = Content;
+
+            // Set up a default texture:
+            Texture2D defaultTexture = new Texture2D(this.GraphicsDevice, 16, 16);
+            Color[] colorData = new Color[16 * 16];
+            int blockSize = 4;
+            for (int y = 0; y < 16; y++)
+            {
+                for (int x = 0; x < 16; x++)
+                {
+                    int blockX = x / blockSize;
+                    int blockY = y / blockSize;
+                    if ((blockX + blockY) % 2 == 0)
+                    {
+                        colorData[y * 16 + x] = Color.Black;
+                    }
+                    else
+                    {
+                        colorData[y * 16 + x] = Color.Pink;
+                    }
+                }
+            }
+            defaultTexture.SetData(colorData);
+            TextureManager.Instance.SetDefaultTexture(defaultTexture);
+
             TextureManager.Instance.LoadTexturesFromJson(content, "Data/SpriteSheetData.json");
-
-            // Create Player Character:
-            SpriteData spriteData = TextureManager.Instance.GetSpriteData("Reimu");
-            PlayableCharacter reimu = new PlayableCharacter(spriteData);
-            EntityManager.Instance.SetPlayerCharacter(reimu);
-
             _sceneManager.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));
         }
 

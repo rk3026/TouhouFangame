@@ -87,6 +87,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Enemies/GenericEnemy1Idle1.png
 
+#begin Sprites/NullTexture.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/NullTexture.png;Sprites/DefaultTexture.png
+
 #begin SpriteSheets/Characters.png
 /importer:TextureImporter
 /processor:TextureProcessor

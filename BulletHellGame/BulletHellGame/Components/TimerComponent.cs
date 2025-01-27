@@ -18,9 +18,5 @@ namespace BulletHellGame.Components
         {
             TimeElapsed = true;
         }
-
-        public void Update(GameTime gameTime)
-        {
-        }
     }
 }

@@ -90,5 +90,16 @@ namespace BulletHellGame.Managers
         {
             return _sprites.TryGetValue(spriteName, out var spriteInfo) ? spriteInfo : null;
         }
+
+        public void SetDefaultTexture(Texture2D texture)
+        {
+            SpriteData sd = new SpriteData(texture ,new Dictionary<string, List<Rectangle>>(), "Default");
+            this._sprites.Add("Default", sd);
+        }
+
+        public SpriteData GetDefaultSpriteData()
+        {
+            return _sprites["Default"];
+        }
     }
 }

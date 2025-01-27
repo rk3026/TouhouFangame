@@ -22,11 +22,6 @@ namespace BulletHellGame.Components
             int damage = (int)(BaseDamage * Multiplier);
             return DamageModifier != null ? DamageModifier(damage) : damage;
         }
-
-        public void Update(GameTime gameTime)
-        {
-            // Update logic (if necessary)
-        }
     }
 
 }
