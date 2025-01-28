@@ -13,41 +13,41 @@ namespace BulletHellGame.Systems
 
             foreach (Entity entity in entities)
             {
-                if (entity.HasComponent<PlayerInputComponent>())
+                if (entity.TryGetComponent<PlayerInputComponent>(out var pic) &&
+                    entity.TryGetComponent<PositionComponent>(out var pc) &&
+                    entity.TryGetComponent<VelocityComponent>(out var vc) &&
+                    entity.TryGetComponent<SpriteComponent>(out var sc) &&
+                    entity.TryGetComponent<SpeedComponent>(out var speedComponent)
+                    )
                 {
-                    PlayerInputComponent playerInputComponent = entity.GetComponent<PlayerInputComponent>();
-                    MovementComponent movementComponent = entity.GetComponent<MovementComponent>();
-                    SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
-                    SpeedComponent speedComponent = entity.GetComponent<SpeedComponent>();
-
                     // Update keyboard state
-                    playerInputComponent.CurrentKeyboardState = Keyboard.GetState();
+                    pic.CurrentKeyboardState = Keyboard.GetState();
 
                     // Movement input
-                    playerInputComponent.IsMovingUp = playerInputComponent.CurrentKeyboardState.IsKeyDown(Keys.W);
-                    playerInputComponent.IsMovingDown = playerInputComponent.CurrentKeyboardState.IsKeyDown(Keys.S);
-                    playerInputComponent.IsMovingLeft = playerInputComponent.CurrentKeyboardState.IsKeyDown(Keys.A);
-                    playerInputComponent.IsMovingRight = playerInputComponent.CurrentKeyboardState.IsKeyDown(Keys.D);
+                    pic.IsMovingUp = pic.CurrentKeyboardState.IsKeyDown(Keys.W);
+                    pic.IsMovingDown = pic.CurrentKeyboardState.IsKeyDown(Keys.S);
+                    pic.IsMovingLeft = pic.CurrentKeyboardState.IsKeyDown(Keys.A);
+                    pic.IsMovingRight = pic.CurrentKeyboardState.IsKeyDown(Keys.D);
 
                     // Action input
-                    playerInputComponent.IsShooting = playerInputComponent.CurrentKeyboardState.IsKeyDown(Keys.Space);
+                    pic.IsShooting = pic.CurrentKeyboardState.IsKeyDown(Keys.Space);
 
                     // Special mode (focused mode)
-                    playerInputComponent.IsFocused = playerInputComponent.CurrentKeyboardState.IsKeyDown(Keys.LeftShift);
+                    pic.IsFocused = pic.CurrentKeyboardState.IsKeyDown(Keys.LeftShift);
 
                     // Save the current state for comparison in the next update
-                    playerInputComponent.PreviousKeyboardState = playerInputComponent.CurrentKeyboardState;
+                    pic.PreviousKeyboardState = pic.CurrentKeyboardState;
 
                     // Handle movement based on the input states
                     Vector2 direction = Vector2.Zero;
 
-                    if (playerInputComponent.IsMovingUp)
+                    if (pic.IsMovingUp)
                         direction.Y -= 1;
-                    if (playerInputComponent.IsMovingDown)
+                    if (pic.IsMovingDown)
                         direction.Y += 1;
-                    if (playerInputComponent.IsMovingLeft)
+                    if (pic.IsMovingLeft)
                         direction.X -= 1;
-                    if (playerInputComponent.IsMovingRight)
+                    if (pic.IsMovingRight)
                         direction.X += 1;
 
                     // Normalize direction and apply speed based on focused state
@@ -55,19 +55,19 @@ namespace BulletHellGame.Systems
                         direction.Normalize();
 
                     // Adjust speed based on whether the player is focused
-                    float currentSpeed = playerInputComponent.IsFocused ? speedComponent.FocusedSpeed : speedComponent.Speed;
-                    movementComponent.Velocity = direction * currentSpeed;
+                    float currentSpeed = pic.IsFocused ? speedComponent.FocusedSpeed : speedComponent.Speed;
+                    vc.Velocity = direction * currentSpeed;
 
                     // Ensure the player stays within bounds
-                    if (movementComponent.Position.X < entityManager.Bounds.Left)
-                        movementComponent.Position = new Vector2(entityManager.Bounds.Left, movementComponent.Position.Y);
-                    else if (movementComponent.Position.X + spriteComponent.CurrentFrame.Width > entityManager.Bounds.Right)
-                        movementComponent.Position = new Vector2(entityManager.Bounds.Right - spriteComponent.CurrentFrame.Width, movementComponent.Position.Y);
+                    if (pc.Position.X < entityManager.Bounds.Left)
+                        pc.Position = new Vector2(entityManager.Bounds.Left, pc.Position.Y);
+                    else if (pc.Position.X + sc.CurrentFrame.Width > entityManager.Bounds.Right)
+                        pc.Position = new Vector2(entityManager.Bounds.Right - sc.CurrentFrame.Width, pc.Position.Y);
 
-                    if (movementComponent.Position.Y < entityManager.Bounds.Top)
-                        movementComponent.Position = new Vector2(movementComponent.Position.X, entityManager.Bounds.Top);
-                    else if (movementComponent.Position.Y + spriteComponent.CurrentFrame.Height > entityManager.Bounds.Bottom)
-                        movementComponent.Position = new Vector2(movementComponent.Position.X, entityManager.Bounds.Bottom - spriteComponent.CurrentFrame.Height);
+                    if (pc.Position.Y < entityManager.Bounds.Top)
+                        pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Top);
+                    else if (pc.Position.Y + sc.CurrentFrame.Height > entityManager.Bounds.Bottom)
+                        pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Bottom - sc.CurrentFrame.Height);
                 }
             }
         }

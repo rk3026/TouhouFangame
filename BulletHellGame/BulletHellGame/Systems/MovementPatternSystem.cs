@@ -10,10 +10,9 @@ namespace BulletHellGame.Systems
             // Iterate over all entities with a MovementPatternComponent
             foreach (var entity in entityManager.GetActiveEntities())
             {
-                if (entity.HasComponent<MovementPatternComponent>())
+                if (entity.TryGetComponent<VelocityComponent>(out var vc) &&
+                    entity.TryGetComponent<MovementPatternComponent>(out var mpc))
                 {
-                    MovementPatternComponent mpc = entity.GetComponent<MovementPatternComponent>();
-
                     // Update the movement pattern
                     mpc.TimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -22,7 +21,7 @@ namespace BulletHellGame.Systems
                         var currentStep = mpc.PatternData[mpc.CurrentStepIndex];
                         if (mpc.TimeElapsed >= currentStep.Time)
                         {
-                            entity.GetComponent<MovementComponent>().Velocity = currentStep.Velocity;
+                            vc.Velocity = currentStep.Velocity;
                             mpc.TimeElapsed = 0f;
                             mpc.CurrentStepIndex++;
                         }

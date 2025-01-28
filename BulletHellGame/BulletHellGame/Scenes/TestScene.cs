@@ -45,6 +45,7 @@ namespace BulletHellGame.Scenes
             _systemManager.AddSystem(new DrawingSystem());
             _systemManager.AddSystem(new HomingSystem());
             _systemManager.AddSystem(new MovementPatternSystem());
+            _systemManager.AddSystem(new DebugRenderingSystem(this._graphicsDevice));
 
             // Set the player:
             PlayerData pd = new PlayerData();

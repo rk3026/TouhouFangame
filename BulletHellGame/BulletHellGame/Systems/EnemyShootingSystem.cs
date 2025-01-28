@@ -10,26 +10,26 @@ namespace BulletHellGame.Systems
             foreach (var entity in entityManager.GetActiveEntities())
             {
                 // Skip the player or entities that don't have the required components
-                if (entity.TryGetComponent<WeaponComponent>(out var weapon) &&
-                    entity.TryGetComponent<MovementComponent>(out var movement) &&
-                    !entity.TryGetComponent<PlayerInputComponent>(out var playerInput))
+                if (entity.TryGetComponent<WeaponComponent>(out var wc) &&
+                    entity.TryGetComponent<PositionComponent>(out var pc) &&
+                    !entity.TryGetComponent<PlayerInputComponent>(out var pic))
                 {
                     // NPC shooting logic
-                    if (weapon.CanShoot())
+                    if (wc.CanShoot())
                     {
                         // Spawn bullets in all firing directions
-                        foreach (Vector2 firingDirection in weapon.FireDirections)
+                        foreach (Vector2 firingDirection in wc.FireDirections)
                         {
-                            entityManager.SpawnBullet(weapon.bulletData, movement.Position, 1, firingDirection, entity);
+                            entityManager.SpawnBullet(wc.bulletData, pc.Position, 1, firingDirection, entity);
                         }
 
                         // Reset cooldown after shooting
-                        weapon.TimeSinceLastShot = 0f;
+                        wc.TimeSinceLastShot = 0f;
                     }
                     else
                     {
                         // Update cooldown timer
-                        weapon.TimeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        wc.TimeSinceLastShot += (float)gameTime.ElapsedGameTime.TotalSeconds;
                     }
                 }
             }

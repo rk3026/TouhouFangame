@@ -37,6 +37,12 @@ namespace BulletHellGame.Managers
             {
                 drawingSystem.Draw(entityManager, spriteBatch);
             }
+
+            var debugRenderingSystem = _systems.OfType<DebugRenderingSystem>().FirstOrDefault();
+            if (debugRenderingSystem != null)
+            {
+                debugRenderingSystem.Draw(entityManager, spriteBatch);
+            }
         }
     }
 }

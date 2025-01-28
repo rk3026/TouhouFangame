@@ -12,37 +12,37 @@ namespace BulletHellGame.Systems
 
             foreach (var entity in entityManager.GetActiveEntities())
             {
-                if (entity.HasComponent<MovementComponent>())
+                if (entity.TryGetComponent<VelocityComponent>(out var vc) &&
+                entity.TryGetComponent<PositionComponent>(out var pc))
                 {
-                    var movementComponent = entity.GetComponent<MovementComponent>();
-                    var spriteComponent = entity.GetComponent<SpriteComponent>();
-
                     // Update movement
-                    movementComponent.Position += movementComponent.Velocity;
+                    pc.Position += vc.Velocity;
 
                     // Bounce off walls if it has health
                     if (entity.HasComponent<HealthComponent>())
                     {
-                        if (!entityManager.Bounds.Contains(movementComponent.Position))
+                        if (!entityManager.Bounds.Contains(pc.Position))
                         {
-                            if (movementComponent.Position.Y < entityManager.Bounds.Top || movementComponent.Position.Y > entityManager.Bounds.Bottom)
+                            if (pc.Position.Y < entityManager.Bounds.Top || pc.Position.Y > entityManager.Bounds.Bottom)
                             {
-                                movementComponent.Velocity = new Vector2(movementComponent.Velocity.X, -movementComponent.Velocity.Y);
+                                vc.Velocity = new Vector2(vc.Velocity.X, -vc.Velocity.Y);
                             }
-                            if (movementComponent.Position.X < entityManager.Bounds.Left || movementComponent.Position.X > entityManager.Bounds.Right)
+                            if (pc.Position.X < entityManager.Bounds.Left || pc.Position.X > entityManager.Bounds.Right)
                             {
-                                movementComponent.Velocity = new Vector2(-movementComponent.Velocity.X, movementComponent.Velocity.Y);
+                                vc.Velocity = new Vector2(-vc.Velocity.X, vc.Velocity.Y);
                             }
                         }
                     }
-
-                    // Delete entities that are off screen
-                    if (movementComponent.Position.X < entityManager.Bounds.Left - spriteComponent.CurrentFrame.Width
-                        || movementComponent.Position.X - spriteComponent.CurrentFrame.Width > entityManager.Bounds.Right
-                        || movementComponent.Position.Y < entityManager.Bounds.Top - spriteComponent.CurrentFrame.Height
-                        || movementComponent.Position.Y - spriteComponent.CurrentFrame.Height > entityManager.Bounds.Bottom)
+                    if (entity.TryGetComponent<SpriteComponent>(out var sc))
                     {
-                        entitiesToRemove.Add(entity);
+                        // Delete entities that are off screen
+                        if (pc.Position.X < entityManager.Bounds.Left - sc.CurrentFrame.Width
+                            || pc.Position.X - sc.CurrentFrame.Width > entityManager.Bounds.Right
+                            || pc.Position.Y < entityManager.Bounds.Top - sc.CurrentFrame.Height
+                            || pc.Position.Y - sc.CurrentFrame.Height > entityManager.Bounds.Bottom)
+                        {
+                            entitiesToRemove.Add(entity);
+                        }
                     }
                 }
             }

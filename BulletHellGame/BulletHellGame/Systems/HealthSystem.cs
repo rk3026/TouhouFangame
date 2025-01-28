@@ -17,12 +17,12 @@ namespace BulletHellGame.Systems
                     var healthComponent = entity.GetComponent<HealthComponent>();
                     if (healthComponent.CurrentHealth <= 0)
                     {
-                        entitiesToRemove.Add(entity); // Mark for removal
+                        entitiesToRemove.Add(entity);
                     }
                 }
             }
 
-            // After iterating, remove entities that should be destroyed
+            // After iterating, remove entities that should be destroyed (stops the list was modified error)
             foreach (var entity in entitiesToRemove)
             {
                 entityManager.QueueEntityForRemoval(entity);

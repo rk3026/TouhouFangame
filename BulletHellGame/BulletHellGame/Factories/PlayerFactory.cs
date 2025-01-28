@@ -14,10 +14,10 @@ namespace BulletHellGame.Factories
             Entity player = new Entity();
             player.AddComponent(new HealthComponent(playerData.Health));
             player.AddComponent(new SpriteComponent(spriteData));
-            player.AddComponent(new HitboxComponent(player, 2)); // Layer 2 = players and their bullets
             player.AddComponent(new SpeedComponent(playerData.MovementSpeed, playerData.FocusedSpeed));
             player.AddComponent(new PlayerInputComponent());
-            player.AddComponent(new MovementComponent());
+            player.AddComponent(new PositionComponent());
+            player.AddComponent(new VelocityComponent());
 
             // Setting up and adding a weapon
             BulletData bd = new BulletData();
@@ -28,6 +28,10 @@ namespace BulletHellGame.Factories
             wc.FireDirections.Add(new Vector2(0, -5));
             player.AddComponent(wc);
 
+            // Set the hitbox:
+            HitboxComponent hc = new HitboxComponent(player, 2);
+            hc.Hitbox = new Vector2(16, 16);
+            player.AddComponent(hc);
             return player;
         }
     }

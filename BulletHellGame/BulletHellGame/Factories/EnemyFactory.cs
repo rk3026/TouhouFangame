@@ -13,10 +13,10 @@ namespace BulletHellGame.Factories
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(enemyData.SpriteName);
             Entity enemy = new Entity();
-            enemy.AddComponent(new HitboxComponent(enemy, 1)); // Layer 1 for enemies and enemy bullets.
             enemy.AddComponent(new HealthComponent(enemyData.Health));
             enemy.AddComponent(new SpriteComponent(spriteData));
-            enemy.AddComponent(new MovementComponent());
+            enemy.AddComponent(new PositionComponent());
+            enemy.AddComponent(new VelocityComponent());
             enemy.AddComponent(new MovementPatternComponent(enemyData.MovementPattern));
 
             // Setting up and adding a weapon
@@ -28,6 +28,11 @@ namespace BulletHellGame.Factories
             wc.FireDirections.Add(new Vector2(0, 5));
             wc.FireRate = 10f;
             enemy.AddComponent(wc);
+
+            // Set the hitbox:
+            HitboxComponent hc = new HitboxComponent(enemy, 1);
+            hc.Hitbox = new Vector2(enemy.GetComponent<SpriteComponent>().CurrentFrame.Width, enemy.GetComponent<SpriteComponent>().CurrentFrame.Width);
+            enemy.AddComponent(hc);
             return enemy;
         }
     }

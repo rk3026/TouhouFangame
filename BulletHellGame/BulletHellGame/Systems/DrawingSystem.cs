@@ -20,43 +20,48 @@ namespace BulletHellGame.Systems
         {
             foreach (Entity entity in entityManager.GetActiveEntities())
             {
-                SpriteComponent sc = entity.GetComponent<SpriteComponent>();
-                MovementComponent mc = entity.GetComponent<MovementComponent>();
-                SpriteData spriteData = sc.SpriteData;
-                if (mc.Velocity.X > 0)
+                if (entity.TryGetComponent<SpriteComponent>(out var sc) &&
+                    entity.TryGetComponent<PositionComponent>(out var pc) &&
+                    entity.TryGetComponent<VelocityComponent>(out var vc)) 
                 {
-                    sc.SpriteEffect = SpriteEffects.FlipHorizontally;
-                }
-                else if (mc.Velocity.X < 0)
-                {
-                    sc.SpriteEffect = SpriteEffects.None;
-                }
-
-                // Switch animations if player is moving (definitely want to refactor to separate animations vs sprites)
-                if (entity.HasComponent<PlayerInputComponent>())
-                {
-                    var playerInputComponent = entity.GetComponent<PlayerInputComponent>();
-                    if (playerInputComponent.IsMovingLeft || playerInputComponent.IsMovingRight)
+                    SpriteData spriteData = sc.SpriteData;
+                    if (vc.Velocity.X > 0)
                     {
-                        entity.GetComponent<SpriteComponent>().SwitchAnimation("MoveLeft", false);
+                        sc.SpriteEffect = SpriteEffects.FlipHorizontally;
                     }
-                    else
+                    else if (vc.Velocity.X < 0)
                     {
-                        entity.GetComponent<SpriteComponent>().SwitchAnimation("Idle");
+                        sc.SpriteEffect = SpriteEffects.None;
                     }
-                }
 
-                spriteBatch.Draw(
-                    spriteData.Texture,
-                    mc.Position,
-                    sc.CurrentFrame,
-                    sc.Color,
-                    sc.Rotation,
-                    spriteData.Origin,
-                    sc.Scale,
-                    sc.SpriteEffect,
-                    0f
-                );
+                    // Switch animations if player is moving (definitely want to refactor to separate animations vs sprites)
+                    if (entity.HasComponent<PlayerInputComponent>())
+                    {
+                        var playerInputComponent = entity.GetComponent<PlayerInputComponent>();
+                        if (playerInputComponent.IsMovingLeft || playerInputComponent.IsMovingRight)
+                        {
+                            entity.GetComponent<SpriteComponent>().SwitchAnimation("MoveLeft", false);
+                        }
+                        else
+                        {
+                            entity.GetComponent<SpriteComponent>().SwitchAnimation("Idle");
+                        }
+                    }
+
+                    Vector2 spritePosition = new Vector2(pc.Position.X - (sc.CurrentFrame.Width / 2), pc.Position.Y - (sc.CurrentFrame.Height / 2));
+
+                    spriteBatch.Draw(
+                        spriteData.Texture,
+                        spritePosition,
+                        sc.CurrentFrame,
+                        sc.Color,
+                        sc.Rotation,
+                        spriteData.Origin,
+                        sc.Scale,
+                        sc.SpriteEffect,
+                        0f
+                    );
+                }
             }
         }
     }

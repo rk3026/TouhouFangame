@@ -12,28 +12,25 @@ namespace BulletHellGame.Systems
             List<Entity> entities = entityManager.GetActiveEntities().ToList();
             foreach (Entity entity in entities)
             {
-                if (!entity.HasComponent<HomingComponent>()) continue;
-
-                HomingComponent homingComponent = entity.GetComponent<HomingComponent>();
-                MovementComponent movementComponent = entity.GetComponent<MovementComponent>();
-
-                if (movementComponent == null) continue;
-
-                Entity currentTarget = homingComponent.CurrentTarget;
-
-                // Check if current target is valid or find a new one
-                if (currentTarget == null || !currentTarget.IsActive || !IsWithinRange(entity.GetComponent<MovementComponent>().Position, currentTarget.GetComponent<MovementComponent>().Position, homingComponent.HomingRange))
+                if (entity.TryGetComponent<HomingComponent>(out var hc) &&
+                    entity.TryGetComponent<PositionComponent>(out var pc) &&
+                    entity.TryGetComponent<VelocityComponent>(out var vc))
                 {
-                    currentTarget = FindNewTarget(entityManager, entity.GetComponent<MovementComponent>().Position, homingComponent.HomingRange);
-                    homingComponent.CurrentTarget = currentTarget;
-                }
+                    Entity currentTarget = hc.CurrentTarget;
 
-                // Adjust the bullet's direction if a valid target is found
-                if (currentTarget != null && currentTarget.IsActive)
-                {
-                    AdjustDirectionTowardsTarget(entity, currentTarget, homingComponent, movementComponent, gameTime);
-                }
+                    // Check if current target is valid or find a new one
+                    if (currentTarget == null || !currentTarget.IsActive || !IsWithinRange(pc.Position, currentTarget.GetComponent<PositionComponent>().Position, hc.HomingRange))
+                    {
+                        currentTarget = FindNewTarget(entityManager, pc.Position, hc.HomingRange);
+                        hc.CurrentTarget = currentTarget;
+                    }
 
+                    // Adjust the bullet's direction if a valid target is found
+                    if (currentTarget != null && currentTarget.IsActive)
+                    {
+                        AdjustDirectionTowardsTarget(entity, currentTarget, hc, pc, vc, gameTime);
+                    }
+                }
             }
         }
 
@@ -50,7 +47,7 @@ namespace BulletHellGame.Systems
             {
                 if (target.IsActive)
                 {
-                    float distanceSquared = Vector2.DistanceSquared(target.GetComponent<MovementComponent>().Position, bulletPosition);
+                    float distanceSquared = Vector2.DistanceSquared(target.GetComponent<PositionComponent>().Position, bulletPosition);
                     if (distanceSquared < closestDistanceSquared)
                     {
                         closestDistanceSquared = distanceSquared;
@@ -67,9 +64,9 @@ namespace BulletHellGame.Systems
             return Vector2.DistanceSquared(position1, position2) <= range * range;
         }
 
-        private void AdjustDirectionTowardsTarget(Entity bullet, Entity target, HomingComponent homingComponent, MovementComponent movementComponent, GameTime gameTime)
+        private void AdjustDirectionTowardsTarget(Entity bullet, Entity target, HomingComponent homingComponent, PositionComponent positionComponent, VelocityComponent velocityComponent, GameTime gameTime)
         {
-            Vector2 directionToTarget = target.GetComponent<MovementComponent>().Position - bullet.GetComponent<MovementComponent>().Position;
+            Vector2 directionToTarget = target.GetComponent<PositionComponent>().Position - bullet.GetComponent<PositionComponent>().Position;
             if (directionToTarget.LengthSquared() > 0)
             {
                 directionToTarget.Normalize();
@@ -78,16 +75,16 @@ namespace BulletHellGame.Systems
             Vector2 desiredVelocity = directionToTarget * homingComponent.MaxHomingSpeed;
 
             // Smoothly interpolate toward the desired velocity
-            movementComponent.Velocity = Vector2.Lerp(
-                movementComponent.Velocity,
+            velocityComponent.Velocity = Vector2.Lerp(
+                velocityComponent.Velocity,
                 desiredVelocity,
                 homingComponent.HomingStrength * (float)gameTime.ElapsedGameTime.TotalSeconds
             );
 
             // Clamp to maximum speed
-            if (movementComponent.Velocity.LengthSquared() > homingComponent.MaxHomingSpeed * homingComponent.MaxHomingSpeed)
+            if (velocityComponent.Velocity.LengthSquared() > homingComponent.MaxHomingSpeed * homingComponent.MaxHomingSpeed)
             {
-                movementComponent.Velocity = Vector2.Normalize(movementComponent.Velocity) * homingComponent.MaxHomingSpeed;
+                velocityComponent.Velocity = Vector2.Normalize(velocityComponent.Velocity) * homingComponent.MaxHomingSpeed;
             }
         }
     }

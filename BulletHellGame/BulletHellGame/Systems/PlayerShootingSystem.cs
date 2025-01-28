@@ -11,29 +11,27 @@ namespace BulletHellGame.Systems
 
             foreach (var entity in entityManager.GetActiveEntities())
             {
-                if (!entity.HasComponent<WeaponComponent>())
-                    continue;
-
-                WeaponComponent weaponComponent = entity.GetComponent<WeaponComponent>();
-                MovementComponent movementComponent = entity.GetComponent<MovementComponent>();
-
-                // Update shot cooldown
-                weaponComponent.TimeSinceLastShot += deltaTime;
-
-                // Check if the entity can shoot and is attempting to shoot
-                if (entity.HasComponent<PlayerInputComponent>())
+                if (entity.TryGetComponent<WeaponComponent>(out var wc) &&
+                    entity.TryGetComponent<PositionComponent>(out var pc))
                 {
-                    var playerInputComponent = entity.GetComponent<PlayerInputComponent>();
+                    // Update shot cooldown
+                    wc.TimeSinceLastShot += deltaTime;
 
-                    if (playerInputComponent.IsShooting && weaponComponent.CanShoot())
+                    // Check if the entity can shoot and is attempting to shoot
+                    if (entity.HasComponent<PlayerInputComponent>())
                     {
-                        foreach (Vector2 firingDirection in weaponComponent.FireDirections)
-                        {
-                            entityManager.SpawnBullet(weaponComponent.bulletData, movementComponent.Position, 2, firingDirection, entity);
-                        }
+                        var playerInputComponent = entity.GetComponent<PlayerInputComponent>();
 
-                        // Reset cooldown after shooting
-                        weaponComponent.TimeSinceLastShot = 0f;
+                        if (playerInputComponent.IsShooting && wc.CanShoot())
+                        {
+                            foreach (Vector2 firingDirection in wc.FireDirections)
+                            {
+                                entityManager.SpawnBullet(wc.bulletData, pc.Position, 2, firingDirection, entity);
+                            }
+
+                            // Reset cooldown after shooting
+                            wc.TimeSinceLastShot = 0f;
+                        }
                     }
                 }
             }

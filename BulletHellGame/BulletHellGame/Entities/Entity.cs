@@ -29,9 +29,10 @@ namespace BulletHellGame.Entities
                 component.Reset();
             }
 
-            MovementComponent mc = GetComponent<MovementComponent>();
-            mc.Position = position;
-            mc.Velocity = velocity;
+            PositionComponent pc = GetComponent<PositionComponent>();
+            VelocityComponent vc = GetComponent<VelocityComponent>();
+            pc.Position = position;
+            vc.Velocity = velocity;
         }
 
         public void AddComponent(IComponent component)

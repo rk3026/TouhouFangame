@@ -40,32 +40,23 @@ namespace BulletHellGame.Systems
             // Precompute the hitboxes for entities with the relevant components
             foreach (var entity in entityManager.GetActiveEntities().Where(e => e.HasComponent<HitboxComponent>()))
             {
-                if (entity.TryGetComponent<HitboxComponent>(out var hitboxComponent) &&
-                    entity.TryGetComponent<MovementComponent>(out var movementComponent) &&
-                    entity.TryGetComponent<SpriteComponent>(out var spriteComponent))
+                if (entity.TryGetComponent<HitboxComponent>(out var hc) &&
+                    entity.TryGetComponent<PositionComponent>(out var pc))
                 {
-                    // Update hitbox position based on movement
-                    hitboxComponent.Hitbox = new Rectangle(
-                        (int)movementComponent.Position.X,
-                        (int)movementComponent.Position.Y,
-                        spriteComponent.CurrentFrame.Width,
-                        spriteComponent.CurrentFrame.Height
-                    );
-
                     // Insert the hitbox into the appropriate grid cells
-                    InsertIntoGrid(hitboxComponent);
+                    InsertIntoGrid(hc, pc);
                 }
             }
 
             DoCollisionLogic(entityManager);
         }
 
-        private void InsertIntoGrid(HitboxComponent hitboxComponent)
+        private void InsertIntoGrid(HitboxComponent hc, PositionComponent pc)
         {
-            int minX = hitboxComponent.Hitbox.Left;
-            int minY = hitboxComponent.Hitbox.Top;
-            int maxX = hitboxComponent.Hitbox.Right;
-            int maxY = hitboxComponent.Hitbox.Bottom;
+            int minX = (int)(pc.Position.X - (hc.Hitbox.X / 2));
+            int minY = (int)(pc.Position.Y - (hc.Hitbox.Y / 2));
+            int maxX = (int)(pc.Position.X + (hc.Hitbox.X / 2));
+            int maxY = (int)(pc.Position.Y + (hc.Hitbox.Y / 2));
 
             int lowCol = minX / CELL_WIDTH;
             int highCol = maxX / CELL_WIDTH;
@@ -81,7 +72,7 @@ namespace BulletHellGame.Systems
                     {
                         hitboxGrid[gridKey] = new List<HitboxComponent>();
                     }
-                    hitboxGrid[gridKey].Add(hitboxComponent);
+                    hitboxGrid[gridKey].Add(hc);
                 }
             }
         }
@@ -101,7 +92,12 @@ namespace BulletHellGame.Systems
                         var hitboxB = hitboxes[j];
                         if (hitboxA.Layer == hitboxB.Layer) continue; // Don't collide if on same layer
 
-                        if (hitboxA.Hitbox.Intersects(hitboxB.Hitbox))
+                        Vector2 hitAPos = hitboxA.Owner.GetComponent<PositionComponent>().Position;
+                        Vector2 hitBPos = hitboxB.Owner.GetComponent<PositionComponent>().Position;
+                        Rectangle rectA = new Rectangle((int)(hitAPos.X - (hitboxA.Hitbox.X / 2)), (int)(hitAPos.Y - (hitboxA.Hitbox.Y / 2)), (int)hitboxA.Hitbox.X, (int)hitboxA.Hitbox.Y);
+                        Rectangle rectB = new Rectangle((int)(hitBPos.X - (hitboxB.Hitbox.X / 2)), (int)(hitBPos.Y - (hitboxB.Hitbox.Y / 2)), (int)hitboxB.Hitbox.X, (int)hitboxB.Hitbox.Y);
+
+                        if (rectA.Intersects(rectB))
                         {
                             ApplyCollision(entityManager, hitboxA.Owner, hitboxB.Owner);
                         }
