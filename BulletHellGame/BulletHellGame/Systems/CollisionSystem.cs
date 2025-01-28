@@ -94,11 +94,12 @@ namespace BulletHellGame.Systems
                 var hitboxes = cell.Value;
                 for (int i = 0; i < hitboxes.Count; i++)
                 {
-                    for (int j = i + 1; j < hitboxes.Count; j++) // Avoid redundant checks
+                    for (int j = 0; j < hitboxes.Count; j++)
                     {
+                        if (i==j) continue; // Don't check the same hitbox
                         var hitboxA = hitboxes[i];
                         var hitboxB = hitboxes[j];
-                        if (hitboxA.Layer == hitboxB.Layer) continue;
+                        if (hitboxA.Layer == hitboxB.Layer) continue; // Don't collide if on same layer
 
                         if (hitboxA.Hitbox.Intersects(hitboxB.Hitbox))
                         {
