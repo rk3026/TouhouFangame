@@ -11,13 +11,23 @@ namespace BulletHellGame.Factories
 
         public Entity CreateEnemy(EnemyData enemyData)
         {
-            SpriteData spriteData = TextureManager.Instance.GetSpriteData("FairyBlue");
+            SpriteData spriteData = TextureManager.Instance.GetSpriteData(enemyData.SpriteName);
             Entity enemy = new Entity();
-            enemy.AddComponent(new HitboxComponent(enemy, 2));
-            enemy.AddComponent(new HealthComponent());
+            enemy.AddComponent(new HitboxComponent(enemy, 1)); // Layer 1 for enemies and enemy bullets.
+            enemy.AddComponent(new HealthComponent(enemyData.Health));
             enemy.AddComponent(new SpriteComponent(spriteData));
             enemy.AddComponent(new MovementComponent());
-            enemy.AddComponent(new MovementPatternComponent("zigzag"));
+            enemy.AddComponent(new MovementPatternComponent(enemyData.MovementPattern));
+
+            // Setting up and adding a weapon
+            BulletData bd = new BulletData();
+            bd.SpriteData = TextureManager.Instance.GetSpriteData("Reimu.WhiteBullet");
+            bd.Damage = 25;
+            bd.BulletType = BulletType.Standard;
+            WeaponComponent wc = new WeaponComponent(bd);
+            wc.FireDirections.Add(new Vector2(0, 5));
+            wc.FireRate = 10f;
+            enemy.AddComponent(wc);
             return enemy;
         }
     }

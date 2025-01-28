@@ -84,11 +84,12 @@ namespace BulletHellGame.Managers
         }
 
         /// <summary>
-        /// Gets a SpriteData by name.
+        /// Gets a SpriteName by name.
         /// </summary>
         public SpriteData GetSpriteData(string spriteName)
         {
-            return _sprites.TryGetValue(spriteName, out var spriteInfo) ? spriteInfo : null;
+            if (String.IsNullOrEmpty(spriteName)) return GetDefaultSpriteData();
+            return _sprites.TryGetValue(spriteName, out var spriteInfo) ? spriteInfo : GetDefaultSpriteData();
         }
 
         public void SetDefaultTexture(Texture2D texture)

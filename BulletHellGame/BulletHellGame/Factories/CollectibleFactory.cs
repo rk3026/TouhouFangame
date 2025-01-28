@@ -13,7 +13,7 @@ namespace BulletHellGame.Factories
             Entity collectible = new Entity();
             collectible.AddComponent(new SpriteComponent());
             collectible.AddComponent(new MovementComponent());
-            collectible.AddComponent(new HitboxComponent(collectible, 3));
+            collectible.AddComponent(new HitboxComponent(collectible, 3)); // Layer 3 for collectible layer.
             collectible.AddComponent(new ScoreComponent());
             return collectible;
         }

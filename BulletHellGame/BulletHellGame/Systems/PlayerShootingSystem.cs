@@ -3,7 +3,7 @@ using BulletHellGame.Managers;
 
 namespace BulletHellGame.Systems
 {
-    public class ShootingSystem : ISystem
+    public class PlayerShootingSystem : ISystem
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
@@ -29,7 +29,7 @@ namespace BulletHellGame.Systems
                     {
                         foreach (Vector2 firingDirection in weaponComponent.FireDirections)
                         {
-                            entityManager.SpawnBullet(weaponComponent.bulletData, movementComponent.Position, firingDirection, entity);
+                            entityManager.SpawnBullet(weaponComponent.bulletData, movementComponent.Position, 2, firingDirection, entity);
                         }
 
                         // Reset cooldown after shooting

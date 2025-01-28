@@ -132,7 +132,7 @@ public class SpriteComponent : IComponent
 
         if (!SpriteData.HasAnimation(animationName))
         {
-            throw new ArgumentException($"Animation '{animationName}' not found in the SpriteData.");
+            throw new ArgumentException($"Animation '{animationName}' not found in the SpriteName.");
         }
 
         _currentAnimation = animationName;

@@ -4,7 +4,7 @@ namespace BulletHellGame.Components
 {
     public class HitboxComponent : IComponent
     {
-        public int Layer { get; set; } // 1 = bullets, 2 = enemies, 3 = collectibles, 4 = player
+        public int Layer { get; set; } // 1 = enemies and enemy bullets, 2 = player and player bullets, 3 = collectibles,
         public Rectangle Hitbox { get; set; } = Rectangle.Empty;
         public Entity Owner { get; private set; }
 
@@ -12,7 +12,6 @@ namespace BulletHellGame.Components
         {
             Owner = owner;
             Layer = layer;
-
         }
 
     }

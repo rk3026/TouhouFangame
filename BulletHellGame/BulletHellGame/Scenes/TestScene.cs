@@ -40,7 +40,8 @@ namespace BulletHellGame.Scenes
             _systemManager.AddSystem(new HealthSystem());
             _systemManager.AddSystem(new MovementSystem());
             _systemManager.AddSystem(new PlayerInputSystem());
-            _systemManager.AddSystem(new ShootingSystem());
+            _systemManager.AddSystem(new PlayerShootingSystem());
+            _systemManager.AddSystem(new EnemyShootingSystem());
             _systemManager.AddSystem(new DrawingSystem());
             _systemManager.AddSystem(new HomingSystem());
             _systemManager.AddSystem(new MovementPatternSystem());
@@ -99,14 +100,11 @@ namespace BulletHellGame.Scenes
                         spawnY = MathHelper.Clamp(spawnY, playableArea.Top, playableArea.Bottom);
 
                         EnemyData enemyData = new EnemyData();
+                        enemyData.SpriteName = "FairyBlue";
                         enemyData.SpawnPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
                         enemyData.StartPosition = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 2);
                         enemyData.ExitPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
-                        enemyData.MovementPattern = MovementPattern.Zigzag;
-                        BulletPatternData bpd = new BulletPatternData();
-                        bpd.FireRate = 0.5f;
-                        bpd.Speed = 50f;
-                        enemyData.BulletPattern = bpd;
+                        enemyData.MovementPattern = "zigzag";
                         enemyData.Health = 100;
                         enemyData.Type = EnemyType.FairyBlue;
 

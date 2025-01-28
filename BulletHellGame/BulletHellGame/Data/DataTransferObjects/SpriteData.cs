@@ -22,7 +22,7 @@
                 return frames;
             }
 
-            throw new ArgumentException($"Animation '{animationName}' not found in SpriteData.");
+            throw new ArgumentException($"Animation '{animationName}' not found in SpriteName.");
         }
 
         // Check if an animation exists

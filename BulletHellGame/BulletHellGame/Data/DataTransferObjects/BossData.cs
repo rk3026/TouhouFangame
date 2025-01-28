@@ -2,6 +2,6 @@
 {
     public class BossData : EnemyData
     {
-        public List<BossPhaseData> Phases { get; set; }
+        public Dictionary<int, BossPhaseData> Phases { get; set; } // int = health threshold where it reaches that phase.
     }
 }

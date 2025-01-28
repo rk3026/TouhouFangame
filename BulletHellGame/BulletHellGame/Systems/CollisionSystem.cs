@@ -20,11 +20,6 @@ namespace BulletHellGame.Systems
             if (owner.TryGetComponent<HealthComponent>(out var health) &&
                 other.TryGetComponent<DamageComponent>(out var damage))
             {
-                if (other.TryGetComponent<OwnerComponent>(out var otherOwner) &&
-                    otherOwner.Owner == owner)
-                {
-                    return; // Owned things don't apply damage to their owner
-                }
 
                 // Apply damage if no ownership conflict exists
                 health.TakeDamage(damage.CalculateDamage());

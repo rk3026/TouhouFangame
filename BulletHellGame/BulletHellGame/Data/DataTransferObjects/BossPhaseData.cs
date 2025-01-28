@@ -2,7 +2,7 @@
 {
     public class BossPhaseData
     {
-        public int HealthThreshold { get; set; }
-        public List<BulletPatternData> BulletPatterns { get; set; }
+        public int Speed { get; set; }
+        public ShootingPatternData ShootingPattern { get; set; }
     }
 }

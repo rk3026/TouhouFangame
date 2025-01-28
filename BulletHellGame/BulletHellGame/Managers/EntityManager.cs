@@ -96,7 +96,7 @@ namespace BulletHellGame.Managers
             }
         }
 
-        public void SpawnBullet(BulletData bulletData, Vector2 position, Vector2 velocity = default, Entity owner = null)
+        public void SpawnBullet(BulletData bulletData, Vector2 position, int layer, Vector2 velocity = default, Entity owner = null)
         {
             Entity entity = null;
 
@@ -112,7 +112,7 @@ namespace BulletHellGame.Managers
 
             if (entity != null)
             {
-                entity.AddComponent(new OwnerComponent(owner));
+                entity.GetComponent<HitboxComponent>().Layer = layer;
                 _activeBullets.Add(entity);
                 entity.Activate(position, velocity);
             }
