@@ -3,26 +3,23 @@ using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 
-namespace BulletHellGame.Systems
+namespace BulletHellGame.Systems.RenderingSystems
 {
-    public class DrawingSystem : ISystem
+    public class SpriteRenderingSystem : IRenderingSystem
     {
-        public void Update(EntityManager entityManager, GameTime gameTime)
-        {
-            foreach (Entity entity in entityManager.GetActiveEntities())
-            {
-                SpriteComponent sc = entity.GetComponent<SpriteComponent>();
-                sc.Update(gameTime);
-            }
-        }
+        public int DrawPriority => 1;
 
+        private GraphicsDevice _graphicsDevice;
+        public SpriteRenderingSystem(GraphicsDevice gd) {
+            _graphicsDevice = gd;
+        }
         public void Draw(EntityManager entityManager, SpriteBatch spriteBatch)
         {
             foreach (Entity entity in entityManager.GetActiveEntities())
             {
                 if (entity.TryGetComponent<SpriteComponent>(out var sc) &&
                     entity.TryGetComponent<PositionComponent>(out var pc) &&
-                    entity.TryGetComponent<VelocityComponent>(out var vc)) 
+                    entity.TryGetComponent<VelocityComponent>(out var vc))
                 {
                     SpriteData spriteData = sc.SpriteData;
                     if (vc.Velocity.X > 0)
@@ -48,7 +45,7 @@ namespace BulletHellGame.Systems
                         }
                     }
 
-                    Vector2 spritePosition = new Vector2(pc.Position.X - (sc.CurrentFrame.Width / 2), pc.Position.Y - (sc.CurrentFrame.Height / 2));
+                    Vector2 spritePosition = new Vector2(pc.Position.X - sc.CurrentFrame.Width / 2, pc.Position.Y - sc.CurrentFrame.Height / 2);
 
                     spriteBatch.Draw(
                         spriteData.Texture,

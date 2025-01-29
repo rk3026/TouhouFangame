@@ -2,9 +2,9 @@
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 
-namespace BulletHellGame.Systems
+namespace BulletHellGame.Systems.LogicSystems
 {
-    public class HealthSystem : ISystem
+    public class HealthSystem : ILogicSystem
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {

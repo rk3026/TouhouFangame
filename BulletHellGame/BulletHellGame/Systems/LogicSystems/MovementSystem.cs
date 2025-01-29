@@ -2,9 +2,9 @@
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 
-namespace BulletHellGame.Systems
+namespace BulletHellGame.Systems.LogicSystems
 {
-    public class MovementSystem : ISystem
+    public class MovementSystem : ILogicSystem
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
@@ -19,7 +19,7 @@ namespace BulletHellGame.Systems
                     pc.Position += vc.Velocity;
 
                     // Bounce off walls if it has health
-                    if (entity.HasComponent<HealthComponent>())
+                    if (entity.HasComponent<HealthComponent>() && !entity.HasComponent<PlayerInputComponent>())
                     {
                         if (!entityManager.Bounds.Contains(pc.Position))
                         {

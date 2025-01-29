@@ -3,9 +3,9 @@ using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 using System.Linq;
 
-namespace BulletHellGame.Systems
+namespace BulletHellGame.Systems.LogicSystems
 {
-    public class CollisionSystem : ISystem
+    public class CollisionSystem : ILogicSystem
     {
         private const int CELL_WIDTH = 100;
         private Dictionary<(int, int), List<HitboxComponent>> hitboxGrid;
@@ -53,10 +53,10 @@ namespace BulletHellGame.Systems
 
         private void InsertIntoGrid(HitboxComponent hc, PositionComponent pc)
         {
-            int minX = (int)(pc.Position.X - (hc.Hitbox.X / 2));
-            int minY = (int)(pc.Position.Y - (hc.Hitbox.Y / 2));
-            int maxX = (int)(pc.Position.X + (hc.Hitbox.X / 2));
-            int maxY = (int)(pc.Position.Y + (hc.Hitbox.Y / 2));
+            int minX = (int)(pc.Position.X - hc.Hitbox.X / 2);
+            int minY = (int)(pc.Position.Y - hc.Hitbox.Y / 2);
+            int maxX = (int)(pc.Position.X + hc.Hitbox.X / 2);
+            int maxY = (int)(pc.Position.Y + hc.Hitbox.Y / 2);
 
             int lowCol = minX / CELL_WIDTH;
             int highCol = maxX / CELL_WIDTH;
@@ -87,15 +87,15 @@ namespace BulletHellGame.Systems
                 {
                     for (int j = 0; j < hitboxes.Count; j++)
                     {
-                        if (i==j) continue; // Don't check the same hitbox
+                        if (i == j) continue; // Don't check the same hitbox
                         var hitboxA = hitboxes[i];
                         var hitboxB = hitboxes[j];
                         if (hitboxA.Layer == hitboxB.Layer) continue; // Don't collide if on same layer
 
                         Vector2 hitAPos = hitboxA.Owner.GetComponent<PositionComponent>().Position;
                         Vector2 hitBPos = hitboxB.Owner.GetComponent<PositionComponent>().Position;
-                        Rectangle rectA = new Rectangle((int)(hitAPos.X - (hitboxA.Hitbox.X / 2)), (int)(hitAPos.Y - (hitboxA.Hitbox.Y / 2)), (int)hitboxA.Hitbox.X, (int)hitboxA.Hitbox.Y);
-                        Rectangle rectB = new Rectangle((int)(hitBPos.X - (hitboxB.Hitbox.X / 2)), (int)(hitBPos.Y - (hitboxB.Hitbox.Y / 2)), (int)hitboxB.Hitbox.X, (int)hitboxB.Hitbox.Y);
+                        Rectangle rectA = new Rectangle((int)(hitAPos.X - hitboxA.Hitbox.X / 2), (int)(hitAPos.Y - hitboxA.Hitbox.Y / 2), (int)hitboxA.Hitbox.X, (int)hitboxA.Hitbox.Y);
+                        Rectangle rectB = new Rectangle((int)(hitBPos.X - hitboxB.Hitbox.X / 2), (int)(hitBPos.Y - hitboxB.Hitbox.Y / 2), (int)hitboxB.Hitbox.X, (int)hitboxB.Hitbox.Y);
 
                         if (rectA.Intersects(rectB))
                         {

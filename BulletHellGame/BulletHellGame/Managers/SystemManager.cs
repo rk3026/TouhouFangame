@@ -1,30 +1,81 @@
 ﻿using BulletHellGame.Systems;
+using BulletHellGame.Systems.RenderingSystems;
 using System.Linq;
+using System.Reflection;
 
 namespace BulletHellGame.Managers
 {
     public class SystemManager
     {
-        private List<ISystem> _systems;
+        private bool _debugging;
+        private List<ILogicSystem> _logicSystems;
+        private List<IRenderingSystem> _renderingSystems;
 
-        public SystemManager()
+        public SystemManager(GraphicsDevice graphicsDevice, bool debugging = false)
         {
-            _systems = new List<ISystem>();
+            _debugging = debugging;
+            _logicSystems = new List<ILogicSystem>();
+            _renderingSystems = new List<IRenderingSystem>();
+
+            // Dynamically load logic systems
+            LoadSystems<ILogicSystem>("BulletHellGame.Systems.LogicSystems");
+
+            // Dynamically load rendering systems
+            LoadSystems<IRenderingSystem>("BulletHellGame.Systems.RenderingSystems", graphicsDevice);
         }
 
-        public void AddSystem(ISystem system)
+        private void LoadSystems<T>(string namespaceName, GraphicsDevice graphicsDevice = null)
         {
-            _systems.Add(system);
+            // Use reflection to load the systems
+            var systemTypes = Assembly.GetExecutingAssembly()
+                                      .GetTypes()
+                                      .Where(t => t.IsClass && !t.IsAbstract && typeof(T).IsAssignableFrom(t))
+                                      .Where(t => t.Namespace == namespaceName)
+                                      .ToList();
+
+            List<T> tempList = new List<T>();
+
+            foreach (var type in systemTypes)
+            {
+                if (typeof(T) == typeof(IRenderingSystem) && graphicsDevice != null)
+                {
+                    // Skip adding DebugRenderingSystem if debugging is disabled
+                    if (!_debugging && type == typeof(DebugRenderingSystem))
+                        continue;
+
+                    var system = Activator.CreateInstance(type, graphicsDevice) as IRenderingSystem;
+                    if (system != null)
+                    {
+                        tempList.Add((T)system);
+                    }
+                }
+                else if (typeof(T) == typeof(ILogicSystem))
+                {
+                    var system = Activator.CreateInstance(type) as ILogicSystem;
+                    if (system != null)
+                    {
+                        tempList.Add((T)system);
+                    }
+                }
+            }
+
+            // Sort rendering systems by drawing priority (lower = draw first)
+            if (typeof(T) == typeof(IRenderingSystem))
+            {
+                _renderingSystems = tempList.Cast<IRenderingSystem>()
+                                            .OrderBy(s => s.DrawPriority)
+                                            .ToList();
+            }
+            else
+            {
+                _logicSystems = tempList.Cast<ILogicSystem>().ToList();
+            }
         }
 
-        public void RemoveSystem(ISystem system)
-        {
-            _systems.Remove(system);
-        }
 
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            foreach (var system in _systems)
+            foreach (var system in _logicSystems)
             {
                 system.Update(entityManager, gameTime);
             }
@@ -32,16 +83,9 @@ namespace BulletHellGame.Managers
 
         public void Draw(EntityManager entityManager, SpriteBatch spriteBatch)
         {
-            var drawingSystem = _systems.OfType<DrawingSystem>().FirstOrDefault();
-            if (drawingSystem != null)
+            foreach (var system in _renderingSystems)
             {
-                drawingSystem.Draw(entityManager, spriteBatch);
-            }
-
-            var debugRenderingSystem = _systems.OfType<DebugRenderingSystem>().FirstOrDefault();
-            if (debugRenderingSystem != null)
-            {
-                debugRenderingSystem.Draw(entityManager, spriteBatch);
+                system.Draw(entityManager, spriteBatch);
             }
         }
     }

@@ -67,17 +67,18 @@ namespace BulletHellGame.Managers
             if (_activeBullets.Contains(entity))
             {
                 _activeBullets.Remove(entity);
-                ReturnEntityToPool(_bulletPool, entity, MAX_BULLET_POOL_SIZE);
+                // Turn off pooling for now:
+                //ReturnEntityToPool(_bulletPool, entity, MAX_BULLET_POOL_SIZE);
             }
             else if (_activeCollectibles.Contains(entity))
             {
                 _activeCollectibles.Remove(entity);
-                ReturnEntityToPool(_collectiblePool, entity, MAX_COLLECTIBLE_POOL_SIZE);
+                //ReturnEntityToPool(_collectiblePool, entity, MAX_COLLECTIBLE_POOL_SIZE);
             }
             else if (_activeEnemies.Contains(entity))
             {
                 _activeEnemies.Remove(entity);
-                ReturnEntityToPool(_enemyPool, entity, MAX_ENEMY_POOL_SIZE);
+                //ReturnEntityToPool(_enemyPool, entity, MAX_ENEMY_POOL_SIZE);
             }
         }
 

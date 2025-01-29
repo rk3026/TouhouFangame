@@ -2,10 +2,12 @@
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 
-namespace BulletHellGame.Systems
+namespace BulletHellGame.Systems.RenderingSystems
 {
-    public class DebugRenderingSystem : ISystem
+    public class DebugRenderingSystem : IRenderingSystem
     {
+        public int DrawPriority => 2;
+
         private GraphicsDevice _graphicsDevice;
         private Texture2D _pixel;
 
@@ -16,11 +18,6 @@ namespace BulletHellGame.Systems
             // Create a 1x1 pixel texture for drawing outlines
             _pixel = new Texture2D(_graphicsDevice, 1, 1);
             _pixel.SetData(new Color[] { Color.White });
-        }
-
-        public void Update(EntityManager entityManager, GameTime gameTime)
-        {
-            // Your update logic (if needed)
         }
 
         public void Draw(EntityManager entityManager, SpriteBatch spriteBatch)
@@ -41,10 +38,10 @@ namespace BulletHellGame.Systems
                     int outlineThickness = 2; // Set the thickness of the outline
 
                     // Draw the outline (four lines for the edges of the hitbox)
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, width, outlineThickness), Color.Red); // Top
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y + height - outlineThickness, width, outlineThickness), Color.Red); // Bottom
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, outlineThickness, height), Color.Red); // Left
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X + width - outlineThickness, (int)position.Y, outlineThickness, height), Color.Red); // Right
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, width, outlineThickness), Color.Cyan); // Top
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y + height - outlineThickness, width, outlineThickness), Color.LightPink); // Bottom
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, outlineThickness, height), Color.BlueViolet); // Left
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X + width - outlineThickness, (int)position.Y, outlineThickness, height), Color.Salmon); // Right
                 }
             }
         }

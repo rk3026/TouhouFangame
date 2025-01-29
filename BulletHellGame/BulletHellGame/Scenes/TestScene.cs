@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
-using BulletHellGame.Systems;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
 
@@ -9,6 +8,7 @@ namespace BulletHellGame.Scenes
 {
     public class TestScene : IScene
     {
+        private bool DEBUGGING = true;
         private EntityManager _entityManager;
         private SystemManager _systemManager;
         private ContentManager _contentManager;
@@ -35,17 +35,7 @@ namespace BulletHellGame.Scenes
             this._entityManager = new EntityManager(this.playableArea);
 
             // Set up system manager and systems:
-            this._systemManager = new SystemManager();
-            _systemManager.AddSystem(new CollisionSystem());
-            _systemManager.AddSystem(new HealthSystem());
-            _systemManager.AddSystem(new MovementSystem());
-            _systemManager.AddSystem(new PlayerInputSystem());
-            _systemManager.AddSystem(new PlayerShootingSystem());
-            _systemManager.AddSystem(new EnemyShootingSystem());
-            _systemManager.AddSystem(new DrawingSystem());
-            _systemManager.AddSystem(new HomingSystem());
-            _systemManager.AddSystem(new MovementPatternSystem());
-            _systemManager.AddSystem(new DebugRenderingSystem(this._graphicsDevice));
+            this._systemManager = new SystemManager(this._graphicsDevice, DEBUGGING);
 
             // Set the player:
             PlayerData pd = new PlayerData();

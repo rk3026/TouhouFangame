@@ -3,9 +3,9 @@ using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 using System.Linq;
 
-namespace BulletHellGame.Systems
+namespace BulletHellGame.Systems.LogicSystems
 {
-    public class PlayerInputSystem : ISystem
+    public class PlayerInputSystem : ILogicSystem
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
@@ -59,15 +59,19 @@ namespace BulletHellGame.Systems
                     vc.Velocity = direction * currentSpeed;
 
                     // Ensure the player stays within bounds
-                    if (pc.Position.X < entityManager.Bounds.Left)
-                        pc.Position = new Vector2(entityManager.Bounds.Left, pc.Position.Y);
-                    else if (pc.Position.X + sc.CurrentFrame.Width > entityManager.Bounds.Right)
-                        pc.Position = new Vector2(entityManager.Bounds.Right - sc.CurrentFrame.Width, pc.Position.Y);
+                    float halfWidth = sc.CurrentFrame.Width / 2f;
+                    float halfHeight = sc.CurrentFrame.Height / 2f;
 
-                    if (pc.Position.Y < entityManager.Bounds.Top)
-                        pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Top);
-                    else if (pc.Position.Y + sc.CurrentFrame.Height > entityManager.Bounds.Bottom)
-                        pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Bottom - sc.CurrentFrame.Height);
+                    if (pc.Position.X - halfWidth < entityManager.Bounds.Left)
+                        pc.Position = new Vector2(entityManager.Bounds.Left + halfWidth, pc.Position.Y);
+                    else if (pc.Position.X + halfWidth > entityManager.Bounds.Right)
+                        pc.Position = new Vector2(entityManager.Bounds.Right - halfWidth, pc.Position.Y);
+
+                    if (pc.Position.Y - halfHeight < entityManager.Bounds.Top)
+                        pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Top + halfHeight);
+                    else if (pc.Position.Y + halfHeight > entityManager.Bounds.Bottom)
+                        pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Bottom - halfHeight);
+
                 }
             }
         }

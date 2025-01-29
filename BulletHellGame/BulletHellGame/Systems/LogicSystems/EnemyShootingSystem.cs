@@ -1,9 +1,9 @@
 ﻿using BulletHellGame.Components;
 using BulletHellGame.Managers;
 
-namespace BulletHellGame.Systems
+namespace BulletHellGame.Systems.LogicSystems
 {
-    public class EnemyShootingSystem : ISystem
+    public class EnemyShootingSystem : ILogicSystem
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {

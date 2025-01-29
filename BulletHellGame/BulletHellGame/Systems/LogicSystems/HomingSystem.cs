@@ -3,9 +3,9 @@ using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 using System.Linq;
 
-namespace BulletHellGame.Systems
+namespace BulletHellGame.Systems.LogicSystems
 {
-    public class HomingSystem : ISystem
+    public class HomingSystem : ILogicSystem
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
