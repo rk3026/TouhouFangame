@@ -1,11 +1,13 @@
 ﻿using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Managers;
 using BulletHellGame.Scenes;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
 
 public class MainMenuScene : IScene
 {
+    private GameTime _gameTime;
     private Texture2D whitePixel;
     private SpriteData background;
     private ContentManager _contentManager;
@@ -32,6 +34,7 @@ public class MainMenuScene : IScene
 
     public void Update(GameTime gameTime)
     {
+        _gameTime = gameTime;
         // Update the menu logic (input handling, selection, etc.)
         if (InputManager.Instance.KeyPressed(Keys.W) && selectedIndex > 0)
             selectedIndex--;
@@ -69,14 +72,22 @@ public class MainMenuScene : IScene
 
             if (i == selectedIndex)
             {
-                // Draw a box around the selected option
+                // Animate the box
+                float time = (float)(_gameTime?.TotalGameTime.TotalSeconds ?? 0f);
+                float offsetX = (float)Math.Sin(time * 5) * 3; // Oscillation effect
+                float offsetY = (float)Math.Cos(time * 5) * 3; // Oscillation effect
+                float rotation = (float)Math.Sin(time * 3) * 0.1f; // Small rotation effect
+
+                // Draw a box around the selected option with the animation
                 var textSize = FontManager.Instance.GetFont("DFPPOPCorn-W12").MeasureString(menuOptions[i]);
-                var boxPosition = position - new Vector2(5, 5);
+                var boxPosition = position - new Vector2(5, 5) + new Vector2(offsetX, offsetY);
                 var boxSize = new Vector2(textSize.X + 10, textSize.Y + 10);
+
+                // Draw the box with rotation
                 spriteBatch.Draw(whitePixel, new Rectangle((int)boxPosition.X, (int)boxPosition.Y, (int)boxSize.X, (int)boxSize.Y), Color.White);
 
                 // Outline effect for selected option
-                DrawOutlinedText(spriteBatch, menuOptions[i], position, Color.Black, 2);
+                DrawOutlinedText(spriteBatch, menuOptions[i], position + new Vector2(offsetX, offsetY), Color.Black, 2);
             }
 
             // Draw the actual menu option text
@@ -84,6 +95,7 @@ public class MainMenuScene : IScene
             spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), menuOptions[i], position, textColor);
         }
     }
+
 
     // Helper function to draw outlined text
     private void DrawOutlinedText(SpriteBatch spriteBatch, string text, Vector2 position, Color outlineColor, int outlineWidth)

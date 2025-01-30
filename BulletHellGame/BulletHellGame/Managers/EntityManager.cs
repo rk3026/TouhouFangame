@@ -20,6 +20,7 @@ namespace BulletHellGame.Managers
         private const int MAX_BULLET_POOL_SIZE = 300;
         private const int MAX_ENEMY_POOL_SIZE = 100;
         private const int MAX_COLLECTIBLE_POOL_SIZE = 100;
+        private const int MAX_PLAYER_POOL_SIZE = 5;
 
         // Pools for reusable entities
         private readonly Queue<Entity> _enemyPool = new();
@@ -30,7 +31,7 @@ namespace BulletHellGame.Managers
         private readonly List<Entity> _activeEnemies = new();
         private readonly List<Entity> _activeBullets = new();
         private readonly List<Entity> _activeCollectibles = new();
-        private Entity _playerCharacter;
+        private readonly List<Entity> _activePlayers = new();
 
         public EntityManager(Rectangle bounds)
         {
@@ -48,13 +49,13 @@ namespace BulletHellGame.Managers
 
         public int GetCollectibleCount() => _activeCollectibles.Count;
 
-        public int GetPlayerCount() => 1;
+        public int GetPlayerCount() => _activePlayers.Count;
 
         public List<Entity> GetActiveEntities()
         {
             return _activeEnemies.Concat<Entity>(_activeBullets)
                                  .Concat<Entity>(_activeCollectibles)
-                                 .Concat(new[] { _playerCharacter })
+                                 .Concat<Entity>(_activePlayers).Where(x => x != null)
                                  .ToList();
         }
 
@@ -79,6 +80,11 @@ namespace BulletHellGame.Managers
             {
                 _activeEnemies.Remove(entity);
                 //ReturnEntityToPool(_enemyPool, entity, MAX_ENEMY_POOL_SIZE);
+            }
+            else if (_activePlayers.Contains(entity))
+            {
+                _activePlayers.Remove(entity);
+                //ReturnEntityToPool(_playerPool, entity, MAX_PLAYER_POOL_SIZE);
             }
         }
 
@@ -160,10 +166,11 @@ namespace BulletHellGame.Managers
             }
         }
 
-        public void SetPlayerCharacter(PlayerData playerData)
+        public void SpawnPlayer(PlayerData playerData)
         {
-            this._playerCharacter = _playerFactory.CreatePlayer(playerData);
-            _playerCharacter.Activate(new Vector2(Bounds.Width / 2, Bounds.Height - (Bounds.Height / 10)), Vector2.Zero);
+            Entity player = _playerFactory.CreatePlayer(playerData);
+            _activePlayers.Add(player);
+            player.Activate(new Vector2(Bounds.Width / 2, Bounds.Height - (Bounds.Height / 10)), Vector2.Zero);
         }
 
     }

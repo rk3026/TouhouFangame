@@ -25,14 +25,14 @@ namespace BulletHellGame.Systems.RenderingSystems
             foreach (Entity entity in entityManager.GetActiveEntities())
             {
                 if (entity.TryGetComponent<PositionComponent>(out var pc) &&
-                    entity.TryGetComponent<HitboxComponent>(out var hc))
+                    entity.TryGetComponent<HitboxComponent>(out var hbc))
                 {
                     // Get the width and height of the hitbox
-                    int width = (int)hc.Hitbox.X;
-                    int height = (int)hc.Hitbox.Y;
+                    int width = (int)hbc.Hitbox.X;
+                    int height = (int)hbc.Hitbox.Y;
 
                     // Calculate the position (centered on the entity's position)
-                    Vector2 position = new Vector2(pc.Position.X - hc.Hitbox.X / 2, pc.Position.Y - hc.Hitbox.Y / 2);
+                    Vector2 position = new Vector2(pc.Position.X - width / 2, pc.Position.Y - height / 2);
 
                     // Increase the thickness of the outline by changing the width and height of the lines
                     int outlineThickness = 2; // Set the thickness of the outline
@@ -43,7 +43,37 @@ namespace BulletHellGame.Systems.RenderingSystems
                     spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, outlineThickness, height), Color.BlueViolet); // Left
                     spriteBatch.Draw(_pixel, new Rectangle((int)position.X + width - outlineThickness, (int)position.Y, outlineThickness, height), Color.Salmon); // Right
                 }
+
+                // Draw Health Bar
+                if (entity.TryGetComponent<HealthComponent>(out var hc) &&
+                    entity.TryGetComponent<SpriteComponent>(out var sc))
+                {
+                    // Health Bar Dimensions
+                    int healthBarWidth = (int)sc.CurrentFrame.Width; // Match hitbox width
+                    int healthBarHeight = 7; // Fixed height for visibility
+
+                    // Position the health bar just below the entity
+                    Vector2 healthBarPosition = new Vector2(pc.Position.X - healthBarWidth / 2,
+                                                            pc.Position.Y + sc.CurrentFrame.Height / 2 + 5);
+
+                    // Calculate health percentage
+                    float healthPercentage = (float)hc.CurrentHealth / hc.MaxHealth;
+                    int filledWidth = (int)(healthBarWidth * healthPercentage);
+
+                    // Background (Empty health bar)
+                    spriteBatch.Draw(_pixel, new Rectangle((int)healthBarPosition.X,
+                                                           (int)healthBarPosition.Y,
+                                                           healthBarWidth,
+                                                           healthBarHeight), Color.Red);
+
+                    // Filled (Current health)
+                    spriteBatch.Draw(_pixel, new Rectangle((int)healthBarPosition.X,
+                                                           (int)healthBarPosition.Y,
+                                                           filledWidth,
+                                                           healthBarHeight), Color.Green);
+                }
             }
         }
+
     }
 }

@@ -1,0 +1,113 @@
+﻿using BulletHellGame.Managers;
+using Microsoft.Xna.Framework.Content;
+
+namespace BulletHellGame.Scenes
+{
+    public class PausedScene : IScene
+    {
+        private Texture2D whitePixel;
+        private int selectedIndex;
+        private string[] menuOptions = { "Resume", "Settings", "Exit to Main Menu" };
+        private ContentManager _contentManager;
+        private GraphicsDevice _graphicsDevice;
+
+        public PausedScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
+        {
+            this._contentManager = contentManager;
+            this._graphicsDevice = graphicsDevice;
+        }
+
+        public void Load()
+        {
+            FontManager.Instance.LoadFont(_contentManager, "DFPPOPCorn-W12");
+
+            // Create a 1x1 white pixel texture for the background
+            whitePixel = new Texture2D(_graphicsDevice, 1, 1);
+            whitePixel.SetData(new Color[] { Color.White });
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            // Navigation
+            if (InputManager.Instance.KeyPressed(Keys.W) && selectedIndex > 0)
+                selectedIndex--;
+            if (InputManager.Instance.KeyPressed(Keys.S) && selectedIndex < menuOptions.Length - 1)
+                selectedIndex++;
+
+            if (InputManager.Instance.KeyPressed(Keys.Enter))
+            {
+                switch (selectedIndex)
+                {
+                    case 0:
+                        // Resume Game
+                        SceneManager.Instance.RemoveScene();
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        // Exit to Main Menu
+                        SceneManager.Instance.ClearScenes();
+                        SceneManager.Instance.AddScene(new MainMenuScene(_contentManager, _graphicsDevice));
+                        break;
+                }
+            }
+
+            if (InputManager.Instance.KeyPressed(Keys.Escape))
+            {
+                SceneManager.Instance.RemoveScene();
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            // Get window size
+            int screenWidth = Globals.WindowSize.X;
+            int screenHeight = Globals.WindowSize.Y;
+
+            // Semi-transparent overlay
+            spriteBatch.Draw(whitePixel, new Rectangle(0, 0, screenWidth, screenHeight), Color.Black * 0.5f);
+
+            // Define the menu box size
+            int boxWidth = screenWidth / 2;
+            int boxHeight = screenHeight / 2;
+            int boxX = (screenWidth - boxWidth) / 2;
+            int boxY = (screenHeight - boxHeight) / 2;
+
+            // Draw background box
+            spriteBatch.Draw(whitePixel, new Rectangle(boxX, boxY, boxWidth, boxHeight), Color.Black * 0.9f);
+
+            // Draw menu options
+            for (int i = 0; i < menuOptions.Length; i++)
+            {
+                Vector2 textSize = FontManager.Instance.GetFont("DFPPOPCorn-W12").MeasureString(menuOptions[i]);
+                Vector2 position = new Vector2(boxX + (boxWidth - textSize.X) / 2, boxY + 50 + i * 50);
+
+                if (i == selectedIndex)
+                {
+                    // Highlight box
+                    spriteBatch.Draw(whitePixel, new Rectangle((int)position.X - 10, (int)position.Y - 5, (int)textSize.X + 20, (int)textSize.Y + 10), Color.White);
+
+                    // Draw outline effect
+                    DrawOutlinedText(spriteBatch, menuOptions[i], position, Color.Black, 2);
+                }
+
+                // Draw the text
+                Color textColor = (i == selectedIndex) ? Color.Red : Color.White;
+                spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), menuOptions[i], position, textColor);
+            }
+        }
+
+        private void DrawOutlinedText(SpriteBatch spriteBatch, string text, Vector2 position, Color outlineColor, int outlineWidth)
+        {
+            for (int x = -outlineWidth; x <= outlineWidth; x++)
+            {
+                for (int y = -outlineWidth; y <= outlineWidth; y++)
+                {
+                    if (x == 0 && y == 0) continue;
+
+                    spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), text, position + new Vector2(x, y), outlineColor);
+                }
+            }
+        }
+    }
+}

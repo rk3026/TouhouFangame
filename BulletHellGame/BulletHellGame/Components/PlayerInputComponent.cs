@@ -2,25 +2,23 @@
 {
     public class PlayerInputComponent : IComponent
     {
-        // Store key states for movement
+        // Movements
         public bool IsMovingUp { get; set; }
         public bool IsMovingDown { get; set; }
         public bool IsMovingLeft { get; set; }
         public bool IsMovingRight { get; set; }
 
-        // Store action states (e.g., for shooting, using abilities)
+        // Action states
         public bool IsShooting { get; set; }
-        public bool IsJumping { get; set; }
-        public bool IsInteracting { get; set; }
 
-        // Store state for special modes (e.g., focused mode)
+        // Player Modes
         public bool IsFocused { get; set; }
 
-        // Store any other player input-related states you may need
+        // Keyboard states
         public KeyboardState PreviousKeyboardState { get; set; }
         public KeyboardState CurrentKeyboardState { get; set; }
 
-        // Optionally, you can track input history for more advanced features
+        // Input history (maybe useful later?)
         public List<Keys> PressedKeys { get; set; }
 
         public PlayerInputComponent()

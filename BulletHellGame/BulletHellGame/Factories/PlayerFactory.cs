@@ -30,7 +30,7 @@ namespace BulletHellGame.Factories
 
             // Set the hitbox:
             HitboxComponent hc = new HitboxComponent(player, 2);
-            hc.Hitbox = new Vector2(16, 16);
+            hc.Hitbox = new Vector2(4, 4);
             player.AddComponent(hc);
             return player;
         }

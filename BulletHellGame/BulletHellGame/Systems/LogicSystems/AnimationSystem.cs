@@ -9,8 +9,10 @@ namespace BulletHellGame.Systems.LogicSystems
         {
             foreach (Entity entity in entityManager.GetActiveEntities())
             {
-                SpriteComponent sc = entity.GetComponent<SpriteComponent>();
-                sc.Update(gameTime);
+                if (entity.TryGetComponent<SpriteComponent>(out var sc))
+                {
+                    sc.Update(gameTime);
+                }
             }
         }
     }

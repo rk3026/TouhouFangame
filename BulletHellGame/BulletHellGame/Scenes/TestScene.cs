@@ -9,21 +9,29 @@ namespace BulletHellGame.Scenes
     public class TestScene : IScene
     {
         private bool DEBUGGING = true;
+
+        // Managers and Graphics:
         private EntityManager _entityManager;
         private SystemManager _systemManager;
         private ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
 
+        // Scene Assets:
         private SpriteData background;
         private SpriteData bush1Sprite;
         private SpriteData bush2Sprite;
         private Texture2D whitePixel;
 
+        // Scene Data:
         private float scrollOffset = 0f;
         private const float scrollSpeed = 100f; // Pixels per second
         private float stageTime = 0f; // Timer to track stage duration
         private Rectangle playableArea;
         private Rectangle uiArea;
+
+        // Retry Menu:
+        private int retrySelectedIndex = 0;
+        private string[] retryOptions = { "Yes", "No" };
 
         public TestScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
@@ -34,7 +42,7 @@ namespace BulletHellGame.Scenes
             this._graphicsDevice = graphicsDevice;
             this._entityManager = new EntityManager(this.playableArea);
 
-            // Set up system manager and systems:
+            // Set up system manager:
             this._systemManager = new SystemManager(this._graphicsDevice, DEBUGGING);
 
             // Set the player:
@@ -44,7 +52,7 @@ namespace BulletHellGame.Scenes
             pd.MovementSpeed = 7f;
             pd.FocusedSpeed = 3f;
             pd.Health = 100;
-            this._entityManager.SetPlayerCharacter(pd);
+            this._entityManager.SpawnPlayer(pd);
         }
 
         public void Load()
@@ -63,6 +71,13 @@ namespace BulletHellGame.Scenes
         {
             // Update all entities
             _systemManager.Update(_entityManager, gameTime);
+
+            // Pause the game if ESC is pressed
+            if (InputManager.Instance.KeyPressed(Keys.Escape))
+            {
+                SceneManager.Instance.AddScene(new PausedScene(this._contentManager, this._graphicsDevice));
+                return;
+            }
 
             // Update scroll offset based on time elapsed
             scrollOffset = (scrollOffset + (float)(scrollSpeed * gameTime.ElapsedGameTime.TotalSeconds)) % bush1Sprite.Animations.First().Value.First().Height;
@@ -101,6 +116,30 @@ namespace BulletHellGame.Scenes
 
                         _entityManager.SpawnEnemy(enemyData, new Vector2(spawnX, spawnY));
 
+                    }
+                }
+            }
+
+            // Retry Menu:
+            if (_entityManager.GetPlayerCount() == 0)
+            {
+                if (InputManager.Instance.KeyPressed(Keys.W) && retrySelectedIndex > 0)
+                    retrySelectedIndex--;
+                if (InputManager.Instance.KeyPressed(Keys.S) && retrySelectedIndex < retryOptions.Length - 1)
+                    retrySelectedIndex++;
+
+                if (InputManager.Instance.KeyPressed(Keys.Enter))
+                {
+                    if (retrySelectedIndex == 0)
+                    {
+                        // Logic to restart the test scene
+                        SceneManager.Instance.RemoveScene();
+                        SceneManager.Instance.AddScene(new TestScene(_contentManager, _graphicsDevice));
+                    }
+                    else
+                    {
+                        // Logic to return to main menu
+                        SceneManager.Instance.RemoveScene();
                     }
                 }
             }
@@ -158,6 +197,12 @@ namespace BulletHellGame.Scenes
 
             // Draw UI elements (this area is reserved for the right part of the screen)
             DrawUI(spriteBatch);
+
+            // Draw retry menu if player is null
+            if (_entityManager.GetPlayerCount() == 0)
+            {
+                DrawRetryMenu(spriteBatch);
+            }
         }
 
 
@@ -187,5 +232,54 @@ namespace BulletHellGame.Scenes
             position.Y += 20;
             spriteBatch.DrawString(font, $"Stage Time: {stageTime:F1}", position, Color.White);
         }
+
+        private void DrawRetryMenu(SpriteBatch spriteBatch)
+        {
+            SpriteFont font = FontManager.Instance.GetFont("DFPPOPCorn-W12");
+            string message = "Retry?";
+
+            Vector2 centerScreen = new Vector2(Globals.WindowSize.X / 2, Globals.WindowSize.Y / 2);
+            Vector2 messageSize = font.MeasureString(message);
+            Vector2 messagePos = centerScreen - messageSize / 2;
+
+            // Determine the full size of the menu box
+            float maxWidth = messageSize.X;
+            float totalHeight = messageSize.Y;
+
+            Vector2[] optionPositions = new Vector2[retryOptions.Length];
+
+            for (int i = 0; i < retryOptions.Length; i++)
+            {
+                Vector2 optionSize = font.MeasureString(retryOptions[i]);
+                if (optionSize.X > maxWidth)
+                    maxWidth = optionSize.X; // Keep track of the widest text
+
+                optionPositions[i] = centerScreen + new Vector2(0, (i + 1) * 40) - optionSize / 2;
+                totalHeight += optionSize.Y + 20; // Adding spacing
+            }
+
+            // Rectangle Padding
+            Vector2 padding = new Vector2(40, 30);
+            Rectangle backgroundRect = new Rectangle(
+                (int)(centerScreen.X - (maxWidth / 2) - padding.X / 2),
+                (int)(messagePos.Y - padding.Y / 2),
+                (int)(maxWidth + padding.X),
+                (int)(totalHeight + padding.Y)
+            );
+
+            // Draw background rectangle (semi-transparent black)
+            spriteBatch.Draw(whitePixel, backgroundRect, Color.Black * 0.7f);
+
+            // Draw text
+            spriteBatch.DrawString(font, message, messagePos, Color.White);
+
+            for (int i = 0; i < retryOptions.Length; i++)
+            {
+                Color color = (i == retrySelectedIndex) ? Color.Yellow : Color.White;
+                spriteBatch.DrawString(font, retryOptions[i], optionPositions[i], color);
+            }
+        }
+
+
     }
 }

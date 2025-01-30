@@ -14,14 +14,16 @@ namespace BulletHellGame.Systems.LogicSystems
             {
                 if (entity.TryGetComponent<HomingComponent>(out var hc) &&
                     entity.TryGetComponent<PositionComponent>(out var pc) &&
-                    entity.TryGetComponent<VelocityComponent>(out var vc))
+                    entity.TryGetComponent<VelocityComponent>(out var vc) &&
+                    entity.TryGetComponent<HitboxComponent>(out var hbc)
+                    )
                 {
                     Entity currentTarget = hc.CurrentTarget;
 
                     // Check if current target is valid or find a new one
                     if (currentTarget == null || !currentTarget.IsActive || !IsWithinRange(pc.Position, currentTarget.GetComponent<PositionComponent>().Position, hc.HomingRange))
                     {
-                        currentTarget = FindNewTarget(entityManager, pc.Position, hc.HomingRange);
+                        currentTarget = FindNewTarget(entityManager, hbc.Layer, pc.Position, hc.HomingRange);
                         hc.CurrentTarget = currentTarget;
                     }
 
@@ -34,11 +36,17 @@ namespace BulletHellGame.Systems.LogicSystems
             }
         }
 
-        private Entity FindNewTarget(EntityManager entityManager, Vector2 bulletPosition, float homingRange)
+        private Entity FindNewTarget(EntityManager entityManager, int layer, Vector2 bulletPosition, float homingRange)
         {
-            List<Entity> potentialTargets = entityManager.GetActiveEntities()
-                .Where(entity => entity.HasComponent<HealthComponent>() && !entity.HasComponent<PlayerInputComponent>())
-                .ToList();
+            List<Entity> potentialTargets = new List<Entity>();
+            foreach (Entity entity in entityManager.GetActiveEntities())
+            {
+                if (entity.TryGetComponent<HitboxComponent>(out  var hbc) && entity.TryGetComponent<HealthComponent>(out var hc))
+                {
+                    if (hbc.Layer == layer) continue;
+                    potentialTargets.Add(entity);
+                }
+            }
 
             float closestDistanceSquared = homingRange * homingRange;
             Entity closestTarget = null;

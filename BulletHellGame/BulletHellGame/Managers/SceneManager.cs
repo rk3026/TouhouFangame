@@ -1,3 +1,6 @@
+using BulletHellGame.Scenes;
+using System.Linq;
+
 namespace BulletHellGame.Managers
 {
     public class SceneManager
@@ -60,6 +63,11 @@ namespace BulletHellGame.Managers
             }
         }
 
+        public void ClearScenes()
+        {
+            _sceneStack.Clear();
+        }
+
         public IScene GetCurrentScene()
         {
             return _sceneStack.Count > 0 ? _sceneStack.Peek() : null;
@@ -108,9 +116,29 @@ namespace BulletHellGame.Managers
             }
             else
             {
-                // Draw the current scene
+                // If the top is a pause screen, also draw the scene below it
+                if (_sceneStack.Count > 1 && _sceneStack.Peek() is PausedScene)
+                {
+                    _sceneStack.ElementAt(_sceneStack.Count - 2)?.Draw(spriteBatch);
+                }
                 _sceneStack.Peek()?.Draw(spriteBatch);
             }
+
+            // Debugging: Draw the scene stack count and the scene names
+            string debugText = $"Scene Stack Count: {_sceneStack.Count}";
+            Vector2 debugPosition = new Vector2(10, 10);
+            Vector2 outlineOffset = new Vector2(3, 3);
+            spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), debugText, debugPosition + outlineOffset, Color.Black);
+            spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), debugText, debugPosition, Color.White);
+            debugPosition.Y += 20;
+            foreach (var scene in _sceneStack)
+            {
+                string sceneName = scene.GetType().Name;
+                spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), sceneName, debugPosition + outlineOffset, Color.Black);
+                spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), sceneName, debugPosition, Color.White);
+                debugPosition.Y += 20;
+            }
         }
+
     }
 }
