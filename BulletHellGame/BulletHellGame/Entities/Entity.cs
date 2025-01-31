@@ -35,6 +35,11 @@ namespace BulletHellGame.Entities
             vc.Velocity = velocity;
         }
 
+        public List<IComponent> GetComponents()
+        {
+            return _components;
+        }
+
         public void AddComponent(IComponent component)
         {
             _components.Add(component);

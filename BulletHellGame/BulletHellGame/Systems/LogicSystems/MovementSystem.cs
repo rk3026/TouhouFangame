@@ -10,7 +10,7 @@ namespace BulletHellGame.Systems.LogicSystems
         {
             List<Entity> entitiesToRemove = new List<Entity>();  // Collect entities to remove
 
-            foreach (var entity in entityManager.GetActiveEntities())
+            foreach (var entity in entityManager.GetEntitiesWithComponent<VelocityComponent>())
             {
                 if (entity.TryGetComponent<VelocityComponent>(out var vc) &&
                 entity.TryGetComponent<PositionComponent>(out var pc))

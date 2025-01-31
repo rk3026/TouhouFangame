@@ -15,7 +15,7 @@ namespace BulletHellGame.Systems.RenderingSystems
         }
         public void Draw(EntityManager entityManager, SpriteBatch spriteBatch)
         {
-            foreach (Entity entity in entityManager.GetActiveEntities())
+            foreach (Entity entity in entityManager.GetEntitiesWithComponent<SpriteComponent>())
             {
                 if (entity.TryGetComponent<SpriteComponent>(out var sc) &&
                     entity.TryGetComponent<PositionComponent>(out var pc) &&

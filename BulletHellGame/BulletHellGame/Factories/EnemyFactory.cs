@@ -2,11 +2,14 @@
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
+using System;
 
 namespace BulletHellGame.Factories
 {
     public class EnemyFactory
     {
+        private Random _random = new Random();
+
         public EnemyFactory() { }
 
         public Entity CreateEnemy(EnemyData enemyData)
@@ -22,17 +25,21 @@ namespace BulletHellGame.Factories
             // Setting up and adding a weapon
             BulletData bd = new BulletData();
             bd.SpriteData = TextureManager.Instance.GetSpriteData("Reimu.WhiteBullet");
-            bd.Damage = 25;
+            bd.Damage = _random.Next(20, 30);  // Randomized damage between 20-30
             bd.BulletType = BulletType.Standard;
+
             WeaponComponent wc = new WeaponComponent(bd);
-            wc.FireDirections.Add(new Vector2(0, 5));
-            wc.FireRate = 10f;
+            wc.FireRate = (float)_random.NextDouble() * 5f + 5f; // Random fire rate between 5-10 shots per second
+            wc.FireDirections.Add(new Vector2(_random.Next(-2, 3), _random.Next(1, 4))); // Random direction within a range
+
             enemy.AddComponent(wc);
 
             // Set the hitbox:
             HitboxComponent hc = new HitboxComponent(enemy, 1);
-            hc.Hitbox = new Vector2(enemy.GetComponent<SpriteComponent>().CurrentFrame.Width, enemy.GetComponent<SpriteComponent>().CurrentFrame.Width);
+            float spriteWidth = enemy.GetComponent<SpriteComponent>().CurrentFrame.Width;
+            hc.Hitbox = new Vector2(spriteWidth, spriteWidth);
             enemy.AddComponent(hc);
+
             return enemy;
         }
     }

@@ -1,7 +1,8 @@
 ﻿namespace BulletHellGame.Data.DataTransferObjects
 {
-    public class BossData : EnemyData
+    public class BossData
     {
-        public Dictionary<int, BossPhaseData> Phases { get; set; } // int = health threshold where it reaches that phase.
+        public BossData() { }
+        public List<EnemyData> Phases { get; set; }
     }
 }

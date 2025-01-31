@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Components;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
-using System.Linq;
 
 namespace BulletHellGame.Systems.LogicSystems
 {
@@ -38,7 +37,7 @@ namespace BulletHellGame.Systems.LogicSystems
             hitboxGrid.Clear();
 
             // Precompute the hitboxes for entities with the relevant components
-            foreach (var entity in entityManager.GetActiveEntities().Where(e => e.HasComponent<HitboxComponent>()))
+            foreach (var entity in entityManager.GetEntitiesWithComponent<HitboxComponent>())
             {
                 if (entity.TryGetComponent<HitboxComponent>(out var hc) &&
                     entity.TryGetComponent<PositionComponent>(out var pc))
