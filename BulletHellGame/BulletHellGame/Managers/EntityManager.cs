@@ -124,6 +124,7 @@ namespace BulletHellGame.Managers
         public void SpawnBullet(BulletData bulletData, Vector2 position, int layer, Vector2 velocity = default, Entity owner = null)
         {
             Entity bullet = _bulletFactory.CreateBullet(bulletData);
+            bullet.AddComponent(new OwnerComponent(owner));
             if (bullet != null)
             {
                 bullet.GetComponent<HitboxComponent>().Layer = layer;

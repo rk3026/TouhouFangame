@@ -8,8 +8,6 @@ namespace BulletHellGame.Scenes
 {
     public class TestScene : IScene
     {
-        private bool DEBUGGING = true;
-
         // Managers and Graphics:
         private EntityManager _entityManager;
         private SystemManager _systemManager;
@@ -43,7 +41,7 @@ namespace BulletHellGame.Scenes
             this._entityManager = new EntityManager(this.playableArea);
 
             // Set up system manager:
-            this._systemManager = new SystemManager(this._graphicsDevice, DEBUGGING);
+            this._systemManager = new SystemManager(this._graphicsDevice);
 
             // Set the player:
             PlayerData pd = new PlayerData();
@@ -72,8 +70,7 @@ namespace BulletHellGame.Scenes
             // Update all entities
             _systemManager.Update(_entityManager, gameTime);
 
-            // Pause the game if ESC is pressed
-            if (InputManager.Instance.KeyPressed(Keys.Escape))
+            if (InputManager.Instance.ActionPressed(GameAction.Pause))
             {
                 SceneManager.Instance.AddScene(new PausedScene(this._contentManager, this._graphicsDevice));
                 return;
@@ -154,12 +151,12 @@ namespace BulletHellGame.Scenes
             // Retry Menu:
             if (_entityManager.GetEntityCount(EntityType.Player) == 0)
             {
-                if (InputManager.Instance.KeyPressed(Keys.W) && retrySelectedIndex > 0)
+                if (InputManager.Instance.ActionPressed(GameAction.Up) && retrySelectedIndex > 0)
                     retrySelectedIndex--;
-                if (InputManager.Instance.KeyPressed(Keys.S) && retrySelectedIndex < retryOptions.Length - 1)
+                if (InputManager.Instance.ActionPressed(GameAction.Down) && retrySelectedIndex < retryOptions.Length - 1)
                     retrySelectedIndex++;
 
-                if (InputManager.Instance.KeyPressed(Keys.Enter))
+                if (InputManager.Instance.ActionPressed(GameAction.Select))
                 {
                     if (retrySelectedIndex == 0)
                     {

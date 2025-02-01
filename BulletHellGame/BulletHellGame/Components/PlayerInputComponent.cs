@@ -14,16 +14,8 @@
         // Player Modes
         public bool IsFocused { get; set; }
 
-        // Keyboard states
-        public KeyboardState PreviousKeyboardState { get; set; }
-        public KeyboardState CurrentKeyboardState { get; set; }
-
-        // Input history (maybe useful later?)
-        public List<Keys> PressedKeys { get; set; }
-
         public PlayerInputComponent()
         {
-            PressedKeys = new List<Keys>();
         }
     }
 }

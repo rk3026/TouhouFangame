@@ -74,6 +74,5 @@ namespace BulletHellGame.Systems.RenderingSystems
                 }
             }
         }
-
     }
 }
