@@ -9,20 +9,16 @@ namespace BulletHellGame.Systems.LogicSystems
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            foreach (var entity in entityManager.GetActiveEntities())
+            foreach (var entity in entityManager.GetEntitiesWithComponent<PlayerInputComponent>())
             {
                 if (entity.TryGetComponent<WeaponComponent>(out var wc) &&
-                    entity.TryGetComponent<PositionComponent>(out var pc))
+                    entity.TryGetComponent<PositionComponent>(out var pc) &&
+                    entity.TryGetComponent<PlayerInputComponent>(out var pic))
                 {
-                    // Update shot cooldown
-                    wc.TimeSinceLastShot += deltaTime;
+                        // Update shot cooldown
+                        wc.TimeSinceLastShot += deltaTime;
 
-                    // Check if the entity can shoot and is attempting to shoot
-                    if (entity.HasComponent<PlayerInputComponent>())
-                    {
-                        var playerInputComponent = entity.GetComponent<PlayerInputComponent>();
-
-                        if (playerInputComponent.IsShooting && wc.CanShoot())
+                        if (pic.IsShooting && wc.CanShoot())
                         {
                             foreach (Vector2 firingDirection in wc.FireDirections)
                             {
@@ -32,7 +28,6 @@ namespace BulletHellGame.Systems.LogicSystems
                             // Reset cooldown after shooting
                             wc.TimeSinceLastShot = 0f;
                         }
-                    }
                 }
             }
         }

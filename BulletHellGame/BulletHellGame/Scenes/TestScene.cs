@@ -8,8 +8,6 @@ namespace BulletHellGame.Scenes
 {
     public class TestScene : IScene
     {
-        private bool DEBUGGING = true;
-
         // Managers and Graphics:
         private EntityManager _entityManager;
         private SystemManager _systemManager;
@@ -43,7 +41,7 @@ namespace BulletHellGame.Scenes
             this._entityManager = new EntityManager(this.playableArea);
 
             // Set up system manager:
-            this._systemManager = new SystemManager(this._graphicsDevice, DEBUGGING);
+            this._systemManager = new SystemManager(this._graphicsDevice);
 
             // Set the player:
             PlayerData pd = new PlayerData();
@@ -72,8 +70,7 @@ namespace BulletHellGame.Scenes
             // Update all entities
             _systemManager.Update(_entityManager, gameTime);
 
-            // Pause the game if ESC is pressed
-            if (InputManager.Instance.KeyPressed(Keys.Escape))
+            if (InputManager.Instance.ActionPressed(GameAction.Pause))
             {
                 SceneManager.Instance.AddScene(new PausedScene(this._contentManager, this._graphicsDevice));
                 return;
@@ -120,15 +117,46 @@ namespace BulletHellGame.Scenes
                 }
             }
 
-            // Retry Menu:
-            if (_entityManager.GetPlayerCount() == 0)
+            if (InputManager.Instance.KeyPressed(Keys.G))
             {
-                if (InputManager.Instance.KeyPressed(Keys.W) && retrySelectedIndex > 0)
+                EnemyData phase1 = new EnemyData();
+                phase1.SpriteName = "Cirno";
+                phase1.SpawnPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
+                phase1.StartPosition = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 2);
+                phase1.ExitPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
+                phase1.MovementPattern = "circular";
+                phase1.Health = 1000;
+                phase1.Type = EnemyType.FairyBlue;
+
+                EnemyData phase2 = new EnemyData();
+                phase2.SpriteName = "Cirno";
+                phase2.SpawnPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
+                phase2.StartPosition = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 2);
+                phase2.ExitPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
+                phase2.MovementPattern = "zigzag";
+                phase2.Health = 1000;
+                phase2.Type = EnemyType.FairyBlue;
+
+                BossData bossData = new BossData();
+                bossData.Phases = new List<EnemyData>() {
+                    phase1,
+                    phase2,
+                };
+
+                Vector2 spawnPos = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 10);
+
+                _entityManager.SpawnBoss(bossData, spawnPos);
+            }
+
+            // Retry Menu:
+            if (_entityManager.GetEntityCount(EntityType.Player) == 0)
+            {
+                if (InputManager.Instance.ActionPressed(GameAction.Up) && retrySelectedIndex > 0)
                     retrySelectedIndex--;
-                if (InputManager.Instance.KeyPressed(Keys.S) && retrySelectedIndex < retryOptions.Length - 1)
+                if (InputManager.Instance.ActionPressed(GameAction.Down) && retrySelectedIndex < retryOptions.Length - 1)
                     retrySelectedIndex++;
 
-                if (InputManager.Instance.KeyPressed(Keys.Enter))
+                if (InputManager.Instance.ActionPressed(GameAction.Select))
                 {
                     if (retrySelectedIndex == 0)
                     {
@@ -199,7 +227,7 @@ namespace BulletHellGame.Scenes
             DrawUI(spriteBatch);
 
             // Draw retry menu if player is null
-            if (_entityManager.GetPlayerCount() == 0)
+            if (_entityManager.GetEntityCount(EntityType.Player) == 0)
             {
                 DrawRetryMenu(spriteBatch);
             }
@@ -218,10 +246,10 @@ namespace BulletHellGame.Scenes
             SpriteFont font = FontManager.Instance.GetFont("DFPPOPCorn-W12");
             Vector2 position = new Vector2(uiArea.Left + 10, uiArea.Top + 10);
 
-            int bulletCount = _entityManager.GetBulletCount();
-            int enemyCount = _entityManager.GetEnemyCount();
-            int collectibleCount = _entityManager.GetCollectibleCount();
-            int characterCount = _entityManager.GetPlayerCount();
+            int bulletCount = _entityManager.GetEntityCount(EntityType.Bullet);
+            int enemyCount = _entityManager.GetEntityCount(EntityType.Enemy);
+            int collectibleCount = _entityManager.GetEntityCount(EntityType.Collectible);
+            int characterCount = _entityManager.GetEntityCount(EntityType.Player);
             spriteBatch.DrawString(font, $"Bullets: {bulletCount}", position, Color.White);
             position.Y += 20;
             spriteBatch.DrawString(font, $"Enemies: {enemyCount}", position, Color.White);

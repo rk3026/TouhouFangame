@@ -7,7 +7,7 @@
         public string Background { get; set; }
         public string Music { get; set; }
         public List<EnemyData> Enemies { get; set; }
-        public BossData SubBoss { get; set; }
-        public BossData Boss { get; set; }
+        public List<EnemyData> SubBossPhases { get; set; }
+        public List<EnemyData> BossPhases { get; set; }
     }
 }

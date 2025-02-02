@@ -35,31 +35,37 @@ public class MainMenuScene : IScene
     public void Update(GameTime gameTime)
     {
         _gameTime = gameTime;
-        // Update the menu logic (input handling, selection, etc.)
-        if (InputManager.Instance.KeyPressed(Keys.W) && selectedIndex > 0)
-            selectedIndex--;
-        if (InputManager.Instance.KeyPressed(Keys.S) && selectedIndex < menuOptions.Length - 1)
-            selectedIndex++;
 
-        if (InputManager.Instance.KeyPressed(Keys.Enter))
+        if (InputManager.Instance.ActionPressed(GameAction.Up))
         {
-            // Handle selection
+            selectedIndex--;
+            if (selectedIndex < 0)
+                selectedIndex = menuOptions.Length - 1; // Wrap to last option
+        }
+        if (InputManager.Instance.ActionPressed(GameAction.Down))
+        {
+            selectedIndex++;
+            if (selectedIndex >= menuOptions.Length)
+                selectedIndex = 0; // Wrap to first option
+        }
+
+        if (InputManager.Instance.ActionPressed(GameAction.Select))
+        {
             switch (selectedIndex)
             {
                 case 0:
-                    // Change the current scene based on input
                     SceneManager.Instance.AddScene(new TestScene(_contentManager, _graphicsDevice));
                     break;
                 case 1:
-                    // Handle Settings
+                    SceneManager.Instance.AddScene(new SettingsScene(_contentManager, _graphicsDevice));
                     break;
                 case 2:
-                    // Exit the game
                     Environment.Exit(0);
                     break;
             }
         }
     }
+
 
     public void Draw(SpriteBatch spriteBatch)
     {

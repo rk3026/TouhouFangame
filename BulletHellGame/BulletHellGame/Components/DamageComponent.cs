@@ -10,7 +10,7 @@ namespace BulletHellGame.Components
     {
         public int BaseDamage { get; private set; }
         public float Multiplier { get; private set; } = 1.0f; // For scaling damage
-        public Func<int, int>? DamageModifier { get; set; } // Optional: Dynamic damage logic
+        public Func<int, int> DamageModifier { get; set; }
 
         public DamageComponent(int baseDamage)
         {

@@ -15,6 +15,8 @@ namespace BulletHellGame.Managers
         private bool _isTransitioning = false;
         private IScene _newScene;
 
+        public IReadOnlyCollection<IScene> SceneStack => _sceneStack;
+
         private SceneManager()
         {
             // Initialize transitions:
@@ -124,14 +126,19 @@ namespace BulletHellGame.Managers
                 _sceneStack.Peek()?.Draw(spriteBatch);
             }
 
+            if (SettingsManager.Instance.Debugging) DrawSceneStackDebug(spriteBatch);
+        }
+
+        private void DrawSceneStackDebug(SpriteBatch spriteBatch)
+        {
             // Debugging: Draw the scene stack count and the scene names
-            string debugText = $"Scene Stack Count: {_sceneStack.Count}";
+            string debugText = $"Scene Stack Count: {SceneManager.Instance.SceneStack.Count}";
             Vector2 debugPosition = new Vector2(10, 10);
             Vector2 outlineOffset = new Vector2(3, 3);
             spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), debugText, debugPosition + outlineOffset, Color.Black);
             spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), debugText, debugPosition, Color.White);
             debugPosition.Y += 20;
-            foreach (var scene in _sceneStack)
+            foreach (var scene in SceneManager.Instance.SceneStack)
             {
                 string sceneName = scene.GetType().Name;
                 spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), sceneName, debugPosition + outlineOffset, Color.Black);
@@ -139,6 +146,5 @@ namespace BulletHellGame.Managers
                 debugPosition.Y += 20;
             }
         }
-
     }
 }

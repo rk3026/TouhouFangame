@@ -29,12 +29,20 @@ namespace BulletHellGame.Scenes
         public void Update(GameTime gameTime)
         {
             // Navigation
-            if (InputManager.Instance.KeyPressed(Keys.W) && selectedIndex > 0)
+            if (InputManager.Instance.ActionPressed(GameAction.Up))
+            {
                 selectedIndex--;
-            if (InputManager.Instance.KeyPressed(Keys.S) && selectedIndex < menuOptions.Length - 1)
+                if (selectedIndex < 0)
+                    selectedIndex = menuOptions.Length - 1; // Wrap to last option
+            }
+            if (InputManager.Instance.ActionPressed(GameAction.Down))
+            {
                 selectedIndex++;
+                if (selectedIndex >= menuOptions.Length)
+                    selectedIndex = 0; // Wrap to first option
+            }
 
-            if (InputManager.Instance.KeyPressed(Keys.Enter))
+            if (InputManager.Instance.ActionPressed(GameAction.Select))
             {
                 switch (selectedIndex)
                 {
@@ -43,6 +51,8 @@ namespace BulletHellGame.Scenes
                         SceneManager.Instance.RemoveScene();
                         break;
                     case 1:
+                        // Go to settings
+                        SceneManager.Instance.AddScene(new SettingsScene(this._contentManager, this._graphicsDevice));
                         break;
                     case 2:
                         // Exit to Main Menu
@@ -52,11 +62,12 @@ namespace BulletHellGame.Scenes
                 }
             }
 
-            if (InputManager.Instance.KeyPressed(Keys.Escape))
+            if (InputManager.Instance.ActionPressed(GameAction.Pause))
             {
                 SceneManager.Instance.RemoveScene();
             }
         }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {

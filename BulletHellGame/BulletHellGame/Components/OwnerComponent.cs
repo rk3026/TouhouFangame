@@ -7,6 +7,7 @@ namespace BulletHellGame.Components
         public OwnerComponent(Entity owner = null) {
             Owner = owner;
         }
+
         public Entity Owner {  get; set; }
     }
 }

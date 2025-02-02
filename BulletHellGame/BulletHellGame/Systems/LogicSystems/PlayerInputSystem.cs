@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Components;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
-using System.Linq;
 
 namespace BulletHellGame.Systems.LogicSystems
 {
@@ -9,9 +8,7 @@ namespace BulletHellGame.Systems.LogicSystems
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            List<Entity> entities = entityManager.GetActiveEntities().ToList();
-
-            foreach (Entity entity in entities)
+            foreach (Entity entity in entityManager.GetEntitiesWithComponent<PlayerInputComponent>())
             {
                 if (entity.TryGetComponent<PlayerInputComponent>(out var pic) &&
                     entity.TryGetComponent<PositionComponent>(out var pc) &&
@@ -20,23 +17,17 @@ namespace BulletHellGame.Systems.LogicSystems
                     entity.TryGetComponent<SpeedComponent>(out var speedComponent)
                     )
                 {
-                    // Update keyboard state
-                    pic.CurrentKeyboardState = Keyboard.GetState();
-
                     // Movement input
-                    pic.IsMovingUp = pic.CurrentKeyboardState.IsKeyDown(Keys.W);
-                    pic.IsMovingDown = pic.CurrentKeyboardState.IsKeyDown(Keys.S);
-                    pic.IsMovingLeft = pic.CurrentKeyboardState.IsKeyDown(Keys.A);
-                    pic.IsMovingRight = pic.CurrentKeyboardState.IsKeyDown(Keys.D);
+                    pic.IsMovingUp = InputManager.Instance.ActionDown(GameAction.Up);
+                    pic.IsMovingDown = InputManager.Instance.ActionDown(GameAction.Down);
+                    pic.IsMovingLeft = InputManager.Instance.ActionDown(GameAction.Left);
+                    pic.IsMovingRight = InputManager.Instance.ActionDown    (GameAction.Right);
 
                     // Action input
-                    pic.IsShooting = pic.CurrentKeyboardState.IsKeyDown(Keys.Space);
+                    pic.IsShooting = InputManager.Instance.ActionDown(GameAction.Shoot);
 
                     // Special mode (focused mode)
-                    pic.IsFocused = pic.CurrentKeyboardState.IsKeyDown(Keys.LeftShift);
-
-                    // Save the current state for comparison in the next update
-                    pic.PreviousKeyboardState = pic.CurrentKeyboardState;
+                    pic.IsFocused = InputManager.Instance.ActionDown(GameAction.Slow);
 
                     // Handle movement based on the input states
                     Vector2 direction = Vector2.Zero;

@@ -7,13 +7,11 @@ namespace BulletHellGame.Managers
 {
     public class SystemManager
     {
-        private bool _debugging;
         private List<ILogicSystem> _logicSystems;
         private List<IRenderingSystem> _renderingSystems;
 
-        public SystemManager(GraphicsDevice graphicsDevice, bool debugging = false)
+        public SystemManager(GraphicsDevice graphicsDevice)
         {
-            _debugging = debugging;
             _logicSystems = new List<ILogicSystem>();
             _renderingSystems = new List<IRenderingSystem>();
 
@@ -39,10 +37,6 @@ namespace BulletHellGame.Managers
             {
                 if (typeof(T) == typeof(IRenderingSystem) && graphicsDevice != null)
                 {
-                    // Skip adding DebugRenderingSystem if debugging is disabled
-                    if (!_debugging && type == typeof(DebugRenderingSystem))
-                        continue;
-
                     var system = Activator.CreateInstance(type, graphicsDevice) as IRenderingSystem;
                     if (system != null)
                     {
@@ -85,6 +79,11 @@ namespace BulletHellGame.Managers
         {
             foreach (var system in _renderingSystems)
             {
+                if (system is DebugRenderingSystem debugRenderingSystem && !SettingsManager.Instance.Debugging)
+                {
+                    continue;
+                }
+
                 system.Draw(entityManager, spriteBatch);
             }
         }

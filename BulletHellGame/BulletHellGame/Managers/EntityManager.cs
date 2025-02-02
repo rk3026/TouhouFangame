@@ -10,168 +10,176 @@ namespace BulletHellGame.Managers
     {
         public Rectangle Bounds { get; set; }
 
+        private readonly Dictionary<EntityType, List<Entity>> _entities = new();
+        private readonly Dictionary<Type, HashSet<Entity>> _componentRegistry = new(); // Stores components and the entities that have it together.
+
         // Factories for entity creation
         private readonly EnemyFactory _enemyFactory;
         private readonly BulletFactory _bulletFactory;
         private readonly CollectibleFactory _collectibleFactory;
         private readonly PlayerFactory _playerFactory;
-
-        // Maximum pool sizes per entity type
-        private const int MAX_BULLET_POOL_SIZE = 300;
-        private const int MAX_ENEMY_POOL_SIZE = 100;
-        private const int MAX_COLLECTIBLE_POOL_SIZE = 100;
-        private const int MAX_PLAYER_POOL_SIZE = 5;
-
-        // Pools for reusable entities
-        private readonly Queue<Entity> _enemyPool = new();
-        private readonly Queue<Entity> _bulletPool = new();
-        private readonly Queue<Entity> _collectiblePool = new();
-
-        // Lists of active entities
-        private readonly List<Entity> _activeEnemies = new();
-        private readonly List<Entity> _activeBullets = new();
-        private readonly List<Entity> _activeCollectibles = new();
-        private readonly List<Entity> _activePlayers = new();
+        private readonly BossFactory _bossFactory;
 
         public EntityManager(Rectangle bounds)
         {
-            this.Bounds = bounds;
-            // Initialize factories
+            Bounds = bounds;
             _enemyFactory = new EnemyFactory();
             _bulletFactory = new BulletFactory();
             _collectibleFactory = new CollectibleFactory();
             _playerFactory = new PlayerFactory();
+            _bossFactory = new BossFactory();
+
+            // Initialize entity lists
+            foreach (EntityType type in Enum.GetValues(typeof(EntityType)))
+            {
+                _entities[type] = new List<Entity>();
+            }
         }
 
-        public int GetEnemyCount() => _activeEnemies.Count;
-
-        public int GetBulletCount() => _activeBullets.Count;
-
-        public int GetCollectibleCount() => _activeCollectibles.Count;
-
-        public int GetPlayerCount() => _activePlayers.Count;
-
-        public List<Entity> GetActiveEntities()
+        // Used to quickly get all entities that exist with a certain component.
+        public HashSet<Entity> GetEntitiesWithComponent<T>() where T : IComponent
         {
-            return _activeEnemies.Concat<Entity>(_activeBullets)
-                                 .Concat<Entity>(_activeCollectibles)
-                                 .Concat<Entity>(_activePlayers).Where(x => x != null)
-                                 .ToList();
+            if (_componentRegistry.ContainsKey(typeof(T)))
+            {
+                return _componentRegistry[typeof(T)];
+            }
+
+            return new HashSet<Entity>();
         }
+
+        // Getting entities with 1 component type
+        public HashSet<Entity> GetEntitiesWithComponent(Type componentType)
+        {
+            if (_componentRegistry.ContainsKey(componentType))
+            {
+                return _componentRegistry[componentType];
+            }
+            return new HashSet<Entity>();
+        }
+
+
+        // For getting entities with a combination of 2 or more components
+        public HashSet<Entity> GetEntitiesWithComponents(params Type[] componentTypes)
+        {
+            // Start by getting the entities that have the first component type
+            var entitiesWithAllComponents = GetEntitiesWithComponent(componentTypes[0]);
+
+            // Iterate over the remaining component types and intersect the entities that have them
+            foreach (var componentType in componentTypes.Skip(1))
+            {
+                entitiesWithAllComponents = entitiesWithAllComponents.Intersect(GetEntitiesWithComponent(componentType)).ToHashSet();
+            }
+
+            return entitiesWithAllComponents;
+        }
+
+
+        public int GetEntityCount(EntityType type)
+        {
+            if (type == EntityType.Enemy)
+            {
+                return _entities[EntityType.Enemy].Count + _entities[EntityType.Boss].Count; // Bosses are considered as enemies too.
+            }
+
+            return _entities[type].Count;
+        }
+
+        public int TotalEntityCount => _entities.Values.Sum(list => list.Count);
+
+        public List<Entity> GetActiveEntities() => _entities.Values.SelectMany(e => e).ToList();
 
         public void QueueEntityForRemoval(Entity entity)
         {
-            if (entity == null) return;  // Ensure the entity isn't null before processing
+            if (entity == null) return;
 
             entity.Deactivate();
 
-            if (_activeBullets.Contains(entity))
+            foreach (var entry in _entities)
             {
-                _activeBullets.Remove(entity);
-                // Turn off pooling for now:
-                //ReturnEntityToPool(_bulletPool, entity, MAX_BULLET_POOL_SIZE);
+                if (entry.Value.Remove(entity))
+                    break;  // Exit early once entity is found and removed
             }
-            else if (_activeCollectibles.Contains(entity))
+
+            // Also remove from component registry
+            foreach (var component in entity.GetComponents())
             {
-                _activeCollectibles.Remove(entity);
-                //ReturnEntityToPool(_collectiblePool, entity, MAX_COLLECTIBLE_POOL_SIZE);
-            }
-            else if (_activeEnemies.Contains(entity))
-            {
-                _activeEnemies.Remove(entity);
-                //ReturnEntityToPool(_enemyPool, entity, MAX_ENEMY_POOL_SIZE);
-            }
-            else if (_activePlayers.Contains(entity))
-            {
-                _activePlayers.Remove(entity);
-                //ReturnEntityToPool(_playerPool, entity, MAX_PLAYER_POOL_SIZE);
+                UnregisterComponent(component.GetType(), entity);
             }
         }
 
-        private void ReturnEntityToPool(Queue<Entity> pool, Entity entity, int maxPoolSize)
+        private void SpawnEntity(EntityType type, Entity entity, Vector2 position, Vector2 velocity = default)
         {
-            // Only return to pool if pool size is less than max
-            if (pool.Count < maxPoolSize)
+            if (entity == null) return;
+
+            _entities[type].Add(entity);
+            entity.Activate(position, velocity);
+
+            // Register components for this entity
+            foreach (var component in entity.GetComponents())
             {
-                pool.Enqueue(entity);
-            }
-            else
-            {
-                pool.Dequeue();  // Remove an old entity if pool is full
-                pool.Enqueue(entity);
+                RegisterComponent(component.GetType(), entity);
             }
         }
 
         public void SpawnBullet(BulletData bulletData, Vector2 position, int layer, Vector2 velocity = default, Entity owner = null)
         {
-            Entity entity = null;
-
-            // Reuse or create a new bullet entity
-            if (_bulletPool.Count > 0)
+            Entity bullet = _bulletFactory.CreateBullet(bulletData);
+            bullet.AddComponent(new OwnerComponent(owner));
+            if (bullet != null)
             {
-                entity = _bulletPool.Dequeue();
-            }
-            else
-            {
-                entity = _bulletFactory.CreateBullet(bulletData);
-            }
-
-            if (entity != null)
-            {
-                entity.GetComponent<HitboxComponent>().Layer = layer;
-                _activeBullets.Add(entity);
-                entity.Activate(position, velocity);
+                bullet.GetComponent<HitboxComponent>().Layer = layer;
+                SpawnEntity(EntityType.Bullet, bullet, position, velocity);
             }
         }
 
         public void SpawnEnemy(EnemyData enemyData, Vector2 position, Vector2 velocity = default)
         {
-            Entity entity = null;
-
-            // Reuse or create a new enemy entity
-            if (_enemyPool.Count > 0)
-            {
-                entity = _enemyPool.Dequeue();
-            }
-            else
-            {
-                entity = _enemyFactory.CreateEnemy(enemyData);
-            }
-
-            if (entity != null)
-            {
-                _activeEnemies.Add(entity);
-                entity.Activate(position, velocity);
-            }
+            SpawnEntity(EntityType.Enemy, _enemyFactory.CreateEnemy(enemyData), position, velocity);
         }
 
         public void SpawnCollectible(CollectibleData collectibleData, Vector2 position, Vector2 velocity = default)
         {
-            Entity entity = null;
-
-            // Reuse or create a new collectible entity
-            if (_collectiblePool.Count > 0)
-            {
-                entity = _collectiblePool.Dequeue();
-            }
-            else
-            {
-                entity = _collectibleFactory.CreateCollectible(collectibleData);
-            }
-
-            if (entity != null)
-            {
-                _activeCollectibles.Add(entity);
-                entity.Activate(position, velocity);
-            }
+            SpawnEntity(EntityType.Collectible, _collectibleFactory.CreateCollectible(collectibleData), position, velocity);
         }
 
         public void SpawnPlayer(PlayerData playerData)
         {
-            Entity player = _playerFactory.CreatePlayer(playerData);
-            _activePlayers.Add(player);
-            player.Activate(new Vector2(Bounds.Width / 2, Bounds.Height - (Bounds.Height / 10)), Vector2.Zero);
+            Vector2 playerStartPosition = new Vector2(Bounds.Width / 2, Bounds.Height - (Bounds.Height / 10));
+            SpawnEntity(EntityType.Player, _playerFactory.CreatePlayer(playerData), playerStartPosition, Vector2.Zero);
         }
 
+        public void SpawnBoss(BossData bossData, Vector2 position)
+        {
+            Entity boss = _bossFactory.CreateBoss(bossData);
+            if (boss != null)
+            {
+                _entities[EntityType.Boss].Add(boss);
+                boss.Activate(position, Vector2.Zero);
+
+                // Register components for the boss
+                foreach (var component in boss.GetComponents())
+                {
+                    RegisterComponent(component.GetType(), boss);
+                }
+            }
+        }
+
+        private void RegisterComponent(Type componentType, Entity entity)
+        {
+            if (!_componentRegistry.ContainsKey(componentType))
+            {
+                _componentRegistry[componentType] = new HashSet<Entity>();
+            }
+
+            _componentRegistry[componentType].Add(entity);
+        }
+
+        private void UnregisterComponent(Type componentType, Entity entity)
+        {
+            if (_componentRegistry.ContainsKey(componentType))
+            {
+                _componentRegistry[componentType].Remove(entity);
+            }
+        }
     }
 }
