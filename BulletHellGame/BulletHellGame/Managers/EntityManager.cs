@@ -11,7 +11,7 @@ namespace BulletHellGame.Managers
         public Rectangle Bounds { get; set; }
 
         private readonly Dictionary<EntityType, List<Entity>> _entities = new();
-        private readonly Dictionary<Type, HashSet<Entity>> _componentRegistry = new(); // Stores components and the entities that have it together.
+        private readonly Dictionary<Type, ISet<Entity>> _componentRegistry = new(); // Stores components and the entities that have it together.
 
         // Factories for entity creation
         private readonly EnemyFactory _enemyFactory;
@@ -36,41 +36,26 @@ namespace BulletHellGame.Managers
             }
         }
 
-        // Used to quickly get all entities that exist with a certain component.
-        public HashSet<Entity> GetEntitiesWithComponent<T>() where T : IComponent
-        {
-            if (_componentRegistry.ContainsKey(typeof(T)))
-            {
-                return _componentRegistry[typeof(T)];
-            }
-
-            return new HashSet<Entity>();
-        }
-
-        // Getting entities with 1 component type
-        public HashSet<Entity> GetEntitiesWithComponent(Type componentType)
-        {
-            if (_componentRegistry.ContainsKey(componentType))
-            {
-                return _componentRegistry[componentType];
-            }
-            return new HashSet<Entity>();
-        }
-
-
-        // For getting entities with a combination of 2 or more components
-        public HashSet<Entity> GetEntitiesWithComponents(params Type[] componentTypes)
+        // For getting entities with a combination of 1 or more components
+        public List<Entity> GetEntitiesWithComponents(params Type[] componentTypes)
         {
             // Start by getting the entities that have the first component type
-            var entitiesWithAllComponents = GetEntitiesWithComponent(componentTypes[0]);
+            ISet<Entity> entitiesWithAllComponents;
+            if(!_componentRegistry.TryGetValue(componentTypes.First(), out entitiesWithAllComponents))
+                entitiesWithAllComponents = new HashSet<Entity>();
 
             // Iterate over the remaining component types and intersect the entities that have them
             foreach (var componentType in componentTypes.Skip(1))
             {
-                entitiesWithAllComponents = entitiesWithAllComponents.Intersect(GetEntitiesWithComponent(componentType)).ToHashSet();
+                ISet<Entity> componentSet;
+
+                if (!_componentRegistry.TryGetValue(componentType, out componentSet))
+                    return new List<Entity>();
+
+                entitiesWithAllComponents.IntersectWith(componentSet);
             }
 
-            return entitiesWithAllComponents;
+            return entitiesWithAllComponents.ToList();
         }
 
 

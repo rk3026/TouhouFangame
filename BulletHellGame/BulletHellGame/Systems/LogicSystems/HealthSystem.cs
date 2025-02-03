@@ -10,7 +10,7 @@ namespace BulletHellGame.Systems.LogicSystems
         {
             var entitiesToRemove = new List<Entity>();
 
-            foreach (var entity in entityManager.GetEntitiesWithComponent<HealthComponent>())
+            foreach (var entity in entityManager.GetEntitiesWithComponents(typeof(HealthComponent)))
             {
                 if (entity.TryGetComponent<HealthComponent>(out var healthComponent))
                 {

@@ -9,7 +9,7 @@ namespace BulletHellGame.Systems.LogicSystems
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            foreach (var entity in entityManager.GetEntitiesWithComponent<PlayerInputComponent>())
+            foreach (var entity in entityManager.GetEntitiesWithComponents(typeof(PlayerInputComponent)))
             {
                 if (entity.TryGetComponent<WeaponComponent>(out var wc) &&
                     entity.TryGetComponent<PositionComponent>(out var pc) &&
