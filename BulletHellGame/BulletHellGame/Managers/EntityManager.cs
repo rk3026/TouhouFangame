@@ -36,6 +36,18 @@ namespace BulletHellGame.Managers
             }
         }
 
+        public delegate void operation(Entity entity);
+
+        public void OperateOnEntities(operation op, params Type[] componentTypes)
+        {
+            var entities = GetEntitiesWithComponents(componentTypes);
+
+            foreach (var entity in entities)
+            {
+                op(entity);
+            }
+        }
+
         // For getting entities with a combination of 1 or more components
         public List<Entity> GetEntitiesWithComponents(params Type[] componentTypes)
         {
