@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Components;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
-using System.Linq;
 
 namespace BulletHellGame.Systems.LogicSystems
 {
@@ -38,7 +37,7 @@ namespace BulletHellGame.Systems.LogicSystems
         private Entity FindNewTarget(EntityManager entityManager, int layer, Vector2 bulletPosition, float homingRange)
         {
             List<Entity> potentialTargets = new List<Entity>();
-            foreach (Entity entity in entityManager.GetActiveEntities())
+            foreach (Entity entity in entityManager.GetEntitiesWithComponent<HitboxComponent>())
             {
                 if (entity.TryGetComponent<HitboxComponent>(out  var hbc) && entity.TryGetComponent<HealthComponent>(out var hc))
                 {
