@@ -37,7 +37,7 @@ namespace BulletHellGame.Systems.LogicSystems
         private Entity FindNewTarget(EntityManager entityManager, int layer, Vector2 bulletPosition, float homingRange)
         {
             List<Entity> potentialTargets = new List<Entity>();
-            foreach (Entity entity in entityManager.GetEntitiesWithComponent<HitboxComponent>())
+            foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(HitboxComponent)))
             {
                 if (entity.TryGetComponent<HitboxComponent>(out  var hbc) && entity.TryGetComponent<HealthComponent>(out var hc))
                 {
