@@ -7,7 +7,7 @@ namespace BulletHellGame.Systems.LogicSystems
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            foreach (var entity in entityManager.GetEntitiesWithComponent<WeaponComponent>())
+            foreach (var entity in entityManager.GetEntitiesWithComponents(typeof(WeaponComponent)))
             {
                 // Skip the player or entities that don't have the required components
                 if (entity.TryGetComponent<WeaponComponent>(out var wc) &&

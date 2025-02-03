@@ -8,7 +8,7 @@ namespace BulletHellGame.Systems.LogicSystems
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            foreach (Entity entity in entityManager.GetEntitiesWithComponent<PlayerInputComponent>())
+            foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(PlayerInputComponent)))
             {
                 if (entity.TryGetComponent<PlayerInputComponent>(out var pic) &&
                     entity.TryGetComponent<PositionComponent>(out var pc) &&

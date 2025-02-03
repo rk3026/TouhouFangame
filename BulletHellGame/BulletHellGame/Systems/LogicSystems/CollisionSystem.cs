@@ -37,7 +37,7 @@ namespace BulletHellGame.Systems.LogicSystems
             hitboxGrid.Clear();
 
             // Precompute the hitboxes for entities with the relevant components
-            foreach (var entity in entityManager.GetEntitiesWithComponent<HitboxComponent>())
+            foreach (var entity in entityManager.GetEntitiesWithComponents(typeof(HitboxComponent)))
             {
                 if (entity.TryGetComponent<HitboxComponent>(out var hc) &&
                     entity.TryGetComponent<PositionComponent>(out var pc))

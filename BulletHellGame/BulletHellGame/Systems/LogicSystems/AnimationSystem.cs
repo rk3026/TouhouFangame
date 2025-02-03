@@ -7,7 +7,7 @@ namespace BulletHellGame.Systems.LogicSystems
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            var entitiesWithSpriteComponent = entityManager.GetEntitiesWithComponent<SpriteComponent>();
+            var entitiesWithSpriteComponent = entityManager.GetEntitiesWithComponents(typeof(SpriteComponent));
 
             foreach (Entity entity in entitiesWithSpriteComponent)
             {
