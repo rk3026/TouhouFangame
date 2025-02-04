@@ -208,7 +208,7 @@ namespace BulletHellGame.Scenes
             for (int i = 0; i < numTiles; ++i)
             {
                 // Calculate the Y position for each repeated background tile
-                float tileOffset = (scrollOffset % backgroundHeight) - backgroundHeight + (i * backgroundHeight) ;
+                float tileOffset = ((int)(scrollOffset) % backgroundHeight) - backgroundHeight + (i * backgroundHeight) ;
 
                 // Draw the background tiles at calculated positions
                 spriteBatch.Draw(
