@@ -151,13 +151,13 @@
           {
             "Name": "MoveLeft",
             "Frames": [
-              { "Rect": { "X": 0, "Y": 54, "Width": 28, "Height": 42 } },
-              { "Rect": { "X": 32, "Y": 53, "Width": 29, "Height": 43 } },
-              { "Rect": { "X": 67, "Y": 54, "Width": 26, "Height": 40 } },
-              { "Rect": { "X": 105, "Y": 54, "Width": 26, "Height": 42 } },
-              { "Rect": { "X": 131, "Y": 54, "Width": 26, "Height": 42 } },
-              { "Rect": { "X": 163, "Y": 54, "Width": 26, "Height": 42 } },
-              { "Rect": { "X": 194, "Y": 54, "Width": 29, "Height": 42 } }
+              { "Rect": { "X": 0, "Y": 54, "Width": 28, "Height": 41 } },
+              { "Rect": { "X": 32, "Y": 53, "Width": 28, "Height": 41 } },
+              { "Rect": { "X": 67, "Y": 54, "Width": 26, "Height": 41 } },
+              { "Rect": { "X": 105, "Y": 54, "Width": 26, "Height": 41 } },
+              { "Rect": { "X": 131, "Y": 54, "Width": 26, "Height": 41 } },
+              { "Rect": { "X": 163, "Y": 54, "Width": 26, "Height": 41 } },
+              { "Rect": { "X": 194, "Y": 54, "Width": 28, "Height": 41 } }
             ]
           }
         ]
