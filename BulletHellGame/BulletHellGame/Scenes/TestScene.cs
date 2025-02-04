@@ -1,13 +1,17 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
+﻿using BulletHellGame.Components;
+using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 using Microsoft.Xna.Framework.Content;
+using System;
 using System.Linq;
+using static Assimp.Metadata;
 
 namespace BulletHellGame.Scenes
 {
     public class TestScene : IScene
     {
+        private Random _random = new Random();
         // Managers and Graphics:
         private EntityManager _entityManager;
         private SystemManager _systemManager;
@@ -131,6 +135,13 @@ namespace BulletHellGame.Scenes
                         enemyData.MovementPattern = "zigzag";
                         enemyData.Health = 100;
                         enemyData.Type = EnemyType.FairyBlue;
+
+                        // Setting up and adding a weapon
+                        BulletData bd = new BulletData();
+                        bd.SpriteName = "WhiteCircle";
+                        bd.Damage = _random.Next(20, 30);  // Randomized damage between 20-30
+                        bd.BulletType = BulletType.Standard;
+                        enemyData.BulletData = bd;
 
                         _entityManager.SpawnEnemy(enemyData, new Vector2(spawnX, spawnY));
 

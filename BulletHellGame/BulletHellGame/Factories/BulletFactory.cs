@@ -14,7 +14,10 @@ namespace BulletHellGame.Factories
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(bulletData.SpriteName);
             // Add the components that bullets will need:
             Entity bullet = new Entity();
-            bullet.AddComponent(new SpriteComponent(spriteData));
+            SpriteComponent spriteComponent = new SpriteComponent(spriteData);
+            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
+            spriteComponent.RotationSpeed = bulletData.RotationSpeed;
+            bullet.AddComponent(spriteComponent);
             bullet.AddComponent(new PositionComponent());
             bullet.AddComponent(new VelocityComponent());
             bullet.AddComponent(new DamageComponent(bulletData.Damage));

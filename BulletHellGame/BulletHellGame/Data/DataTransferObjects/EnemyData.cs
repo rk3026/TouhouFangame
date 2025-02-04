@@ -12,5 +12,6 @@ namespace BulletHellGame.Data.DataTransferObjects
         public int Health { get; set; }
         public string MovementPattern { get; set; }
         public ShootingPatternData BulletPattern { get; set; }
+        public BulletData BulletData { get; set; }
     }
 }
