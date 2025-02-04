@@ -7,5 +7,6 @@
         Collectible,
         Player,
         Boss,
+        Weapon,
     }
 }

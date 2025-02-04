@@ -85,12 +85,19 @@ namespace BulletHellGame.Managers
 
                 if (deserializedData != null)
                 {
-                    _keybindings = deserializedData.ToDictionary(
-                        kv => Enum.Parse<GameAction>(kv.Key),
-                        kv => Enum.Parse<Keys>(kv.Value)
-                    );
+                    foreach (var kv in deserializedData)
+                    {
+                        if (Enum.TryParse(kv.Key, out GameAction action) && Enum.TryParse(kv.Value, out Keys key))
+                        {
+                            if (_keybindings.ContainsKey(action)) // Only update existing GameActions
+                            {
+                                _keybindings[action] = key;
+                            }
+                        }
+                    }
                 }
             }
         }
+
     }
 }

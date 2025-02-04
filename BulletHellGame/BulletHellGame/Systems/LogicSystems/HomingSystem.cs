@@ -16,6 +16,9 @@ namespace BulletHellGame.Systems.LogicSystems
                     entity.TryGetComponent<HitboxComponent>(out var hbc)
                     )
                 {
+                    hc.HomingTimeLeft -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (hc.HomingTimeLeft <= 0) entityManager.QueueEntityForRemoval(entity);
+
                     Entity currentTarget = hc.CurrentTarget;
 
                     // Check if current target is valid or find a new one

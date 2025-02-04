@@ -62,7 +62,6 @@ namespace BulletHellGame.Systems.LogicSystems
                         pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Top + halfHeight);
                     else if (pc.Position.Y + halfHeight > entityManager.Bounds.Bottom)
                         pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Bottom - halfHeight);
-
                 }
             }
         }

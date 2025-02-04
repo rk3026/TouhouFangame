@@ -71,7 +71,7 @@ namespace BulletHellGame.Systems.LogicSystems
             movementPatternComponent.PatternData = MovementPatternManager.Instance.GetPattern(newPhaseData.MovementPattern);
 
             // Reset weapon stats
-            var weaponComponent = entity.GetComponent<WeaponComponent>();
+            var weaponComponent = entity.GetComponent<ShootingComponent>();
         }
     }
 }

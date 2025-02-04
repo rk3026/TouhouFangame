@@ -11,11 +11,10 @@
         public float FocusedSpeed { get; set; }
         public int InitialBombs { get; set; }
         public string BombCherryLoss { get; set; }
-        public List<string> SpecialAbility { get; set; }
-        public List<ShotType> ShotTypes { get; set; }
-        public List<Weapon> Weapons { get; set; }
-        public List<Ability> Abilities { get; set; }
-        public Audio Audio { get; set; }
+        public List<string> SpecialAbility { get; set; } = new();
+        public List<ShotType> ShotTypes { get; set; } = new();
+        public Dictionary<Vector2, WeaponData> WeaponsAndOffsets { get; set; } = new();
+        public List<Ability> Abilities { get; set; } = new();
     }
 
     public class ShotType
@@ -27,17 +26,6 @@
         public string FocusedBomb { get; set; }
     }
 
-    public class Weapon
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public int Damage { get; set; }
-        public double FireRate { get; set; }
-        public int Speed { get; set; }
-        public int Range { get; set; }
-    }
-
     public class Ability
     {
         public string Id { get; set; }
@@ -46,11 +34,5 @@
         public string Effect { get; set; }
         public int Duration { get; set; }
         public int AreaOfEffect { get; set; }
-    }
-
-    public class Audio
-    {
-        public string AttackSound { get; set; }
-        public string AbilitySound { get; set; }
     }
 }

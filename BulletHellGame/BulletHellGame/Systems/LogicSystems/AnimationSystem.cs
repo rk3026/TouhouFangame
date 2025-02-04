@@ -1,5 +1,4 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
-using BulletHellGame.Entities;
+﻿using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 
 namespace BulletHellGame.Systems.LogicSystems
@@ -14,6 +13,8 @@ namespace BulletHellGame.Systems.LogicSystems
             {
                 if (entity.TryGetComponent<SpriteComponent>(out var sc))
                 {
+                    // Rotate the sprite
+                    sc.CurrentRotation += sc.RotationSpeed;
 
                     // Handle flashing logic
                     if (sc._isFlashing)

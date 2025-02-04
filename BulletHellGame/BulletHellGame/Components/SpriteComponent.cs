@@ -7,7 +7,8 @@ public class SpriteComponent : IComponent
 {
     public SpriteData SpriteData { get; set; }
     public Color Color { get; set; } = Color.White;
-    public float Rotation { get; set; } = 0f;
+    public float CurrentRotation { get; set; } = 0f;
+    public float RotationSpeed { get; set; } = 0f;
     public Vector2 Scale { get; set; } = Vector2.One;
     public SpriteEffects SpriteEffect { get; set; } = SpriteEffects.None;
 

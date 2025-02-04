@@ -2,6 +2,7 @@
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
+using System.Reflection.Metadata.Ecma335;
 
 namespace BulletHellGame.Systems.RenderingSystems
 {
@@ -52,7 +53,7 @@ namespace BulletHellGame.Systems.RenderingSystems
                         spritePosition,
                         sc.CurrentFrame,
                         sc.Color,
-                        sc.Rotation,
+                        sc.CurrentRotation,
                         spriteData.Origin,
                         sc.Scale,
                         sc.SpriteEffect,

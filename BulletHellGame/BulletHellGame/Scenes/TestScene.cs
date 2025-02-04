@@ -45,11 +45,32 @@ namespace BulletHellGame.Scenes
 
             // Set the player:
             PlayerData pd = new PlayerData();
-            pd.Name = "Reimu";
             pd.SpriteName = "Reimu";
             pd.MovementSpeed = 7f;
             pd.FocusedSpeed = 3f;
             pd.Health = 100;
+
+            // Create new bullet data for the weapons of the player
+            BulletData bd = new BulletData();
+            bd.Damage = 100;
+            bd.BulletType = BulletType.Homing;
+            bd.SpriteName = "Reimu.WhiteBullet";
+
+            // Create the weapon datas for the player
+            WeaponData leftW = new WeaponData();
+            leftW.SpriteName = "Reimu.YinYangOrb";
+            leftW.FireRate = 1f;
+            leftW.FireDirections = new List<Vector2> { new Vector2(-2, -5) };
+            leftW.bulletData = bd;
+            WeaponData rightW = new WeaponData();
+            rightW.SpriteName = "Reimu.YinYangOrb";
+            rightW.FireRate = 1f;
+            rightW.FireDirections = new List<Vector2> { new Vector2(2, -5) };
+            rightW.bulletData = bd;
+
+            // Add two weapons (left and right of the player)
+            pd.WeaponsAndOffsets.Add(new Vector2(-20,0), leftW);
+            pd.WeaponsAndOffsets.Add(new Vector2(20, 0), rightW);
             this._entityManager.SpawnPlayer(pd);
         }
 
