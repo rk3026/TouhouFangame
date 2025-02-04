@@ -29,13 +29,13 @@ namespace BulletHellGame.Scenes
         public void Update(GameTime gameTime)
         {
             // Navigation
-            if (InputManager.Instance.ActionPressed(GameAction.Up))
+            if (InputManager.Instance.ActionPressed(GameAction.MenuUp))
             {
                 selectedIndex--;
                 if (selectedIndex < 0)
                     selectedIndex = menuOptions.Length - 1; // Wrap to last option
             }
-            if (InputManager.Instance.ActionPressed(GameAction.Down))
+            if (InputManager.Instance.ActionPressed(GameAction.MenuDown))
             {
                 selectedIndex++;
                 if (selectedIndex >= menuOptions.Length)

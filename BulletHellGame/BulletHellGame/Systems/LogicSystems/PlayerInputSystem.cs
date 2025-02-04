@@ -18,10 +18,10 @@ namespace BulletHellGame.Systems.LogicSystems
                     )
                 {
                     // Movement input
-                    pic.IsMovingUp = InputManager.Instance.ActionDown(GameAction.Up);
-                    pic.IsMovingDown = InputManager.Instance.ActionDown(GameAction.Down);
-                    pic.IsMovingLeft = InputManager.Instance.ActionDown(GameAction.Left);
-                    pic.IsMovingRight = InputManager.Instance.ActionDown    (GameAction.Right);
+                    pic.IsMovingUp = InputManager.Instance.ActionDown(GameAction.MoveUp);
+                    pic.IsMovingDown = InputManager.Instance.ActionDown(GameAction.MoveDown);
+                    pic.IsMovingLeft = InputManager.Instance.ActionDown(GameAction.MoveLeft);
+                    pic.IsMovingRight = InputManager.Instance.ActionDown    (GameAction.MoveRight);
 
                     // Action input
                     pic.IsShooting = InputManager.Instance.ActionDown(GameAction.Shoot);

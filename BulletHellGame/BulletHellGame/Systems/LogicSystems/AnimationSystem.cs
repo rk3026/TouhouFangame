@@ -1,4 +1,5 @@
-﻿using BulletHellGame.Entities;
+﻿using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 
 namespace BulletHellGame.Systems.LogicSystems
@@ -13,7 +14,66 @@ namespace BulletHellGame.Systems.LogicSystems
             {
                 if (entity.TryGetComponent<SpriteComponent>(out var sc))
                 {
-                    sc.Update(gameTime);
+
+                    // Handle flashing logic
+                    if (sc._isFlashing)
+                    {
+                        sc._flashDuration -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                        if (sc._flashDuration <= 0)
+                        {
+                            sc.Color = Color.White;
+                            sc._isFlashing = false;
+                        }
+                    }
+
+                    if (sc._currentAnimation == null || !sc.SpriteData.Animations.ContainsKey(sc._currentAnimation))
+                    {
+                        // No animation to update
+                        return;
+                    }
+
+                    if (sc.SpriteData.Animations[sc._currentAnimation].Count > 1)
+                    {
+                        sc._isAnimating = true;
+                    }
+
+                    if (sc._isAnimating)
+                    {
+                        sc._timeSinceLastFrame += gameTime.ElapsedGameTime.TotalSeconds;
+
+                        if (sc._timeSinceLastFrame >= sc._frameDuration)
+                        {
+                            if (sc._isReversing)
+                            {
+                                sc._frameIndex--;
+                                if (sc._frameIndex < 0)
+                                {
+                                    sc._frameIndex = 0;
+                                    sc._isReversing = false;
+                                }
+                            }
+                            else
+                            {
+                                sc._frameIndex++;
+                                if (sc._frameIndex >= sc.SpriteData.Animations[sc._currentAnimation].Count)
+                                {
+                                    if (sc._loopAnimation)
+                                    {
+                                        sc._frameIndex = 0;
+                                    }
+                                    else
+                                    {
+                                        sc._frameIndex = sc.SpriteData.Animations[sc._currentAnimation].Count - 1;
+                                        sc._isAnimating = false;
+                                    }
+                                }
+                            }
+
+                            sc._timeSinceLastFrame = 0;
+                            sc._currentRect = sc.GetCurrentFrameRect();
+                        }
+                    }
                 }
             }
         }

@@ -77,7 +77,7 @@ namespace BulletHellGame.Scenes
             }
 
             // Update scroll offset based on time elapsed
-            scrollOffset = (scrollOffset + (float)(scrollSpeed * gameTime.ElapsedGameTime.TotalSeconds)) % bush1Sprite.Animations.First().Value.First().Height;
+            scrollOffset = (scrollOffset + (float)(scrollSpeed * gameTime.ElapsedGameTime.TotalSeconds));
 
             // Update stage timer
             stageTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -151,9 +151,9 @@ namespace BulletHellGame.Scenes
             // Retry Menu:
             if (_entityManager.GetEntityCount(EntityType.Player) == 0)
             {
-                if (InputManager.Instance.ActionPressed(GameAction.Up) && retrySelectedIndex > 0)
+                if (InputManager.Instance.ActionPressed(GameAction.MenuUp) && retrySelectedIndex > 0)
                     retrySelectedIndex--;
-                if (InputManager.Instance.ActionPressed(GameAction.Down) && retrySelectedIndex < retryOptions.Length - 1)
+                if (InputManager.Instance.ActionPressed(GameAction.MenuDown) && retrySelectedIndex < retryOptions.Length - 1)
                     retrySelectedIndex++;
 
                 if (InputManager.Instance.ActionPressed(GameAction.Select))
@@ -184,22 +184,22 @@ namespace BulletHellGame.Scenes
             int numTiles = (int)Math.Ceiling((float)playableArea.Height / backgroundHeight) + 1;
 
             // Draw the scrolling background within the playable area
-            for (int i = 0; i < numTiles; i++)
+            for (int i = 0; i < numTiles; ++i)
             {
                 // Calculate the Y position for each repeated background tile
-                float tileOffset = (scrollOffset + (i * backgroundHeight)) % backgroundHeight;
+                float tileOffset = (scrollOffset % backgroundHeight) - backgroundHeight + (i * backgroundHeight) ;
 
                 // Draw the background tiles at calculated positions
                 spriteBatch.Draw(
                     backgroundTexture,
-                    new Rectangle(playableArea.Left, (int)(-tileOffset + (i * backgroundHeight)), (int)(playableArea.Width), backgroundHeight),
+                    new Rectangle(playableArea.Left, (int)tileOffset, (int)(playableArea.Width), backgroundHeight),
                     background.Animations.First().Value.First(),
                     Color.White
                 );
             }
 
             // Draw the non-stretched bushes on the left side of the playable area
-            for (float y = -scrollOffset; y < playableArea.Height; y += bush1Sprite.Animations.First().Value.First().Height)
+            for (float y = scrollOffset % bush1Sprite.Animations.First().Value.First().Height - bush1Sprite.Animations.First().Value.First().Height; y < playableArea.Height; y += bush1Sprite.Animations.First().Value.First().Height)
             {
                 spriteBatch.Draw(
                     bush1Sprite.Texture,
@@ -210,7 +210,7 @@ namespace BulletHellGame.Scenes
             }
 
             // Draw the non-stretched bushes on the right side of the playable area
-            for (float y = -scrollOffset; y < playableArea.Height; y += bush2Sprite.Animations.First().Value.First().Height)
+            for (float y = scrollOffset % bush1Sprite.Animations.First().Value.First().Height - bush1Sprite.Animations.First().Value.First().Height; y  < playableArea.Height; y += bush2Sprite.Animations.First().Value.First().Height)
             {
                 spriteBatch.Draw(
                     bush2Sprite.Texture,

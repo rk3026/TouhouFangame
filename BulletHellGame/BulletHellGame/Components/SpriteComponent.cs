@@ -11,18 +11,18 @@ public class SpriteComponent : IComponent
     public Vector2 Scale { get; set; } = Vector2.One;
     public SpriteEffects SpriteEffect { get; set; } = SpriteEffects.None;
 
-    private string _currentAnimation;
-    private int _frameIndex;
-    private double _timeSinceLastFrame;
-    private double _frameDuration = 0.15; // Default frame duration
-    private bool _isAnimating = false;
-    private bool _loopAnimation = true;
-    private bool _isReversing = false;
-    private Rectangle _currentRect;
+    public string _currentAnimation;
+    public int _frameIndex;
+    public double _timeSinceLastFrame;
+    public double _frameDuration = 0.15; // Default frame duration
+    public bool _isAnimating = false;
+    public bool _loopAnimation = true;
+    public bool _isReversing = false;
+    public Rectangle _currentRect;
 
     // Flash properties
-    private bool _isFlashing = false;
-    private float _flashDuration = 0f;
+    public bool _isFlashing = false;
+    public float _flashDuration = 0f;
 
     public Rectangle CurrentFrame => _currentRect;
 
@@ -42,68 +42,6 @@ public class SpriteComponent : IComponent
         }
     }
 
-    public void Update(GameTime gameTime)
-    {
-        // Handle flashing logic
-        if (_isFlashing)
-        {
-            _flashDuration -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (_flashDuration <= 0)
-            {
-                Color = Color.White;
-                _isFlashing = false;
-            }
-        }
-
-        if (_currentAnimation == null || !SpriteData.Animations.ContainsKey(_currentAnimation))
-        {
-            // No animation to update
-            return;
-        }
-
-        if (SpriteData.Animations[_currentAnimation].Count > 1)
-        {
-            _isAnimating = true;
-        }
-
-        if (_isAnimating)
-        {
-            _timeSinceLastFrame += gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (_timeSinceLastFrame >= _frameDuration)
-            {
-                if (_isReversing)
-                {
-                    _frameIndex--;
-                    if (_frameIndex < 0)
-                    {
-                        _frameIndex = 0;
-                        _isReversing = false;
-                    }
-                }
-                else
-                {
-                    _frameIndex++;
-                    if (_frameIndex >= SpriteData.Animations[_currentAnimation].Count)
-                    {
-                        if (_loopAnimation)
-                        {
-                            _frameIndex = 0;
-                        }
-                        else
-                        {
-                            _frameIndex = SpriteData.Animations[_currentAnimation].Count - 1;
-                            _isAnimating = false;
-                        }
-                    }
-                }
-
-                _timeSinceLastFrame = 0;
-                _currentRect = GetCurrentFrameRect();
-            }
-        }
-    }
 
     public void FlashRed(float duration = 0.2f)
     {
@@ -142,7 +80,7 @@ public class SpriteComponent : IComponent
         _currentRect = GetCurrentFrameRect();
     }
 
-    private Rectangle GetCurrentFrameRect()
+    public Rectangle GetCurrentFrameRect()
     {
         if (_currentAnimation == null || !SpriteData.Animations.TryGetValue(_currentAnimation, out var frames) || frames.Count == 0)
         {

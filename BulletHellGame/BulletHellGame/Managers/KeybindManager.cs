@@ -11,11 +11,15 @@ namespace BulletHellGame.Managers
         Slow,
         SkipText,
         Pause,
-        Up,
-        Down,
-        Left,
-        Right,
-        Select
+        MoveUp,
+        MoveDown,
+        MoveLeft,
+        MoveRight,
+        Select,
+        MenuUp,
+        MenuDown,
+        MenuLeft,
+        MenuRight,
     }
 
     public class KeybindManager
@@ -39,11 +43,16 @@ namespace BulletHellGame.Managers
             _keybindings[GameAction.Slow] = Keys.LeftShift;
             _keybindings[GameAction.SkipText] = Keys.Tab;
             _keybindings[GameAction.Pause] = Keys.Escape;
-            _keybindings[GameAction.Up] = Keys.W;
-            _keybindings[GameAction.Down] = Keys.S;
-            _keybindings[GameAction.Left] = Keys.A;
-            _keybindings[GameAction.Right] = Keys.D;
+            _keybindings[GameAction.MoveUp] = Keys.W;
+            _keybindings[GameAction.MoveDown] = Keys.S;
+            _keybindings[GameAction.MoveLeft] = Keys.A;
+            _keybindings[GameAction.MoveRight] = Keys.D;
             _keybindings[GameAction.Select] = Keys.Enter;
+
+            _keybindings[GameAction.MenuUp] = Keys.Up;
+            _keybindings[GameAction.MenuDown] = Keys.Down;
+            _keybindings[GameAction.MenuLeft] = Keys.Left;
+            _keybindings[GameAction.MenuRight] = Keys.Right;
         }
 
         public void ResetToDefaults()

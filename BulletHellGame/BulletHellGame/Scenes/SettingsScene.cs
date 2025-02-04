@@ -49,29 +49,29 @@ public class SettingsScene : IScene
             SceneManager.Instance.RemoveScene();
 
         // Wrap-around navigation for Up/Down
-        if (InputManager.Instance.ActionPressed(GameAction.Up))
+        if (InputManager.Instance.ActionPressed(GameAction.MenuUp))
         {
             selectedIndex--;
             if (selectedIndex < 0)
                 selectedIndex = settingsOptions.Length - 1;
         }
-        if (InputManager.Instance.ActionPressed(GameAction.Down))
+        if (InputManager.Instance.ActionPressed(GameAction.MenuDown))
         {
             selectedIndex++;
             if (selectedIndex >= settingsOptions.Length)
                 selectedIndex = 0;
         }
 
-        if (InputManager.Instance.ActionPressed(GameAction.Left) || InputManager.Instance.ActionPressed(GameAction.Right))
+        if (InputManager.Instance.ActionPressed(GameAction.MenuLeft) || InputManager.Instance.ActionPressed(GameAction.MenuRight))
         {
             if (selectedIndex == 0) // Music Volume
             {
-                float delta = InputManager.Instance.ActionPressed(GameAction.Left) ? -0.1f : 0.1f;
+                float delta = InputManager.Instance.ActionPressed(GameAction.MenuLeft) ? -0.1f : 0.1f;
                 SettingsManager.Instance.MusicVolume = Math.Clamp(SettingsManager.Instance.MusicVolume + delta, 0f, 1f);
             }
             else if (selectedIndex == 1) // SFX Volume
             {
-                float delta = InputManager.Instance.ActionPressed(GameAction.Left) ? -0.1f : 0.1f;
+                float delta = InputManager.Instance.ActionPressed(GameAction.MenuLeft) ? -0.1f : 0.1f;
                 SettingsManager.Instance.SFXVolume = Math.Clamp(SettingsManager.Instance.SFXVolume + delta, 0f, 1f);
             }
 
