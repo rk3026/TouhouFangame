@@ -39,13 +39,13 @@ namespace BulletHellGame.Scenes
 
             if (!_waitingForKey)
             {
-                if (InputManager.Instance.ActionPressed(GameAction.Up))
+                if (InputManager.Instance.ActionPressed(GameAction.MenuUp))
                 {
                     _selectedIndex--;
                     if (_selectedIndex < 0)
                         _selectedIndex = actions.Length - 1;
                 }
-                if (InputManager.Instance.ActionPressed(GameAction.Down))
+                if (InputManager.Instance.ActionPressed(GameAction.MenuDown))
                 {
                     _selectedIndex++;
                     if (_selectedIndex >= actions.Length)
@@ -106,7 +106,7 @@ namespace BulletHellGame.Scenes
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.GraphicsDevice.Clear(Color.Black);
-            Vector2 position = new Vector2(100, 50);
+            Vector2 position = new Vector2(100, 25);
             spriteBatch.DrawString(font, "Rebind Keys", position, Color.Yellow);
 
             for (int i = 0; i < actions.Length; i++)
@@ -116,11 +116,11 @@ namespace BulletHellGame.Scenes
 
                 if (i == actions.Length - 2)
                 {
-                    spriteBatch.DrawString(font, actions[i], new Vector2(100, 100 + i * 30), color);
+                    spriteBatch.DrawString(font, actions[i], new Vector2(100, 75 + i * 25), color);
                 }
                 else if (i == actions.Length - 1)
                 {
-                    spriteBatch.DrawString(font, actions[i], new Vector2(100, 100 + i * 30), color);
+                    spriteBatch.DrawString(font, actions[i], new Vector2(100, 75 + i * 25), color);
                 }
                 else if (Enum.TryParse(actions[i], out GameAction gameAction))
                 {
@@ -128,13 +128,13 @@ namespace BulletHellGame.Scenes
                         ? InputManager.Instance.KeybindManager.Keybindings[gameAction].ToString()
                         : "Not Bound";
 
-                    spriteBatch.DrawString(font, $"{actions[i]}: {keyText}", new Vector2(100, 100 + i * 30), color);
+                    spriteBatch.DrawString(font, $"{actions[i]}: {keyText}", new Vector2(100, 75 + i * 25), color);
                 }
             }
 
             if (_waitingForKey)
             {
-                spriteBatch.DrawString(font, $"Press a new key for {actions[_selectedIndex]}...", new Vector2(100, 400), Color.Cyan);
+                spriteBatch.DrawString(font, $"Press a new key for {actions[_selectedIndex]}...", new Vector2(300, 75 + _selectedIndex*25), Color.Cyan);
             }
         }
     }

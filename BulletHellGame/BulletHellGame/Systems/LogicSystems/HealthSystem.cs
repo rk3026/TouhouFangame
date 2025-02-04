@@ -10,7 +10,7 @@ namespace BulletHellGame.Systems.LogicSystems
         {
             var entitiesToRemove = new List<Entity>();
 
-            foreach (var entity in entityManager.GetEntitiesWithComponent<HealthComponent>())
+            foreach (var entity in entityManager.GetEntitiesWithComponents(typeof(HealthComponent)))
             {
                 if (entity.TryGetComponent<HealthComponent>(out var healthComponent))
                 {
@@ -71,7 +71,7 @@ namespace BulletHellGame.Systems.LogicSystems
             movementPatternComponent.PatternData = MovementPatternManager.Instance.GetPattern(newPhaseData.MovementPattern);
 
             // Reset weapon stats
-            var weaponComponent = entity.GetComponent<WeaponComponent>();
+            var weaponComponent = entity.GetComponent<ShootingComponent>();
         }
     }
 }

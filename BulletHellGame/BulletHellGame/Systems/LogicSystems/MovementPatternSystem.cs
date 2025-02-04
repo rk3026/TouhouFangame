@@ -8,7 +8,7 @@ namespace BulletHellGame.Systems.LogicSystems
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
             // Iterate over all entities with a MovementPatternComponent
-            foreach (var entity in entityManager.GetEntitiesWithComponent<MovementPatternComponent>())
+            foreach (var entity in entityManager.GetEntitiesWithComponents(typeof(MovementPatternComponent)))
             {
                 if (entity.TryGetComponent<VelocityComponent>(out var vc) &&
                     entity.TryGetComponent<MovementPatternComponent>(out var mpc))

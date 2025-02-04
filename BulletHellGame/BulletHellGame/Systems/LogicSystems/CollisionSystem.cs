@@ -36,16 +36,15 @@ namespace BulletHellGame.Systems.LogicSystems
         {
             hitboxGrid.Clear();
 
-            // Precompute the hitboxes for entities with the relevant components
-            foreach (var entity in entityManager.GetEntitiesWithComponent<HitboxComponent>())
-            {
-                if (entity.TryGetComponent<HitboxComponent>(out var hc) &&
-                    entity.TryGetComponent<PositionComponent>(out var pc))
-                {
-                    // Insert the hitbox into the appropriate grid cells
-                    InsertIntoGrid(hc, pc);
-                }
-            }
+
+            entityManager.OperateOnEntities((entity) => {
+
+                entity.TryGetComponent<HitboxComponent>(out var hc);
+                entity.TryGetComponent<PositionComponent>(out var pc);
+                // Insert the hitbox into the appropriate grid cells
+                InsertIntoGrid(hc, pc);
+
+            }, typeof(HitboxComponent), typeof(PositionComponent));
 
             DoCollisionLogic(entityManager);
         }

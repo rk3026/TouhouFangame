@@ -2,7 +2,7 @@
 
 namespace BulletHellGame.Components
 {
-    public class WeaponComponent : IComponent
+    public class ShootingComponent : IComponent
     {
         public BulletData bulletData;
         public float FireRate = 0.1f; // Seconds between shots
@@ -10,7 +10,7 @@ namespace BulletHellGame.Components
 
         public List<Vector2> FireDirections = new List<Vector2>();
 
-        public WeaponComponent(BulletData bulletData) {
+        public ShootingComponent(BulletData bulletData) {
             this.bulletData = bulletData;
             TimeSinceLastShot = FireRate;
         }

@@ -8,7 +8,7 @@ namespace BulletHellGame.Systems.LogicSystems
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            foreach (Entity entity in entityManager.GetEntitiesWithComponent<PlayerInputComponent>())
+            foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(PlayerInputComponent)))
             {
                 if (entity.TryGetComponent<PlayerInputComponent>(out var pic) &&
                     entity.TryGetComponent<PositionComponent>(out var pc) &&
@@ -18,10 +18,10 @@ namespace BulletHellGame.Systems.LogicSystems
                     )
                 {
                     // Movement input
-                    pic.IsMovingUp = InputManager.Instance.ActionDown(GameAction.Up);
-                    pic.IsMovingDown = InputManager.Instance.ActionDown(GameAction.Down);
-                    pic.IsMovingLeft = InputManager.Instance.ActionDown(GameAction.Left);
-                    pic.IsMovingRight = InputManager.Instance.ActionDown    (GameAction.Right);
+                    pic.IsMovingUp = InputManager.Instance.ActionDown(GameAction.MoveUp);
+                    pic.IsMovingDown = InputManager.Instance.ActionDown(GameAction.MoveDown);
+                    pic.IsMovingLeft = InputManager.Instance.ActionDown(GameAction.MoveLeft);
+                    pic.IsMovingRight = InputManager.Instance.ActionDown    (GameAction.MoveRight);
 
                     // Action input
                     pic.IsShooting = InputManager.Instance.ActionDown(GameAction.Shoot);
@@ -62,7 +62,6 @@ namespace BulletHellGame.Systems.LogicSystems
                         pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Top + halfHeight);
                     else if (pc.Position.Y + halfHeight > entityManager.Bounds.Bottom)
                         pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Bottom - halfHeight);
-
                 }
             }
         }

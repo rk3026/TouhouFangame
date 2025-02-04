@@ -34,11 +34,11 @@ namespace BulletHellGame.Factories
 
             // Setting up and adding a weapon
             BulletData bd = new BulletData();
-            bd.SpriteData = TextureManager.Instance.GetSpriteData("Reimu.WhiteBullet");
+            bd.SpriteName = "Reimu.WhiteBullet";
             bd.Damage = _random.Next(30, 50); // Randomized damage between 30-50
             bd.BulletType = BulletType.Standard;
 
-            WeaponComponent wc = new WeaponComponent(bd);
+            ShootingComponent wc = new ShootingComponent(bd);
             wc.FireRate = (float)_random.NextDouble() * 2f + 1f; // Fire rate between 1 and 3 shots per second
 
             // Circular bullet pattern

@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Components;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
-using System.Linq;
 
 namespace BulletHellGame.Systems.LogicSystems
 {
@@ -9,7 +8,7 @@ namespace BulletHellGame.Systems.LogicSystems
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            foreach (Entity entity in entityManager.GetEntitiesWithComponent<HomingComponent>())
+            foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(HomingComponent)))
             {
                 if (entity.TryGetComponent<HomingComponent>(out var hc) &&
                     entity.TryGetComponent<PositionComponent>(out var pc) &&
@@ -17,6 +16,9 @@ namespace BulletHellGame.Systems.LogicSystems
                     entity.TryGetComponent<HitboxComponent>(out var hbc)
                     )
                 {
+                    hc.HomingTimeLeft -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (hc.HomingTimeLeft <= 0) entityManager.QueueEntityForRemoval(entity);
+
                     Entity currentTarget = hc.CurrentTarget;
 
                     // Check if current target is valid or find a new one
@@ -38,7 +40,7 @@ namespace BulletHellGame.Systems.LogicSystems
         private Entity FindNewTarget(EntityManager entityManager, int layer, Vector2 bulletPosition, float homingRange)
         {
             List<Entity> potentialTargets = new List<Entity>();
-            foreach (Entity entity in entityManager.GetActiveEntities())
+            foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(HitboxComponent)))
             {
                 if (entity.TryGetComponent<HitboxComponent>(out  var hbc) && entity.TryGetComponent<HealthComponent>(out var hc))
                 {

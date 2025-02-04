@@ -11,7 +11,7 @@ namespace BulletHellGame.Managers
         public Rectangle Bounds { get; set; }
 
         private readonly Dictionary<EntityType, List<Entity>> _entities = new();
-        private readonly Dictionary<Type, HashSet<Entity>> _componentRegistry = new(); // Stores components and the entities that have it together.
+        private readonly Dictionary<Type, ISet<Entity>> _componentRegistry = new(); // Stores components and the entities that have it together.
 
         // Factories for entity creation
         private readonly EnemyFactory _enemyFactory;
@@ -19,6 +19,7 @@ namespace BulletHellGame.Managers
         private readonly CollectibleFactory _collectibleFactory;
         private readonly PlayerFactory _playerFactory;
         private readonly BossFactory _bossFactory;
+        private readonly WeaponFactory _weaponFactory;
 
         public EntityManager(Rectangle bounds)
         {
@@ -28,6 +29,7 @@ namespace BulletHellGame.Managers
             _collectibleFactory = new CollectibleFactory();
             _playerFactory = new PlayerFactory();
             _bossFactory = new BossFactory();
+            _weaponFactory = new WeaponFactory();
 
             // Initialize entity lists
             foreach (EntityType type in Enum.GetValues(typeof(EntityType)))
@@ -36,41 +38,36 @@ namespace BulletHellGame.Managers
             }
         }
 
-        // Used to quickly get all entities that exist with a certain component.
-        public HashSet<Entity> GetEntitiesWithComponent<T>() where T : IComponent
-        {
-            if (_componentRegistry.ContainsKey(typeof(T)))
-            {
-                return _componentRegistry[typeof(T)];
-            }
+        public delegate void operation(Entity entity);
 
-            return new HashSet<Entity>();
+        public void OperateOnEntities(operation op, params Type[] componentTypes)
+        {
+            var entities = GetEntitiesWithComponents(componentTypes);
+
+            foreach (var entity in entities)
+            {
+                op(entity);
+            }
         }
 
-        // Getting entities with 1 component type
-        public HashSet<Entity> GetEntitiesWithComponent(Type componentType)
+        // For getting entities with a combination of 1 or more components
+        public List<Entity> GetEntitiesWithComponents(params Type[] componentTypes)
         {
-            if (_componentRegistry.ContainsKey(componentType))
-            {
-                return _componentRegistry[componentType];
-            }
-            return new HashSet<Entity>();
-        }
+            if (!_componentRegistry.TryGetValue(componentTypes.First(), out var entitiesWithAllComponents))
+                return new List<Entity>();
 
+            // Create a new set to avoid modifying the original
+            var resultSet = new HashSet<Entity>(entitiesWithAllComponents);
 
-        // For getting entities with a combination of 2 or more components
-        public HashSet<Entity> GetEntitiesWithComponents(params Type[] componentTypes)
-        {
-            // Start by getting the entities that have the first component type
-            var entitiesWithAllComponents = GetEntitiesWithComponent(componentTypes[0]);
-
-            // Iterate over the remaining component types and intersect the entities that have them
             foreach (var componentType in componentTypes.Skip(1))
             {
-                entitiesWithAllComponents = entitiesWithAllComponents.Intersect(GetEntitiesWithComponent(componentType)).ToHashSet();
+                if (!_componentRegistry.TryGetValue(componentType, out var componentSet))
+                    return new List<Entity>();
+
+                resultSet.IntersectWith(componentSet);
             }
 
-            return entitiesWithAllComponents;
+            return resultSet.ToList();
         }
 
 
@@ -145,7 +142,24 @@ namespace BulletHellGame.Managers
         public void SpawnPlayer(PlayerData playerData)
         {
             Vector2 playerStartPosition = new Vector2(Bounds.Width / 2, Bounds.Height - (Bounds.Height / 10));
-            SpawnEntity(EntityType.Player, _playerFactory.CreatePlayer(playerData), playerStartPosition, Vector2.Zero);
+            Entity player = _playerFactory.CreatePlayer(playerData);
+
+            // Setting up and adding a weapon
+            BulletData bd = new BulletData();
+            bd.SpriteName = "Reimu.OrangeBullet";
+            bd.Damage = 25;
+            bd.BulletType = BulletType.Standard;
+            ShootingComponent wc = new ShootingComponent(bd);
+            wc.FireDirections.Add(new Vector2(0, -10));
+            player.AddComponent(wc);
+
+            SpawnEntity(EntityType.Player, player, playerStartPosition, Vector2.Zero);
+            foreach (var weapon in playerData.WeaponsAndOffsets)
+            {
+                Entity w = _weaponFactory.CreateWeapon(weapon.Value);
+                w.AddComponent(new OwnerComponent(player, weapon.Key));
+                SpawnEntity(EntityType.Weapon, w, playerStartPosition, Vector2.Zero);
+            }
         }
 
         public void SpawnBoss(BossData bossData, Vector2 position)

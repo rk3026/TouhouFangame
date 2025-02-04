@@ -2,6 +2,7 @@
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
+using System.Reflection.Metadata.Ecma335;
 
 namespace BulletHellGame.Systems.RenderingSystems
 {
@@ -15,7 +16,7 @@ namespace BulletHellGame.Systems.RenderingSystems
         }
         public void Draw(EntityManager entityManager, SpriteBatch spriteBatch)
         {
-            foreach (Entity entity in entityManager.GetEntitiesWithComponent<SpriteComponent>())
+            foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(SpriteComponent)))
             {
                 if (entity.TryGetComponent<SpriteComponent>(out var sc) &&
                     entity.TryGetComponent<PositionComponent>(out var pc) &&
@@ -52,7 +53,7 @@ namespace BulletHellGame.Systems.RenderingSystems
                         spritePosition,
                         sc.CurrentFrame,
                         sc.Color,
-                        sc.Rotation,
+                        sc.CurrentRotation,
                         spriteData.Origin,
                         sc.Scale,
                         sc.SpriteEffect,
