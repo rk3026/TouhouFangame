@@ -16,70 +16,65 @@ namespace BulletHellGame.Managers
         private TextureManager() { }
 
         /// <summary>
-        /// Loads textures and sprite data from a JSON file.
+        /// Loads all the textures on a sprite sheet given the data json file for that sheet.
         /// </summary>
-        public void LoadTexturesFromJson(ContentManager content, string jsonFilePath)
+        public void LoadSpriteSheetData(ContentManager content, string jsonFilePath)
         {
             // Read and parse the JSON file
             string jsonString = File.ReadAllText(jsonFilePath);
             JObject json = JObject.Parse(jsonString);
 
-            foreach (var category in json.Properties())
+            // Use the file name (without extension) as the sprite sheet name
+            string spriteSheetName = Path.GetFileNameWithoutExtension(jsonFilePath);
+            string spriteSheetTexturePath = $"SpriteSheets/{spriteSheetName}";
+
+            // Load the SpriteSheet texture
+            Texture2D texture = content.Load<Texture2D>(spriteSheetTexturePath);
+
+            // Iterate over each sprite in the JSON
+            foreach (var sprite in json.Properties())
             {
-                string spriteSheetName = category.Name; // Entity Sheet name (e.g., "Characters", "MenuAndOtherScreens")
-                string spriteSheetTexturePath = $"SpriteSheets/{spriteSheetName}";
+                string spriteName = sprite.Name; // Entity name (e.g., "MainMenu", "Reimu")
+                JObject animationsData = (JObject)sprite.Value;
 
-                // Load the SpriteSheet
-                Texture2D texture = content.Load<Texture2D>(spriteSheetTexturePath);
+                // Skip if no animations data is present
+                if (animationsData == null) continue;
 
-                // Parse sprite data
-                var spriteData = category.Value["Sprites"];
-                if (spriteData == null) continue;
+                // Create a dictionary to store the animations for the sprite
+                Dictionary<string, List<Rectangle>> animations = new();
 
-                foreach (var sprite in spriteData.Children<JProperty>())
+                // Check for multiple animations, or just use the "Default" animation if present
+                foreach (var animation in animationsData)
                 {
-                    string spriteName = sprite.Name; // Entity name (e.g., "MainMenu", "GameLogo")
-                    var animationsData = sprite.Value["Animations"];
-                    if (animationsData == null) continue;
+                    string animationName = animation.Key; // Animation name like "Idle", "MoveLeft", "Default", etc.
+                    var framesData = animation.Value;
 
-                    // Dictionary to store animations for the sprite
-                    Dictionary<string, List<Rectangle>> animations = new();
-
-                    foreach (var animation in animationsData)
+                    if (framesData != null)
                     {
-                        string animationName = animation["Name"]?.ToString();
-                        if (string.IsNullOrEmpty(animationName)) continue;
-
-                        var framesData = animation["Frames"];
-                        if (framesData == null) continue;
-
                         // Create a list to store the frames (rectangles) for this animation
                         List<Rectangle> frames = new();
 
+                        // Parse each frame
                         foreach (var frame in framesData)
                         {
-                            var rectData = frame["Rect"];
-                            if (rectData != null)
-                            {
-                                // Create a Rectangle for each frame
-                                Rectangle rect = new Rectangle(
-                                    (int)rectData["X"],
-                                    (int)rectData["Y"],
-                                    (int)rectData["Width"],
-                                    (int)rectData["Height"]
-                                );
+                            // Directly access the frame data
+                            int x = (int)frame["X"];
+                            int y = (int)frame["Y"];
+                            int width = (int)frame["Width"];
+                            int height = (int)frame["Height"];
 
-                                frames.Add(rect);
-                            }
+                            // Create a Rectangle from the frame data
+                            Rectangle rect = new Rectangle(x, y, width, height);
+                            frames.Add(rect);
                         }
 
                         // Store the animation frames under its name
                         animations[animationName] = frames;
                     }
-
-                    // Store the sprite information (including animations)
-                    _sprites[spriteName] = new SpriteData(texture, animations, spriteName);
                 }
+
+                // Store the sprite information (including animations) in the _sprites dictionary
+                _sprites[spriteName] = new SpriteData(texture, animations, spriteName);
             }
         }
 

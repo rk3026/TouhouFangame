@@ -29,7 +29,8 @@ namespace BulletHellGame.Factories
             // Set the hitbox:
             HitboxComponent hc = new HitboxComponent(enemy, 1);
             float spriteWidth = enemy.GetComponent<SpriteComponent>().CurrentFrame.Width;
-            hc.Hitbox = new Vector2(spriteWidth, spriteWidth);
+            float spriteHeight = enemy.GetComponent<SpriteComponent>().CurrentFrame.Height;
+            hc.Hitbox = new Vector2(spriteWidth, spriteHeight);
             enemy.AddComponent(hc);
 
             return enemy;

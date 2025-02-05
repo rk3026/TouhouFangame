@@ -17,6 +17,11 @@
         <None Remove="Data\EnemyData.json" />
         <None Remove="Data\level1.json" />
         <None Remove="Data\SpriteSheetData.json" />
+        <None Remove="Data\SpriteSheets\Characters.json" />
+        <None Remove="Data\SpriteSheets\EnemiesAndBosses.json" />
+        <None Remove="Data\SpriteSheets\MenuAndOtherScreens.json" />
+        <None Remove="Data\SpriteSheets\ProjectilesAndObjects.json" />
+        <None Remove="Data\SpriteSheets\StagesTilesAndBackgrounds.json" />
         <None Remove="Data\WeaponData.json" />
         <None Remove="Icon.ico" />
         <None Remove="Icon.bmp" />
@@ -34,7 +39,7 @@
       <Content Include="Data\EnemyData.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Include="Data\LevelData\level1.json">
+      <Content Include="Data\Levels\level1.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\SpriteSheetData.json">
@@ -57,6 +62,23 @@
         <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.1105" />
         <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.2.1105" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="Data\SpriteSheets\Characters.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\EnemiesAndBosses.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\MenuAndOtherScreens.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\ProjectilesAndObjects.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\StagesTilesAndBackgrounds.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
     <ItemGroup>
       <None Update="Content\SpriteSheets\Characters.png">

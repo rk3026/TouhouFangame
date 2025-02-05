@@ -105,7 +105,14 @@ namespace BulletHellGame
             defaultTexture.SetData(colorData);
             TextureManager.Instance.SetDefaultTexture(defaultTexture);
 
-            TextureManager.Instance.LoadTexturesFromJson(content, "Data/SpriteSheetData.json");
+            // Load all the TextureAtlases:
+            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/Characters.json");
+            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/EnemiesAndBosses.json");
+            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/MenuAndOtherScreens.json");
+            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/ProjectilesAndObjects.json");
+            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/StagesTilesAndBackgrounds.json");
+
+            // Add the main menu scene to begin the game:
             _sceneManager.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));
         }
 

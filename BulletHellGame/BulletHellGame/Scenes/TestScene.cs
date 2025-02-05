@@ -1,11 +1,8 @@
-﻿using BulletHellGame.Components;
-using BulletHellGame.Data.DataTransferObjects;
+﻿using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 using Microsoft.Xna.Framework.Content;
-using System;
 using System.Linq;
-using static Assimp.Metadata;
 
 namespace BulletHellGame.Scenes
 {
@@ -82,9 +79,9 @@ namespace BulletHellGame.Scenes
         {
             // Use content manager to load assets
             FontManager.Instance.LoadFont(_contentManager, "DFPPOPCorn-W12");
-            background = TextureManager.Instance.GetSpriteData("Level1Background");
-            bush1Sprite = TextureManager.Instance.GetSpriteData("Bush1");
-            bush2Sprite = TextureManager.Instance.GetSpriteData("Bush2");
+            background = TextureManager.Instance.GetSpriteData("Level1.Background");
+            bush1Sprite = TextureManager.Instance.GetSpriteData("Level1.Bush1");
+            bush2Sprite = TextureManager.Instance.GetSpriteData("Level1.Bush2");
             // Create a 1x1 white pixel texture for the box
             whitePixel = new Texture2D(_graphicsDevice, 1, 1);
             whitePixel.SetData(new Color[] { Color.White });
@@ -128,7 +125,7 @@ namespace BulletHellGame.Scenes
                         spawnY = MathHelper.Clamp(spawnY, playableArea.Top, playableArea.Bottom);
 
                         EnemyData enemyData = new EnemyData();
-                        enemyData.SpriteName = "FairyBlue";
+                        enemyData.SpriteName = "Fairy.Blue";
                         enemyData.SpawnPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
                         enemyData.StartPosition = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 2);
                         enemyData.ExitPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
@@ -138,7 +135,7 @@ namespace BulletHellGame.Scenes
 
                         // Setting up and adding a weapon
                         BulletData bd = new BulletData();
-                        bd.SpriteName = "WhiteCircle";
+                        bd.SpriteName = "DoubleCircle.White";
                         bd.Damage = _random.Next(20, 30);  // Randomized damage between 20-30
                         bd.BulletType = BulletType.Standard;
                         enemyData.BulletData = bd;
@@ -157,8 +154,13 @@ namespace BulletHellGame.Scenes
                 phase1.StartPosition = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 2);
                 phase1.ExitPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
                 phase1.MovementPattern = "circular";
-                phase1.Health = 1000;
+                phase1.Health = 5000;
                 phase1.Type = EnemyType.FairyBlue;
+                BulletData bd = new BulletData();
+                bd.SpriteName = "DoubleCircle.Red";
+                bd.Damage = _random.Next(30, 50); // Randomized damage between 30-50
+                bd.BulletType = BulletType.Standard;
+                phase1.BulletData = bd;
 
                 EnemyData phase2 = new EnemyData();
                 phase2.SpriteName = "Cirno";
@@ -166,8 +168,13 @@ namespace BulletHellGame.Scenes
                 phase2.StartPosition = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 2);
                 phase2.ExitPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
                 phase2.MovementPattern = "zigzag";
-                phase2.Health = 1000;
+                phase2.Health = 5000;
                 phase2.Type = EnemyType.FairyBlue;
+                BulletData bd2 = new BulletData();
+                bd2.SpriteName = "DoubleCircle.DarkRed";
+                bd2.Damage = _random.Next(30, 50); // Randomized damage between 30-50
+                bd2.BulletType = BulletType.Standard;
+                phase2.BulletData = bd2;
 
                 BossData bossData = new BossData();
                 bossData.Phases = new List<EnemyData>() {
