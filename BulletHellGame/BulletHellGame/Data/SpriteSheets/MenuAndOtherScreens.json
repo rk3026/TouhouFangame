@@ -1,0 +1,8 @@
+{
+  "MainMenu": {
+    "Default": [ {"X": 32, "Y": 56, "Width": 640, "Height": 480 } ]
+  },
+  "GameLogo": {
+    "Default": [ { "X": 1276, "Y": 60, "Width": 425, "Height": 197 } ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  // GenericEnemies
+  "Fairy.Blue": {
+    "Idle": [
+      { "X": 794, "Y": 985, "Width": 24, "Height": 27 },
+      { "X": 825, "Y": 985, "Width": 26, "Height": 27 },
+      { "X": 856, "Y": 985, "Width": 28, "Height": 27 },
+      { "X": 889, "Y": 985, "Width": 27, "Height": 27 }
+    ],
+    "Moving": [
+      { "X": 921, "Y": 984, "Width": 27, "Height": 28 },
+      { "X": 954, "Y": 984, "Width": 26, "Height": 28 },
+      { "X": 985, "Y": 984, "Width": 28, "Height": 28 },
+      { "X": 1017, "Y": 984, "Width": 28, "Height": 28 }
+    ]
+  },
+  "Fairy.White": {
+    "Idle": [ { "X": 794, "Y": 1017, "Width": 24, "Height": 27 } ]
+  },
+
+  // SubBosses
+  "Cirno": {
+    "Idle": [
+      { "X": 145, "Y": 38, "Width": 43, "Height": 55 },
+      { "X": 191, "Y": 42, "Width": 46, "Height": 51 },
+      { "X": 242, "Y": 42, "Width": 44, "Height": 51 },
+      { "X": 293, "Y": 42, "Width": 35, "Height": 51 }
+    ],
+    "Moving": [
+      { "X": 64, "Y": 40, "Width": 28, "Height": 52 },
+      { "X": 104, "Y": 42, "Width": 33, "Height": 49 }
+    ]
+  },
+
+  // Bosses
+  "LettyWhiterock": {
+    "Idle": [
+      { "X": 42, "Y": 145, "Width": 29, "Height": 63 },
+      { "X": 91, "Y": 145, "Width": 29, "Height": 63 },
+      { "X": 139, "Y": 145, "Width": 29, "Height": 63 },
+      { "X": 187, "Y": 145, "Width": 29, "Height": 63 }
+    ],
+    "Moving": [
+      { "X": 42, "Y": 209, "Width": 29, "Height": 63 },
+      { "X": 91, "Y": 209, "Width": 29, "Height": 63 },
+      { "X": 139, "Y": 209, "Width": 30, "Height": 62 },
+      { "X": 184, "Y": 209, "Width": 33, "Height": 61 }
+    ],
+    "Attack": [
+      { "X": 43, "Y": 273, "Width": 27, "Height": 63 },
+      { "X": 87, "Y": 273, "Width": 35, "Height": 61 },
+      { "X": 135, "Y": 273, "Width": 37, "Height": 60 },
+      { "X": 181, "Y": 273, "Width": 41, "Height": 55 }
+    ]
+  }
+}

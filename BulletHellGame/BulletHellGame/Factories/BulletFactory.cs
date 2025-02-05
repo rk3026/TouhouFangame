@@ -15,7 +15,7 @@ namespace BulletHellGame.Factories
             // Add the components that bullets will need:
             Entity bullet = new Entity();
             SpriteComponent spriteComponent = new SpriteComponent(spriteData);
-            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
+            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2); // For rotation, rotate at the origin
             spriteComponent.RotationSpeed = bulletData.RotationSpeed;
             bullet.AddComponent(spriteComponent);
             bullet.AddComponent(new PositionComponent());

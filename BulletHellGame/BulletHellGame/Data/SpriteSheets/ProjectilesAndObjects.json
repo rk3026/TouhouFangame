@@ -1,0 +1,9 @@
+{
+  // DoubleCircles
+  "DoubleCircle.White": { "X": 8, "Y": 42, "Width": 16, "Height": 16 },
+  "DoubleCircle.DarkRed": { "X": 24, "Y": 42, "Width": 16, "Height": 16 },
+  "DoubleCircle.Red": { "X": 40, "Y": 42, "Width": 16, "Height": 16 },
+
+  // Lazers
+  "Lazer.White": { "X": 8, "Y": 10, "Width": 16, "Height": 14 }
+}

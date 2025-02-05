@@ -1,0 +1,9 @@
+{
+  // Level 1
+  "Level1.Background": { "Default": [{ "Rect": { "X": 32, "Y": 314, "Width": 257, "Height": 255 } }] },
+  "Level1.Bush1": { "Default": [{ "Rect": { "X": 292, "Y": 332, "Width": 106, "Height": 108 } }] },
+  "Level1.Bush2": { "Default": [{ "Rect": { "X": 427, "Y": 323, "Width": 107, "Height": 108 } }] }
+
+  // Level 2
+  // Level 3
+}

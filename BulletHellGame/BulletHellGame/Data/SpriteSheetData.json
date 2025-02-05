@@ -30,7 +30,27 @@
           {
             "Name": "Default",
             "Frames": [
-              { "Rect": { "X": 8, "Y": 42, "Width": 16, "Height": 14 } }
+              { "Rect": { "X": 8, "Y": 42, "Width": 16, "Height": 16 } }
+            ]
+          }
+        ]
+      },
+      "DarkRedCircle": {
+        "Animations": [
+          {
+            "Name": "Default",
+            "Frames": [
+              { "Rect": { "X": 24, "Y": 42, "Width": 16, "Height": 16 } }
+            ]
+          }
+        ]
+      },
+      "RedCircle": {
+        "Animations": [
+          {
+            "Name": "Default",
+            "Frames": [
+              { "Rect": { "X": 40, "Y": 42, "Width": 16, "Height": 16 } }
             ]
           }
         ]
