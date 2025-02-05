@@ -92,6 +92,8 @@ namespace BulletHellGame.Systems.LogicSystems
 
                         Vector2 hitAPos = hitboxA.Owner.GetComponent<PositionComponent>().Position;
                         Vector2 hitBPos = hitboxB.Owner.GetComponent<PositionComponent>().Position;
+                        //Rectangle rectA = new Rectangle((int)hitAPos.X, (int)hitAPos.Y, (int)hitboxA.Hitbox.X, (int)hitboxA.Hitbox.Y);
+                        //Rectangle rectB = new Rectangle((int)hitBPos.X, (int)hitBPos.Y, (int)hitboxB.Hitbox.X, (int)hitboxB.Hitbox.Y);
                         Rectangle rectA = new Rectangle((int)(hitAPos.X - hitboxA.Hitbox.X / 2), (int)(hitAPos.Y - hitboxA.Hitbox.Y / 2), (int)hitboxA.Hitbox.X, (int)hitboxA.Hitbox.Y);
                         Rectangle rectB = new Rectangle((int)(hitBPos.X - hitboxB.Hitbox.X / 2), (int)(hitBPos.Y - hitboxB.Hitbox.Y / 2), (int)hitboxB.Hitbox.X, (int)hitboxB.Hitbox.Y);
 

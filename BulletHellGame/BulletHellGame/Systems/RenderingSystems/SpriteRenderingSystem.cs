@@ -45,7 +45,7 @@ namespace BulletHellGame.Systems.RenderingSystems
                         }
                     }
 
-                    Vector2 spritePosition = new Vector2(pc.Position.X - sc.CurrentFrame.Width / 2, pc.Position.Y - sc.CurrentFrame.Height / 2);
+                    Vector2 spritePosition = new Vector2(pc.Position.X, pc.Position.Y);
 
                     spriteBatch.Draw(
                         spriteData.Texture,

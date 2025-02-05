@@ -16,7 +16,9 @@ namespace BulletHellGame.Factories
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(enemyData.SpriteName);
             Entity enemy = new Entity();
             enemy.AddComponent(new HealthComponent(enemyData.Health));
-            enemy.AddComponent(new SpriteComponent(spriteData));
+            SpriteComponent spriteComponent = new SpriteComponent(spriteData);
+            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
+            enemy.AddComponent(spriteComponent);
             enemy.AddComponent(new PositionComponent());
             enemy.AddComponent(new VelocityComponent());
             enemy.AddComponent(new MovementPatternComponent(enemyData.MovementPattern));

@@ -15,7 +15,6 @@ namespace BulletHellGame.Systems.LogicSystems
             {
                 var shooting = entity.GetComponent<ShootingComponent>();
                 var position = entity.GetComponent<PositionComponent>();
-                var originOffset = entity.GetComponent<SpriteComponent>()?.SpriteData.Origin ?? Vector2.Zero;
 
                 // Update cooldown
                 shooting.TimeSinceLastShot += deltaTime;
@@ -25,7 +24,7 @@ namespace BulletHellGame.Systems.LogicSystems
                     continue;
 
                 // Fire bullets and reset cooldown
-                FireBullets(entityManager, entity, shooting, position.Position - originOffset, bulletLayer);
+                FireBullets(entityManager, entity, shooting, position.Position, bulletLayer);
                 shooting.TimeSinceLastShot = 0f;
             }
         }

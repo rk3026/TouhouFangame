@@ -27,7 +27,9 @@ namespace BulletHellGame.Factories
 
             // Initialize the boss with first phase stats
             boss.AddComponent(new HealthComponent(firstPhase.Health));
-            boss.AddComponent(new SpriteComponent(spriteData));
+            SpriteComponent spriteComponent = new SpriteComponent(spriteData);
+            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
+            boss.AddComponent(spriteComponent);
             boss.AddComponent(new PositionComponent());
             boss.AddComponent(new VelocityComponent());
             boss.AddComponent(new MovementPatternComponent(firstPhase.MovementPattern));

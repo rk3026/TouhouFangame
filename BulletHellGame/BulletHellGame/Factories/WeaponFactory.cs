@@ -13,11 +13,12 @@ namespace BulletHellGame.Factories
         public Entity CreateWeapon(WeaponData weaponData)
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(weaponData.SpriteName);
-            spriteData.Origin = new Vector2(spriteData.Animations.First().Value.First().Width / 2, spriteData.Animations.First().Value.First().Height / 2);
+
             Entity weapon = new Entity();
-            SpriteComponent sc = new SpriteComponent(spriteData);
-            sc.RotationSpeed = 0.1f;
-            weapon.AddComponent(sc);
+            SpriteComponent spriteComponent = new SpriteComponent(spriteData);
+            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
+            spriteComponent.RotationSpeed = 0.1f;
+            weapon.AddComponent(spriteComponent);
             weapon.AddComponent(new PositionComponent());
             weapon.AddComponent(new VelocityComponent());
 
