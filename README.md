@@ -2,7 +2,7 @@
 
 # Game Vision Document - TouHou Bullet Hell Fangame
 
-**Developers:** Harry Ky, Dylan Gyori, Ross Kugler, Linh Nguyen, Toufic Majdalani  
+**Developers:** Harry Ky, Dylan Gyori, Ross Kugler, Linh Nguyen, Toufic Majdalani, Ben Bordon
 **Engine:** C# MonoGame  
 
 ## 1. Game Overview
