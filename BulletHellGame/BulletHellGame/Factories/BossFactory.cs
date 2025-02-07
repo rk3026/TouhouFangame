@@ -19,7 +19,6 @@ namespace BulletHellGame.Factories
 
             EnemyData firstPhase = phases[0];
 
-            SpriteData spriteData = TextureManager.Instance.GetSpriteData(firstPhase.SpriteName);
             Entity boss = new Entity();
 
             // Add the phase manager to track boss phases
@@ -27,6 +26,7 @@ namespace BulletHellGame.Factories
 
             // Initialize the boss with first phase stats
             boss.AddComponent(new HealthComponent(firstPhase.Health));
+            SpriteData spriteData = TextureManager.Instance.GetSpriteData(firstPhase.SpriteName);
             SpriteComponent spriteComponent = new SpriteComponent(spriteData);
             spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
             boss.AddComponent(spriteComponent);

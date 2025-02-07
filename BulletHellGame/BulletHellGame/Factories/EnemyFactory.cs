@@ -28,6 +28,14 @@ namespace BulletHellGame.Factories
             wc.FireDirections.Add(new Vector2(_random.Next(-2, 3), _random.Next(1, 4))); // Random direction within a range
             enemy.AddComponent(wc);
 
+            // Attach Loot:
+            LootComponent lc = new LootComponent();
+            foreach(CollectibleData cd in enemyData.Loot)
+            {
+                lc.Loot.Add(cd);
+            }
+            enemy.AddComponent(lc);
+
             // Set the hitbox:
             HitboxComponent hc = new HitboxComponent(enemy, 1);
             float spriteWidth = enemy.GetComponent<SpriteComponent>().CurrentFrame.Width;

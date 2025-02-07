@@ -14,7 +14,7 @@ namespace BulletHellGame.Systems.LogicSystems
             {
                 if (entity.TryGetComponent<HealthComponent>(out var healthComponent))
                 {
-                    HandleEntityHealth(entity, healthComponent, entitiesToRemove);
+                    HandleEntityHealth(entityManager, entity, healthComponent, entitiesToRemove);
                 }
             }
 
@@ -25,7 +25,7 @@ namespace BulletHellGame.Systems.LogicSystems
             }
         }
 
-        private void HandleEntityHealth(Entity entity, HealthComponent healthComponent, List<Entity> entitiesToRemove)
+        private void HandleEntityHealth(EntityManager entityManager, Entity entity, HealthComponent healthComponent, List<Entity> entitiesToRemove)
         {
             if (healthComponent.CurrentHealth <= 0)
             {
@@ -35,8 +35,29 @@ namespace BulletHellGame.Systems.LogicSystems
                 }
                 else
                 {
-                    // Regular entity removal
+                    HandleLootDrop(entityManager, entity);
                     entitiesToRemove.Add(entity);
+                }
+            }
+        }
+
+        private const float LOOT_SPREAD_RADIUS = 8f; // Maximum distance from enemy center
+        private Vector2 lootVelocity = new Vector2(0,1);
+        private void HandleLootDrop(EntityManager entityManager, Entity entity)
+        {
+            if (entity.TryGetComponent<LootComponent>(out var lc) &&
+                entity.TryGetComponent<PositionComponent>(out var pc))
+            {
+                Random rng = new Random();
+
+                foreach (var lootData in lc.Loot)
+                {
+                    // Random offset for loot position
+                    float offsetX = (float)(rng.NextDouble() * 2 * LOOT_SPREAD_RADIUS - LOOT_SPREAD_RADIUS);
+                    float offsetY = (float)(rng.NextDouble() * 2 * LOOT_SPREAD_RADIUS - LOOT_SPREAD_RADIUS);
+                    Vector2 lootPosition = pc.Position + new Vector2(offsetX, offsetY);
+
+                    entityManager.SpawnCollectible(lootData, lootPosition, lootVelocity);
                 }
             }
         }

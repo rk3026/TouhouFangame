@@ -39,7 +39,6 @@ namespace BulletHellGame.Managers
         }
 
         public delegate void operation(Entity entity);
-
         public void OperateOnEntities(operation op, params Type[] componentTypes)
         {
             var entities = GetEntitiesWithComponents(componentTypes);

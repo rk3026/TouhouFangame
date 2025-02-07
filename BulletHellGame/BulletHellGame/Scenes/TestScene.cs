@@ -1,4 +1,5 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
+﻿using BulletHellGame.Components;
+using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 using Microsoft.Xna.Framework.Content;
@@ -50,6 +51,9 @@ namespace BulletHellGame.Scenes
             pd.MovementSpeed = 7f;
             pd.FocusedSpeed = 3f;
             pd.Health = 100;
+            pd.InitialLives = 3;
+            pd.InitialBombs = 5;
+            pd.MaxPower = 4f;
 
             // Create new bullet data for the weapons of the player
             BulletData bd = new BulletData();
@@ -132,6 +136,11 @@ namespace BulletHellGame.Scenes
                         enemyData.MovementPattern = "zigzag";
                         enemyData.Health = 100;
                         enemyData.Type = EnemyType.FairyBlue;
+
+                        CollectibleData cd = new CollectibleData();
+                        cd.SpriteName = "PowerUpSmall";
+                        cd.Effects.Add(CollectibleType.PowerUp, 10);
+                        enemyData.Loot.Add(cd);
 
                         // Setting up and adding a weapon
                         BulletData bd = new BulletData();
@@ -275,7 +284,7 @@ namespace BulletHellGame.Scenes
 
         private void DrawUI(SpriteBatch spriteBatch)
         {
-            // Draw the blue background for the UI area
+            // Draw the black background for the UI area
             spriteBatch.Draw(
                 whitePixel,
                 uiArea,
@@ -289,6 +298,7 @@ namespace BulletHellGame.Scenes
             int enemyCount = _entityManager.GetEntityCount(EntityType.Enemy);
             int collectibleCount = _entityManager.GetEntityCount(EntityType.Collectible);
             int characterCount = _entityManager.GetEntityCount(EntityType.Player);
+
             spriteBatch.DrawString(font, $"Bullets: {bulletCount}", position, Color.White);
             position.Y += 20;
             spriteBatch.DrawString(font, $"Enemies: {enemyCount}", position, Color.White);
@@ -298,7 +308,27 @@ namespace BulletHellGame.Scenes
             spriteBatch.DrawString(font, $"Players: {characterCount}", position, Color.White);
             position.Y += 20;
             spriteBatch.DrawString(font, $"Stage Time: {stageTime:F1}", position, Color.White);
+            position.Y += 40; // Extra spacing before player stats
+
+            // Get the player entity
+            foreach (Entity player in _entityManager.GetEntitiesWithComponents(typeof(PlayerStatsComponent)))
+            {
+                var playerStats = player.GetComponent<PlayerStatsComponent>();
+                if (playerStats != null)
+                {
+                    spriteBatch.DrawString(font, $"Score: {playerStats.Score:F1}", position, Color.White);
+                    position.Y += 20;
+                    spriteBatch.DrawString(font, $"Lives: {playerStats.Lives}", position, Color.White);
+                    position.Y += 20;
+                    spriteBatch.DrawString(font, $"Bombs: {playerStats.Bombs}", position, Color.White);
+                    position.Y += 20;
+                    spriteBatch.DrawString(font, $"Power: {playerStats.Power:F1}", position, Color.White);
+                    position.Y += 20;
+                    spriteBatch.DrawString(font, $"Cherry Points: {playerStats.CherryPoints:F1}", position, Color.White);
+                }
+            }
         }
+
 
         private void DrawRetryMenu(SpriteBatch spriteBatch)
         {
