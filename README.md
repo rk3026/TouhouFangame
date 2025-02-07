@@ -1,3 +1,2 @@
 ## CPT_S 487 Touhou game
 A Bullet Hell Game written with MonoGame. In development...
-## Toufic's Main Branch
