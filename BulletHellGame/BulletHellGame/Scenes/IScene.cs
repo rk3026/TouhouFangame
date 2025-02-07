@@ -1,17 +1,20 @@
-public interface IScene
+namespace BulletHellGame.Scenes
 {
-    public void Load();
-    public void Update(GameTime gameTime);
-    public void Draw(SpriteBatch spriteBatch);
-
-    public virtual RenderTarget2D GetFrame()
+    public interface IScene
     {
-        Globals.GraphicsDevice.Clear(Color.Black);
+        public void Load();
+        public void Update(GameTime gameTime);
+        public void Draw(SpriteBatch spriteBatch);
 
-        Globals.SpriteBatch.Begin();
-        Draw(Globals.SpriteBatch);
-        Globals.SpriteBatch.End();
+        public virtual RenderTarget2D GetFrame()
+        {
+            Globals.GraphicsDevice.Clear(Color.Black);
 
-        return new RenderTarget2D(Globals.GraphicsDevice, Globals.WindowSize.X, Globals.WindowSize.Y);
+            Globals.SpriteBatch.Begin();
+            Draw(Globals.SpriteBatch);
+            Globals.SpriteBatch.End();
+
+            return new RenderTarget2D(Globals.GraphicsDevice, Globals.WindowSize.X, Globals.WindowSize.Y);
+        }
     }
 }
