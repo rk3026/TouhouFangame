@@ -13,5 +13,6 @@ namespace BulletHellGame.Data.DataTransferObjects
         public string MovementPattern { get; set; }
         public ShootingPatternData BulletPattern { get; set; }
         public BulletData BulletData { get; set; }
+        public List<CollectibleData> Loot {  get; set; } = new List<CollectibleData>();
     }
 }

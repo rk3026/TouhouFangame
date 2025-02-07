@@ -21,7 +21,7 @@ namespace BulletHellGame.Scenes
         {
             FontManager.Instance.LoadFont(_contentManager, "DFPPOPCorn-W12");
 
-            // Create a 1x1 white pixel texture for the background
+            // Create a 1x1 white pixel texture for the _background
             whitePixel = new Texture2D(_graphicsDevice, 1, 1);
             whitePixel.SetData(new Color[] { Color.White });
         }
@@ -84,7 +84,7 @@ namespace BulletHellGame.Scenes
             int boxX = (screenWidth - boxWidth) / 2;
             int boxY = (screenHeight - boxHeight) / 2;
 
-            // Draw background box
+            // Draw _background box
             spriteBatch.Draw(whitePixel, new Rectangle(boxX, boxY, boxWidth, boxHeight), Color.Black * 0.9f);
 
             // Draw menu options

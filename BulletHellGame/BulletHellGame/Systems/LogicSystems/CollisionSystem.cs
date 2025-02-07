@@ -16,10 +16,10 @@ namespace BulletHellGame.Systems.LogicSystems
 
         private void ApplyCollision(EntityManager entityManager, Entity owner, Entity other)
         {
+            // Handle damage logic if the owner has health and the other entity has a damage component
             if (owner.TryGetComponent<HealthComponent>(out var health) &&
                 other.TryGetComponent<DamageComponent>(out var damage))
             {
-
                 // Apply damage if no ownership conflict exists
                 health.TakeDamage(damage.CalculateDamage());
 
@@ -29,6 +29,47 @@ namespace BulletHellGame.Systems.LogicSystems
                 }
 
                 entityManager.QueueEntityForRemoval(other);
+            }
+
+            // Handle collectible pickup logic
+            if (owner.TryGetComponent<CollectorComponent>(out var cc) &&
+                owner.TryGetComponent<PlayerStatsComponent>(out var stats) &&
+                other.TryGetComponent<PickUpEffectComponent>(out var pec))
+            {
+                foreach (var effect in pec.Effects)
+                {
+                    switch (effect.Key)
+                    {
+                        case CollectibleType.OneUp:
+                            stats.Lives += effect.Value; // Increase lives
+                            break;
+
+                        case CollectibleType.Bomb:
+                            stats.Bombs += effect.Value; // Increase bombs
+                            break;
+
+                        case CollectibleType.PowerUp:
+                            stats.Score += effect.Value;
+                            stats.AddPower(effect.Value); // Use AddPower() to enforce max power limit
+                            break;
+
+                        case CollectibleType.PointItem:
+                            stats.Score += effect.Value; // Increase score
+                            break;
+
+                        case CollectibleType.StarItem:
+                            stats.Score += effect.Value / 2; // Small score reward
+                            stats.CherryPoints += effect.Value; // Add cherry points
+                            break;
+
+                        case CollectibleType.CherryItem:
+                            stats.CherryPoints += effect.Value; // Increase cherry points
+                            stats.CherryPlus += effect.Value / 2; // Some amount goes into Cherry+
+                            break;
+                    }
+                }
+
+                entityManager.QueueEntityForRemoval(other); // Remove collectible after pickup
             }
         }
 

@@ -119,7 +119,7 @@ namespace BulletHellGame.Managers
             else
             {
                 // If the top is a pause screen, also draw the scene below it
-                if (_sceneStack.Count > 1 && _sceneStack.Peek() is PausedScene)
+                if (_sceneStack.Count > 1 && _sceneStack.Peek() is PausedScene || _sceneStack.Peek() is RetryMenuScene)
                 {
                     _sceneStack.ElementAt(_sceneStack.Count - 2)?.Draw(spriteBatch);
                 }

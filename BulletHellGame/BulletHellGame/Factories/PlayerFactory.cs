@@ -19,6 +19,9 @@ namespace BulletHellGame.Factories
             player.AddComponent(new PlayerInputComponent());
             player.AddComponent(new PositionComponent());
             player.AddComponent(new VelocityComponent());
+            player.AddComponent(new CollectorComponent());
+            player.AddComponent(new MagnetComponent());
+            player.AddComponent(new PlayerStatsComponent(playerData.InitialLives, playerData.InitialBombs, playerData.MaxPower));
 
             // Set the hitbox:
             HitboxComponent hc = new HitboxComponent(player, 2);
