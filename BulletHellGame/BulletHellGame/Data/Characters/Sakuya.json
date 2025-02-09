@@ -1,0 +1,52 @@
+{
+  "id": "character3",
+  "name": "Sakuya Izayoi",
+  "description": "Perfect and Elegant Servant",
+  "movement_speed": "Medium",
+  "focused_speed": "Fast",
+  "initial_bombs": 4,
+  "bomb_cherry_loss": "Medium",
+  "special_ability": [ "Large grazing coverage.", "Low loss of cherry points after getting hit." ],
+  "shot_types": [
+    {
+      "name": "Shot Type A: Illusion Sign -Attack-Range-Oriented Type-",
+      "unfocused_shot": "Jack the Ludo Bile: Sakuya throws a wide spread of knives, covering a good portion of the screen when at full power, but they're weak.",
+      "focused_shot": "Jack the Ripper: All of Sakuya's knives will home in on the nearest enemy. This is less useful than Reimu's homing shots- you can't hit enemies behind Sakuya.",
+      "unfocused_bomb": "Indiscriminate: Sakuya throws knives in all directions, completely randomly, but only for a very short time, taking out enemies and bullets.",
+      "focused_bomb": "Killer Doll: Sakuya gets a load of knives ready, and aims them at enemies on-screen, causing damage and taking out any bullets they hit."
+    },
+    {
+      "name": "Shot Type B: Time Sign -Tricky Type-",
+      "unfocused_shot": "Misdirection: Sakuya throws knives ahead of her, but when you move left or right, her knives and her floating 'options' will tilt and fire in that direction. When you stop moving, they settle back in place.",
+      "focused_shot": "Power Direction: Same as above but you can lock Sakuya's 'options' in place, always firing to the left or right. Sakuya's normal knives will fire straight forward.",
+      "unfocused_bomb": "Perfect Square: Sakuya stops time, and she freezes all on-screen bullets. You can graze them while they're like this, as Sakuya's speed increases greatly. When the bomb wears off, all frozen bullets become Star Items.",
+      "focused_bomb": "Private Square: Same as above, but a purple box appears- you can direct this into enemies to inflict damage."
+    }
+  ],
+  "weapons": [
+    {
+      "id": "weapon1",
+      "name": "Marisa's Master Spark",
+      "type": "laser",
+      "damage": 30,
+      "fire_rate": 1.0,
+      "speed": 6,
+      "range": 800
+    }
+  ],
+  "abilities": [
+    {
+      "id": "ability1",
+      "name": "Magic Missile",
+      "cooldown": 8,
+      "effect": "Single-target burst damage",
+      "duration": 0,
+      "area_of_effect": 0
+    }
+  ],
+  "sprite": "marisa_sprite.png",
+  "audio": {
+    "attack_sound": "marisa_attack.wav",
+    "ability_sound": "master_spark.wav"
+  }
+}

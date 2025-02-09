@@ -52,7 +52,6 @@ namespace BulletHellGame.Systems.LogicSystems
                     // Ensure the player stays within bounds
                     float halfWidth = sc.CurrentFrame.Width / 2f;
                     float halfHeight = sc.CurrentFrame.Height / 2f;
-
                     if (pc.Position.X - halfWidth < entityManager.Bounds.Left)
                         pc.Position = new Vector2(entityManager.Bounds.Left + halfWidth, pc.Position.Y);
                     else if (pc.Position.X + halfWidth > entityManager.Bounds.Right)
