@@ -59,7 +59,7 @@ namespace BulletHellGame.Systems.LogicSystems
             foreach (Vector2 firingDirection in shooting.FireDirections)
             {
                 entityManager.SpawnBullet(
-                    shooting.bulletData,
+                    shooting.BulletData,
                     spawnPosition,
                     bulletLayer,
                     firingDirection,

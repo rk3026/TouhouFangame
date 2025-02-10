@@ -138,25 +138,22 @@ namespace BulletHellGame.Managers
             SpawnEntity(EntityType.Collectible, _collectibleFactory.CreateCollectible(collectibleData), position, velocity);
         }
 
-        public void SpawnPlayer(PlayerData playerData)
+        public void SpawnPlayer(CharacterData playerData)
         {
             Vector2 playerStartPosition = new Vector2(Bounds.Width / 2, Bounds.Height - (Bounds.Height / 10));
             Entity player = _playerFactory.CreatePlayer(playerData);
-
-            // Setting up and adding a weapon
-            BulletData bd = new BulletData();
-            bd.SpriteName = "Reimu.OrangeBullet";
-            bd.Damage = 25;
-            bd.BulletType = BulletType.Standard;
-            ShootingComponent wc = new ShootingComponent(bd);
-            wc.FireDirections.Add(new Vector2(0, -10));
-            player.AddComponent(wc);
-
             SpawnEntity(EntityType.Player, player, playerStartPosition, Vector2.Zero);
-            foreach (var weapon in playerData.WeaponsAndOffsets)
+            foreach (var weapon in playerData.PowerLevels[0].SideWeapons)
             {
                 Entity w = _weaponFactory.CreateWeapon(weapon.Value);
                 w.AddComponent(new OwnerComponent(player, weapon.Key));
+                ShootingLevelComponent sc = new ShootingLevelComponent();
+                foreach (var powerLevel in playerData.PowerLevels)
+                {
+                    sc.PowerLevels[powerLevel.Key] = powerLevel.Value.SideWeapons[weapon.Key];
+                }
+                w.AddComponent(sc);
+                w.AddComponent(new ShootingLevelComponent());
                 SpawnEntity(EntityType.Weapon, w, playerStartPosition, Vector2.Zero);
             }
         }

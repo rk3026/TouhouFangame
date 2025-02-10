@@ -3,7 +3,7 @@
     public class WeaponData
     {
         public string SpriteName { get; set; }
-        public BulletData bulletData {  get; set; }
+        public BulletData BulletData {  get; set; }
         public float FireRate {  get; set; }
         public float TimeSinceLastShot { get; set; }
 

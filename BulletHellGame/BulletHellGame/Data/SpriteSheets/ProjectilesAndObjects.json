@@ -9,4 +9,12 @@
 
   // Collectibles
   "PowerUpSmall": { "Default" : [{ "X": 10, "Y": 338, "Width": 13, "Height": 13 }]},
+  "PointItem": { "Default" : [{ "X": 26, "Y": 338, "Width": 13, "Height": 13 }]},
+  "PowerUpLarge": { "Default" : [{ "X": 40, "Y": 338, "Width": 16, "Height": 16 }]},
+  "BombItem": { "Default" : [{ "X": 56, "Y": 338, "Width": 16, "Height": 16 }]},
+  "FullPowerItem": { "Default" : [{ "X": 72, "Y": 338, "Width": 16, "Height": 16 }]},
+  "OneUp": { "Default" : [{ "X": 88, "Y": 338, "Width": 16, "Height": 16 }]},
+  "StarItem": { "Default" : [{ "X": 106, "Y": 338, "Width": 14, "Height": 14 }]},
+  "CherryItem": { "Default" : [{ "X": 122, "Y": 338, "Width": 14, "Height": 14 }]}
+  
 }

@@ -1,0 +1,7 @@
+{
+  "name": "Shot Type B: Dream Sign -Rapid-Fire Type-",
+  "unfocused_shot": "Persuasion Needle: Reimu fires a spread of cards and thin bullets that don't cover much of the screen, but do considerable damage.",
+  "focused_shot": "Extermination: Reimu fires a thin laser with limited horizontal range that does great damage to the enemy.",
+  "unfocused_bomb": "Evil Sealing Circle: A wall of energy moves outwards from Reimu, clearing any bullets and inflicting massive damage.",
+  "focused_bomb": "Duplex Barrier: Reimu throws a giant square out- this only does damage if an enemy wanders into it, but this bomb mostly clears out bullets for you."
+}

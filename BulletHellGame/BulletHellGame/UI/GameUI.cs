@@ -54,15 +54,17 @@ namespace BulletHellGame.UI
                 var stats = player.GetComponent<PlayerStatsComponent>();
                 if (stats != null)
                 {
-                    spriteBatch.DrawString(_font, $"Score: {stats.Score:F1}", position, Color.White);
+                    spriteBatch.DrawString(_font, $"Score: {stats.Score}", position, Color.White);
                     position.Y += 20;
                     spriteBatch.DrawString(_font, $"Lives: {stats.Lives}", position, Color.White);
                     position.Y += 20;
                     spriteBatch.DrawString(_font, $"Bombs: {stats.Bombs}", position, Color.White);
                     position.Y += 20;
-                    spriteBatch.DrawString(_font, $"Power: {stats.Power:F1}", position, Color.White);
+                    spriteBatch.DrawString(_font, $"Power: {stats.Power}", position, Color.White);
                     position.Y += 20;
-                    spriteBatch.DrawString(_font, $"Cherry Points: {stats.CherryPoints:F1}", position, Color.White);
+                    spriteBatch.DrawString(_font, $"Power Level: {stats.CurrentPowerLevel}", position, Color.White);
+                    position.Y += 20;
+                    spriteBatch.DrawString(_font, $"Cherry Points: {stats.CherryPoints}", position, Color.White);
                 }
             }
         }

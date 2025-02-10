@@ -93,7 +93,7 @@ namespace BulletHellGame.Systems.LogicSystems
 
             // Reset weapon stats
             var weaponComponent = entity.GetComponent<ShootingComponent>();
-            weaponComponent.bulletData = newPhaseData.BulletData;
+            weaponComponent.BulletData = newPhaseData.BulletData;
         }
     }
 }

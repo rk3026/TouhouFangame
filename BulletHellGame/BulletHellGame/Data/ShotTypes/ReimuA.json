@@ -1,0 +1,153 @@
+{
+  "name": "Shot Type A: Spirit Sign -Pursuit Type-",
+  "unfocused_shot": "Homing Amulet: Reimu throws cards in front of her, while the yin-yang options fire weak homing bullets, covering a fair amount of the screen.",
+  "focused_shot": "Hakurei Amulet: Reimu throws giant cards (one at a time at low power, four at a time at full power) that home in on enemies, and normal cards straight ahead that don't home in. Get in line with your enemy to increase the damage!",
+  "unfocused_bomb": "Fantasy Seal -Spread-: Reimu throws out red orbs in a circular pattern, which grow in size, head back to her, and explode, clearing bullets and damaging enemies.",
+  "focused_bomb": "Fantasy Seal -Concentrate-: Giant blasts of energy home in on enemies, causing huge damage and clearing any bullets.",
+  "power_levels": [
+    {
+      "level": 0,
+      "front_weapon": {
+        "weapon_type": "Amulet Shot",
+        "sprite_name": "Reimu.OrangeBullet",
+        "fire_rate": 0.2,
+        "fire_directions": [
+          { "x": 0, "y": -5 }
+        ],
+        "bullet_data": {
+          "sprite_name": "Reimu.OrangeBullet",
+          "damage": 25,
+          "bullet_type": "Standard"
+        }
+      },
+      "side_weapons": [
+        {
+          "offset": { "x": -20, "y": 0 },
+          "sprite_name": "Reimu.YinYangOrb",
+          "fire_rate": 1,
+          "fire_directions": [
+            { "x": -0.2, "y": -3 }
+          ],
+          "bullet_data": {
+            "sprite_name": "Reimu.WhiteBullet",
+            "damage": 100,
+            "bullet_type": "Homing"
+          }
+        },
+        {
+          "offset": { "x": 20, "y": 0 },
+          "sprite_name": "Reimu.YinYangOrb",
+          "fire_rate": 1,
+          "fire_directions": [
+            { "x": 0.2, "y": -3 }
+          ],
+          "bullet_data": {
+            "sprite_name": "Reimu.WhiteBullet",
+            "damage": 100,
+            "bullet_type": "Homing"
+          }
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "front_weapon": {
+        "weapon_type": "Amulet Shot",
+        "sprite_name": "Reimu.OrangeBullet",
+        "fire_rate": 0.14,
+        "fire_directions": [
+          { "x": 0, "y": -5 },
+          { "x": -0.2, "y": -5 },
+          { "x": 0.2, "y": -5 }
+        ],
+        "bullet_data": {
+          "sprite_name": "Reimu.OrangeBullet",
+          "damage": 85,
+          "bullet_type": "Standard"
+        }
+      },
+      "side_weapons": [
+        {
+          "offset": { "x": -20, "y": 0 },
+          "sprite_name": "Reimu.YinYangOrb",
+          "fire_rate": 0.94,
+          "fire_directions": [
+            { "x": -0.2, "y": -3 },
+            { "x": -0.2, "y": -1 }
+          ],
+          "bullet_data": {
+            "sprite_name": "Reimu.WhiteBullet",
+            "damage": 160,
+            "bullet_type": "Homing"
+          }
+        },
+        {
+          "offset": { "x": 20, "y": 0 },
+          "sprite_name": "Reimu.YinYangOrb",
+          "fire_rate": 0.94,
+          "fire_directions": [
+            { "x": 0.2, "y": -3 },
+            { "x": 0.2, "y": -1 }
+          ],
+          "bullet_data": {
+            "sprite_name": "Reimu.WhiteBullet",
+            "damage": 160,
+            "bullet_type": "Homing"
+          }
+        }
+      ]
+    },
+    {
+      "level": 6,
+      "front_weapon": {
+        "weapon_type": "Amulet Shot",
+        "sprite_name": "Reimu.OrangeBullet",
+        "fire_rate": 0.08,
+        "fire_directions": [
+          { "x": 0, "y": -5 },
+          { "x": -0.2, "y": -5 },
+          { "x": 0.2, "y": -5 },
+          { "x": -0.4, "y": -5 },
+          { "x": 0.4, "y": -5 }
+        ],
+        "bullet_data": {
+          "sprite_name": "Reimu.OrangeBullet",
+          "damage": 145,
+          "bullet_type": "Standard"
+        }
+      },
+      "side_weapons": [
+        {
+          "offset": { "x": -20, "y": 0 },
+          "sprite_name": "Reimu.YinYangOrb",
+          "fire_rate": 0.88,
+          "fire_directions": [
+            { "x": -0.2, "y": -3 },
+            { "x": -0.2, "y": -1 },
+            { "x": -0.4, "y": -1 }
+          ],
+          "bullet_data": {
+            "sprite_name": "Reimu.WhiteBullet",
+            "damage": 220,
+            "bullet_type": "Homing"
+          }
+        },
+        {
+          "offset": { "x": 20, "y": 0 },
+          "sprite_name": "Reimu.YinYangOrb",
+          "fire_rate": 0.88,
+          "fire_directions": [
+            { "x": 0.2, "y": -3 },
+            { "x": 0.2, "y": -1 },
+            { "x": 0.4, "y": -1 }
+          ],
+          "bullet_data": {
+            "sprite_name": "Reimu.WhiteBullet",
+            "damage": 220,
+            "bullet_type": "Homing"
+          }
+        }
+      ]
+    }
+  ]
+}

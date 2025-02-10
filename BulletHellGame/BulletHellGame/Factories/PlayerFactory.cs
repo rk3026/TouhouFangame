@@ -8,7 +8,7 @@ namespace BulletHellGame.Factories
     public class PlayerFactory
     {
         public PlayerFactory() { }
-        public Entity CreatePlayer(PlayerData playerData)
+        public Entity CreatePlayer(CharacterData playerData)
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(playerData.SpriteName);
             Entity player = new Entity();
@@ -21,7 +21,21 @@ namespace BulletHellGame.Factories
             player.AddComponent(new VelocityComponent());
             player.AddComponent(new CollectorComponent());
             player.AddComponent(new MagnetComponent());
-            player.AddComponent(new PlayerStatsComponent(playerData.InitialLives, playerData.InitialBombs, playerData.MaxPower));
+            player.AddComponent(new PlayerStatsComponent(playerData.InitialLives, playerData.InitialBombs));
+            player.AddComponent(new InvincibilityComponent());
+
+            ShootingLevelComponent plc = new ShootingLevelComponent();
+            foreach (var powerLevel in playerData.PowerLevels)
+            {
+                plc.PowerLevels[powerLevel.Key] = powerLevel.Value.FrontWeapon;
+            }
+            player.AddComponent(plc);
+
+            BulletData bd = playerData.PowerLevels[0].FrontWeapon.BulletData;
+            ShootingComponent sc = new ShootingComponent(bd);
+            sc.FireRate = playerData.PowerLevels[0].FrontWeapon.FireRate;
+            sc.FireDirections = playerData.PowerLevels[0].FrontWeapon.FireDirections;
+            player.AddComponent(sc);
 
             // Set the hitbox:
             HitboxComponent hc = new HitboxComponent(player, 2);

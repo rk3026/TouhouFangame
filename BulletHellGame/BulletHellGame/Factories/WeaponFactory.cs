@@ -22,7 +22,7 @@ namespace BulletHellGame.Factories
             weapon.AddComponent(new PositionComponent());
             weapon.AddComponent(new VelocityComponent());
 
-            ShootingComponent shootingComponent = new ShootingComponent(weaponData.bulletData);
+            ShootingComponent shootingComponent = new ShootingComponent(weaponData.BulletData);
             shootingComponent.FireRate = weaponData.FireRate;
             shootingComponent.FireDirections = weaponData.FireDirections;
             weapon.AddComponent(shootingComponent);
