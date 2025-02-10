@@ -2,17 +2,16 @@
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
-using System.Linq;
 
 namespace BulletHellGame.Factories
 {
-    public class WeaponFactory
+    public class OptionFactory
     {
-        public WeaponFactory() { }
+        public OptionFactory() { }
 
-        public Entity CreateWeapon(WeaponData weaponData)
+        public Entity CreateOption(OptionData optionData)
         {
-            SpriteData spriteData = TextureManager.Instance.GetSpriteData(weaponData.SpriteName);
+            SpriteData spriteData = TextureManager.Instance.GetSpriteData(optionData.SpriteName);
 
             Entity weapon = new Entity();
             SpriteComponent spriteComponent = new SpriteComponent(spriteData);
@@ -22,9 +21,7 @@ namespace BulletHellGame.Factories
             weapon.AddComponent(new PositionComponent());
             weapon.AddComponent(new VelocityComponent());
 
-            ShootingComponent shootingComponent = new ShootingComponent(weaponData.BulletData);
-            shootingComponent.FireRate = weaponData.FireRate;
-            shootingComponent.FireDirections = weaponData.FireDirections;
+            ShootingComponent shootingComponent = new ShootingComponent(optionData.Weapons);
             weapon.AddComponent(shootingComponent);
             return weapon;
         }

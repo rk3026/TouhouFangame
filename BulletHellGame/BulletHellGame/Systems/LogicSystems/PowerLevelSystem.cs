@@ -2,6 +2,7 @@
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
+using System.Linq;
 
 namespace BulletHellGame.Systems.LogicSystems
 {
@@ -9,10 +10,10 @@ namespace BulletHellGame.Systems.LogicSystems
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            foreach (Entity player in entityManager.GetEntitiesWithComponents(typeof(PlayerStatsComponent), typeof(ShootingLevelComponent)))
+            foreach (Entity player in entityManager.GetEntitiesWithComponents(typeof(PlayerStatsComponent), typeof(PowerLevelComponent)))
             {
                 if (!player.TryGetComponent<PlayerStatsComponent>(out var psc)) continue;
-                if (!player.TryGetComponent<ShootingLevelComponent>(out var plc)) continue;
+                if (!player.TryGetComponent<PowerLevelComponent>(out var plc)) continue;
 
                 // Determine the correct power level
                 int newPowerLevel = DeterminePowerLevel(psc.Power);
@@ -39,37 +40,36 @@ namespace BulletHellGame.Systems.LogicSystems
             return 0;
         }
 
-        private void UpdateShooting(Entity player, EntityManager entityManager, PlayerStatsComponent psc, ShootingLevelComponent slc)
+        private void UpdateShooting(Entity player, EntityManager entityManager, PlayerStatsComponent psc, PowerLevelComponent plc)
         {
-
             // Update the player's shooting component
             if (player.TryGetComponent<ShootingComponent>(out var playerShooting))
             {
-                ApplyWeaponDataToShooting(playerShooting, slc.PowerLevels[psc.CurrentPowerLevel]);
+                ApplyWeaponDataToShooting(playerShooting, plc.PowerLevels[psc.CurrentPowerLevel].MainWeapons);
             }
 
-            // Update all weapons owned by the player
-            List<Entity> weapons = entityManager.GetEntitiesWithComponents(typeof(OwnerComponent));
+            // Get all options owned by the player
+            List<Entity> options = entityManager.GetEntitiesWithComponents(typeof(OwnerComponent), typeof(ShootingComponent))
+                .Where(option => option.TryGetComponent<OwnerComponent>(out var owner) && owner.Owner == player)
+                .ToList();
 
-            foreach (Entity weapon in weapons)
+            var optionDataList = plc.PowerLevels[psc.CurrentPowerLevel].Options;
+            int optionCount = Math.Min(options.Count, optionDataList.Count);
+
+            // Assign the correct weapon data to each option
+            for (int i = 0; i < optionCount; i++)
             {
-                if (weapon.TryGetComponent<OwnerComponent>(out var owner) && owner.Owner == player)
+                if (options[i].TryGetComponent<ShootingComponent>(out var optionShooting))
                 {
-                    if (weapon.TryGetComponent<ShootingComponent>(out var weaponShooting) &&
-                        weapon.TryGetComponent<ShootingLevelComponent>(out var weaponslc))
-                    {
-                        ApplyWeaponDataToShooting(weaponShooting, weaponslc.PowerLevels[psc.CurrentPowerLevel]);
-                    }
+                    ApplyWeaponDataToShooting(optionShooting, optionDataList[i].Weapons);
                 }
             }
         }
 
-        private void ApplyWeaponDataToShooting(ShootingComponent shootingComponent, WeaponData weaponData)
+        private void ApplyWeaponDataToShooting(ShootingComponent sc, List<WeaponData> weaponDatas)
         {
-            shootingComponent.BulletData = weaponData.BulletData;
-            shootingComponent.FireRate = weaponData.FireRate;
-            shootingComponent.FireDirections = weaponData.FireDirections;
-            shootingComponent.TimeSinceLastShot = 0f; // Reset firing cooldown
+            sc.SetWeapons(weaponDatas);
         }
+
     }
 }

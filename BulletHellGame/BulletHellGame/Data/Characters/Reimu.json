@@ -15,5 +15,5 @@
     "Smaller Hitbox.",
     "Extra time for bombing after getting hit."
   ],
-  "shot_types": ["ReimuA", "ReimuB"]
+  "shot_types": [ "SpiritSign-PursuitType-", "DreamSign-Rapid-FireType-"]
 }

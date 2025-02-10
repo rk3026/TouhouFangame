@@ -1,4 +1,6 @@
 ﻿/*using BulletHellGame.Data.DataTransferObjects;*/
+using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.DataLoaders;
 using BulletHellGame.Managers;
 /*using BulletHellGame.Scenes;*/
 using Microsoft.Xna.Framework.Content;
@@ -76,10 +78,6 @@ namespace BulletHellGame
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // Load content
-
-            // Load all spritesheets:
             ContentManager content = Content;
 
             // Set up a default texture:
@@ -114,6 +112,8 @@ namespace BulletHellGame
 
             // Add the main menu scene to begin the game:
             _sceneManager.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));
+
+            //ShotData sd = ShotLoader.LoadShotData("HomingAmulet");
         }
 
         protected override void Update(GameTime gameTime)

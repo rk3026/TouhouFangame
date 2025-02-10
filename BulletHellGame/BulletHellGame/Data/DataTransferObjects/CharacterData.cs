@@ -14,18 +14,7 @@
         public int InitialBombs { get; set; }
         public string BombCherryLoss { get; set; }
         public float DeathbombWindow { get; set; } = 0.33f;
-        public Dictionary<int, PlayerShootingData> PowerLevels { get; set; } = new();
-
+        public Dictionary<int, PowerLevelData> PowerLevels { get; set; } = new();
         public List<string> SpecialAbilities { get; set; } = new();
-        public List<ShotTypeDescription> ShotTypeDescriptions { get; set; } = new();
-    }
-
-    public class ShotTypeDescription
-    {
-        public string Name { get; set; }
-        public string UnfocusedShot { get; set; }
-        public string FocusedShot { get; set; }
-        public string UnfocusedBomb { get; set; }
-        public string FocusedBomb { get; set; }
     }
 }
