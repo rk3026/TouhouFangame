@@ -131,75 +131,96 @@ namespace BulletHellGame.Scenes
                 Health = 100,
                 InitialLives = 3,
                 InitialBombs = 5,
-                PowerLevels = new Dictionary<int, PlayerShootingData>()
+                PowerLevels = new Dictionary<int, PowerLevelData>()
             };
-
-            Vector2 leftWeaponOffset = new Vector2(-20, 0);
-            Vector2 rightWeaponOffset = new Vector2(20, 0);
 
             for (int i = 0; i <= 8; i++)
             {
-                BulletData frontWeaponBullet = new BulletData
+                BulletData orangeBullet = new BulletData
                 {
                     Damage = 25 + (i * 20), // Increase damage per level
                     BulletType = BulletType.Standard,
                     SpriteName = "Reimu.OrangeBullet"
                 };
-                BulletData sideWeaponBullet = new BulletData
+                BulletData giantCard = new BulletData
+                {
+                    Damage = 100 + (i * 20),
+                    BulletType = BulletType.Homing,
+                    SpriteName = "Reimu.GiantCard"
+                };
+                BulletData homingBullet = new BulletData
                 {
                     Damage = 100 + (i * 20), // Increase damage per level
-                    //BulletType = (i >= 4) ? BulletType.Laser : BulletType.Homing, // Switch to lasers at level 4+
                     BulletType = BulletType.Homing,
                     SpriteName = "Reimu.WhiteBullet"
                 };
-                WeaponData frontWeapon = new WeaponData();
-                frontWeapon.BulletData = frontWeaponBullet;
-                frontWeapon.FireRate = Math.Max(0.05f, .2f - (i * 0.02f));
-                frontWeapon.FireDirections = new List<Vector2>();
-                frontWeapon.TimeSinceLastShot = 0;
-                WeaponData leftWeapon = CreateWeapon(sideWeaponBullet, fireRate: 1f - (i * 0.02f), powerLevel: i);
-                WeaponData rightWeapon = CreateWeapon(sideWeaponBullet, fireRate: 1f - (i * 0.02f), powerLevel: i);
+
+                // Orange Card Weapon:
+                WeaponData orangeCardWeapon = new WeaponData();
+                orangeCardWeapon.BulletData = orangeBullet;
+                orangeCardWeapon.FireRate = Math.Max(0.05f, .2f - (i * 0.02f));
+                orangeCardWeapon.FireDirections = new List<Vector2>();
+                orangeCardWeapon.TimeSinceLastShot = 0;
+
+                // Giant Card Weapon:
+                WeaponData giantCardWeapon = new WeaponData();
+                giantCardWeapon.BulletData = giantCard;
+                giantCardWeapon.FireRate = Math.Max(0.2f, 0.6f - (i * 0.05f)); // Start 0.6, decrease by .05 per level
+                giantCardWeapon.FireDirections = new List<Vector2>();
+                giantCardWeapon.TimeSinceLastShot = 0;
+
+                OptionData leftOption = CreateOption(homingBullet, fireRate: 1f - (i * 0.02f));
+                leftOption.Offset = new Vector2(-20, 0);
+                OptionData rightOption = CreateOption(homingBullet, fireRate: 1f - (i * 0.02f));
+                rightOption.Offset = new Vector2(20, 0);
                 if (i >= 0)
                 {
-                    frontWeapon.FireDirections.Add(new Vector2(0, -5f));
-                    leftWeapon.FireDirections.Add(new Vector2(-0.2f, -3f)); // Slight angle left
-                    rightWeapon.FireDirections.Add(new Vector2(0.2f, -3f)); // Slight angle right
+                    orangeCardWeapon.FireDirections.Add(new Vector2(0, -5f));
+                    giantCardWeapon.FireDirections.Add(new Vector2(0, -4f));
+                    leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.2f, -3f)); // Slight angle left
+                    rightOption.Weapons.First().FireDirections.Add(new Vector2(0.2f, -3f)); // Slight angle right
                 }
                 // Spread bullets at higher levels
                 if (i >= 3)
                 {
-                    frontWeapon.FireDirections.Add(new Vector2(-0.2f, -5f));
-                    frontWeapon.FireDirections.Add(new Vector2(0.2f, -5f));
-                    leftWeapon.FireDirections.Add(new Vector2(-0.2f, -1f)); // Slight angle left
-                    rightWeapon.FireDirections.Add(new Vector2(0.2f, -1f)); // Slight angle right
+                    orangeCardWeapon.FireDirections.Add(new Vector2(-0.2f, -5f));
+                    orangeCardWeapon.FireDirections.Add(new Vector2(0.2f, -5f));
+                    leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.2f, -1f)); // Slight angle left
+                    rightOption.Weapons.First().FireDirections.Add(new Vector2(0.2f, -1f)); // Slight angle right
                 }
                 if (i >= 6)
                 {
-                    frontWeapon.FireDirections.Add(new Vector2(-0.4f, -5f));
-                    frontWeapon.FireDirections.Add(new Vector2(0.4f, -5f));
-                    leftWeapon.FireDirections.Add(new Vector2(-0.4f, -1f)); // Wider angle left
-                    rightWeapon.FireDirections.Add(new Vector2(0.4f, -1f)); // Wider angle right
+                    orangeCardWeapon.FireDirections.Add(new Vector2(-0.4f, -5f));
+                    orangeCardWeapon.FireDirections.Add(new Vector2(0.4f, -5f));
+                    leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.4f, -1f)); // Wider angle left
+                    rightOption.Weapons.First().FireDirections.Add(new Vector2(0.4f, -1f)); // Wider angle right
                 }
 
-                PlayerShootingData psd = new();
-                psd.FrontWeapon = frontWeapon;
-                psd.SideWeapons.Add(leftWeaponOffset, leftWeapon);
-                psd.SideWeapons.Add(rightWeaponOffset, rightWeapon);
-                pd.PowerLevels[i] = psd;
+                PowerLevelData pld = new();
+                pld.MainWeapons.Add(orangeCardWeapon);
+                pld.MainWeapons.Add(giantCardWeapon);
+                pld.Options.Add(leftOption);
+                pld.Options.Add(rightOption);
+                pd.PowerLevels[i] = pld;
             }
 
             _entityManager.SpawnPlayer(pd);
         }
 
-        private WeaponData CreateWeapon(BulletData bulletData, float fireRate, int powerLevel)
+        private OptionData CreateOption(BulletData bulletData, float fireRate)
         {
-            return new WeaponData
+            return new OptionData
             {
                 SpriteName = "Reimu.YinYangOrb",
-                BulletData = bulletData,
-                FireRate = Math.Max(0.05f, fireRate), // Prevents fire rate from getting too low
-                FireDirections = new List<Vector2> {}, // Default straight shot
-                TimeSinceLastShot = 0
+                Weapons = new List<WeaponData>
+                {
+                    new WeaponData {
+                        BulletData = bulletData,
+                        FireRate = Math.Max(0.05f, fireRate), // Prevents fire rate from getting too low
+                        FireDirections = new List<Vector2> { }, // Default straight shot
+                        TimeSinceLastShot = 0
+                    }
+                }
             };
         }
 
@@ -226,6 +247,20 @@ namespace BulletHellGame.Scenes
 
         private EnemyData CreateEnemyData()
         {
+            // Fire 1 to 2 bullets per shot
+            int numBullets = _random.Next(1, 3);
+
+            List<Vector2> fireDirections = new List<Vector2>();
+            for (int i = 0; i < numBullets; i++)
+            {
+                // Randomize an angle between -15 and +15 degrees (centered around downward)
+                float randomAngle = -15f + (float)_random.NextDouble() * 30f; // -15 to +15 degrees
+                float angleRad = (randomAngle + 90f) * (MathF.PI / 180f); // Convert to radians (90° is downward)
+
+                // Compute direction vector
+                fireDirections.Add(new Vector2(MathF.Cos(angleRad), MathF.Sin(angleRad) + 1f));
+            }
+
             var enemy = new EnemyData
             {
                 SpriteName = "Fairy.Blue",
@@ -234,15 +269,21 @@ namespace BulletHellGame.Scenes
                 ExitPosition = new Vector2(_entityManager.Bounds.Left, _entityManager.Bounds.Top),
                 MovementPattern = "zigzag",
                 Health = 100,
-                BulletData = new BulletData
+                Weapons = new List<WeaponData>
                 {
-                    SpriteName = "DoubleCircle.White",
-                    Damage = _random.Next(20, 30),
-                    BulletType = BulletType.Standard
+                    new WeaponData() {
+                        BulletData = new BulletData()
+                        {
+                            SpriteName = "DoubleCircle.White",
+                            Damage = _random.Next(20, 30),
+                            BulletType = BulletType.Standard,
+                        },
+                        FireRate = 1f + (float)_random.NextDouble() * 2f, // Fire rate between 1.0s and 3.0s
+                        FireDirections = fireDirections
+                    }
                 },
                 Loot = GenerateRandomLoot()
             };
-
             return enemy;
         }
 
@@ -286,6 +327,17 @@ namespace BulletHellGame.Scenes
 
         private EnemyData CreateBossPhase(string bulletSprite, string movementPattern)
         {
+            // Circular bullet pattern
+            int numBullets = _random.Next(8, 13); // Boss fires between 8-12 bullets per shot
+            float angleStep = 360f / numBullets; // Evenly distribute bullets
+
+            List<Vector2> fireDirections = new List<Vector2>();
+            for (int i = 0; i < numBullets; i++)
+            {
+                float angle = (i * angleStep) * (MathF.PI / 180f); // Convert degrees to radians
+                fireDirections.Add(new Vector2(MathF.Cos(angle), MathF.Sin(angle))); // Circular pattern
+            }
+
             return new EnemyData
             {
                 SpriteName = "Cirno",
@@ -294,11 +346,20 @@ namespace BulletHellGame.Scenes
                 ExitPosition = new Vector2(_entityManager.Bounds.Left, _entityManager.Bounds.Top),
                 MovementPattern = movementPattern,
                 Health = 5000,
-                BulletData = new BulletData
+
+                Weapons = new List<WeaponData>
                 {
-                    SpriteName = bulletSprite,
-                    Damage = _random.Next(30, 50),
-                    BulletType = BulletType.Standard
+                    new WeaponData
+                    {
+                        BulletData = new BulletData
+                        {
+                            SpriteName = bulletSprite,
+                            Damage = _random.Next(30, 50),
+                            BulletType = BulletType.Standard
+                        },
+                        FireDirections = fireDirections, // Assign generated directions
+                        FireRate = 0.3f + (float)_random.NextDouble() * (1.0f - 0.3f) // Random fire rate between 0.3s and 1.0s
+                    }
                 }
             };
         }

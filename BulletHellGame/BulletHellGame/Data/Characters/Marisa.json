@@ -15,5 +15,5 @@
     "Low threshold of items' max value.",
     "Low point of collection boundary."
   ],
-  "shot_types": ["MarisaA", "MarisaB"]
+  "shot_types": [ "MagicSign-Power-OrientedType-", "LoveSign-PenetrationType-" ]
 }

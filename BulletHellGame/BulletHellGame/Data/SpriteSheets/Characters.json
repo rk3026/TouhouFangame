@@ -23,6 +23,9 @@
   "Reimu.WhiteBullet": {
     "Default": [{ "X": 143, "Y": 1, "Width": 14, "Height": 14 }]
   },
+    "Reimu.GiantCard": {
+    "Default": [{ "X": 208, "Y": 2, "Width": 28, "Height": 28 }]
+  },
   "Reimu.YinYangOrb": {
     "Default": [{ "X": 126, "Y": 16, "Width": 16, "Height": 16 }]
   }

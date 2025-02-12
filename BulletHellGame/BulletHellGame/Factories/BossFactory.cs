@@ -34,20 +34,8 @@ namespace BulletHellGame.Factories
             boss.AddComponent(new VelocityComponent());
             boss.AddComponent(new MovementPatternComponent(firstPhase.MovementPattern));
 
-            ShootingComponent wc = new ShootingComponent(firstPhase.BulletData);
-            wc.FireRate = (float)_random.NextDouble() * 2f + 1f; // Fire rate between 1 and 3 shots per second
-
-            // Circular bullet pattern
-            int numBullets = _random.Next(8, 13); // Boss fires between 8-12 bullets per shot
-            float angleStep = 360f / numBullets; // Evenly distribute bullets
-
-            for (int i = 0; i < numBullets; i++)
-            {
-                float angle = (i * angleStep) * (MathF.PI / 180f); // Convert degrees to radians
-                wc.FireDirections.Add(new Vector2(MathF.Cos(angle), MathF.Sin(angle))); // Circular pattern
-            }
-
-            boss.AddComponent(wc);
+            ShootingComponent shc = new ShootingComponent(firstPhase.Weapons);
+            boss.AddComponent(shc);
 
             // Set the hitbox:
             HitboxComponent hc = new HitboxComponent(boss, 1);

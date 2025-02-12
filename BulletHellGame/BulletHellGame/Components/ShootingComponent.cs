@@ -1,23 +1,32 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
+﻿using System.Collections.Generic;
+using BulletHellGame.Data.DataTransferObjects;
 
 namespace BulletHellGame.Components
 {
     public class ShootingComponent : IComponent
     {
-        public BulletData BulletData { get; set; }
-        public float FireRate { get; set; } = 0.1f; // Seconds between shots
-        public float TimeSinceLastShot { get; set; }
+        public List<WeaponData> Weapons { get; private set; } = new List<WeaponData>();
 
-        public List<Vector2> FireDirections = new List<Vector2>();
+        // Stores cooldowns per weapon
+        public Dictionary<WeaponData, float> WeaponCooldowns { get; private set; } = new Dictionary<WeaponData, float>();
 
-        public ShootingComponent(BulletData bulletData) {
-            this.BulletData = bulletData;
-            TimeSinceLastShot = FireRate;
+        public ShootingComponent(List<WeaponData> weapons)
+        {
+            SetWeapons(weapons);
         }
 
-        public bool CanShoot()
+        public void SetWeapons(List<WeaponData> newWeapons)
         {
-            return TimeSinceLastShot >= FireRate;
+            Weapons = newWeapons;
+
+            // Ensure cooldowns exist for each weapon
+            foreach (var weapon in Weapons)
+            {
+                if (!WeaponCooldowns.ContainsKey(weapon))
+                {
+                    WeaponCooldowns[weapon] = 0f; // Start with no cooldown
+                }
+            }
         }
     }
 }

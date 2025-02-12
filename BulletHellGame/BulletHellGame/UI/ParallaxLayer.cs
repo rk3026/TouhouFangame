@@ -1,7 +1,4 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
-using System.Linq;
-
-namespace BulletHellGame.UI
+﻿namespace BulletHellGame.UI
 {
     public class ParallaxLayer
     {
