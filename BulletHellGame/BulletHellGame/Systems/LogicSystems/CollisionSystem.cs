@@ -16,6 +16,8 @@ namespace BulletHellGame.Systems.LogicSystems
 
         private void ApplyCollision(EntityManager entityManager, Entity owner, Entity other)
         {
+            if (owner.TryGetComponent<InvincibilityComponent>(out var ic) && ic.RemainingTime > 0) return; // Ignore damage while invincible
+
             // Handle damage logic if the owner has health and the other entity has a damage component
             if (owner.TryGetComponent<HealthComponent>(out var health) &&
                 other.TryGetComponent<DamageComponent>(out var damage))
@@ -28,6 +30,20 @@ namespace BulletHellGame.Systems.LogicSystems
                     sprite.FlashRed(0.1f);
                 }
 
+                if (owner.TryGetComponent<PlayerStatsComponent>(out var psc))
+                {
+                    if (health.CurrentHealth <= 0) // Check if the player is out of health
+                    {
+                        if (psc.Lives > 0) // Only decrement if they have extra lives
+                        {
+                            psc.Lives -= 1;
+                            health.Heal(health.MaxHealth);
+                            ic.RemainingTime = 3f; // Add 3 seconds of invincibility
+                            sprite.FlashRed();
+                            return; // Prevent player removal
+                        }
+                    }
+                }
                 entityManager.QueueEntityForRemoval(other);
             }
 
@@ -41,20 +57,20 @@ namespace BulletHellGame.Systems.LogicSystems
                     switch (effect.Key)
                     {
                         case CollectibleType.OneUp:
-                            stats.Lives += effect.Value; // Increase lives
+                            stats.Lives += effect.Value;
                             break;
 
                         case CollectibleType.Bomb:
-                            stats.Bombs += effect.Value; // Increase bombs
+                            stats.Bombs += effect.Value;
                             break;
 
                         case CollectibleType.PowerUp:
                             stats.Score += effect.Value;
-                            stats.AddPower(effect.Value); // Use AddPower() to enforce max power limit
+                            stats.Power += effect.Value;
                             break;
 
                         case CollectibleType.PointItem:
-                            stats.Score += effect.Value; // Increase score
+                            stats.Score += effect.Value;
                             break;
 
                         case CollectibleType.StarItem:
@@ -72,6 +88,7 @@ namespace BulletHellGame.Systems.LogicSystems
                 entityManager.QueueEntityForRemoval(other); // Remove collectible after pickup
             }
         }
+
 
         public void Update(EntityManager entityManager, GameTime gameTime)
         {

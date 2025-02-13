@@ -1,0 +1,19 @@
+{
+  "id": 3,
+  "name": "Sakuya Izayoi",
+  "description": "Perfect and Elegant Servant",
+  "sprite_name": "Sakuya",
+  "health": 100,
+  "hitbox_size": { "x": 3, "y": 3 },
+  "movement_speed": 6,
+  "focused_speed": 4,
+  "initial_lives": 3,
+  "initial_bombs": 4,
+  "bomb_cherry_loss": "medium",
+  "deathbomb_window": 0.33,
+  "special_abilities": [
+    "Large grazing coverage.",
+    "Low loss of cherry points after getting hit."
+  ],
+  "shot_types": ["IllusionSign-Attack-Range-OrientedType-", "TimeSign-TrickyType-"]
+}

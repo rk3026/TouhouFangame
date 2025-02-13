@@ -19,7 +19,7 @@ namespace BulletHellGame.Managers
         private readonly CollectibleFactory _collectibleFactory;
         private readonly PlayerFactory _playerFactory;
         private readonly BossFactory _bossFactory;
-        private readonly WeaponFactory _weaponFactory;
+        private readonly OptionFactory _optionFactory;
 
         public EntityManager(Rectangle bounds)
         {
@@ -29,7 +29,7 @@ namespace BulletHellGame.Managers
             _collectibleFactory = new CollectibleFactory();
             _playerFactory = new PlayerFactory();
             _bossFactory = new BossFactory();
-            _weaponFactory = new WeaponFactory();
+            _optionFactory = new OptionFactory();
 
             // Initialize entity lists
             foreach (EntityType type in Enum.GetValues(typeof(EntityType)))
@@ -138,26 +138,20 @@ namespace BulletHellGame.Managers
             SpawnEntity(EntityType.Collectible, _collectibleFactory.CreateCollectible(collectibleData), position, velocity);
         }
 
-        public void SpawnPlayer(PlayerData playerData)
+        public void SpawnPlayer(CharacterData playerData)
         {
             Vector2 playerStartPosition = new Vector2(Bounds.Width / 2, Bounds.Height - (Bounds.Height / 10));
             Entity player = _playerFactory.CreatePlayer(playerData);
-
-            // Setting up and adding a weapon
-            BulletData bd = new BulletData();
-            bd.SpriteName = "Reimu.OrangeBullet";
-            bd.Damage = 25;
-            bd.BulletType = BulletType.Standard;
-            ShootingComponent wc = new ShootingComponent(bd);
-            wc.FireDirections.Add(new Vector2(0, -10));
-            player.AddComponent(wc);
-
             SpawnEntity(EntityType.Player, player, playerStartPosition, Vector2.Zero);
-            foreach (var weapon in playerData.WeaponsAndOffsets)
+
+            // Create the weapons of the character (they are separate entitites):
+            // for however many options the player has (typically 2):
+            for (int i = 0; i<playerData.PowerLevels.FirstOrDefault().Value.Options.Count; i++) // At first, set them to power level 0
             {
-                Entity w = _weaponFactory.CreateWeapon(weapon.Value);
-                w.AddComponent(new OwnerComponent(player, weapon.Key));
-                SpawnEntity(EntityType.Weapon, w, playerStartPosition, Vector2.Zero);
+                OptionData optionData = playerData.PowerLevels.FirstOrDefault().Value.Options[i];
+                Entity option = _optionFactory.CreateOption(optionData);
+                option.AddComponent(new OwnerComponent(player, optionData.Offset));
+                SpawnEntity(EntityType.Weapon, option, playerStartPosition, Vector2.Zero);
             }
         }
 

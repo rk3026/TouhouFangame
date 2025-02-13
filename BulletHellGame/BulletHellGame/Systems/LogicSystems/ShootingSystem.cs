@@ -10,61 +10,80 @@ namespace BulletHellGame.Systems.LogicSystems
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            foreach (var entity in entityManager.GetEntitiesWithComponents(
-                typeof(ShootingComponent), typeof(PositionComponent)))
+            foreach (var entity in entityManager.GetEntitiesWithComponents(typeof(ShootingComponent), typeof(PositionComponent)))
             {
                 var shooting = entity.GetComponent<ShootingComponent>();
                 var position = entity.GetComponent<PositionComponent>();
 
-                // Update cooldown
-                shooting.TimeSinceLastShot += deltaTime;
+                // Update cooldowns for each weapon
+                foreach (var weapon in shooting.Weapons)
+                {
+                    if (shooting.WeaponCooldowns.ContainsKey(weapon))
+                    {
+                        shooting.WeaponCooldowns[weapon] += deltaTime;
+                    }
+                }
 
-                // Check if owner can shoot and if cooldown is over
-                if (!ShouldEntityShoot(entity, shooting, out int bulletLayer))
+                // Determine bullet layer (player or enemy)
+                int bulletLayer = GetBulletLayer(entity);
+
+                // Check if the entity should shoot
+                if (!CanShoot(entity))
                     continue;
 
-                // Fire bullets and reset cooldown
+                // Fire bullets for all available weapons that are off cooldown
                 FireBullets(entityManager, entity, shooting, position.Position, bulletLayer);
-                shooting.TimeSinceLastShot = 0f;
             }
         }
 
-        private bool ShouldEntityShoot(Entity entity, ShootingComponent shooting, out int bulletLayer)
+        private int GetBulletLayer(Entity entity)
         {
-            bulletLayer = 1; // Default to enemy bullet layer
+            if (entity.TryGetComponent<PlayerInputComponent>(out _))
+                return 2; // Player bullets
 
-            if (shooting.TimeSinceLastShot < shooting.FireRate)
-                return false; // Cooldown not over
+            if (entity.TryGetComponent<OwnerComponent>(out var owner) &&
+                owner.Owner.TryGetComponent<PlayerInputComponent>(out _))
+                return 2; // Player-owned options/familiars
 
+            return 1; // Default to enemy bullets
+        }
+
+        private bool CanShoot(Entity entity)
+        {
+            // Players can only shoot when pressing the shoot button
             if (entity.TryGetComponent<PlayerInputComponent>(out var playerInput))
-            {
-                if (!playerInput.IsShooting) return false;
-                bulletLayer = 2;
-                return true;
-            }
+                return playerInput.IsShooting;
 
-            if (entity.TryGetComponent<OwnerComponent>(out var ownerComponent) &&
-                ownerComponent.Owner.TryGetComponent<PlayerInputComponent>(out var ownerInput))
-            {
-                if (!ownerInput.IsShooting) return false;
-                bulletLayer = 2;
-                return true;
-            }
+            // Options/Familiars (owned weapons) can only shoot if their owner is shooting
+            if (entity.TryGetComponent<OwnerComponent>(out var owner) &&
+                owner.Owner.TryGetComponent<PlayerInputComponent>(out var ownerInput))
+                return ownerInput.IsShooting;
 
-            return shooting.CanShoot();
+            // Enemies automatically shoot when their cooldowns are ready
+            return true;
         }
 
         private void FireBullets(EntityManager entityManager, Entity owner, ShootingComponent shooting, Vector2 spawnPosition, int bulletLayer)
         {
-            foreach (Vector2 firingDirection in shooting.FireDirections)
+            foreach (var weapon in shooting.Weapons)
             {
-                entityManager.SpawnBullet(
-                    shooting.bulletData,
-                    spawnPosition,
-                    bulletLayer,
-                    firingDirection,
-                    owner
-                );
+                if (shooting.WeaponCooldowns.TryGetValue(weapon, out float cooldown) && cooldown >= weapon.FireRate)
+                {
+                    // Fire bullets in all designated directions
+                    foreach (Vector2 firingDirection in weapon.FireDirections)
+                    {
+                        entityManager.SpawnBullet(
+                            weapon.BulletData,
+                            spawnPosition,
+                            bulletLayer,
+                            firingDirection,
+                            owner
+                        );
+                    }
+
+                    // Reset cooldown for this weapon
+                    shooting.WeaponCooldowns[weapon] = 0f;
+                }
             }
         }
     }

@@ -43,39 +43,8 @@ namespace BulletHellGame.Scenes
 
             // Set up system manager:
             this._systemManager = new SystemManager(this._graphicsDevice);
-
-            // Set the player:
-            PlayerData pd = new PlayerData();
-            pd.SpriteName = "Reimu";
-            pd.MovementSpeed = 7f;
-            pd.FocusedSpeed = 3f;
-            pd.Health = 100;
-            pd.InitialLives = 3;
-            pd.InitialBombs = 5;
-            pd.MaxPower = 4f;
-
-            // Create new bullet data for the weapons of the player
-            BulletData bd = new BulletData();
-            bd.Damage = 100;
-            bd.BulletType = BulletType.Homing;
-            bd.SpriteName = "Reimu.WhiteBullet";
-
-            // Create the weapon datas for the player
-            WeaponData leftW = new WeaponData();
-            leftW.SpriteName = "Reimu.YinYangOrb";
-            leftW.FireRate = 1f;
-            leftW.FireDirections = new List<Vector2> { new Vector2(-2, -5) };
-            leftW.bulletData = bd;
-            WeaponData rightW = new WeaponData();
-            rightW.SpriteName = "Reimu.YinYangOrb";
-            rightW.FireRate = 1f;
-            rightW.FireDirections = new List<Vector2> { new Vector2(2, -5) };
-            rightW.bulletData = bd;
-
-            // Add two weapons (left and right of the player)
-            pd.WeaponsAndOffsets.Add(new Vector2(-20,0), leftW);
-            pd.WeaponsAndOffsets.Add(new Vector2(20, 0), rightW);
-            this._entityManager.SpawnPlayer(pd);
+            
+            InitializePlayer();
         }
 
         public void Load()
@@ -135,93 +104,11 @@ namespace BulletHellGame.Scenes
             _parallaxBackground.Update(gameTime);
             _gameUI.Update(gameTime);
 
-            // Spawn a batch of enemies on F key press:
             if (InputManager.Instance.KeyPressed(Keys.F))
-            {
-                int gridSize = 5;
-                float offset = 50; // Distance between enemies
-                float baseSpawnX = _playableArea.Center.X; // Start from the center of the playable area
-                float baseSpawnY = _playableArea.Top + offset; // Start at the top of the playable area
-
-                for (int row = 0; row < gridSize; row++)
-                {
-                    for (int col = 0; col < gridSize; col++)
-                    {
-                        // Adjust spawn positions based on the grid, making sure they are inside the playable area
-                        float spawnX = baseSpawnX + (col - (gridSize / 2)) * offset;
-                        float spawnY = baseSpawnY + row * offset;
-
-                        // Ensure the enemy's position stays within the bounds of the playable area
-                        spawnX = MathHelper.Clamp(spawnX, _playableArea.Left, _playableArea.Right);
-                        spawnY = MathHelper.Clamp(spawnY, _playableArea.Top, _playableArea.Bottom);
-
-                        EnemyData enemyData = new EnemyData();
-                        enemyData.SpriteName = "Fairy.Blue";
-                        enemyData.SpawnPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
-                        enemyData.StartPosition = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 2);
-                        enemyData.ExitPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
-                        enemyData.MovementPattern = "zigzag";
-                        enemyData.Health = 100;
-                        enemyData.Type = EnemyType.FairyBlue;
-
-                        CollectibleData cd = new CollectibleData();
-                        cd.SpriteName = "PowerUpSmall";
-                        cd.Effects.Add(CollectibleType.PowerUp, 10);
-                        enemyData.Loot.Add(cd);
-
-                        // Setting up and adding a weapon
-                        BulletData bd = new BulletData();
-                        bd.SpriteName = "DoubleCircle.White";
-                        bd.Damage = _random.Next(20, 30);  // Randomized damage between 20-30
-                        bd.BulletType = BulletType.Standard;
-                        enemyData.BulletData = bd;
-
-                        _entityManager.SpawnEnemy(enemyData, new Vector2(spawnX, spawnY));
-
-                    }
-                }
-            }
+                SpawnEnemyGrid(5, 50);
 
             if (InputManager.Instance.KeyPressed(Keys.G))
-            {
-                EnemyData phase1 = new EnemyData();
-                phase1.SpriteName = "Cirno";
-                phase1.SpawnPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
-                phase1.StartPosition = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 2);
-                phase1.ExitPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
-                phase1.MovementPattern = "circular";
-                phase1.Health = 5000;
-                phase1.Type = EnemyType.FairyBlue;
-                BulletData bd = new BulletData();
-                bd.SpriteName = "DoubleCircle.Red";
-                bd.Damage = _random.Next(30, 50); // Randomized damage between 30-50
-                bd.BulletType = BulletType.Standard;
-                phase1.BulletData = bd;
-
-                EnemyData phase2 = new EnemyData();
-                phase2.SpriteName = "Cirno";
-                phase2.SpawnPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
-                phase2.StartPosition = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 2);
-                phase2.ExitPosition = new Vector2(this._entityManager.Bounds.Left, this._entityManager.Bounds.Top);
-                phase2.MovementPattern = "zigzag";
-                phase2.Health = 5000;
-                phase2.Type = EnemyType.FairyBlue;
-                BulletData bd2 = new BulletData();
-                bd2.SpriteName = "DoubleCircle.DarkRed";
-                bd2.Damage = _random.Next(30, 50); // Randomized damage between 30-50
-                bd2.BulletType = BulletType.Standard;
-                phase2.BulletData = bd2;
-
-                BossData bossData = new BossData();
-                bossData.Phases = new List<EnemyData>() {
-                    phase1,
-                    phase2,
-                };
-
-                Vector2 spawnPos = new Vector2(this._entityManager.Bounds.Width / 2, this._entityManager.Bounds.Height / 10);
-
-                _entityManager.SpawnBoss(bossData, spawnPos);
-            }
+                SpawnBoss();
         }
 
 
@@ -233,6 +120,248 @@ namespace BulletHellGame.Scenes
             _systemManager.Draw(_entityManager, spriteBatch);
 
             _gameUI.Draw(spriteBatch);
+        }
+        private void InitializePlayer()
+        {
+            CharacterData pd = new CharacterData
+            {
+                SpriteName = "Reimu",
+                MovementSpeed = 7f,
+                FocusedSpeed = 3f,
+                Health = 100,
+                InitialLives = 3,
+                InitialBombs = 5,
+                PowerLevels = new Dictionary<int, PowerLevelData>()
+            };
+
+            for (int i = 0; i <= 8; i++)
+            {
+                BulletData orangeBullet = new BulletData
+                {
+                    Damage = 25 + (i * 20), // Increase damage per level
+                    BulletType = BulletType.Standard,
+                    SpriteName = "Reimu.OrangeBullet"
+                };
+                BulletData giantCard = new BulletData
+                {
+                    Damage = 100 + (i * 20),
+                    BulletType = BulletType.Homing,
+                    SpriteName = "Reimu.GiantCard"
+                };
+                BulletData homingBullet = new BulletData
+                {
+                    Damage = 100 + (i * 20), // Increase damage per level
+                    BulletType = BulletType.Homing,
+                    SpriteName = "Reimu.WhiteBullet"
+                };
+
+                // Orange Card Weapon:
+                WeaponData orangeCardWeapon = new WeaponData();
+                orangeCardWeapon.BulletData = orangeBullet;
+                orangeCardWeapon.FireRate = Math.Max(0.05f, .2f - (i * 0.02f));
+                orangeCardWeapon.FireDirections = new List<Vector2>();
+                orangeCardWeapon.TimeSinceLastShot = 0;
+
+                // Giant Card Weapon:
+                WeaponData giantCardWeapon = new WeaponData();
+                giantCardWeapon.BulletData = giantCard;
+                giantCardWeapon.FireRate = Math.Max(0.2f, 0.6f - (i * 0.05f)); // Start 0.6, decrease by .05 per level
+                giantCardWeapon.FireDirections = new List<Vector2>();
+                giantCardWeapon.TimeSinceLastShot = 0;
+
+                OptionData leftOption = CreateOption(homingBullet, fireRate: 1f - (i * 0.02f));
+                leftOption.Offset = new Vector2(-20, 0);
+                OptionData rightOption = CreateOption(homingBullet, fireRate: 1f - (i * 0.02f));
+                rightOption.Offset = new Vector2(20, 0);
+                if (i >= 0)
+                {
+                    orangeCardWeapon.FireDirections.Add(new Vector2(0, -5f));
+                    giantCardWeapon.FireDirections.Add(new Vector2(0, -4f));
+                    leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.2f, -3f)); // Slight angle left
+                    rightOption.Weapons.First().FireDirections.Add(new Vector2(0.2f, -3f)); // Slight angle right
+                }
+                // Spread bullets at higher levels
+                if (i >= 3)
+                {
+                    orangeCardWeapon.FireDirections.Add(new Vector2(-0.2f, -5f));
+                    orangeCardWeapon.FireDirections.Add(new Vector2(0.2f, -5f));
+                    leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.2f, -1f)); // Slight angle left
+                    rightOption.Weapons.First().FireDirections.Add(new Vector2(0.2f, -1f)); // Slight angle right
+                }
+                if (i >= 6)
+                {
+                    orangeCardWeapon.FireDirections.Add(new Vector2(-0.4f, -5f));
+                    orangeCardWeapon.FireDirections.Add(new Vector2(0.4f, -5f));
+                    leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.4f, -1f)); // Wider angle left
+                    rightOption.Weapons.First().FireDirections.Add(new Vector2(0.4f, -1f)); // Wider angle right
+                }
+
+                PowerLevelData pld = new();
+                pld.MainWeapons.Add(orangeCardWeapon);
+                pld.MainWeapons.Add(giantCardWeapon);
+                pld.Options.Add(leftOption);
+                pld.Options.Add(rightOption);
+                pd.PowerLevels[i] = pld;
+            }
+
+            _entityManager.SpawnPlayer(pd);
+        }
+
+        private OptionData CreateOption(BulletData bulletData, float fireRate)
+        {
+            return new OptionData
+            {
+                SpriteName = "Reimu.YinYangOrb",
+                Weapons = new List<WeaponData>
+                {
+                    new WeaponData {
+                        BulletData = bulletData,
+                        FireRate = Math.Max(0.05f, fireRate), // Prevents fire rate from getting too low
+                        FireDirections = new List<Vector2> { }, // Default straight shot
+                        TimeSinceLastShot = 0
+                    }
+                }
+            };
+        }
+
+
+        private void SpawnEnemyGrid(int gridSize, float offset)
+        {
+            float baseSpawnX = _playableArea.Center.X;
+            float baseSpawnY = _playableArea.Top + offset;
+
+            for (int row = 0; row < gridSize; row++)
+            {
+                for (int col = 0; col < gridSize; col++)
+                {
+                    float spawnX = baseSpawnX + (col - (gridSize / 2)) * offset;
+                    float spawnY = baseSpawnY + row * offset;
+
+                    spawnX = MathHelper.Clamp(spawnX, _playableArea.Left, _playableArea.Right);
+                    spawnY = MathHelper.Clamp(spawnY, _playableArea.Top, _playableArea.Bottom);
+
+                    _entityManager.SpawnEnemy(CreateEnemyData(), new Vector2(spawnX, spawnY));
+                }
+            }
+        }
+
+        private EnemyData CreateEnemyData()
+        {
+            // Fire 1 to 2 bullets per shot
+            int numBullets = _random.Next(1, 3);
+
+            List<Vector2> fireDirections = new List<Vector2>();
+            for (int i = 0; i < numBullets; i++)
+            {
+                // Randomize an angle between -15 and +15 degrees (centered around downward)
+                float randomAngle = -15f + (float)_random.NextDouble() * 30f; // -15 to +15 degrees
+                float angleRad = (randomAngle + 90f) * (MathF.PI / 180f); // Convert to radians (90° is downward)
+
+                // Compute direction vector
+                fireDirections.Add(new Vector2(MathF.Cos(angleRad), MathF.Sin(angleRad) + 1f));
+            }
+
+            var enemy = new EnemyData
+            {
+                SpriteName = "Fairy.Blue",
+                SpawnPosition = new Vector2(_entityManager.Bounds.Left, _entityManager.Bounds.Top),
+                StartPosition = new Vector2(_entityManager.Bounds.Width / 2, _entityManager.Bounds.Height / 2),
+                ExitPosition = new Vector2(_entityManager.Bounds.Left, _entityManager.Bounds.Top),
+                MovementPattern = "zigzag",
+                Health = 100,
+                Weapons = new List<WeaponData>
+                {
+                    new WeaponData() {
+                        BulletData = new BulletData()
+                        {
+                            SpriteName = "DoubleCircle.White",
+                            Damage = _random.Next(20, 30),
+                            BulletType = BulletType.Standard,
+                        },
+                        FireRate = 1f + (float)_random.NextDouble() * 2f, // Fire rate between 1.0s and 3.0s
+                        FireDirections = fireDirections
+                    }
+                },
+                Loot = GenerateRandomLoot()
+            };
+            return enemy;
+        }
+
+        private List<CollectibleData> GenerateRandomLoot()
+        {
+            var lootTable = new List<(CollectibleData item, float weight)>
+            {
+                (new CollectibleData { SpriteName = "PowerUpSmall", Effects = { { CollectibleType.PowerUp, 1 } } }, 0.15f),
+                (new CollectibleData { SpriteName = "PowerUpLarge", Effects = { { CollectibleType.PowerUp, 8 } } }, 0.01f),
+                (new CollectibleData { SpriteName = "PointItem", Effects = { { CollectibleType.PointItem, 10 } } }, 0.01f),
+                (new CollectibleData { SpriteName = "BombItem", Effects = { { CollectibleType.Bomb, 1 } } }, 0.10f),
+                (new CollectibleData { SpriteName = "FullPowerItem", Effects = { { CollectibleType.PowerUp, 128 } } }, 0.005f),
+                (new CollectibleData { SpriteName = "OneUp", Effects = { { CollectibleType.OneUp, 1 } } }, 0.02f),
+                (new CollectibleData { SpriteName = "StarItem", Effects = { { CollectibleType.StarItem, 10 } } }, 0.10f),
+                (new CollectibleData { SpriteName = "CherryItem", Effects = { { CollectibleType.CherryItem, 10 } } }, 0.15f)
+            };
+
+            var selectedLoot = new List<CollectibleData>();
+
+            foreach (var (item, weight) in lootTable)
+            {
+                if (_random.NextDouble() < weight) // Compare against weight (probability)
+                {
+                    selectedLoot.Add(item);
+                }
+            }
+
+            return selectedLoot;
+        }
+
+
+        private void SpawnBoss()
+        {
+            EnemyData phase1 = CreateBossPhase("DoubleCircle.Red", "circular");
+            EnemyData phase2 = CreateBossPhase("DoubleCircle.DarkRed", "zigzag");
+
+            BossData bossData = new BossData { Phases = new List<EnemyData> { phase1, phase2 } };
+            Vector2 spawnPos = new Vector2(_entityManager.Bounds.Width / 2, _entityManager.Bounds.Height / 10);
+            _entityManager.SpawnBoss(bossData, spawnPos);
+        }
+
+        private EnemyData CreateBossPhase(string bulletSprite, string movementPattern)
+        {
+            // Circular bullet pattern
+            int numBullets = _random.Next(8, 13); // Boss fires between 8-12 bullets per shot
+            float angleStep = 360f / numBullets; // Evenly distribute bullets
+
+            List<Vector2> fireDirections = new List<Vector2>();
+            for (int i = 0; i < numBullets; i++)
+            {
+                float angle = (i * angleStep) * (MathF.PI / 180f); // Convert degrees to radians
+                fireDirections.Add(new Vector2(MathF.Cos(angle), MathF.Sin(angle))); // Circular pattern
+            }
+
+            return new EnemyData
+            {
+                SpriteName = "Cirno",
+                SpawnPosition = new Vector2(_entityManager.Bounds.Left, _entityManager.Bounds.Top),
+                StartPosition = new Vector2(_entityManager.Bounds.Width / 2, _entityManager.Bounds.Height / 2),
+                ExitPosition = new Vector2(_entityManager.Bounds.Left, _entityManager.Bounds.Top),
+                MovementPattern = movementPattern,
+                Health = 5000,
+
+                Weapons = new List<WeaponData>
+                {
+                    new WeaponData
+                    {
+                        BulletData = new BulletData
+                        {
+                            SpriteName = bulletSprite,
+                            Damage = _random.Next(30, 50),
+                            BulletType = BulletType.Standard
+                        },
+                        FireDirections = fireDirections, // Assign generated directions
+                        FireRate = 0.3f + (float)_random.NextDouble() * (1.0f - 0.3f) // Random fire rate between 0.3s and 1.0s
+                    }
+                }
+            };
         }
     }
 }

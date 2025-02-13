@@ -6,6 +6,7 @@ namespace BulletHellGame.Entities
     public class Entity
     {
         private List<IComponent> _components = new();
+        public event Action<Entity> OnComponentsChanged; // Event for component changes
 
         public bool IsActive { get; private set; } = false;
 
@@ -43,6 +44,14 @@ namespace BulletHellGame.Entities
         public void AddComponent(IComponent component)
         {
             _components.Add(component);
+            OnComponentsChanged?.Invoke(this); // Notify that components changed
+        }
+
+        // Probably not use this (removing components is costly, it has to loop through all the components)
+        public void RemoveComponent<T>() where T : class, IComponent
+        {
+            _components.RemoveAll(c => c is T);
+            OnComponentsChanged?.Invoke(this); // Notify that components changed
         }
 
         public T GetComponent<T>() where T : class, IComponent
