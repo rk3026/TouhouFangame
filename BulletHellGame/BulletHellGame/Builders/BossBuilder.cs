@@ -11,9 +11,6 @@ namespace BulletHellGame.Builders
 
         public override void SetPhases()
         {
-            if (_entityData.Phases == null || _entityData.Phases.Count == 0)
-                throw new ArgumentException("Boss must have at least one phase.");
-
             _entity.AddComponent(new BossPhaseComponent(_entityData.Phases));
         }
 
