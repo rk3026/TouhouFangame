@@ -14,7 +14,8 @@
         public int InitialBombs { get; set; }
         public string BombCherryLoss { get; set; }
         public float DeathbombWindow { get; set; } = 0.33f;
-        public Dictionary<int, PowerLevelData> PowerLevels { get; set; } = new();
+        public Dictionary<int, PowerLevelData> UnfocusedPowerLevels { get; set; } = new();
+        public Dictionary<int, PowerLevelData> FocusedPowerLevels { get; set; } = new();
         public List<string> SpecialAbilities { get; set; } = new();
     }
 }

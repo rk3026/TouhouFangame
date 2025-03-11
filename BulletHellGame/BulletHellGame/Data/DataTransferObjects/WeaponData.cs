@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-namespace BulletHellGame.Data.DataTransferObjects
+﻿namespace BulletHellGame.Data.DataTransferObjects
 {
     public class WeaponData
     {

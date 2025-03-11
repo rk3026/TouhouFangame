@@ -1,10 +1,5 @@
-﻿/*using BulletHellGame.Data.DataTransferObjects;*/
-using BulletHellGame.Data.DataTransferObjects;
-using BulletHellGame.DataLoaders;
-using BulletHellGame.Managers;
-/*using BulletHellGame.Scenes;*/
+﻿using BulletHellGame.Managers;
 using Microsoft.Xna.Framework.Content;
-/*using Microsoft.Xna.Framework.Graphics;*/
 
 namespace BulletHellGame
 {
@@ -112,8 +107,6 @@ namespace BulletHellGame
 
             // Add the main menu scene to begin the game:
             _sceneManager.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));
-
-            //ShotData sd = ShotLoader.LoadShotData("HomingAmulet");
         }
 
         protected override void Update(GameTime gameTime)

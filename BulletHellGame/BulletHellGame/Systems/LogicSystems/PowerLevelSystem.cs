@@ -45,7 +45,7 @@ namespace BulletHellGame.Systems.LogicSystems
             // Update the player's shooting component
             if (player.TryGetComponent<ShootingComponent>(out var playerShooting))
             {
-                ApplyWeaponDataToShooting(playerShooting, plc.PowerLevels[psc.CurrentPowerLevel].MainWeapons);
+                ApplyWeaponDataToShooting(playerShooting, plc.UnfocusedPowerLevels[psc.CurrentPowerLevel].MainWeapons);
             }
 
             // Get all options owned by the player
@@ -53,7 +53,7 @@ namespace BulletHellGame.Systems.LogicSystems
                 .Where(option => option.TryGetComponent<OwnerComponent>(out var owner) && owner.Owner == player)
                 .ToList();
 
-            var optionDataList = plc.PowerLevels[psc.CurrentPowerLevel].Options;
+            var optionDataList = plc.UnfocusedPowerLevels[psc.CurrentPowerLevel].Options;
             int optionCount = Math.Min(options.Count, optionDataList.Count);
 
             // Assign the correct weapon data to each option

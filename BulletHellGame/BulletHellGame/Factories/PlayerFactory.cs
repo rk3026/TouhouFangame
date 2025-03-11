@@ -30,22 +30,30 @@ namespace BulletHellGame.Factories
             player.AddComponent(spriteComponent);
 
             // Store all power levels
-            PowerLevelComponent slc = new PowerLevelComponent();
-            foreach (var powerLevel in characterData.PowerLevels)
+            PowerLevelComponent plc = new PowerLevelComponent();
+            foreach (var powerLevel in characterData.UnfocusedPowerLevels)
             {
-                slc.PowerLevels.Add(powerLevel.Key, powerLevel.Value);
+                plc.UnfocusedPowerLevels.Add(powerLevel.Key, powerLevel.Value);
                 for (int i = 0; i < powerLevel.Value.MainWeapons.Count; ++i)
                 {
-                    slc.PowerLevels[powerLevel.Key].MainWeapons[i] = powerLevel.Value.MainWeapons[i];
+                    plc.UnfocusedPowerLevels[powerLevel.Key].MainWeapons[i] = powerLevel.Value.MainWeapons[i];
                 }
             }
-            player.AddComponent(slc);
+            foreach (var powerLevel in characterData.FocusedPowerLevels)
+            {
+                plc.FocusedPowerLevels.Add(powerLevel.Key, powerLevel.Value);
+                for (int i = 0; i < powerLevel.Value.MainWeapons.Count; ++i)
+                {
+                    plc.FocusedPowerLevels[powerLevel.Key].MainWeapons[i] = powerLevel.Value.MainWeapons[i];
+                }
+            }
+            player.AddComponent(plc);
 
-            // Add ShootingComponents for all initial level (0) weapons
-            if (characterData.PowerLevels.ContainsKey(0))
+            // Set up the shootingcomponent
+            if (characterData.UnfocusedPowerLevels.ContainsKey(0))
             {
                 List<WeaponData> weapons = new List<WeaponData>();
-                foreach (var weapon in characterData.PowerLevels[0].MainWeapons)
+                foreach (var weapon in characterData.UnfocusedPowerLevels[0].MainWeapons)
                 {
                     weapons.Add(weapon);
                 }

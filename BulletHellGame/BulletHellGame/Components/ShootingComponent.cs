@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using BulletHellGame.Data.DataTransferObjects;
+﻿using BulletHellGame.Data.DataTransferObjects;
 
 namespace BulletHellGame.Components
 {

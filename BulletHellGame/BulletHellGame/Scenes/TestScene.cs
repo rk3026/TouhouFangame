@@ -1,4 +1,5 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
+﻿using BulletHellGame.Data;
+using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
 using BulletHellGame.UI;
@@ -13,6 +14,7 @@ namespace BulletHellGame.Scenes
 
         // Managers and Graphics:
         private EntityManager _entityManager;
+        private WaveManager _waveManager;
         private SystemManager _systemManager;
         private ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
@@ -40,6 +42,7 @@ namespace BulletHellGame.Scenes
             this._contentManager = contentManager;
             this._graphicsDevice = graphicsDevice;
             this._entityManager = new EntityManager(this._playableArea);
+            this._waveManager = new WaveManager(_entityManager);
 
             // Set up system manager:
             this._systemManager = new SystemManager(this._graphicsDevice);
@@ -82,13 +85,35 @@ namespace BulletHellGame.Scenes
             _parallaxBackground.AddLayer(_bush2Sprite.Texture, _bush2Sprite.Animations.First().Value.First(), rightBushArea, 100f);
 
             _gameUI = new GameUI(_font, whitePixel, _uiArea, _entityManager);
+            CreateWaves();
         }
+
+        private void CreateWaves()
+        {
+            WaveData wave1 = new WaveData { StartTime = 5f }; // Wave starts at 5 seconds
+            wave1.Enemies.Add(new EnemySpawnData
+            {
+                EnemyData = CreateEnemyData(),
+                SpawnTime = 0f,  // Spawns immediately at wave start
+                ExitTime = 10f   // Leaves after 10 seconds
+            });
+            wave1.Enemies.Add(new EnemySpawnData
+            {
+                EnemyData = CreateEnemyData(),
+                SpawnTime = 2f,  // Spawns 2 seconds after wave start
+                ExitTime = 12f
+            });
+
+            _waveManager.AddWave(wave1);
+        }
+
 
 
         public void Update(GameTime gameTime)
         {
             // Update all entities
             _systemManager.Update(_entityManager, gameTime);
+            _waveManager.Update(gameTime);
 
             if (InputManager.Instance.ActionPressed(GameAction.Pause))
             {
@@ -131,7 +156,8 @@ namespace BulletHellGame.Scenes
                 Health = 100,
                 InitialLives = 3,
                 InitialBombs = 5,
-                PowerLevels = new Dictionary<int, PowerLevelData>()
+                UnfocusedPowerLevels = new Dictionary<int, PowerLevelData>(),
+                FocusedPowerLevels = new Dictionary<int, PowerLevelData>()
             };
 
             for (int i = 0; i <= 8; i++)
@@ -173,6 +199,7 @@ namespace BulletHellGame.Scenes
                 leftOption.Offset = new Vector2(-20, 0);
                 OptionData rightOption = CreateOption(homingBullet, fireRate: 1f - (i * 0.02f));
                 rightOption.Offset = new Vector2(20, 0);
+
                 if (i >= 0)
                 {
                     orangeCardWeapon.FireDirections.Add(new Vector2(0, -5f));
@@ -180,32 +207,33 @@ namespace BulletHellGame.Scenes
                     leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.2f, -3f)); // Slight angle left
                     rightOption.Weapons.First().FireDirections.Add(new Vector2(0.2f, -3f)); // Slight angle right
                 }
-                // Spread bullets at higher levels
+
                 if (i >= 3)
                 {
                     orangeCardWeapon.FireDirections.Add(new Vector2(-0.2f, -5f));
                     orangeCardWeapon.FireDirections.Add(new Vector2(0.2f, -5f));
-                    leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.2f, -1f)); // Slight angle left
-                    rightOption.Weapons.First().FireDirections.Add(new Vector2(0.2f, -1f)); // Slight angle right
                 }
                 if (i >= 6)
                 {
                     orangeCardWeapon.FireDirections.Add(new Vector2(-0.4f, -5f));
                     orangeCardWeapon.FireDirections.Add(new Vector2(0.4f, -5f));
-                    leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.4f, -1f)); // Wider angle left
-                    rightOption.Weapons.First().FireDirections.Add(new Vector2(0.4f, -1f)); // Wider angle right
                 }
 
-                PowerLevelData pld = new();
-                pld.MainWeapons.Add(orangeCardWeapon);
-                pld.MainWeapons.Add(giantCardWeapon);
-                pld.Options.Add(leftOption);
-                pld.Options.Add(rightOption);
-                pd.PowerLevels[i] = pld;
+                PowerLevelData focusedPld = new();
+                focusedPld.MainWeapons.Add(orangeCardWeapon);
+                focusedPld.MainWeapons.Add(giantCardWeapon);
+                pd.FocusedPowerLevels[i] = focusedPld;
+
+                PowerLevelData unfocusedPld = new();
+                unfocusedPld.MainWeapons.Add(orangeCardWeapon);
+                unfocusedPld.Options.Add(leftOption);
+                unfocusedPld.Options.Add(rightOption);
+                pd.UnfocusedPowerLevels[i] = unfocusedPld;
             }
 
             _entityManager.SpawnPlayer(pd);
         }
+
 
         private OptionData CreateOption(BulletData bulletData, float fireRate)
         {
@@ -264,9 +292,6 @@ namespace BulletHellGame.Scenes
             var enemy = new EnemyData
             {
                 SpriteName = "Fairy.Blue",
-                SpawnPosition = new Vector2(_entityManager.Bounds.Left, _entityManager.Bounds.Top),
-                StartPosition = new Vector2(_entityManager.Bounds.Width / 2, _entityManager.Bounds.Height / 2),
-                ExitPosition = new Vector2(_entityManager.Bounds.Left, _entityManager.Bounds.Top),
                 MovementPattern = "zigzag",
                 Health = 100,
                 Weapons = new List<WeaponData>
@@ -341,9 +366,6 @@ namespace BulletHellGame.Scenes
             return new EnemyData
             {
                 SpriteName = "Cirno",
-                SpawnPosition = new Vector2(_entityManager.Bounds.Left, _entityManager.Bounds.Top),
-                StartPosition = new Vector2(_entityManager.Bounds.Width / 2, _entityManager.Bounds.Height / 2),
-                ExitPosition = new Vector2(_entityManager.Bounds.Left, _entityManager.Bounds.Top),
                 MovementPattern = movementPattern,
                 Health = 5000,
 

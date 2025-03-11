@@ -1,6 +1,8 @@
 ﻿using BulletHellGame.Components;
+using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
 using BulletHellGame.Managers;
+using System.Linq;
 
 namespace BulletHellGame.Systems.LogicSystems
 {
@@ -8,20 +10,23 @@ namespace BulletHellGame.Systems.LogicSystems
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(PlayerInputComponent)))
+            foreach (Entity player in entityManager.GetEntitiesWithComponents(typeof(PlayerInputComponent)))
             {
-                if (entity.TryGetComponent<PlayerInputComponent>(out var pic) &&
-                    entity.TryGetComponent<PositionComponent>(out var pc) &&
-                    entity.TryGetComponent<VelocityComponent>(out var vc) &&
-                    entity.TryGetComponent<SpriteComponent>(out var sc) &&
-                    entity.TryGetComponent<SpeedComponent>(out var speedComponent)
+                if (player.TryGetComponent<PlayerInputComponent>(out var pic) &&
+                    player.TryGetComponent<PositionComponent>(out var pc) &&
+                    player.TryGetComponent<VelocityComponent>(out var vc) &&
+                    player.TryGetComponent<SpriteComponent>(out var sc) &&
+                    player.TryGetComponent<SpeedComponent>(out var speedComponent) &&
+                    player.TryGetComponent<ShootingComponent>(out var shootingComponent) &&
+                    player.TryGetComponent<PowerLevelComponent>(out var powerLevelComponent) &&
+                    player.TryGetComponent<PlayerStatsComponent>(out var psc)
                     )
                 {
                     // Movement input
                     pic.IsMovingUp = InputManager.Instance.ActionDown(GameAction.MoveUp);
                     pic.IsMovingDown = InputManager.Instance.ActionDown(GameAction.MoveDown);
                     pic.IsMovingLeft = InputManager.Instance.ActionDown(GameAction.MoveLeft);
-                    pic.IsMovingRight = InputManager.Instance.ActionDown    (GameAction.MoveRight);
+                    pic.IsMovingRight = InputManager.Instance.ActionDown(GameAction.MoveRight);
 
                     // Action input
                     pic.IsShooting = InputManager.Instance.ActionDown(GameAction.Shoot);
@@ -31,17 +36,11 @@ namespace BulletHellGame.Systems.LogicSystems
 
                     // Handle movement based on the input states
                     Vector2 direction = Vector2.Zero;
+                    if (pic.IsMovingUp) direction.Y -= 1;
+                    if (pic.IsMovingDown) direction.Y += 1;
+                    if (pic.IsMovingLeft) direction.X -= 1;
+                    if (pic.IsMovingRight) direction.X += 1;
 
-                    if (pic.IsMovingUp)
-                        direction.Y -= 1;
-                    if (pic.IsMovingDown)
-                        direction.Y += 1;
-                    if (pic.IsMovingLeft)
-                        direction.X -= 1;
-                    if (pic.IsMovingRight)
-                        direction.X += 1;
-
-                    // Normalize direction and apply speed based on focused state
                     if (direction.LengthSquared() > 0)
                         direction.Normalize();
 
@@ -52,15 +51,51 @@ namespace BulletHellGame.Systems.LogicSystems
                     // Ensure the player stays within bounds
                     float halfWidth = sc.CurrentFrame.Width / 2f;
                     float halfHeight = sc.CurrentFrame.Height / 2f;
-                    if (pc.Position.X - halfWidth < entityManager.Bounds.Left)
-                        pc.Position = new Vector2(entityManager.Bounds.Left + halfWidth, pc.Position.Y);
-                    else if (pc.Position.X + halfWidth > entityManager.Bounds.Right)
-                        pc.Position = new Vector2(entityManager.Bounds.Right - halfWidth, pc.Position.Y);
+                    pc.Position = new Vector2(
+                        Math.Clamp(pc.Position.X, entityManager.Bounds.Left + halfWidth, entityManager.Bounds.Right - halfWidth),
+                        Math.Clamp(pc.Position.Y, entityManager.Bounds.Top + halfHeight, entityManager.Bounds.Bottom - halfHeight)
+                    );
 
-                    if (pc.Position.Y - halfHeight < entityManager.Bounds.Top)
-                        pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Top + halfHeight);
-                    else if (pc.Position.Y + halfHeight > entityManager.Bounds.Bottom)
-                        pc.Position = new Vector2(pc.Position.X, entityManager.Bounds.Bottom - halfHeight);
+                    // Weapon Switching Logic (Player & Options)
+                    UpdateShootingModes(player, entityManager, pic.IsFocused, psc, powerLevelComponent);
+                }
+            }
+        }
+
+        private void UpdateShootingModes(Entity player, EntityManager entityManager, bool isFocused, PlayerStatsComponent psc, PowerLevelComponent plc)
+        {
+            int currentPowerLevel = psc.CurrentPowerLevel;
+
+            // Get the correct weapon data based on focused/unfocused mode
+            var mainWeapons = isFocused && plc.FocusedPowerLevels.ContainsKey(currentPowerLevel)
+                ? plc.FocusedPowerLevels[currentPowerLevel].MainWeapons
+                : plc.UnfocusedPowerLevels.ContainsKey(currentPowerLevel)
+                    ? plc.UnfocusedPowerLevels[currentPowerLevel].MainWeapons
+                    : new List<WeaponData>(); // Default to empty list if not found
+
+            var optionWeapons = isFocused && plc.FocusedPowerLevels.ContainsKey(currentPowerLevel)
+                ? plc.FocusedPowerLevels[currentPowerLevel].Options
+                : plc.UnfocusedPowerLevels.ContainsKey(currentPowerLevel)
+                    ? plc.UnfocusedPowerLevels[currentPowerLevel].Options
+                    : new List<OptionData>(); // Default to empty list if not found
+
+            // Update the player's shooting component
+            if (player.TryGetComponent<ShootingComponent>(out var playerShooting))
+            {
+                playerShooting.SetWeapons(mainWeapons);
+            }
+
+            // Get all options owned by the player
+            List<Entity> options = entityManager.GetEntitiesWithComponents(typeof(OwnerComponent), typeof(ShootingComponent))
+                .Where(option => option.TryGetComponent<OwnerComponent>(out var owner) && owner.Owner == player)
+                .ToList();
+
+            for (int i = 0; i < options.Count; i++)
+            {
+                if (options[i].TryGetComponent<ShootingComponent>(out var optionShooting))
+                {
+                    List<WeaponData> optionWeaponData = (i < optionWeapons.Count) ? optionWeapons[i].Weapons : new List<WeaponData>();
+                    optionShooting.SetWeapons(optionWeaponData);
                 }
             }
         }
