@@ -6,16 +6,15 @@ namespace BulletHellGame.Builders
 {
     public class OptionBuilder : EntityBuilder<OptionData>
     {
+        public OptionBuilder() : base() { }
         public OptionBuilder(OptionData data) : base(data) { }
 
         public override void SetSprite()
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.SpriteName);
-            SpriteComponent spriteComponent = new SpriteComponent(spriteData)
-            {
-                SpriteData = { Origin = new Vector2(spriteData.Texture.Width / 2, spriteData.Texture.Height / 2) },
-                RotationSpeed = 0.1f
-            };
+            SpriteComponent spriteComponent = new SpriteComponent(spriteData);
+            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
+            spriteComponent.RotationSpeed = 0.1f;
             _entity.AddComponent(spriteComponent);
         }
 

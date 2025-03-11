@@ -6,6 +6,7 @@ namespace BulletHellGame.Builders
 {
     public class BossBuilder : EntityBuilder<BossData>
     {
+        public BossBuilder() : base() { }
         public BossBuilder(BossData data) : base(data) { }
 
         public override void SetPhases()
@@ -18,23 +19,15 @@ namespace BulletHellGame.Builders
 
         public override void SetHealth()
         {
-            if (_entityData.Phases.Count > 0)
-            {
-                _entity.AddComponent(new HealthComponent(_entityData.Phases[0].Health));
-            }
+            _entity.AddComponent(new HealthComponent(_entityData.Phases[0].Health));
         }
 
         public override void SetSprite()
         {
-            if (_entityData.Phases.Count > 0)
-            {
-                SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.Phases[0].SpriteName);
-                SpriteComponent spriteComponent = new SpriteComponent(spriteData)
-                {
-                    SpriteData = { Origin = new Vector2(spriteData.Texture.Width / 2, spriteData.Texture.Height / 2) }
-                };
-                _entity.AddComponent(spriteComponent);
-            }
+            SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.Phases[0].SpriteName);
+            SpriteComponent spriteComponent = new SpriteComponent(spriteData);
+            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
+            _entity.AddComponent(spriteComponent);
         }
 
         public override void SetPosition()
@@ -49,31 +42,21 @@ namespace BulletHellGame.Builders
 
         public override void SetMovementPattern()
         {
-            if (_entityData.Phases.Count > 0)
-            {
-                _entity.AddComponent(new MovementPatternComponent(_entityData.Phases[0].MovementPattern));
-            }
+            _entity.AddComponent(new MovementPatternComponent(_entityData.Phases[0].MovementPattern));
         }
 
         public override void SetShooting()
         {
-            if (_entityData.Phases.Count > 0 && _entityData.Phases[0].Weapons != null)
-            {
-                _entity.AddComponent(new ShootingComponent(_entityData.Phases[0].Weapons));
-            }
+            ShootingComponent shc = new ShootingComponent(_entityData.Phases[0].Weapons);
+            _entity.AddComponent(shc);
         }
 
         public override void SetHitbox()
         {
-            SpriteComponent sprite = _entity.GetComponent<SpriteComponent>();
-            if (sprite != null)
-            {
-                HitboxComponent hitbox = new HitboxComponent(_entity, 1)
-                {
-                    Hitbox = new Vector2(sprite.CurrentFrame.Width, sprite.CurrentFrame.Height)
-                };
-                _entity.AddComponent(hitbox);
-            }
+            HitboxComponent hc = new HitboxComponent(_entity, 1);
+            SpriteComponent sc = _entity.GetComponent<SpriteComponent>();
+            hc.Hitbox = new Vector2(sc.CurrentFrame.Width, sc.CurrentFrame.Height);
+            _entity.AddComponent(hc);
         }
     }
 }

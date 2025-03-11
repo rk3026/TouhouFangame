@@ -6,6 +6,7 @@ namespace BulletHellGame.Builders
 {
     public class PlayerBuilder : EntityBuilder<CharacterData>
     {
+        public PlayerBuilder() : base() { }
         public PlayerBuilder(CharacterData data) : base(data) { }
 
         public override void SetHealth()
@@ -31,10 +32,8 @@ namespace BulletHellGame.Builders
         public override void SetSprite()
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.SpriteName);
-            SpriteComponent spriteComponent = new SpriteComponent(spriteData)
-            {
-                SpriteData = { Origin = new Vector2(spriteData.Texture.Width / 2, spriteData.Texture.Height / 2) }
-            };
+            SpriteComponent spriteComponent = new SpriteComponent(spriteData);
+            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
             _entity.AddComponent(spriteComponent);
         }
 
@@ -66,7 +65,6 @@ namespace BulletHellGame.Builders
         public override void SetPowerLevel()
         {
             PowerLevelComponent plc = new PowerLevelComponent();
-
             foreach (var powerLevel in _entityData.UnfocusedPowerLevels)
             {
                 plc.UnfocusedPowerLevels.Add(powerLevel.Key, powerLevel.Value);
@@ -75,7 +73,6 @@ namespace BulletHellGame.Builders
                     plc.UnfocusedPowerLevels[powerLevel.Key].MainWeapons[i] = powerLevel.Value.MainWeapons[i];
                 }
             }
-
             foreach (var powerLevel in _entityData.FocusedPowerLevels)
             {
                 plc.FocusedPowerLevels.Add(powerLevel.Key, powerLevel.Value);
@@ -84,7 +81,6 @@ namespace BulletHellGame.Builders
                     plc.FocusedPowerLevels[powerLevel.Key].MainWeapons[i] = powerLevel.Value.MainWeapons[i];
                 }
             }
-
             _entity.AddComponent(plc);
         }
 
@@ -92,17 +88,20 @@ namespace BulletHellGame.Builders
         {
             if (_entityData.UnfocusedPowerLevels.ContainsKey(0))
             {
-                List<WeaponData> weapons = new List<WeaponData>(_entityData.UnfocusedPowerLevels[0].MainWeapons);
-                _entity.AddComponent(new ShootingComponent(weapons));
+                List<WeaponData> weapons = new List<WeaponData>();
+                foreach (var weapon in _entityData.UnfocusedPowerLevels[0].MainWeapons)
+                {
+                    weapons.Add(weapon);
+                }
+                ShootingComponent sc = new ShootingComponent(weapons);
+                _entity.AddComponent(sc);
             }
         }
 
         public override void SetHitbox()
         {
-            HitboxComponent hc = new HitboxComponent(_entity, 2)
-            {
-                Hitbox = new Vector2(4, 4)
-            };
+            HitboxComponent hc = new HitboxComponent(_entity, 2);
+            hc.Hitbox = new Vector2(4, 4);
             _entity.AddComponent(hc);
         }
     }

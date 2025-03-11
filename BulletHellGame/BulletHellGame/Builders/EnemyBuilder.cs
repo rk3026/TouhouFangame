@@ -1,5 +1,4 @@
-﻿using BulletHellGame.Builders;
-using BulletHellGame.Components;
+﻿using BulletHellGame.Components;
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Managers;
 
@@ -7,6 +6,7 @@ namespace BulletHellGame.Builders
 {
     public class EnemyBuilder : EntityBuilder<EnemyData>
     {
+        public EnemyBuilder() : base() { }
         public EnemyBuilder(EnemyData data) : base(data) { }
 
         public override void SetHealth()
@@ -16,7 +16,10 @@ namespace BulletHellGame.Builders
 
         public override void SetSprite()
         {
-            _entity.AddComponent(new SpriteComponent(TextureManager.Instance.GetSpriteData(_entityData.SpriteName)));
+            SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.SpriteName);
+            SpriteComponent spriteComponent = new SpriteComponent(spriteData);
+            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
+            _entity.AddComponent(spriteComponent);
         }
 
         public override void SetPosition() => _entity.AddComponent(new PositionComponent());
@@ -42,14 +45,11 @@ namespace BulletHellGame.Builders
 
         public override void SetHitbox()
         {
-            SpriteComponent sprite = _entity.GetComponent<SpriteComponent>();
-            if (sprite != null)
-            {
-                _entity.AddComponent(new HitboxComponent(_entity, 1)
-                {
-                    Hitbox = new Vector2(sprite.CurrentFrame.Width, sprite.CurrentFrame.Height)
-                });
-            }
+            HitboxComponent hc = new HitboxComponent(_entity, 1);
+            float spriteWidth = _entity.GetComponent<SpriteComponent>().CurrentFrame.Width;
+            float spriteHeight = _entity.GetComponent<SpriteComponent>().CurrentFrame.Height;
+            hc.Hitbox = new Vector2(spriteWidth, spriteHeight);
+            _entity.AddComponent(hc);
         }
     }
 }

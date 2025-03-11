@@ -1,7 +1,7 @@
-﻿using BulletHellGame.Components;
+﻿using BulletHellGame.Builders;
+using BulletHellGame.Components;
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Entities;
-using BulletHellGame.Factories;
 using System.Linq;
 
 namespace BulletHellGame.Managers
@@ -11,27 +11,20 @@ namespace BulletHellGame.Managers
         public Rectangle Bounds { get; set; }
 
         private readonly Dictionary<EntityType, List<Entity>> _entities = new();
-        private readonly Dictionary<Type, ISet<Entity>> _componentRegistry = new(); // Stores components and the entities that have it together.
+        private readonly Dictionary<Type, ISet<Entity>> _componentRegistry = new();
 
-        // Factories for entity creation
-        private readonly EnemyFactory _enemyFactory;
-        private readonly BulletFactory _bulletFactory;
-        private readonly CollectibleFactory _collectibleFactory;
-        private readonly PlayerFactory _playerFactory;
-        private readonly BossFactory _bossFactory;
-        private readonly OptionFactory _optionFactory;
+        private readonly EntityDirector _entityDirector = new();
+        private BossBuilder _bossBuilder = new();
+        private BulletBuilder _bulletBuilder = new();
+        private CollectibleBuilder _collectibleBuilder = new();
+        private EnemyBuilder _enemyBuilder = new();
+        private OptionBuilder _optionBuilder = new();
+        private PlayerBuilder _playerBuilder = new();
 
         public EntityManager(Rectangle bounds)
         {
             Bounds = bounds;
-            _enemyFactory = new EnemyFactory();
-            _bulletFactory = new BulletFactory();
-            _collectibleFactory = new CollectibleFactory();
-            _playerFactory = new PlayerFactory();
-            _bossFactory = new BossFactory();
-            _optionFactory = new OptionFactory();
 
-            // Initialize entity lists
             foreach (EntityType type in Enum.GetValues(typeof(EntityType)))
             {
                 _entities[type] = new List<Entity>();
@@ -103,61 +96,53 @@ namespace BulletHellGame.Managers
             }
         }
 
-        private void SpawnEntity(EntityType type, Entity entity, Vector2 position, Vector2 velocity = default)
-        {
-            if (entity == null) return;
-
-            _entities[type].Add(entity);
-            entity.Activate(position, velocity);
-
-            // Register components for this entity
-            foreach (var component in entity.GetComponents())
-            {
-                RegisterComponent(component.GetType(), entity);
-            }
-        }
-
         public void SpawnBullet(BulletData bulletData, Vector2 position, int layer, Vector2 velocity = default, Entity owner = null)
         {
-            Entity bullet = _bulletFactory.CreateBullet(bulletData);
+            _bulletBuilder.SetEntityData(bulletData);
+            _entityDirector.ConstructEntity(_bulletBuilder);
+            Entity bullet = _bulletBuilder.GetResult();
+
             bullet.AddComponent(new OwnerComponent(owner));
-            if (bullet != null)
-            {
-                bullet.GetComponent<HitboxComponent>().Layer = layer;
-                SpawnEntity(EntityType.Bullet, bullet, position, velocity);
-            }
+            bullet.GetComponent<HitboxComponent>().Layer = layer;
+            SpawnEntity(EntityType.Bullet, bullet, position, velocity);
         }
 
         public void SpawnEnemy(EnemyData enemyData, Vector2 position, Vector2 velocity = default)
         {
-            SpawnEntity(EntityType.Enemy, _enemyFactory.CreateEnemy(enemyData), position, velocity);
-        }
-
-        public void SpawnCollectible(CollectibleData collectibleData, Vector2 position, Vector2 velocity = default)
-        {
-            SpawnEntity(EntityType.Collectible, _collectibleFactory.CreateCollectible(collectibleData), position, velocity);
+            _enemyBuilder.SetEntityData(enemyData);
+            _entityDirector.ConstructEntity(_enemyBuilder);
+            SpawnEntity(EntityType.Enemy, _enemyBuilder.GetResult(), position, velocity);
         }
 
         public void SpawnPlayer(CharacterData playerData)
         {
             Vector2 playerStartPosition = new Vector2(Bounds.Width / 2, Bounds.Height - (Bounds.Height / 10));
-            Entity player = _playerFactory.CreatePlayer(playerData);
+            _playerBuilder.SetEntityData(playerData);
+            _entityDirector.ConstructEntity(_playerBuilder);
+            Entity player = _playerBuilder.GetResult();
+
             SpawnEntity(EntityType.Player, player, playerStartPosition, Vector2.Zero);
 
             // Create the weapons of the character (they are separate entitites):
             // for however many options the player has (typically 2):
-            for (int i = 0; i<playerData.UnfocusedPowerLevels.FirstOrDefault().Value.Options.Count; i++) // At first, set them to power level 0
+            for (int i = 0; i < playerData.UnfocusedPowerLevels.FirstOrDefault().Value.Options.Count; i++) // At first, set them to power level 0
             {
                 OptionData optionData = playerData.UnfocusedPowerLevels.FirstOrDefault().Value.Options[i];
-                Entity option = _optionFactory.CreateOption(optionData);
+
+                _optionBuilder.SetEntityData(optionData);
+                _entityDirector.ConstructEntity(_optionBuilder);
+                Entity option = _optionBuilder.GetResult();
+
                 option.AddComponent(new OwnerComponent(player, optionData.Offset));
-                SpawnEntity(EntityType.Weapon, option, playerStartPosition, Vector2.Zero);
+                SpawnEntity(EntityType.Option, option, playerStartPosition, Vector2.Zero);
             }
         }
 
         public void SpawnBoss(BossData bossData, Vector2 position)
         {
-            Entity boss = _bossFactory.CreateBoss(bossData);
+            _bossBuilder.SetEntityData(bossData);
+            _entityDirector.ConstructEntity(_bossBuilder);
+            Entity boss = _bossBuilder.GetResult();
             if (boss != null)
             {
                 _entities[EntityType.Boss].Add(boss);
@@ -171,13 +156,34 @@ namespace BulletHellGame.Managers
             }
         }
 
+        public void SpawnCollectible(CollectibleData collectibleData, Vector2 position, Vector2 velocity = default)
+        {
+            _collectibleBuilder.SetEntityData(collectibleData);
+            _entityDirector.ConstructEntity(_collectibleBuilder);
+            Entity collectible = _collectibleBuilder.GetResult();
+
+            SpawnEntity(EntityType.Collectible, collectible, position, velocity);
+        }
+
+        private void SpawnEntity(EntityType type, Entity entity, Vector2 position, Vector2 velocity = default)
+        {
+            if (entity == null) return;
+
+            _entities[type].Add(entity);
+            entity.Activate(position, velocity);
+
+            foreach (var component in entity.GetComponents())
+            {
+                RegisterComponent(component.GetType(), entity);
+            }
+        }
+
         private void RegisterComponent(Type componentType, Entity entity)
         {
             if (!_componentRegistry.ContainsKey(componentType))
             {
                 _componentRegistry[componentType] = new HashSet<Entity>();
             }
-
             _componentRegistry[componentType].Add(entity);
         }
 

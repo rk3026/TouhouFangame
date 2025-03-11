@@ -56,7 +56,7 @@ namespace BulletHellGame.Systems.LogicSystems
                         Math.Clamp(pc.Position.Y, entityManager.Bounds.Top + halfHeight, entityManager.Bounds.Bottom - halfHeight)
                     );
 
-                    // Weapon Switching Logic (Player & Options)
+                    // Option Switching Logic (Player & Options)
                     UpdateShootingModes(player, entityManager, pic.IsFocused, psc, powerLevelComponent);
                 }
             }

@@ -181,14 +181,14 @@ namespace BulletHellGame.Scenes
                     SpriteName = "Reimu.WhiteBullet"
                 };
 
-                // Orange Card Weapon:
+                // Orange Card Option:
                 WeaponData orangeCardWeapon = new WeaponData();
                 orangeCardWeapon.BulletData = orangeBullet;
                 orangeCardWeapon.FireRate = Math.Max(0.05f, .2f - (i * 0.02f));
                 orangeCardWeapon.FireDirections = new List<Vector2>();
                 orangeCardWeapon.TimeSinceLastShot = 0;
 
-                // Giant Card Weapon:
+                // Giant Card Option:
                 WeaponData giantCardWeapon = new WeaponData();
                 giantCardWeapon.BulletData = giantCard;
                 giantCardWeapon.FireRate = Math.Max(0.2f, 0.6f - (i * 0.05f)); // Start 0.6, decrease by .05 per level

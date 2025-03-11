@@ -6,15 +6,14 @@ namespace BulletHellGame.Builders
 {
     public class CollectibleBuilder : EntityBuilder<CollectibleData>
     {
+        public CollectibleBuilder() : base() { }
         public CollectibleBuilder(CollectibleData data) : base(data) { }
 
         public override void SetSprite()
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.SpriteName);
-            SpriteComponent spriteComponent = new SpriteComponent(spriteData)
-            {
-                SpriteData = { Origin = new Vector2(spriteData.Texture.Width / 2, spriteData.Texture.Height / 2) }
-            };
+            SpriteComponent spriteComponent = new SpriteComponent(spriteData);
+            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
             _entity.AddComponent(spriteComponent);
         }
 

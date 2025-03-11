@@ -7,6 +7,11 @@ namespace BulletHellGame.Builders
         protected Entity _entity;
         protected T _entityData;
 
+        public EntityBuilder()
+        {
+            _entity = new Entity();
+        }
+
         public EntityBuilder(T entityData)
         {
             _entity = new Entity();
@@ -16,6 +21,11 @@ namespace BulletHellGame.Builders
         public void Reset()
         {
             _entity = new Entity();
+        }
+
+        public void SetEntityData(T entityData)
+        {
+            _entityData = entityData;
         }
 
         public virtual void SetHealth() { }
