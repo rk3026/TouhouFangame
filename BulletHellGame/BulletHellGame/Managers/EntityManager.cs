@@ -10,9 +10,14 @@ namespace BulletHellGame.Managers
     {
         public Rectangle Bounds { get; set; }
 
-        private readonly Dictionary<EntityType, List<Entity>> _entities = new();
+        // For inactive entities:
+        private readonly PoolManager _poolManager = new();
+
+        // For storing active entities
+        private readonly Dictionary<EntityType, List<Entity>> _activeEntities = new();
         private readonly Dictionary<Type, ISet<Entity>> _componentRegistry = new();
 
+        // For entity creation:
         private readonly EntityDirector _entityDirector = new();
         private BossBuilder _bossBuilder = new();
         private BulletBuilder _bulletBuilder = new();
@@ -21,13 +26,14 @@ namespace BulletHellGame.Managers
         private OptionBuilder _optionBuilder = new();
         private PlayerBuilder _playerBuilder = new();
 
+
         public EntityManager(Rectangle bounds)
         {
             Bounds = bounds;
 
             foreach (EntityType type in Enum.GetValues(typeof(EntityType)))
             {
-                _entities[type] = new List<Entity>();
+                _activeEntities[type] = new List<Entity>();
             }
         }
 
@@ -67,15 +73,15 @@ namespace BulletHellGame.Managers
         {
             if (type == EntityType.Enemy)
             {
-                return _entities[EntityType.Enemy].Count + _entities[EntityType.Boss].Count; // Bosses are considered as enemies too.
+                return _activeEntities[EntityType.Enemy].Count + _activeEntities[EntityType.Boss].Count; // Bosses are considered as enemies too.
             }
 
-            return _entities[type].Count;
+            return _activeEntities[type].Count;
         }
 
-        public int TotalEntityCount => _entities.Values.Sum(list => list.Count);
+        public int TotalEntityCount => _activeEntities.Values.Sum(list => list.Count);
 
-        public List<Entity> GetActiveEntities() => _entities.Values.SelectMany(e => e).ToList();
+        public List<Entity> GetActiveEntities() => _activeEntities.Values.SelectMany(e => e).ToList();
 
         public void QueueEntityForRemoval(Entity entity)
         {
@@ -83,10 +89,13 @@ namespace BulletHellGame.Managers
 
             entity.Deactivate();
 
-            foreach (var entry in _entities)
+            foreach (var entityType in _activeEntities)
             {
-                if (entry.Value.Remove(entity))
+                if (entityType.Value.Remove(entity))
+                {
+                    _poolManager.ReturnEntity(entityType.Key, entity);
                     break;  // Exit early once entity is found and removed
+                }
             }
 
             // Also remove from component registry
@@ -98,14 +107,26 @@ namespace BulletHellGame.Managers
 
         public void SpawnBullet(BulletData bulletData, Vector2 position, int layer, Vector2 velocity = default, Entity owner = null)
         {
-            _bulletBuilder.SetEntityData(bulletData);
-            _entityDirector.ConstructEntity(_bulletBuilder);
-            Entity bullet = _bulletBuilder.GetResult();
+            Entity bullet;
 
-            bullet.AddComponent(new OwnerComponent(owner));
-            bullet.GetComponent<HitboxComponent>().Layer = layer;
+            if (_poolManager.TryGetPooledEntity(EntityType.Bullet, out bullet))
+            {
+                _bulletBuilder.ApplyBulletData(bullet, bulletData);
+                bullet.GetComponent<HitboxComponent>().Layer = layer;
+                bullet.GetComponent<OwnerComponent>().Owner = owner;
+            }
+            else
+            {
+                _bulletBuilder.SetEntityData(bulletData);
+                _entityDirector.ConstructEntity(_bulletBuilder);
+                bullet = _bulletBuilder.GetResult();
+                bullet.AddComponent(new OwnerComponent(owner));
+                bullet.GetComponent<HitboxComponent>().Layer = layer;
+            }
+
             SpawnEntity(EntityType.Bullet, bullet, position, velocity);
         }
+
 
         public void SpawnEnemy(EnemyData enemyData, Vector2 position, Vector2 velocity = default)
         {
@@ -145,7 +166,7 @@ namespace BulletHellGame.Managers
             Entity boss = _bossBuilder.GetResult();
             if (boss != null)
             {
-                _entities[EntityType.Boss].Add(boss);
+                _activeEntities[EntityType.Boss].Add(boss);
                 boss.Activate(position, Vector2.Zero);
 
                 // Register components for the boss
@@ -169,7 +190,7 @@ namespace BulletHellGame.Managers
         {
             if (entity == null) return;
 
-            _entities[type].Add(entity);
+            _activeEntities[type].Add(entity);
             entity.Activate(position, velocity);
 
             foreach (var component in entity.GetComponents())

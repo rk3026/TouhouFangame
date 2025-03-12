@@ -10,7 +10,30 @@ namespace BulletHellGame.Builders
         public BulletBuilder() : base() { }
         public BulletBuilder(BulletData data) : base(data) { }
 
-        public override void SetSprite()
+        public void ApplyBulletData(Entity bullet, BulletData bulletData)
+        {
+            bullet.GetComponent<HitboxComponent>().Hitbox = new Vector2(bullet.GetComponent<SpriteComponent>().CurrentFrame.Width, bullet.GetComponent<SpriteComponent>().CurrentFrame.Height);
+            bullet.GetComponent<SpriteComponent>().SpriteData = TextureManager.Instance.GetSpriteData(bulletData.SpriteName);
+            bullet.GetComponent<DamageComponent>().BaseDamage = bulletData.Damage;
+            bullet.GetComponent<SpriteComponent>().RotationSpeed = bulletData.RotationSpeed;
+
+            if (bulletData.BulletType != BulletType.Homing)
+            {
+                if (bullet.HasComponent<HomingComponent>())
+                {
+                    bullet.RemoveComponent<HomingComponent>();
+                }
+            }
+            else
+            {
+                if (!bullet.HasComponent<HomingComponent>())
+                {
+                    bullet.AddComponent(new HomingComponent());
+                }
+            }
+        }
+
+        public override void BuildSprite()
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.SpriteName);
             SpriteComponent spriteComponent = new SpriteComponent(spriteData);
@@ -19,22 +42,22 @@ namespace BulletHellGame.Builders
             _entity.AddComponent(spriteComponent);
         }
 
-        public override void SetPosition()
+        public override void BuildPosition()
         {
             _entity.AddComponent(new PositionComponent());
         }
 
-        public override void SetVelocity()
+        public override void BuildVelocity()
         {
             _entity.AddComponent(new VelocityComponent());
         }
 
-        public override void SetDamage()
+        public override void BuildDamage()
         {
             _entity.AddComponent(new DamageComponent(_entityData.Damage));
         }
 
-        public override void SetHoming()
+        public override void BuildHoming()
         {
             if (_entityData.BulletType == BulletType.Homing)
             {
@@ -42,7 +65,7 @@ namespace BulletHellGame.Builders
             }
         }
 
-        public override void SetHitbox()
+        public override void BuildHitbox()
         {
             HitboxComponent hc = new HitboxComponent(_entity, 3);
             hc.Hitbox = new Vector2(_entity.GetComponent<SpriteComponent>().CurrentFrame.Width, _entity.GetComponent<SpriteComponent>().CurrentFrame.Width);

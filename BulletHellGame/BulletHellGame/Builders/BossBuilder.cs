@@ -9,17 +9,17 @@ namespace BulletHellGame.Builders
         public BossBuilder() : base() { }
         public BossBuilder(BossData data) : base(data) { }
 
-        public override void SetPhases()
+        public override void BuildPhases()
         {
             _entity.AddComponent(new BossPhaseComponent(_entityData.Phases));
         }
 
-        public override void SetHealth()
+        public override void BuildHealth()
         {
             _entity.AddComponent(new HealthComponent(_entityData.Phases[0].Health));
         }
 
-        public override void SetSprite()
+        public override void BuildSprite()
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.Phases[0].SpriteName);
             SpriteComponent spriteComponent = new SpriteComponent(spriteData);
@@ -27,28 +27,28 @@ namespace BulletHellGame.Builders
             _entity.AddComponent(spriteComponent);
         }
 
-        public override void SetPosition()
+        public override void BuildPosition()
         {
             _entity.AddComponent(new PositionComponent());
         }
 
-        public override void SetVelocity()
+        public override void BuildVelocity()
         {
             _entity.AddComponent(new VelocityComponent());
         }
 
-        public override void SetMovementPattern()
+        public override void BuildMovementPattern()
         {
             _entity.AddComponent(new MovementPatternComponent(_entityData.Phases[0].MovementPattern));
         }
 
-        public override void SetShooting()
+        public override void BuildShooting()
         {
             ShootingComponent shc = new ShootingComponent(_entityData.Phases[0].Weapons);
             _entity.AddComponent(shc);
         }
 
-        public override void SetHitbox()
+        public override void BuildHitbox()
         {
             HitboxComponent hc = new HitboxComponent(_entity, 1);
             SpriteComponent sc = _entity.GetComponent<SpriteComponent>();

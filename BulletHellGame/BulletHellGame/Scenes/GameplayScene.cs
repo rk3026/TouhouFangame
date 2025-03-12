@@ -57,7 +57,7 @@ namespace BulletHellGame.Scenes
             if (_levelData.Boss != null && gameTime.TotalGameTime.TotalSeconds >= _levelData.Boss.SpawnTime)
             {
                 var boss = EntityManager.Instance.SpawnBoss(_levelData.Boss.Name, _levelData.Boss.SpawnPosition);
-                boss.SetHealth(_levelData.Boss.Health);
+                boss.BuildHealth(_levelData.Boss.Health);
 
                 foreach (var phase in _levelData.Boss.Phases)
                 {

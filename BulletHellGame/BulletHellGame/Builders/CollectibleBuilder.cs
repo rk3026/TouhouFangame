@@ -9,7 +9,7 @@ namespace BulletHellGame.Builders
         public CollectibleBuilder() : base() { }
         public CollectibleBuilder(CollectibleData data) : base(data) { }
 
-        public override void SetSprite()
+        public override void BuildSprite()
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.SpriteName);
             SpriteComponent spriteComponent = new SpriteComponent(spriteData);
@@ -17,22 +17,22 @@ namespace BulletHellGame.Builders
             _entity.AddComponent(spriteComponent);
         }
 
-        public override void SetPosition()
+        public override void BuildPosition()
         {
             _entity.AddComponent(new PositionComponent());
         }
 
-        public override void SetVelocity()
+        public override void BuildVelocity()
         {
             _entity.AddComponent(new VelocityComponent());
         }
 
-        public override void SetAttractable()
+        public override void BuildAttractable()
         {
             _entity.AddComponent(new AttractableComponent());
         }
 
-        public override void SetPickupEffect()
+        public override void BuildPickupEffect()
         {
             PickUpEffectComponent pickUpEffectComponent = new PickUpEffectComponent();
             foreach (var effect in _entityData.Effects)
@@ -42,7 +42,7 @@ namespace BulletHellGame.Builders
             _entity.AddComponent(pickUpEffectComponent);
         }
 
-        public override void SetHitbox()
+        public override void BuildHitbox()
         {
             SpriteComponent sprite = _entity.GetComponent<SpriteComponent>();
             if (sprite != null)

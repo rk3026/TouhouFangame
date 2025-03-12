@@ -28,27 +28,28 @@ namespace BulletHellGame.Builders
             _entityData = entityData;
         }
 
-        public virtual void SetHealth() { }
-        public virtual void SetSprite() { }
-        public virtual void SetPosition() { }
-        public virtual void SetVelocity() { }
-        public virtual void SetSpeed() { }
-        public virtual void SetMovementPattern() { }
-        public virtual void SetShooting() { }
-        public virtual void SetLoot() { }
-        public virtual void SetHitbox() { }
-        public virtual void SetPhases() { } // Only for bosses
-        public virtual void SetOwner() { }  // Only for bullets, options, etc.
-        public virtual void SetDamage() { }
-        public virtual void SetHoming() { }
-        public virtual void SetAttractable() { } // Only for collectibles
-        public virtual void SetPickupEffect() { } // Only for collectibles
-        public virtual void SetCollector() { }  // Only for player/collector entities
-        public virtual void SetMagnet() { } // Only for player
-        public virtual void SetStats() { } // Only for player
-        public virtual void SetPlayerInput() { } // Only for player
-        public virtual void SetInvincibility() { }
-        public virtual void SetPowerLevel() { }
+        // Part Building (how to build each component):
+        public virtual void BuildHealth() { }
+        public virtual void BuildSprite() { }
+        public virtual void BuildPosition() { }
+        public virtual void BuildVelocity() { }
+        public virtual void BuildSpeed() { }
+        public virtual void BuildMovementPattern() { }
+        public virtual void BuildShooting() { }
+        public virtual void BuildLoot() { }
+        public virtual void BuildHitbox() { }
+        public virtual void BuildPhases() { } // Only for bosses
+        public virtual void BuildOwner() { }  // Only for bullets, options, etc.
+        public virtual void BuildDamage() { }
+        public virtual void BuildHoming() { }
+        public virtual void BuildAttractable() { } // Only for collectibles
+        public virtual void BuildPickupEffect() { } // Only for collectibles
+        public virtual void BuildCollector() { }  // Only for player/collector entities
+        public virtual void BuildMagnet() { } // Only for player
+        public virtual void BuildPlayerStats() { } // Only for player
+        public virtual void BuildPlayerInput() { } // Only for player
+        public virtual void BuildInvincibility() { }
+        public virtual void BuildPowerLevel() { }
 
         public Entity GetResult()
         {

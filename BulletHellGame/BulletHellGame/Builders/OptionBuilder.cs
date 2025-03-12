@@ -9,7 +9,7 @@ namespace BulletHellGame.Builders
         public OptionBuilder() : base() { }
         public OptionBuilder(OptionData data) : base(data) { }
 
-        public override void SetSprite()
+        public override void BuildSprite()
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.SpriteName);
             SpriteComponent spriteComponent = new SpriteComponent(spriteData);
@@ -18,17 +18,17 @@ namespace BulletHellGame.Builders
             _entity.AddComponent(spriteComponent);
         }
 
-        public override void SetPosition()
+        public override void BuildPosition()
         {
             _entity.AddComponent(new PositionComponent());
         }
 
-        public override void SetVelocity()
+        public override void BuildVelocity()
         {
             _entity.AddComponent(new VelocityComponent());
         }
 
-        public override void SetShooting()
+        public override void BuildShooting()
         {
             _entity.AddComponent(new ShootingComponent(_entityData.Weapons));
         }

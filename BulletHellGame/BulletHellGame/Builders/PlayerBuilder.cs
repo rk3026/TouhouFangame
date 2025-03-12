@@ -9,27 +9,27 @@ namespace BulletHellGame.Builders
         public PlayerBuilder() : base() { }
         public PlayerBuilder(CharacterData data) : base(data) { }
 
-        public override void SetHealth()
+        public override void BuildHealth()
         {
             _entity.AddComponent(new HealthComponent(_entityData.Health));
         }
 
-        public override void SetSpeed()
+        public override void BuildSpeed()
         {
             _entity.AddComponent(new SpeedComponent(_entityData.MovementSpeed, _entityData.FocusedSpeed));
         }
 
-        public override void SetPosition()
+        public override void BuildPosition()
         {
             _entity.AddComponent(new PositionComponent());
         }
 
-        public override void SetVelocity()
+        public override void BuildVelocity()
         {
             _entity.AddComponent(new VelocityComponent());
         }
 
-        public override void SetSprite()
+        public override void BuildSprite()
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.SpriteName);
             SpriteComponent spriteComponent = new SpriteComponent(spriteData);
@@ -37,32 +37,32 @@ namespace BulletHellGame.Builders
             _entity.AddComponent(spriteComponent);
         }
 
-        public override void SetCollector()
+        public override void BuildCollector()
         {
             _entity.AddComponent(new CollectorComponent());
         }
 
-        public override void SetMagnet()
+        public override void BuildMagnet()
         {
             _entity.AddComponent(new MagnetComponent());
         }
 
-        public override void SetStats()
+        public override void BuildPlayerStats()
         {
             _entity.AddComponent(new PlayerStatsComponent(_entityData.InitialLives, _entityData.InitialBombs));
         }
 
-        public override void SetPlayerInput()
+        public override void BuildPlayerInput()
         {
             _entity.AddComponent(new PlayerInputComponent());
         }
 
-        public override void SetInvincibility()
+        public override void BuildInvincibility()
         {
             _entity.AddComponent(new InvincibilityComponent());
         }
 
-        public override void SetPowerLevel()
+        public override void BuildPowerLevel()
         {
             PowerLevelComponent plc = new PowerLevelComponent();
             foreach (var powerLevel in _entityData.UnfocusedPowerLevels)
@@ -84,7 +84,7 @@ namespace BulletHellGame.Builders
             _entity.AddComponent(plc);
         }
 
-        public override void SetShooting()
+        public override void BuildShooting()
         {
             if (_entityData.UnfocusedPowerLevels.ContainsKey(0))
             {
@@ -98,7 +98,7 @@ namespace BulletHellGame.Builders
             }
         }
 
-        public override void SetHitbox()
+        public override void BuildHitbox()
         {
             HitboxComponent hc = new HitboxComponent(_entity, 2);
             hc.Hitbox = new Vector2(4, 4);
