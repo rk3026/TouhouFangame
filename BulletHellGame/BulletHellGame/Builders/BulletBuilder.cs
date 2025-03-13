@@ -12,11 +12,13 @@ namespace BulletHellGame.Builders
 
         public void ApplyBulletData(Entity bullet, BulletData bulletData)
         {
-            bullet.GetComponent<HitboxComponent>().Hitbox = new Vector2(bullet.GetComponent<SpriteComponent>().CurrentFrame.Width, bullet.GetComponent<SpriteComponent>().CurrentFrame.Height);
-            bullet.GetComponent<SpriteComponent>().SpriteData = TextureManager.Instance.GetSpriteData(bulletData.SpriteName);
-            bullet.GetComponent<DamageComponent>().BaseDamage = bulletData.Damage;
+            SpriteData spriteData = TextureManager.Instance.GetSpriteData(bulletData.SpriteName);
+            bullet.RemoveComponent<SpriteComponent>();
+            bullet.AddComponent(new SpriteComponent(spriteData));
+            bullet.GetComponent<SpriteComponent>().SpriteData.Origin = new Vector2(bullet.GetComponent<SpriteComponent>().CurrentFrame.Width / 2, bullet.GetComponent<SpriteComponent>().CurrentFrame.Height / 2);
             bullet.GetComponent<SpriteComponent>().RotationSpeed = bulletData.RotationSpeed;
-
+            bullet.GetComponent<HitboxComponent>().Hitbox = new Vector2(bullet.GetComponent<SpriteComponent>().CurrentFrame.Width, bullet.GetComponent<SpriteComponent>().CurrentFrame.Height);
+            bullet.GetComponent<DamageComponent>().BaseDamage = bulletData.Damage;
             if (bulletData.BulletType != BulletType.Homing)
             {
                 if (bullet.HasComponent<HomingComponent>())
