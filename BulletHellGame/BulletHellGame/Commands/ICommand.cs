@@ -1,6 +1,4 @@
-﻿using BulletHellGame.Entities;
-
-namespace BulletHellGame.Commands
+﻿namespace BulletHellGame.Commands
 {
     public interface ICommand
     {

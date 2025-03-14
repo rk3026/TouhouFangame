@@ -33,11 +33,17 @@ namespace BulletHellGame.Scenes
         // Scene Data:
         private Rectangle _playableArea;
         private Rectangle _uiArea;
+        private const int _playableAreaOffset = 15; // Offset for the playable area on all sides
 
         public TestScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
-            _playableArea = new Rectangle(0, 0, Globals.WindowSize.X * 2 / 3, Globals.WindowSize.Y);
-            _uiArea = new Rectangle(_playableArea.Width, 0, Globals.WindowSize.X / 3, Globals.WindowSize.Y);
+            _playableArea = new Rectangle(
+                _playableAreaOffset,
+                _playableAreaOffset,
+                Globals.WindowSize.X * 2 / 3 - 2 * _playableAreaOffset,
+                Globals.WindowSize.Y - 2 * _playableAreaOffset
+            );
+            _uiArea = new Rectangle(_playableArea.Right, 0, Globals.WindowSize.X - _playableArea.Width, Globals.WindowSize.Y);
 
             this._contentManager = contentManager;
             this._graphicsDevice = graphicsDevice;
@@ -95,13 +101,15 @@ namespace BulletHellGame.Scenes
             {
                 EnemyData = CreateEnemyData(),
                 SpawnTime = 0f,  // Spawns immediately at wave start
-                ExitTime = 10f   // Leaves after 10 seconds
+                ExitTime = 10f,   // Leaves after 10 seconds
+                SpawnPosition = new Vector2(_playableArea.Width / 2, _playableArea.Top)
             });
             wave1.Enemies.Add(new EnemySpawnData
             {
                 EnemyData = CreateEnemyData(),
                 SpawnTime = 2f,  // Spawns 2 seconds after wave start
-                ExitTime = 12f
+                ExitTime = 12f,
+                SpawnPosition = new Vector2(_playableArea.Width / 2, _playableArea.Top)
             });
 
             _waveManager.AddWave(wave1);
@@ -145,7 +153,24 @@ namespace BulletHellGame.Scenes
             _systemManager.Draw(_entityManager, spriteBatch);
 
             _gameUI.Draw(spriteBatch);
+
+            // Draw a border around the playable area
+            DrawBorder(spriteBatch, _playableArea, 3, Color.Red);
         }
+
+        private void DrawBorder(SpriteBatch spriteBatch, Rectangle area, int thickness, Color color)
+        {
+            // Top border
+            spriteBatch.Draw(whitePixel, new Rectangle(area.Left, area.Top, area.Width, thickness), color);
+            // Bottom border
+            spriteBatch.Draw(whitePixel, new Rectangle(area.Left, area.Bottom - thickness, area.Width, thickness), color);
+            // Left border
+            spriteBatch.Draw(whitePixel, new Rectangle(area.Left, area.Top, thickness, area.Height), color);
+            // Right border
+            spriteBatch.Draw(whitePixel, new Rectangle(area.Right - thickness, area.Top, thickness, area.Height), color);
+        }
+
+
         private void InitializePlayer()
         {
             CharacterData pd = new CharacterData

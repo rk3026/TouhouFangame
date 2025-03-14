@@ -55,5 +55,10 @@ namespace BulletHellGame.Builders
             hc.Hitbox = new Vector2(sc.CurrentFrame.Width, sc.CurrentFrame.Height);
             _entity.AddComponent(hc);
         }
+
+        public override void BuildIndicator()
+        {
+            _entity.AddComponent(new IndicatorComponent());
+        }
     }
 }

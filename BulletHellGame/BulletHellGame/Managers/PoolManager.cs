@@ -10,12 +10,12 @@ namespace BulletHellGame.Managers
         public PoolManager()
         {
             // Define maximum sizes for entity types
-            _maxPoolSizes[EntityType.Boss] = 3;
+            _maxPoolSizes[EntityType.Boss] = 0; //3
             _maxPoolSizes[EntityType.Bullet] = 1000;
-            _maxPoolSizes[EntityType.Collectible] = 100;
-            _maxPoolSizes[EntityType.Enemy] = 100;
-            _maxPoolSizes[EntityType.Option] = 10;
-            _maxPoolSizes[EntityType.Player] = 5;
+            _maxPoolSizes[EntityType.Collectible] = 0; //100
+            _maxPoolSizes[EntityType.Enemy] = 0; //100
+            _maxPoolSizes[EntityType.Option] = 0; //10
+            _maxPoolSizes[EntityType.Player] = 0; //5
         }
 
         // Retrieves an entity from the pool

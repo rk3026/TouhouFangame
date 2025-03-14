@@ -104,6 +104,7 @@ namespace BulletHellGame
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/MenuAndOtherScreens.json");
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/ProjectilesAndObjects.json");
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/StagesTilesAndBackgrounds.json");
+            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/Fonts.json");
 
             // Add the main menu scene to begin the game:
             _sceneManager.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));

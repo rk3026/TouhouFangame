@@ -2,6 +2,11 @@
 
 namespace BulletHellGame.Builders
 {
+    /// <summary>
+    /// A class for building entities. Each entity builder has a specific type of entity data class
+    /// that it uses to build an entity.
+    /// </summary>
+    /// <typeparam name="T"> A data class used to build an entity. </typeparam>
     public abstract class EntityBuilder<T> where T : class
     {
         protected Entity _entity;
@@ -50,6 +55,7 @@ namespace BulletHellGame.Builders
         public virtual void BuildPlayerInput() { } // Only for player
         public virtual void BuildInvincibility() { }
         public virtual void BuildPowerLevel() { }
+        public virtual void BuildIndicator() { }
 
         public Entity GetResult()
         {

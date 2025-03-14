@@ -7,8 +7,8 @@ namespace BulletHellGame.Commands
     {
         private BulletData _bulletData;
         private Vector2 _position;
-        private int _layer;
         private Vector2 _direction;
+        private int _layer;
         private Entity _owner;
 
         public SpawnBulletCommand(BulletData bulletData, Vector2 position, int layer, Vector2 direction, Entity owner)

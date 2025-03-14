@@ -26,6 +26,7 @@
             builder.BuildInvincibility();
             builder.BuildPowerLevel();
             builder.BuildPlayerInput();
+            builder.BuildIndicator();
         }
     }
 }

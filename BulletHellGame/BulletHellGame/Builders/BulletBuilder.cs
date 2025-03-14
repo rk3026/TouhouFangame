@@ -10,6 +10,11 @@ namespace BulletHellGame.Builders
         public BulletBuilder() : base() { }
         public BulletBuilder(BulletData data) : base(data) { }
 
+        /// <summary>
+        /// Takes an already constructed bullet and changes the data (in the components) to match the new bullet data
+        /// </summary>
+        /// <param name="bullet"> The bullet entity to modify. </param>
+        /// <param name="bulletData"> The data to apply to the entity. </param>
         public void ApplyBulletData(Entity bullet, BulletData bulletData)
         {
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(bulletData.SpriteName);
