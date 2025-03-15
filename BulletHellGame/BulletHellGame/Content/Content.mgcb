@@ -159,6 +159,18 @@
 /processorParam:TextureFormat=Color
 /build:SpriteSheets/ProjectilesAndObjects.png
 
+#begin SpriteSheets/SidebarLoadAndPauseScreens.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/SidebarLoadAndPauseScreens.png
+
 #begin SpriteSheets/StagesTilesAndBackgrounds.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -32,6 +32,7 @@
         <None Remove="Data\SpriteSheets\Fonts.json" />
         <None Remove="Data\SpriteSheets\MenuAndOtherScreens.json" />
         <None Remove="Data\SpriteSheets\ProjectilesAndObjects.json" />
+        <None Remove="Data\SpriteSheets\SidebarLoadAndPauseScreens.json" />
         <None Remove="Data\SpriteSheets\StagesTilesAndBackgrounds.json" />
         <None Remove="Icon.ico" />
         <None Remove="Icon.bmp" />
@@ -86,6 +87,9 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\SpriteSheets\Fonts.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\SidebarLoadAndPauseScreens.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

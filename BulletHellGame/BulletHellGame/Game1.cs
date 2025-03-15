@@ -1,5 +1,6 @@
 ﻿using BulletHellGame.Managers;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace BulletHellGame
 {
@@ -105,6 +106,7 @@ namespace BulletHellGame
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/ProjectilesAndObjects.json");
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/StagesTilesAndBackgrounds.json");
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/Fonts.json");
+            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/SidebarLoadAndPauseScreens.json");
 
             // Add the main menu scene to begin the game:
             _sceneManager.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));
@@ -122,8 +124,6 @@ namespace BulletHellGame
         {
             // Clear the screen
             GraphicsDevice.Clear(Color.Black);
-
-            // Begin sprite batch with the updated scale matrix
             this._spriteBatch.Begin(transformMatrix: _scaleMatrix);
             this._sceneManager.Draw(this._spriteBatch);
             this._spriteBatch.End();

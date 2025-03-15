@@ -9,9 +9,12 @@ namespace BulletHellGame.Systems.RenderingSystems
     {
         public int DrawPriority => 1;
 
-        private GraphicsDevice _graphicsDevice;
+        private readonly GraphicsDevice _graphicsDevice;
+        private readonly Texture2D whitePixel;
         public SpriteRenderingSystem(GraphicsDevice gd) {
             _graphicsDevice = gd;
+            whitePixel = new Texture2D(_graphicsDevice, 1, 1);
+            whitePixel.SetData(new Color[] { Color.White });
         }
         public void Draw(EntityManager entityManager, SpriteBatch spriteBatch)
         {

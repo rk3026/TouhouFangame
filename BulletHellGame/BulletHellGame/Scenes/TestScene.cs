@@ -20,7 +20,8 @@ namespace BulletHellGame.Scenes
         private GraphicsDevice _graphicsDevice;
 
         // Sprite/Texture Assets:
-        private SpriteData _background;
+        private SpriteData _sidebarBackground;
+        private SpriteData _stageBackground;
         private SpriteData _bush1Sprite;
         private SpriteData _bush2Sprite;
         private Texture2D whitePixel;
@@ -29,6 +30,7 @@ namespace BulletHellGame.Scenes
         // UI Elements:
         private ParallaxBackground _parallaxBackground;
         private GameUI _gameUI;
+        private EnemyIndicatorRenderer _enemyIndicatorRenderer;
 
         // Scene Data:
         private Rectangle _playableArea;
@@ -44,6 +46,7 @@ namespace BulletHellGame.Scenes
                 Globals.WindowSize.Y - 2 * _playableAreaOffset
             );
             _uiArea = new Rectangle(_playableArea.Right, 0, Globals.WindowSize.X - _playableArea.Width, Globals.WindowSize.Y);
+            _enemyIndicatorRenderer = new EnemyIndicatorRenderer(graphicsDevice);
 
             this._contentManager = contentManager;
             this._graphicsDevice = graphicsDevice;
@@ -61,7 +64,8 @@ namespace BulletHellGame.Scenes
             // Load font and textures
             FontManager.Instance.LoadFont(_contentManager, "DFPPOPCorn-W12");
             _font = FontManager.Instance.GetFont("DFPPOPCorn-W12");
-            _background = TextureManager.Instance.GetSpriteData("Level1.Background");
+            _sidebarBackground = TextureManager.Instance.GetSpriteData("SidebarBackground");
+            _stageBackground = TextureManager.Instance.GetSpriteData("Level1.Background");
             _bush1Sprite = TextureManager.Instance.GetSpriteData("Level1.Bush1");
             _bush2Sprite = TextureManager.Instance.GetSpriteData("Level1.Bush2");
 
@@ -73,8 +77,8 @@ namespace BulletHellGame.Scenes
 
             // Add background layer (stretched to fill the playable area)
             _parallaxBackground.AddLayer(
-                _background.Texture,
-                _background.Animations.First().Value.First(),
+                _stageBackground.Texture,
+                _stageBackground.Animations.First().Value.First(),
                 _playableArea,
                 speed: 100f
             );
@@ -90,7 +94,7 @@ namespace BulletHellGame.Scenes
             _parallaxBackground.AddLayer(_bush1Sprite.Texture, _bush1Sprite.Animations.First().Value.First(), leftBushArea, 100f);
             _parallaxBackground.AddLayer(_bush2Sprite.Texture, _bush2Sprite.Animations.First().Value.First(), rightBushArea, 100f);
 
-            _gameUI = new GameUI(_font, whitePixel, _uiArea, _entityManager);
+            _gameUI = new GameUI(_font, _uiArea, _entityManager);
             CreateWaves();
         }
 
@@ -144,30 +148,28 @@ namespace BulletHellGame.Scenes
                 SpawnBoss();
         }
 
-
         public void Draw(SpriteBatch spriteBatch)
         {
             _parallaxBackground.Draw(spriteBatch);
 
-            // Draw all entities within the playable area (left 2/3 of the screen)
+            // Draw all entities within the playable area
             _systemManager.Draw(_entityManager, spriteBatch);
 
+            // Drawing the sidebar UI background
+            Rectangle sourceRect = _sidebarBackground.Animations.First().Value.First();
+            int tileWidth = sourceRect.Width;
+            int tileHeight = sourceRect.Height;
+            for (int y = 0; y < Globals.WindowSize.Y; y += tileHeight)
+                spriteBatch.Draw(_sidebarBackground.Texture, new Rectangle(0, y, _playableArea.Left, Math.Min(tileHeight, Globals.WindowSize.Y - y)), sourceRect, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
+            for (int y = 0; y < Globals.WindowSize.Y; y += tileHeight)
+                spriteBatch.Draw(_sidebarBackground.Texture, new Rectangle(_playableArea.Right, y, Globals.WindowSize.X - _playableArea.Right, Math.Min(tileHeight, Globals.WindowSize.Y - y)), sourceRect, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
+            for (int x = _playableArea.Left; x < _playableArea.Right; x += tileWidth)
+                spriteBatch.Draw(_sidebarBackground.Texture, new Rectangle(x, 0, Math.Min(tileWidth, _playableArea.Right - x), _playableArea.Top), sourceRect, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
+            for (int x = _playableArea.Left; x < _playableArea.Right; x += tileWidth)
+                spriteBatch.Draw(_sidebarBackground.Texture, new Rectangle(x, _playableArea.Bottom, Math.Min(tileWidth, _playableArea.Right - x), Globals.WindowSize.Y - _playableArea.Bottom), sourceRect, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
+            
+            _enemyIndicatorRenderer.Draw(_entityManager, spriteBatch);
             _gameUI.Draw(spriteBatch);
-
-            // Draw a border around the playable area
-            DrawBorder(spriteBatch, _playableArea, 3, Color.Red);
-        }
-
-        private void DrawBorder(SpriteBatch spriteBatch, Rectangle area, int thickness, Color color)
-        {
-            // Top border
-            spriteBatch.Draw(whitePixel, new Rectangle(area.Left, area.Top, area.Width, thickness), color);
-            // Bottom border
-            spriteBatch.Draw(whitePixel, new Rectangle(area.Left, area.Bottom - thickness, area.Width, thickness), color);
-            // Left border
-            spriteBatch.Draw(whitePixel, new Rectangle(area.Left, area.Top, thickness, area.Height), color);
-            // Right border
-            spriteBatch.Draw(whitePixel, new Rectangle(area.Right - thickness, area.Top, thickness, area.Height), color);
         }
 
 

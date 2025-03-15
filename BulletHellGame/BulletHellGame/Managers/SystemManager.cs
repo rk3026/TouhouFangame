@@ -76,16 +76,17 @@ namespace BulletHellGame.Managers
         }
 
         public void Draw(EntityManager entityManager, SpriteBatch spriteBatch)
-        {
-            foreach (var system in _renderingSystems)
             {
-                if (system is DebugRenderingSystem debugRenderingSystem && !SettingsManager.Instance.Debugging)
+                foreach (var system in _renderingSystems.OrderBy(system => system.DrawPriority))
                 {
-                    continue;
-                }
+                    if (system is DebugRenderingSystem && !SettingsManager.Instance.Debugging)
+                    {
+                        continue;
+                    }
 
-                system.Draw(entityManager, spriteBatch);
+                    system.Draw(entityManager, spriteBatch);
+                }
             }
+
         }
-    }
 }
