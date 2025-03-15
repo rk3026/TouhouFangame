@@ -1,4 +1,5 @@
 ﻿using BulletHellGame.Components;
+using BulletHellGame.Controllers;
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Managers;
 
@@ -59,6 +60,11 @@ namespace BulletHellGame.Builders
         public override void BuildIndicator()
         {
             _entity.AddComponent(new IndicatorComponent());
+        }
+
+        public override void BuildInput()
+        {
+            _entity.AddComponent(new InputComponent(new EnemyController()));
         }
     }
 }

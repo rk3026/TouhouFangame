@@ -26,9 +26,7 @@ namespace BulletHellGame.Systems.LogicSystems
 
                 // Determine bullet layer (player or enemy)
                 int bulletLayer = GetBulletLayer(entity);
-
-                // Check if the entity should shoot
-                if (!CanShoot(entity))
+                if (!shooting.IsShooting)
                     continue;
 
                 // Fire bullets for all available weapons that are off cooldown
@@ -38,29 +36,11 @@ namespace BulletHellGame.Systems.LogicSystems
 
         private int GetBulletLayer(Entity entity)
         {
-            if (entity.TryGetComponent<PlayerInputComponent>(out _))
-                return 2; // Player bullets
-
-            if (entity.TryGetComponent<OwnerComponent>(out var owner) &&
-                owner.Owner.TryGetComponent<PlayerInputComponent>(out _))
-                return 2; // Player-owned options/familiars
-
-            return 1; // Default to enemy bullets
-        }
-
-        private bool CanShoot(Entity entity)
-        {
-            // Players can only shoot when pressing the shoot button
-            if (entity.TryGetComponent<PlayerInputComponent>(out var playerInput))
-                return playerInput.IsShooting;
-
-            // Options/Familiars (owned weapons) can only shoot if their owner is shooting
-            if (entity.TryGetComponent<OwnerComponent>(out var owner) &&
-                owner.Owner.TryGetComponent<PlayerInputComponent>(out var ownerInput))
-                return ownerInput.IsShooting;
-
-            // Enemies automatically shoot when their cooldowns are ready
-            return true;
+            if (entity.TryGetComponent<HitboxComponent>(out var hc))
+            {
+                return hc.Layer;
+            }
+            else return 2; // Default to player layer
         }
 
         private void FireBullets(EntityManager entityManager, Entity owner, ShootingComponent shooting, Vector2 spawnPosition, int bulletLayer)

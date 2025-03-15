@@ -1,4 +1,5 @@
 ﻿using BulletHellGame.Components;
+using BulletHellGame.Controllers;
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Managers;
 
@@ -50,6 +51,11 @@ namespace BulletHellGame.Builders
             float spriteHeight = _entity.GetComponent<SpriteComponent>().CurrentFrame.Height;
             hc.Hitbox = new Vector2(spriteWidth, spriteHeight);
             _entity.AddComponent(hc);
+        }
+
+        public override void BuildInput()
+        {
+            _entity.AddComponent(new InputComponent(new EnemyController()));
         }
     }
 }

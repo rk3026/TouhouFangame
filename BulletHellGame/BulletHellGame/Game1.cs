@@ -99,6 +99,9 @@ namespace BulletHellGame
             defaultTexture.SetData(colorData);
             TextureManager.Instance.SetDefaultTexture(defaultTexture);
 
+            FontManager.Instance.LoadFont(content, "DFPPOPCorn-W12");
+            FontManager.Instance.LoadFont(content, "Arial");
+
             // Load all the TextureAtlases:
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/Characters.json");
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/EnemiesAndBosses.json");

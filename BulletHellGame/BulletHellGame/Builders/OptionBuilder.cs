@@ -1,4 +1,5 @@
 ﻿using BulletHellGame.Components;
+using BulletHellGame.Controllers;
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Managers;
 
@@ -31,6 +32,11 @@ namespace BulletHellGame.Builders
         public override void BuildShooting()
         {
             _entity.AddComponent(new ShootingComponent(_entityData.Weapons));
+        }
+
+        public override void BuildInput()
+        {
+            _entity.AddComponent(new InputComponent(new OptionController()));
         }
     }
 }

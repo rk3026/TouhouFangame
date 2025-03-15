@@ -1,4 +1,5 @@
 ﻿using BulletHellGame.Components;
+using BulletHellGame.Controllers;
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Managers;
 
@@ -52,9 +53,9 @@ namespace BulletHellGame.Builders
             _entity.AddComponent(new PlayerStatsComponent(_entityData.InitialLives, _entityData.InitialBombs));
         }
 
-        public override void BuildPlayerInput()
+        public override void BuildInput()
         {
-            _entity.AddComponent(new PlayerInputComponent());
+            _entity.AddComponent(new InputComponent(new PlayerController()));
         }
 
         public override void BuildInvincibility()
