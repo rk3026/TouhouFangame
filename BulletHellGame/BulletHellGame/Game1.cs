@@ -1,6 +1,5 @@
 ﻿using BulletHellGame.Managers;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace BulletHellGame
 {
@@ -15,6 +14,9 @@ namespace BulletHellGame
         // Graphics:
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Effect _shader;
+        private Texture2D _whitePixel; // White pixel for fullscreen shader
+        private RenderTarget2D _renderTarget; // Render target for applying shader
 
         // Independent scaling factors and matrix
         private float _scaleX;
@@ -36,7 +38,6 @@ namespace BulletHellGame
 
         protected override void Initialize()
         {
-            // Set initial graphics device settings
             _graphics.IsFullScreen = false;
             _graphics.PreferredBackBufferWidth = Globals.WindowSize.X;
             _graphics.PreferredBackBufferHeight = Globals.WindowSize.Y;
@@ -46,29 +47,34 @@ namespace BulletHellGame
             this.Window.AllowUserResizing = true;
             this.Window.ClientSizeChanged += UpdateWindowSize;
 
-            // Calculate the initial scaling factors
-            _scaleX = (float)_graphics.PreferredBackBufferWidth / Globals.WindowSize.X;  // Base width
-            _scaleY = (float)_graphics.PreferredBackBufferHeight / Globals.WindowSize.Y; // Base height
+            // Calculate initial scaling factors
+            _scaleX = (float)_graphics.PreferredBackBufferWidth / Globals.WindowSize.X;
+            _scaleY = (float)_graphics.PreferredBackBufferHeight / Globals.WindowSize.Y;
             _scaleMatrix = Matrix.CreateScale(_scaleX, _scaleY, 1f);
 
             _spriteBatch = new SpriteBatch(this.GraphicsDevice);
             Globals.GraphicsDevice = this.GraphicsDevice;
             Globals.SpriteBatch = this._spriteBatch;
 
+            // Create render target
+            _renderTarget = new RenderTarget2D(GraphicsDevice, Globals.WindowSize.X, Globals.WindowSize.Y);
+
             base.Initialize();
         }
 
         private void UpdateWindowSize(object sender, EventArgs e)
         {
-            // Update graphics device settings based on the new window size
             _graphics.PreferredBackBufferWidth = this.Window.ClientBounds.Width;
             _graphics.PreferredBackBufferHeight = this.Window.ClientBounds.Height;
             _graphics.ApplyChanges();
 
-            // Recalculate the independent scaling factors and matrix
-            _scaleX = (float)this.Window.ClientBounds.Width / Globals.WindowSize.X;  // Base width
-            _scaleY = (float)this.Window.ClientBounds.Height / Globals.WindowSize.Y; // Base height
+            _scaleX = (float)this.Window.ClientBounds.Width / Globals.WindowSize.X;
+            _scaleY = (float)this.Window.ClientBounds.Height / Globals.WindowSize.Y;
             _scaleMatrix = Matrix.CreateScale(_scaleX, _scaleY, 1f);
+
+            // Recreate the render target when the window size changes
+            _renderTarget.Dispose();
+            _renderTarget = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
 
         protected override void LoadContent()
@@ -76,33 +82,14 @@ namespace BulletHellGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             ContentManager content = Content;
 
-            // Set up a default texture:
-            Texture2D defaultTexture = new Texture2D(this.GraphicsDevice, 16, 16);
-            Color[] colorData = new Color[16 * 16];
-            int blockSize = 4;
-            for (int y = 0; y < 16; y++)
-            {
-                for (int x = 0; x < 16; x++)
-                {
-                    int blockX = x / blockSize;
-                    int blockY = y / blockSize;
-                    if ((blockX + blockY) % 2 == 0)
-                    {
-                        colorData[y * 16 + x] = Color.Black;
-                    }
-                    else
-                    {
-                        colorData[y * 16 + x] = Color.Pink;
-                    }
-                }
-            }
-            defaultTexture.SetData(colorData);
-            TextureManager.Instance.SetDefaultTexture(defaultTexture);
+            // Create a 1x1 white pixel texture for fullscreen shader
+            _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
+            _whitePixel.SetData(new[] { Color.White });
 
+            // Load fonts and textures
             FontManager.Instance.LoadFont(content, "DFPPOPCorn-W12");
             FontManager.Instance.LoadFont(content, "Arial");
 
-            // Load all the TextureAtlases:
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/Characters.json");
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/EnemiesAndBosses.json");
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/MenuAndOtherScreens.json");
@@ -111,13 +98,27 @@ namespace BulletHellGame
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/Fonts.json");
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/SidebarLoadAndPauseScreens.json");
 
-            // Add the main menu scene to begin the game:
+            _shader = Content.Load<Effect>("Shaders/TestShader1");
+            // Set shader parameters
+            _shader.Parameters["textureSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height)); // Size of the rendered texture (screen or render target)
+            _shader.Parameters["videoSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));   // Original video size (for scaling effects)
+            _shader.Parameters["outputSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));  // Output size after processing
+            _shader.Parameters["hardScan"].SetValue(-4.0f);  // Increase = sharper scanlines, more defined. Decrease = softer scanlines, blurrier.
+            _shader.Parameters["hardPix"].SetValue(-1.0f);   // Increase = sharper pixels, more crisp. Decrease = softer pixels, more blur.
+            _shader.Parameters["warpX"].SetValue(0.002f);    // Increase = more horizontal screen warping (curvature). Decrease = flatter screen.
+            _shader.Parameters["warpY"].SetValue(0.0025f);   // Increase = more vertical screen warping (curvature). Decrease = flatter screen.
+            _shader.Parameters["maskDark"].SetValue(0.6f);   // Increase = darker shadow mask, more contrast. Decrease = lighter shadow mask, less contrast.
+            _shader.Parameters["maskLight"].SetValue(1.4f);  // Increase = brighter highlights. Decrease = dimmer highlights.
+            _shader.Parameters["brightboost"].SetValue(0.8f); // Increase = boosts overall brightness. Decrease = darkens the screen.
+            _shader.Parameters["shadowMask"].SetValue(1.0f); // Increase = more visible shadow mask pattern. Decrease = less visible pattern.
+            _shader.Parameters["bloomAmount"].SetValue(0.1f); // Increase = more glow/bloom effect, softer visuals. Decrease = less glow, sharper visuals.
+            _shader.Parameters["shape"].SetValue(0.9f);      // Increase = more screen curvature. Decrease = flatter screen.
+
             _sceneManager.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));
         }
 
         protected override void Update(GameTime gameTime)
         {
-            // Update managers:
             _sceneManager.Update(gameTime);
             _inputManager.Update();
             base.Update(gameTime);
@@ -125,11 +126,33 @@ namespace BulletHellGame
 
         protected override void Draw(GameTime gameTime)
         {
-            // Clear the screen
+            GraphicsDevice.SetRenderTarget(_renderTarget);
             GraphicsDevice.Clear(Color.Black);
-            this._spriteBatch.Begin(transformMatrix: _scaleMatrix);
-            this._sceneManager.Draw(this._spriteBatch);
-            this._spriteBatch.End();
+
+            // Draw the scene first into the render target
+            _spriteBatch.Begin(transformMatrix: _scaleMatrix);
+            _sceneManager.Draw(_spriteBatch);
+            _spriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            // Reset shader parameters
+            _shader.Parameters["textureSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            _shader.Parameters["videoSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            _shader.Parameters["outputSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+
+            // Draw the render target to the screen, with or without shader based on settings
+            if (SettingsManager.Instance.CRTShader)
+            {
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, effect: _shader);
+            }
+            else
+            {
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            }
+
+            _spriteBatch.Draw(_renderTarget, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

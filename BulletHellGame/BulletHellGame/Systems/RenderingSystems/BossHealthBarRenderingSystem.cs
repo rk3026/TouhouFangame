@@ -36,17 +36,17 @@ namespace BulletHellGame.Systems.RenderingSystems
 
                 // Draw within entityManager.Bounds with slight offset
                 var bounds = entityManager.Bounds;
-                int offset = 30; // Offset from the sides
+                int offset = 30;
                 int healthBarWidth = (int)((bounds.Width - 2 * offset) * _displayedHealthPercent);
-                int healthBarHeight = 10; // Set a fixed height for the health bar
+                int healthBarHeight = 5;
                 Vector2 healthBarPosition = new Vector2(bounds.X + offset, bounds.Y + healthBarHeight + 5);
 
-                Color backgroundColor = Color.DarkRed * 0.7f; // Slight opacity
+                Color backgroundColor = Color.DarkRed * 0.7f;
                 Color foregroundColor = Color.Red * 0.7f;
 
-                // Background bar (dark red)
+                // Background bar
                 spriteBatch.Draw(_barTexture, new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, bounds.Width - 2 * offset, healthBarHeight), backgroundColor);
-                // Foreground bar (red, grows over time)
+                // Foreground bar
                 spriteBatch.Draw(_barTexture, new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthBarWidth, healthBarHeight), foregroundColor);
 
                 // Draw Phase Text next to the health bar

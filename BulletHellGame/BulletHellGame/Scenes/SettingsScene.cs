@@ -14,6 +14,7 @@ public class SettingsScene : IScene
         "Music Volume: ",
         "Sound Effects: ",
         "Debug Mode: ",
+        "CRT Shader: ",
         "KeyConfig",
         "Back"
     };
@@ -39,6 +40,7 @@ public class SettingsScene : IScene
         settingsOptions[0] = $"Music Volume: {Math.Round(SettingsManager.Instance.MusicVolume * 10)}/10";
         settingsOptions[1] = $"Sound Effects: {Math.Round(SettingsManager.Instance.SFXVolume * 10)}/10";
         settingsOptions[2] = $"Debug Mode: {(SettingsManager.Instance.Debugging ? "ON" : "OFF")}";
+        settingsOptions[3] = $"CRT Shader: {(SettingsManager.Instance.CRTShader ? "ON" : "OFF")}";
     }
 
     public void Update(GameTime gameTime)
@@ -80,7 +82,7 @@ public class SettingsScene : IScene
 
         if (InputManager.Instance.ActionPressed(GameAction.Select))
         {
-            if (selectedIndex == settingsOptions.Length - 1)
+            if (selectedIndex == settingsOptions.Length - 1) // Exit
             {
                 SceneManager.Instance.RemoveScene();
             }
@@ -89,13 +91,17 @@ public class SettingsScene : IScene
                 SettingsManager.Instance.Debugging = !SettingsManager.Instance.Debugging;
                 UpdateMenuText();
             }
-            else if (selectedIndex == 3) // Rebind Keys
+            else if (selectedIndex == 3) // Turn on CRT Shader
+            {
+                SettingsManager.Instance.CRTShader = !SettingsManager.Instance.CRTShader;
+                UpdateMenuText();
+            }
+            else if (selectedIndex == 4) // Rebind Keys
             {
                 SceneManager.Instance.AddScene(new KeyConfigScene(this._contentManager, this._graphicsDevice));
             }
         }
     }
-
 
     public void Draw(SpriteBatch spriteBatch)
     {

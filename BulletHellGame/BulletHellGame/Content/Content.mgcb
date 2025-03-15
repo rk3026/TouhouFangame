@@ -39,6 +39,18 @@
 /processorParam:TextureFormat=Color
 /build:Fonts/TouhouFontWhite.png
 
+#begin Shaders/TestShader1.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/TestShader1.fx
+
+#begin Shaders/TestShader2.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/TestShader2.fx
+
 #begin Sprites/Bullets/ReimuBullet.png
 /importer:TextureImporter
 /processor:TextureProcessor
