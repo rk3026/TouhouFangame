@@ -9,7 +9,6 @@
         public float MusicVolume { get; set; } = 1.0f;
         public float SFXVolume { get; set; } = 1.0f;
         public bool Debugging { get; set; } = false;
-        public bool CRTShader { get; set; } = false;
         private SettingsManager() { }
     }
 }

@@ -39,17 +39,23 @@
 /processorParam:TextureFormat=Color
 /build:Fonts/TouhouFontWhite.png
 
-#begin Shaders/TestShader1.fx
+#begin Shaders/CRT_Shader.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:Shaders/TestShader1.fx
+/build:Shaders/CRT_Shader.fx
 
-#begin Shaders/TestShader2.fx
+#begin Shaders/Glitch_Shader.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:Shaders/TestShader2.fx
+/build:Shaders/Glitch_Shader.fx
+
+#begin Shaders/MagicAura_Shader.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/MagicAura_Shader.fx
 
 #begin Sprites/Bullets/ReimuBullet.png
 /importer:TextureImporter

@@ -152,7 +152,7 @@ namespace BulletHellGame.Scenes
         {
             _parallaxBackground.Draw(spriteBatch);
 
-            // Draw all entities within the playable area
+            // DrawActiveShader all entities within the playable area
             _systemManager.Draw(_entityManager, spriteBatch);
 
             // Drawing the sidebar UI background

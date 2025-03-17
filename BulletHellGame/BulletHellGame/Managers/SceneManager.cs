@@ -108,7 +108,7 @@ namespace BulletHellGame.Managers
         {
             if (_isTransitioning)
             {
-                // Draw transition
+                // DrawActiveShader transition
                 _activeTransition.Draw(spriteBatch);
 
                 if (_sceneStack.Count > 0)
@@ -131,7 +131,7 @@ namespace BulletHellGame.Managers
 
         private void DrawSceneStackDebug(SpriteBatch spriteBatch)
         {
-            // Debugging: Draw the scene stack count and the scene names
+            // Debugging: DrawActiveShader the scene stack count and the scene names
             string debugText = $"Scene Stack Count: {SceneManager.Instance.SceneStack.Count}";
             Vector2 debugPosition = new Vector2(10, 10);
             Vector2 outlineOffset = new Vector2(3, 3);

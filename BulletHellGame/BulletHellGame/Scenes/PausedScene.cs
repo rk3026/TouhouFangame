@@ -84,10 +84,10 @@ namespace BulletHellGame.Scenes
             int boxX = (screenWidth - boxWidth) / 2;
             int boxY = (screenHeight - boxHeight) / 2;
 
-            // Draw _stageBackground box
+            // DrawActiveShader _stageBackground box
             spriteBatch.Draw(whitePixel, new Rectangle(boxX, boxY, boxWidth, boxHeight), Color.Black * 0.9f);
 
-            // Draw menu options
+            // DrawActiveShader menu options
             for (int i = 0; i < menuOptions.Length; i++)
             {
                 Vector2 textSize = FontManager.Instance.GetFont("DFPPOPCorn-W12").MeasureString(menuOptions[i]);
@@ -98,11 +98,11 @@ namespace BulletHellGame.Scenes
                     // Highlight box
                     spriteBatch.Draw(whitePixel, new Rectangle((int)position.X - 10, (int)position.Y - 5, (int)textSize.X + 20, (int)textSize.Y + 10), Color.White);
 
-                    // Draw outline effect
+                    // DrawActiveShader outline effect
                     DrawOutlinedText(spriteBatch, menuOptions[i], position, Color.Black, 2);
                 }
 
-                // Draw the text
+                // DrawActiveShader the text
                 Color textColor = (i == selectedIndex) ? Color.Red : Color.White;
                 spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), menuOptions[i], position, textColor);
             }

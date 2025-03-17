@@ -10,6 +10,7 @@ namespace BulletHellGame
         private SceneManager _sceneManager;
         private TextureManager _textureManager;
         private InputManager _inputManager;
+        private ShaderManager _shaderManager;
 
         // Graphics:
         private GraphicsDeviceManager _graphics;
@@ -34,6 +35,7 @@ namespace BulletHellGame
             _textureManager = TextureManager.Instance;
             _fontManager = FontManager.Instance;
             _inputManager = InputManager.Instance;
+            _shaderManager = ShaderManager.Instance;
         }
 
         protected override void Initialize()
@@ -75,6 +77,10 @@ namespace BulletHellGame
             // Recreate the render target when the window size changes
             _renderTarget.Dispose();
             _renderTarget = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+
+            _shaderManager.ActiveShader.Parameters["textureSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            _shaderManager.ActiveShader.Parameters["videoSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+            _shaderManager.ActiveShader.Parameters["outputSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
         }
 
         protected override void LoadContent()
@@ -82,14 +88,11 @@ namespace BulletHellGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             ContentManager content = Content;
 
-            // Create a 1x1 white pixel texture for fullscreen shader
-            _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
-            _whitePixel.SetData(new[] { Color.White });
-
             // Load fonts and textures
             FontManager.Instance.LoadFont(content, "DFPPOPCorn-W12");
             FontManager.Instance.LoadFont(content, "Arial");
 
+            // Loading all textures via spritesheets
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/Characters.json");
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/EnemiesAndBosses.json");
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/MenuAndOtherScreens.json");
@@ -98,8 +101,12 @@ namespace BulletHellGame
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/Fonts.json");
             TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/SidebarLoadAndPauseScreens.json");
 
-            _shader = Content.Load<Effect>("Shaders/TestShader1");
-            // Set shader parameters
+            // Create a 1x1 white pixel texture for fullscreen shader
+            _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
+            _whitePixel.SetData(new[] { Color.White });
+
+            // Loading shaders
+            var _shader = Content.Load<Effect>("Shaders/CRT_Shader");
             _shader.Parameters["textureSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height)); // Size of the rendered texture (screen or render target)
             _shader.Parameters["videoSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));   // Original video size (for scaling effects)
             _shader.Parameters["outputSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));  // Output size after processing
@@ -113,12 +120,22 @@ namespace BulletHellGame
             _shader.Parameters["shadowMask"].SetValue(1.0f); // Increase = more visible shadow mask pattern. Decrease = less visible pattern.
             _shader.Parameters["bloomAmount"].SetValue(0.1f); // Increase = more glow/bloom effect, softer visuals. Decrease = less glow, sharper visuals.
             _shader.Parameters["shape"].SetValue(0.9f);      // Increase = more screen curvature. Decrease = flatter screen.
+            ShaderManager.Instance.StoreShader("CRT", _shader);
 
+            _shader = Content.Load<Effect>("Shaders/Glitch_Shader");
+            _shader.Parameters["textureSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height)); // Size of the rendered texture (screen or render target)
+            ShaderManager.Instance.StoreShader("Glitch", _shader);
+
+            _shader = Content.Load<Effect>("Shaders/MagicAura_Shader");
+            ShaderManager.Instance.StoreShader("MagicAura", _shader);
+
+            // Adding the mainmenu scene to begin the game
             _sceneManager.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));
         }
 
         protected override void Update(GameTime gameTime)
         {
+            _shaderManager.Update(gameTime);
             _sceneManager.Update(gameTime);
             _inputManager.Update();
             base.Update(gameTime);
@@ -126,31 +143,24 @@ namespace BulletHellGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(_renderTarget);
             GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.SetRenderTarget(_renderTarget);
 
-            // Draw the scene first into the render target
             _spriteBatch.Begin(transformMatrix: _scaleMatrix);
             _sceneManager.Draw(_spriteBatch);
             _spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
 
-            // Reset shader parameters
-            _shader.Parameters["textureSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-            _shader.Parameters["videoSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-            _shader.Parameters["outputSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-
-            // Draw the render target to the screen, with or without shader based on settings
-            if (SettingsManager.Instance.CRTShader)
+            if (ShaderManager.Instance.ShaderEnabled)
             {
-                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, effect: _shader);
+                var shader = _shaderManager.ActiveShader;
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, shader);
             }
             else
             {
                 _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             }
-
             _spriteBatch.Draw(_renderTarget, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             _spriteBatch.End();
 
