@@ -1,5 +1,8 @@
-﻿using BulletHellGame.Managers;
+﻿using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.DataLoaders;
+using BulletHellGame.Managers;
 using Microsoft.Xna.Framework.Content;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BulletHellGame
 {
@@ -36,6 +39,8 @@ namespace BulletHellGame
             _fontManager = FontManager.Instance;
             _inputManager = InputManager.Instance;
             _shaderManager = ShaderManager.Instance;
+
+            CharacterDataLoader cl = new CharacterDataLoader();
         }
 
         protected override void Initialize()

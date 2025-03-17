@@ -10,35 +10,47 @@ namespace BulletHellGame.Data.Loaders
     {
         private const string ShotDataDirectory = "Data/Shots/";
 
-        public static ShotData LoadFromJson(string shotName)
+        public static ShotData? LoadFromJson(string shotName)
         {
-            string filePath = Path.Combine(ShotDataDirectory, $"{shotName}.json");
-
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException($"Shot data file not found: {filePath}");
-
-            string json = File.ReadAllText(filePath);
-            using JsonDocument doc = JsonDocument.Parse(json);
-            JsonElement root = doc.RootElement;
-
-            return new ShotData
+            try
             {
-                Name = root.GetProperty("Name").GetString(),
-                Description = root.GetProperty("Description").GetString(),
-                PowerLevels = root.GetProperty("UnfocusedPowerLevels").EnumerateArray()
-                    .ToDictionary(
-                        level => level.GetProperty("Level").GetInt32(),
-                        level => new PowerLevelData
-                        {
-                            MainWeapons = level.GetProperty("MainWeapons").EnumerateArray()
-                                .Select(ParseWeapon).ToList(),
-                            Options = level.TryGetProperty("SideWeapons", out JsonElement sideWeapons)
-                                ? sideWeapons.EnumerateArray().Select(ParseOption).ToList()
-                                : new List<OptionData>()
-                        }
-                    )
-            };
+                string filePath = Path.Combine(ShotDataDirectory, $"{shotName.Replace(" ", "")}.json");
+
+                if (!File.Exists(filePath))
+                {
+                    Console.WriteLine($"Shot data file not found: {filePath}");
+                    return null;
+                }
+
+                string json = File.ReadAllText(filePath);
+                using JsonDocument doc = JsonDocument.Parse(json);
+                JsonElement root = doc.RootElement;
+
+                return new ShotData
+                {
+                    Name = root.GetProperty("Name").GetString(),
+                    Description = root.GetProperty("Description").GetString(),
+                    PowerLevels = root.GetProperty("PowerLevels").EnumerateArray()
+                        .ToDictionary(
+                            level => level.GetProperty("Level").GetInt32(),
+                            level => new PowerLevelData
+                            {
+                                MainWeapons = level.GetProperty("MainWeapons").EnumerateArray()
+                                    .Select(ParseWeapon).ToList(),
+                                Options = level.TryGetProperty("SideWeapons", out JsonElement sideWeapons)
+                                    ? sideWeapons.EnumerateArray().Select(ParseOption).ToList()
+                                    : new List<OptionData>()
+                            }
+                        )
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to load shot data for '{shotName}': {ex.Message}");
+                return null;
+            }
         }
+
 
         private static WeaponData ParseWeapon(JsonElement weaponElement)
         {
