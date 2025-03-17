@@ -119,8 +119,6 @@ namespace BulletHellGame.Scenes
             _waveManager.AddWave(wave1);
         }
 
-
-
         public void Update(GameTime gameTime)
         {
             // Update all entities

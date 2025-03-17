@@ -23,7 +23,7 @@ namespace BulletHellGame.Managers
         {
             if (ShaderEnabled)
             {
-                if (ActiveShader.Parameters["time"] != null)
+                if (ActiveShader != null && ActiveShader.Parameters["time"] != null)
                     ActiveShader.Parameters["time"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);
             }
         }
