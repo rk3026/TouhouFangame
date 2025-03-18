@@ -43,8 +43,7 @@ public class SpriteComponent : IComponent
         }
     }
 
-
-    public void FlashRed(float duration = 0.2f)
+    public void FlashRed(float duration = 0.1f)
     {
         _isFlashing = true;
         _flashDuration = duration;

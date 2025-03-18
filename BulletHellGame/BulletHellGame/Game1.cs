@@ -137,6 +137,8 @@ namespace BulletHellGame
             _shader = Content.Load<Effect>("Shaders/MagicAura_Shader");
             ShaderManager.Instance.StoreShader("MagicAura", _shader);
 
+            SFXManager.Instance.LoadAllSounds(this.Content);
+
             // Adding the mainmenu scene to begin the game
             _sceneManager.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));
         }

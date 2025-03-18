@@ -146,9 +146,9 @@ namespace BulletHellGame.Managers
 
             // Create the weapons of the character (they are separate entitites):
             // for however many options the player has (typically 2):
-            for (int i = 0; i < playerData.UnfocusedPowerLevels.FirstOrDefault().Value.Options.Count; i++) // At first, set them to power level 0
+            for (int i = 0; i < playerData.ShotTypes.First().UnfocusedShot.PowerLevels.FirstOrDefault().Value.Options.Count; i++) // At first, set them to power level 0
             {
-                OptionData optionData = playerData.UnfocusedPowerLevels.FirstOrDefault().Value.Options[i];
+                OptionData optionData = playerData.ShotTypes.First().UnfocusedShot.PowerLevels.FirstOrDefault().Value.Options[i];
 
                 _optionBuilder.SetEntityData(optionData);
                 _entityDirector.ConstructEntity(_optionBuilder);

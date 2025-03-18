@@ -2,6 +2,7 @@
 using BulletHellGame.Controllers;
 using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Managers;
+using System.Linq;
 
 namespace BulletHellGame.Builders
 {
@@ -66,7 +67,7 @@ namespace BulletHellGame.Builders
         public override void BuildPowerLevel()
         {
             PowerLevelComponent plc = new PowerLevelComponent();
-            foreach (var powerLevel in _entityData.UnfocusedPowerLevels)
+            foreach (var powerLevel in _entityData.ShotTypes.First().UnfocusedShot.PowerLevels)
             {
                 plc.UnfocusedPowerLevels.Add(powerLevel.Key, powerLevel.Value);
                 for (int i = 0; i < powerLevel.Value.MainWeapons.Count; ++i)
@@ -74,7 +75,7 @@ namespace BulletHellGame.Builders
                     plc.UnfocusedPowerLevels[powerLevel.Key].MainWeapons[i] = powerLevel.Value.MainWeapons[i];
                 }
             }
-            foreach (var powerLevel in _entityData.FocusedPowerLevels)
+            foreach (var powerLevel in _entityData.ShotTypes.First().FocusedShot.PowerLevels)
             {
                 plc.FocusedPowerLevels.Add(powerLevel.Key, powerLevel.Value);
                 for (int i = 0; i < powerLevel.Value.MainWeapons.Count; ++i)
@@ -87,10 +88,10 @@ namespace BulletHellGame.Builders
 
         public override void BuildShooting()
         {
-            if (_entityData.UnfocusedPowerLevels.ContainsKey(0))
+            if (_entityData.ShotTypes.First().UnfocusedShot.PowerLevels.ContainsKey(0))
             {
                 List<WeaponData> weapons = new List<WeaponData>();
-                foreach (var weapon in _entityData.UnfocusedPowerLevels[0].MainWeapons)
+                foreach (var weapon in _entityData.ShotTypes.First().UnfocusedShot.PowerLevels[0].MainWeapons)
                 {
                     weapons.Add(weapon);
                 }

@@ -16,7 +16,5 @@
         public float DeathbombWindow { get; set; } = 0.33f;
         public List<string> SpecialAbilities { get; set; } = new();
         public List<ShotTypeData> ShotTypes { get; set; }
-        public Dictionary<int, PowerLevelData> UnfocusedPowerLevels { get; set; } = new();
-        public Dictionary<int, PowerLevelData> FocusedPowerLevels { get; set; } = new();
     }
 }

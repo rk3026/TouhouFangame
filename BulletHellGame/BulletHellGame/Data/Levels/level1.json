@@ -3,67 +3,51 @@
   "level_name": "level1",
   "background": "level1_bg.png",
   "music": "level1_theme.mp3",
-  "enemies": [
+  "waves": [
     {
-      "type": "EnemyTypeA",
       "spawn_time": 2.0,
-      "spawn_position": {
-        "x": 100,
-        "y": -100
-      },
-      "start_position": {
-        "x": 100,
-        "y": 50
-      },
-      "exit_time": 8.0,
-      "exit_position": {
-        "x": 400,
-        "y": 600
-      },
-      "movement_pattern": "zigzag",
-      "health": 10,
-      "bullet_pattern": {
-        "type": "spiral",
-        "speed": 5,
-        "fire_rate": 0.2
-      }
+      "formation": "zigzag",
+      "enemies": [
+        {
+          "type": "EnemyTypeA",
+          "spawn_position": { "x": 100, "y": -100 },
+          "start_position": { "x": 100, "y": 50 },
+          "exit_time": 8.0,
+          "exit_position": { "x": 400, "y": 600 },
+          "health": 10,
+          "bullet_pattern": {
+            "type": "spiral",
+            "speed": 5,
+            "fire_rate": 0.2
+          }
+        }
+      ]
     },
     {
-      "type": "EnemyTypeB",
       "spawn_time": 5.0,
-      "spawn_position": {
-        "x": 200,
-        "y": -100
-      },
-      "start_position": {
-        "x": 200,
-        "y": 100
-      },
-      "exit_time": 12.0,
-      "exit_position": {
-        "x": -50,
-        "y": 300
-      },
-      "movement_pattern": "sin_wave",
-      "health": 20,
-      "bullet_pattern": {
-        "type": "random",
-        "speed": 4,
-        "fire_rate": 0.15
-      }
+      "formation": "sin_wave",
+      "enemies": [
+        {
+          "type": "EnemyTypeB",
+          "spawn_position": { "x": 200, "y": -100 },
+          "start_position": { "x": 200, "y": 100 },
+          "exit_time": 12.0,
+          "exit_position": { "x": -50, "y": 300 },
+          "health": 20,
+          "bullet_pattern": {
+            "type": "random",
+            "speed": 4,
+            "fire_rate": 0.15
+          }
+        }
+      ]
     }
   ],
   "subboss": {
     "name": "Cirno",
     "spawn_time": 120.0,
-    "spawn_position": {
-      "x": 150,
-      "y": -200
-    },
-    "start_position": {
-      "x": 150,
-      "y": 150
-    },
+    "spawn_position": { "x": 150, "y": -200 },
+    "start_position": { "x": 150, "y": 150 },
     "health": 3000,
     "phases": [
       {
@@ -81,14 +65,8 @@
   "boss": {
     "name": "Letty Whiterock",
     "spawn_time": 240.0,
-    "spawn_position": {
-      "x": 150,
-      "y": -200
-    },
-    "start_position": {
-      "x": 150,
-      "y": 150
-    },
+    "spawn_position": { "x": 150, "y": -200 },
+    "start_position": { "x": 150, "y": 150 },
     "health": 10000,
     "phases": [
       {

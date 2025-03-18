@@ -59,6 +59,7 @@ namespace BulletHellGame.Systems.LogicSystems
                             firingDirection,
                             owner
                         );
+                        SFXManager.Instance.PlaySound("shoot");
                     }
 
                     // Reset cooldown for this weapon

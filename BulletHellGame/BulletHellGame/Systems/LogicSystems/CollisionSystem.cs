@@ -24,10 +24,11 @@ namespace BulletHellGame.Systems.LogicSystems
             {
                 // Apply damage if no ownership conflict exists
                 health.TakeDamage(damage.CalculateDamage());
+                SFXManager.Instance.PlaySound("se_damage00");
 
                 if (owner.TryGetComponent<SpriteComponent>(out var sprite))
                 {
-                    sprite.FlashRed(0.1f);
+                    sprite.FlashRed();
                 }
 
                 if (owner.TryGetComponent<PlayerStatsComponent>(out var psc))
@@ -38,7 +39,10 @@ namespace BulletHellGame.Systems.LogicSystems
                         {
                             psc.Lives -= 1;
                             health.Heal(health.MaxHealth);
-                            ic.RemainingTime = 3f; // Add 3 seconds of invincibility
+                            if (ic != null)
+                            {
+                                ic.RemainingTime = 2f;
+                            }
                             sprite.FlashRed();
                             return; // Prevent player removal
                         }
