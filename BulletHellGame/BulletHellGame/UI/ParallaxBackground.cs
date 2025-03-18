@@ -9,6 +9,16 @@
             _layers.Add(new ParallaxLayer(texture, sourceRect, parallaxArea, speed));
         }
 
+        public void RemoveLayer(int layer)
+        {
+            _layers.RemoveAt(layer);
+        }
+
+        public void ClearLayers()
+        {
+            _layers.Clear();
+        }
+
         public void Update(GameTime gameTime)
         {
             foreach (var layer in _layers)
