@@ -71,7 +71,7 @@ public class MainMenuScene : IScene
     {
         spriteBatch.Draw(background.Texture, Vector2.Zero, background.Animations.First().Value[0], Color.White);
 
-        // DrawActiveShader the menu options with outline and highlight box for the selected option
+        // Draw the menu options with outline and highlight box for the selected option
         for (int i = 0; i < menuOptions.Length; i++)
         {
             Vector2 position = new Vector2(100, 100 + i * 40);
@@ -84,19 +84,19 @@ public class MainMenuScene : IScene
                 float offsetY = (float)Math.Cos(time * 5) * 3; // Oscillation effect
                 float rotation = (float)Math.Sin(time * 3) * 0.1f; // Small rotation effect
 
-                // DrawActiveShader a box around the selected option with the animation
+                // Draw a box around the selected option with the animation
                 var textSize = FontManager.Instance.GetFont("DFPPOPCorn-W12").MeasureString(menuOptions[i]);
                 var boxPosition = position - new Vector2(5, 5) + new Vector2(offsetX, offsetY);
                 var boxSize = new Vector2(textSize.X + 10, textSize.Y + 10);
 
-                // DrawActiveShader the box with rotation
+                // Draw the box with rotation
                 spriteBatch.Draw(whitePixel, new Rectangle((int)boxPosition.X, (int)boxPosition.Y, (int)boxSize.X, (int)boxSize.Y), Color.White);
 
                 // Outline effect for selected option
                 DrawOutlinedText(spriteBatch, menuOptions[i], position + new Vector2(offsetX, offsetY), Color.Black, 2);
             }
 
-            // DrawActiveShader the actual menu option text
+            // Draw the actual menu option text
             Color textColor = (i == selectedIndex) ? Color.Red : Color.White;
             spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), menuOptions[i], position, textColor);
         }

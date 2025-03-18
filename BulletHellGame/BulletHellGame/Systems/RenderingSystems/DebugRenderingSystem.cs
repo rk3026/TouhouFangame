@@ -37,14 +37,14 @@ namespace BulletHellGame.Systems.RenderingSystems
                     // Increase the thickness of the outline by changing the width and height of the lines
                     int outlineThickness = 2; // Set the thickness of the outline
 
-                    // DrawActiveShader the outline (four lines for the edges of the hitbox)
+                    // Draw the outline (four lines for the edges of the hitbox)
                     spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, width, outlineThickness), Color.Cyan); // Top
                     spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y + height - outlineThickness, width, outlineThickness), Color.LightPink); // Bottom
                     spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, outlineThickness, height), Color.BlueViolet); // Left
                     spriteBatch.Draw(_pixel, new Rectangle((int)position.X + width - outlineThickness, (int)position.Y, outlineThickness, height), Color.Salmon); // Right
                 }
 
-                // DrawActiveShader Health Bar
+                // Draw Health Bar
                 if (entity.TryGetComponent<HealthComponent>(out var hc) &&
                     entity.TryGetComponent<SpriteComponent>(out var sc))
                 {

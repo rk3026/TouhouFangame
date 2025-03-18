@@ -69,7 +69,7 @@ namespace BulletHellGame.Managers
 
         private void DrawSceneStackDebug(SpriteBatch spriteBatch)
         {
-            // Debugging: DrawActiveShader the scene stack count and the scene names
+            // Debugging: Draw the scene stack count and the scene names
             string debugText = $"Scene Stack Count: {SceneManager.Instance.SceneStack.Count}";
             Vector2 debugPosition = new Vector2(10, 10);
             Vector2 outlineOffset = new Vector2(3, 3);

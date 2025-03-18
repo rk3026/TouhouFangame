@@ -34,7 +34,7 @@ namespace BulletHellGame.Systems.RenderingSystems
                 _displayedHealthPercent += _fillSpeed * 1 / 60f; // Assuming 60 FPS
                 _displayedHealthPercent = MathHelper.Clamp(_displayedHealthPercent, 0f, targetHealthPercent);
 
-                // DrawActiveShader within entityManager.Bounds with slight offset
+                // Draw within entityManager.Bounds with slight offset
                 var bounds = entityManager.Bounds;
                 int offset = 30;
                 int healthBarWidth = (int)((bounds.Width - 2 * offset) * _displayedHealthPercent);
@@ -49,7 +49,7 @@ namespace BulletHellGame.Systems.RenderingSystems
                 // Foreground bar
                 spriteBatch.Draw(_barTexture, new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthBarWidth, healthBarHeight), foregroundColor);
 
-                // DrawActiveShader Phase Text next to the health bar
+                // Draw Phase Text next to the health bar
                 string phaseText = $"Phase: {phaseComponent.CurrentPhase + 1}/{phaseComponent.Phases.Count}";
                 Vector2 phaseTextPosition = new Vector2(bounds.X + offset, healthBarPosition.Y + healthBarHeight + 5);
                 spriteBatch.DrawString(_font, phaseText, phaseTextPosition, Color.White);

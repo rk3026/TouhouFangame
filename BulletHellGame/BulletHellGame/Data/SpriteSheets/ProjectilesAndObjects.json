@@ -1,8 +1,21 @@
 {
   // DoubleCircles
-  "DoubleCircle.White": { "Default" : [{ "X": 8, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.Gray": { "Default" : [{ "X": 8, "Y": 42, "Width": 16, "Height": 16 }]},
   "DoubleCircle.DarkRed": { "Default" : [{ "X": 24, "Y": 42, "Width": 16, "Height": 16 }]},
   "DoubleCircle.Red": { "Default" : [{ "X": 40, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.Purple": { "Default" : [{ "X": 56, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.Pink": { "Default" : [{ "X": 72, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.DarkBlue": { "Default" : [{ "X": 88, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.Blue": { "Default" : [{ "X": 104, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.Teal": { "Default" : [{ "X": 120, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.LightBlue": { "Default" : [{ "X": 136, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.Green": { "Default" : [{ "X": 152, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.LightGreen": { "Default" : [{ "X": 168, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.Chartreuse": { "Default" : [{ "X": 184, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.DarkYellow": { "Default" : [{ "X": 200, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.Yellow": { "Default" : [{ "X": 216, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.Orange": { "Default" : [{ "X": 232, "Y": 42, "Width": 16, "Height": 16 }]},
+  "DoubleCircle.White": { "Default" : [{ "X": 248, "Y": 42, "Width": 16, "Height": 16 }]},
 
   // Lazers
   "Lazer.White": { "Default" : [{ "X": 8, "Y": 10, "Width": 16, "Height": 14 }]},

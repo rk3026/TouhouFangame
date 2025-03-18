@@ -8,6 +8,12 @@ namespace BulletHellGame.Utilities.EntityGenerator
     public class EntityDataGenerator
     {
         private readonly static Random _random = new();
+        private readonly static List<string> _bulletSprites = new() {
+            "DoubleCircle.Gray", "DoubleCircle.DarkRed", "DoubleCircle.Red", "DoubleCircle.Purple",
+            "DoubleCircle.Pink", "DoubleCircle.DarkBlue", "DoubleCircle.Blue", "DoubleCircle.Teal",
+            "DoubleCircle.LightBlue", "DoubleCircle.Green", "DoubleCircle.LightGreen", "DoubleCircle.Chartreuse",
+            "DoubleCircle.DarkYellow", "DoubleCircle.Yellow", "DoubleCircle.Orange", "DoubleCircle.White"
+        };
 
         public static WaveData CreateWaveData(Rectangle playableArea)
         {
@@ -172,11 +178,11 @@ namespace BulletHellGame.Utilities.EntityGenerator
                     new WeaponData() {
                         BulletData = new BulletData()
                         {
-                            SpriteName = "DoubleCircle.White",
+                            SpriteName = _bulletSprites[_random.Next(_bulletSprites.Count)],
                             Damage = _random.Next(20, 30),
                             BulletType = BulletType.Standard,
                         },
-                        FireRate = 1f + (float)_random.NextDouble() * 2f, // Fire rate between 1.0s and 3.0s
+                        FireRate = 5f + (float)_random.NextDouble() * 5f, // Fire rate between 5.0s and 10.0s
                         FireDirections = fireDirections
                     }
                 },
