@@ -55,21 +55,18 @@ namespace BulletHellGame
         private void UpdateWindowSize(object sender, EventArgs e)
         {
             // Recalculate the independent scaling factors and matrix
-            _scaleX = (float)this.Window.ClientBounds.Width / DefaultWindowSize.X;  // Base width
-            _scaleY = (float)this.Window.ClientBounds.Height / DefaultWindowSize.Y; // Base height
+            _scaleX = (float)this.Window.ClientBounds.Width / DefaultWindowSize.X;
+            _scaleY = (float)this.Window.ClientBounds.Height / DefaultWindowSize.Y;
             _scaleMatrix = Matrix.CreateScale(_scaleX, _scaleY, 1f);
-
-            // Recreate the render target when the window size changes
-            _renderTarget.Dispose();
-            _renderTarget = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
             if (ShaderManager.Instance.ActiveShader != null)
             {
-                ShaderManager.Instance.ActiveShader.Parameters["textureSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-                ShaderManager.Instance.ActiveShader.Parameters["videoSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-                ShaderManager.Instance.ActiveShader.Parameters["outputSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+                ShaderManager.Instance.ActiveShader.Parameters["textureSize"].SetValue(new Vector2(DefaultWindowSize.X, DefaultWindowSize.Y));
+                ShaderManager.Instance.ActiveShader.Parameters["videoSize"].SetValue(new Vector2(DefaultWindowSize.X, DefaultWindowSize.Y));
+                ShaderManager.Instance.ActiveShader.Parameters["outputSize"].SetValue(new Vector2(this.Window.ClientBounds.Width, this.Window.ClientBounds.Height));
             }
         }
+
 
         protected override void LoadContent()
         {
@@ -93,26 +90,22 @@ namespace BulletHellGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            GraphicsDevice.SetRenderTarget(_renderTarget);
 
-            _spriteBatch.Begin(transformMatrix: _scaleMatrix);
+            // Draw to the fixed-size render target (640x480)
+            GraphicsDevice.SetRenderTarget(_renderTarget);
+            _spriteBatch.Begin();
             SceneManager.Instance.Draw(_spriteBatch);
             _spriteBatch.End();
-
             GraphicsDevice.SetRenderTarget(null);
 
-            if (ShaderManager.Instance.ShaderEnabled)
-            {
-                var shader = ShaderManager.Instance.ActiveShader;
-                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, shader);
-            }
-            else _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-
-            _spriteBatch.Draw(_renderTarget, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+            // Draw the render target to the screen, scaling to fit the window
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, ShaderManager.Instance.ShaderEnabled ? ShaderManager.Instance.ActiveShader : null);
+            _spriteBatch.Draw(_renderTarget, new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height), Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
+
 
         private void LoadFonts()
         {
