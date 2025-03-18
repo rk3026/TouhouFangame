@@ -18,22 +18,6 @@ namespace BulletHellGame.Managers
             _soundInstances = new Dictionary<string, SoundEffectInstance>();
         }
 
-        public void LoadAllSounds(ContentManager contentManager)
-        {
-            string soundDirectory = Path.Combine(contentManager.RootDirectory, "Sounds");
-
-            if (Directory.Exists(soundDirectory))
-            {
-                var soundFiles = Directory.GetFiles(soundDirectory, "*.xnb", SearchOption.AllDirectories);
-
-                foreach (var file in soundFiles)
-                {
-                    string soundName = Path.GetFileNameWithoutExtension(file);
-                    LoadSound(contentManager, soundName, Path.Combine("Sounds", soundName));
-                }
-            }
-        }
-
         public void LoadSound(ContentManager contentManager, string soundName, string soundPath)
         {
             if (!_soundEffects.ContainsKey(soundName))

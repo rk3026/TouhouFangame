@@ -1,26 +1,16 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
-using BulletHellGame.DataLoaders;
-using BulletHellGame.Managers;
-using Microsoft.Xna.Framework.Content;
-using System.Security.Cryptography.X509Certificates;
+﻿using BulletHellGame.Managers;
+using System.IO;
 
 namespace BulletHellGame
 {
     public class Game1 : Game
     {
-        // Managers:
-        private FontManager _fontManager;
-        private SceneManager _sceneManager;
-        private TextureManager _textureManager;
-        private InputManager _inputManager;
-        private ShaderManager _shaderManager;
-
         // Graphics:
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Effect _shader;
         private Texture2D _whitePixel; // White pixel for fullscreen shader
-        private RenderTarget2D _renderTarget; // Render target for applying shader
+        private RenderTarget2D _renderTarget; // Render target for applying shader to the screen
+        private static Point WindowSize { get; set; } = new(640, 480); // 640 x 480 is Retro/Arcade dimensions (like for Touhou 07 - Perfect Cherry Blossom)
 
         // Independent scaling factors and matrix
         private float _scaleX;
@@ -32,22 +22,13 @@ namespace BulletHellGame
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
-            // Initialize globals and managers
-            _sceneManager = SceneManager.Instance;
-            _textureManager = TextureManager.Instance;
-            _fontManager = FontManager.Instance;
-            _inputManager = InputManager.Instance;
-            _shaderManager = ShaderManager.Instance;
-
-            CharacterDataLoader cl = new CharacterDataLoader();
         }
 
         protected override void Initialize()
         {
             _graphics.IsFullScreen = false;
-            _graphics.PreferredBackBufferWidth = Globals.WindowSize.X;
-            _graphics.PreferredBackBufferHeight = Globals.WindowSize.Y;
+            _graphics.PreferredBackBufferWidth = WindowSize.X;
+            _graphics.PreferredBackBufferHeight = WindowSize.Y;
             _graphics.ApplyChanges();
 
             // Allow the window to be resized
@@ -55,16 +36,18 @@ namespace BulletHellGame
             this.Window.ClientSizeChanged += UpdateWindowSize;
 
             // Calculate initial scaling factors
-            _scaleX = (float)_graphics.PreferredBackBufferWidth / Globals.WindowSize.X;
-            _scaleY = (float)_graphics.PreferredBackBufferHeight / Globals.WindowSize.Y;
+            _scaleX = (float)_graphics.PreferredBackBufferWidth / WindowSize.X;
+            _scaleY = (float)_graphics.PreferredBackBufferHeight / WindowSize.Y;
             _scaleMatrix = Matrix.CreateScale(_scaleX, _scaleY, 1f);
 
             _spriteBatch = new SpriteBatch(this.GraphicsDevice);
-            Globals.GraphicsDevice = this.GraphicsDevice;
-            Globals.SpriteBatch = this._spriteBatch;
 
             // Create render target
-            _renderTarget = new RenderTarget2D(GraphicsDevice, Globals.WindowSize.X, Globals.WindowSize.Y);
+            _renderTarget = new RenderTarget2D(GraphicsDevice, WindowSize.X, WindowSize.Y);
+
+            // Create a 1x1 white pixel texture for fullscreen shader
+            _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
+            _whitePixel.SetData(new[] { Color.White });
 
             base.Initialize();
         }
@@ -75,44 +58,86 @@ namespace BulletHellGame
             _graphics.PreferredBackBufferHeight = this.Window.ClientBounds.Height;
             _graphics.ApplyChanges();
 
-            _scaleX = (float)this.Window.ClientBounds.Width / Globals.WindowSize.X;
-            _scaleY = (float)this.Window.ClientBounds.Height / Globals.WindowSize.Y;
+            _scaleX = (float)this.Window.ClientBounds.Width / WindowSize.X;
+            _scaleY = (float)this.Window.ClientBounds.Height / WindowSize.Y;
             _scaleMatrix = Matrix.CreateScale(_scaleX, _scaleY, 1f);
 
             // Recreate the render target when the window size changes
             _renderTarget.Dispose();
             _renderTarget = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
-            if (_shaderManager.ActiveShader != null)
+            if (ShaderManager.Instance.ActiveShader != null)
             {
-                _shaderManager.ActiveShader.Parameters["textureSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-                _shaderManager.ActiveShader.Parameters["videoSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
-                _shaderManager.ActiveShader.Parameters["outputSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+                ShaderManager.Instance.ActiveShader.Parameters["textureSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+                ShaderManager.Instance.ActiveShader.Parameters["videoSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
+                ShaderManager.Instance.ActiveShader.Parameters["outputSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
             }
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            ContentManager content = Content;
+            LoadFonts();
+            LoadTextures();
+            LoadShaders();
+            LoadSFX();
 
-            // Load fonts and textures
-            FontManager.Instance.LoadFont(content, "DFPPOPCorn-W12");
-            FontManager.Instance.LoadFont(content, "Arial");
+            // Adding the mainmenu scene to begin the game
+            SceneManager.Instance.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));
+        }
 
+        protected override void Update(GameTime gameTime)
+        {
+            ShaderManager.Instance.Update(gameTime);
+            SceneManager.Instance.Update(gameTime);
+            InputManager.Instance.Update();
+            base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.SetRenderTarget(_renderTarget);
+
+            _spriteBatch.Begin(transformMatrix: _scaleMatrix);
+            SceneManager.Instance.Draw(_spriteBatch);
+            _spriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            if (ShaderManager.Instance.ShaderEnabled)
+            {
+                var shader = ShaderManager.Instance.ActiveShader;
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, shader);
+            }
+            else _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+
+            _spriteBatch.Draw(_renderTarget, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+            _spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+
+        private void LoadFonts()
+        {
+            // Loading fonts
+            FontManager.Instance.LoadFont(Content, "DFPPOPCorn-W12");
+            FontManager.Instance.LoadFont(Content, "Arial");
+        }
+
+        private void LoadTextures()
+        {
             // Loading all textures via spritesheets
-            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/Characters.json");
-            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/EnemiesAndBosses.json");
-            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/MenuAndOtherScreens.json");
-            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/ProjectilesAndObjects.json");
-            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/StagesTilesAndBackgrounds.json");
-            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/Fonts.json");
-            TextureManager.Instance.LoadSpriteSheetData(content, "Data/SpriteSheets/SidebarLoadAndPauseScreens.json");
+            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/Characters.json");
+            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/EnemiesAndBosses.json");
+            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/MenuAndOtherScreens.json");
+            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/ProjectilesAndObjects.json");
+            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/StagesTilesAndBackgrounds.json");
+            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/Fonts.json");
+            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/SidebarLoadAndPauseScreens.json");
+        }
 
-            // Create a 1x1 white pixel texture for fullscreen shader
-            _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
-            _whitePixel.SetData(new[] { Color.White });
-
+        private void LoadShaders()
+        {
             // Loading shaders
             var _shader = Content.Load<Effect>("Shaders/CRT_Shader");
             _shader.Parameters["textureSize"].SetValue(new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height)); // Size of the rendered texture (screen or render target)
@@ -136,46 +161,22 @@ namespace BulletHellGame
 
             _shader = Content.Load<Effect>("Shaders/MagicAura_Shader");
             ShaderManager.Instance.StoreShader("MagicAura", _shader);
-
-            SFXManager.Instance.LoadAllSounds(this.Content);
-
-            // Adding the mainmenu scene to begin the game
-            _sceneManager.AddScene(new MainMenuScene(this.Content, this.GraphicsDevice));
         }
 
-        protected override void Update(GameTime gameTime)
+        private void LoadSFX()
         {
-            _shaderManager.Update(gameTime);
-            _sceneManager.Update(gameTime);
-            _inputManager.Update();
-            base.Update(gameTime);
+            string soundDirectory = Path.Combine(Content.RootDirectory, "Sounds");
+            if (Directory.Exists(soundDirectory))
+            {
+                var soundFiles = Directory.GetFiles(soundDirectory, "*.xnb", SearchOption.AllDirectories);
+                foreach (var file in soundFiles)
+                {
+                    string soundName = Path.GetFileNameWithoutExtension(file);
+                    SFXManager.Instance.LoadSound(Content, soundName, Path.Combine("Sounds", soundName));
+                }
+            }
         }
 
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.Black);
-            GraphicsDevice.SetRenderTarget(_renderTarget);
-
-            _spriteBatch.Begin(transformMatrix: _scaleMatrix);
-            _sceneManager.Draw(_spriteBatch);
-            _spriteBatch.End();
-
-            GraphicsDevice.SetRenderTarget(null);
-
-            if (ShaderManager.Instance.ShaderEnabled)
-            {
-                var shader = _shaderManager.ActiveShader;
-                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, shader);
-            }
-            else
-            {
-                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            }
-            _spriteBatch.Draw(_renderTarget, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            _spriteBatch.End();
-
-            base.Draw(gameTime);
-        }
 
     }
 }

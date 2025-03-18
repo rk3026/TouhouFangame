@@ -40,10 +40,10 @@ namespace BulletHellGame.Scenes
             this._playableArea = new Rectangle(
                 _playableAreaOffset,
                 _playableAreaOffset,
-                Globals.WindowSize.X * 2 / 3 - 2 * _playableAreaOffset,
-                Globals.WindowSize.Y - 2 * _playableAreaOffset
+                graphicsDevice.Viewport.Width * 2 / 3 - 2 * _playableAreaOffset,
+                graphicsDevice.Viewport.Height - 2 * _playableAreaOffset
             );
-            this._uiArea = new Rectangle(_playableArea.Right, 0, Globals.WindowSize.X - _playableArea.Width, Globals.WindowSize.Y);
+            this._uiArea = new Rectangle(_playableArea.Right, 0, graphicsDevice.Viewport.Width - _playableArea.Width, graphicsDevice.Viewport.Height);
             this._enemyIndicatorRenderer = new EnemyIndicatorRenderer(graphicsDevice);
 
             this._contentManager = contentManager;
@@ -138,14 +138,14 @@ namespace BulletHellGame.Scenes
             Rectangle sourceRect = _sidebarBackground.Animations.First().Value.First();
             int tileWidth = sourceRect.Width;
             int tileHeight = sourceRect.Height;
-            for (int y = 0; y < Globals.WindowSize.Y; y += tileHeight)
-                spriteBatch.Draw(_sidebarBackground.Texture, new Rectangle(0, y, _playableArea.Left, Math.Min(tileHeight, Globals.WindowSize.Y - y)), sourceRect, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
-            for (int y = 0; y < Globals.WindowSize.Y; y += tileHeight)
-                spriteBatch.Draw(_sidebarBackground.Texture, new Rectangle(_playableArea.Right, y, Globals.WindowSize.X - _playableArea.Right, Math.Min(tileHeight, Globals.WindowSize.Y - y)), sourceRect, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
+            for (int y = 0; y < spriteBatch.GraphicsDevice.Viewport.Height; y += tileHeight)
+                spriteBatch.Draw(_sidebarBackground.Texture, new Rectangle(0, y, _playableArea.Left, Math.Min(tileHeight, spriteBatch.GraphicsDevice.Viewport.Height - y)), sourceRect, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
+            for (int y = 0; y < spriteBatch.GraphicsDevice.Viewport.Height; y += tileHeight)
+                spriteBatch.Draw(_sidebarBackground.Texture, new Rectangle(_playableArea.Right, y, spriteBatch.GraphicsDevice.Viewport.Width - _playableArea.Right, Math.Min(tileHeight, spriteBatch.GraphicsDevice.Viewport.Height - y)), sourceRect, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
             for (int x = _playableArea.Left; x < _playableArea.Right; x += tileWidth)
                 spriteBatch.Draw(_sidebarBackground.Texture, new Rectangle(x, 0, Math.Min(tileWidth, _playableArea.Right - x), _playableArea.Top), sourceRect, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
             for (int x = _playableArea.Left; x < _playableArea.Right; x += tileWidth)
-                spriteBatch.Draw(_sidebarBackground.Texture, new Rectangle(x, _playableArea.Bottom, Math.Min(tileWidth, _playableArea.Right - x), Globals.WindowSize.Y - _playableArea.Bottom), sourceRect, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
+                spriteBatch.Draw(_sidebarBackground.Texture, new Rectangle(x, _playableArea.Bottom, Math.Min(tileWidth, _playableArea.Right - x), spriteBatch.GraphicsDevice.Viewport.Height - _playableArea.Bottom), sourceRect, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
             
             _enemyIndicatorRenderer.Draw(_entityManager, spriteBatch);
             _gameUI.Draw(spriteBatch);

@@ -72,8 +72,8 @@ namespace BulletHellGame.Scenes
         public void Draw(SpriteBatch spriteBatch)
         {
             // Get window size
-            int screenWidth = Globals.WindowSize.X;
-            int screenHeight = Globals.WindowSize.Y;
+            int screenWidth = spriteBatch.GraphicsDevice.Viewport.Width;
+            int screenHeight = spriteBatch.GraphicsDevice.Viewport.Height;
 
             // Semi-transparent overlay
             spriteBatch.Draw(whitePixel, new Rectangle(0, 0, screenWidth, screenHeight), Color.Black * 0.5f);

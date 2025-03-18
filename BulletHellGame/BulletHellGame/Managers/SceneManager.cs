@@ -11,8 +11,6 @@ namespace BulletHellGame.Managers
         private readonly Stack<IScene> _sceneStack = new Stack<IScene>();
         private readonly Dictionary<Transitions, Transition> _transitions = new Dictionary<Transitions, Transition>();
 
-        private Transition _activeTransition;
-        private bool _isTransitioning = false;
         private IScene _newScene;
 
         public IReadOnlyCollection<IScene> SceneStack => _sceneStack;
@@ -28,41 +26,16 @@ namespace BulletHellGame.Managers
             _transitions.Add(Transitions.Checker, new CheckerTransition());
         }
 
-        public void AddScene(IScene newScene, Transitions transition = Transitions.None, float duration = 0.5f)
+        public void AddScene(IScene newScene)
         {
-            if (_isTransitioning) return;
             newScene.Load();
-
-            if (transition != Transitions.None)
-            {
-                _isTransitioning = true;
-                _newScene = newScene;
-                _activeTransition = _transitions[transition];
-                _activeTransition.Start(_sceneStack.Peek().GetFrame(), newScene.GetFrame(), duration);
-            }
-            else
-            {
-                // No transition; just push the scene immediately
-                _sceneStack.Push(newScene);
-            }
+            _sceneStack.Push(newScene);
         }
 
-        public void RemoveScene(Transitions transition = Transitions.None, float duration = 0.5f)
+        public void RemoveScene()
         {
-            if (_isTransitioning || _sceneStack.Count == 0) return;
-
-            if (transition != Transitions.None)
-            {
-                _isTransitioning = true;
-                _newScene = _sceneStack.Count > 1 ? _sceneStack.Peek() : null;
-                _activeTransition = _transitions[transition];
-                _activeTransition.Start(_sceneStack.Peek().GetFrame(), _newScene.GetFrame(), duration);
-            }
-            else
-            {
-                // No transition; just remove the scene immediately
-                _sceneStack.Pop();
-            }
+            if (_sceneStack.Count == 0) return;
+            _sceneStack.Pop();
         }
 
         public void ClearScenes()
@@ -77,54 +50,19 @@ namespace BulletHellGame.Managers
 
         public void Update(GameTime gameTime)
         {
-            if (_isTransitioning)
-            {
-                // Update the active transition
-                if (_activeTransition.Update(gameTime))
-                {
-                    // Transition finished
-                    if (_newScene != null)
-                    {
-                        _sceneStack.Push(_newScene);
-                        _newScene = null;
-                    }
-                    else
-                    {
-                        _sceneStack.Pop();
-                    }
-
-                    _isTransitioning = false;
-                    _activeTransition = null;
-                }
-            }
-            else
-            {
-                // Update the current scene
-                _sceneStack.Peek()?.Update(gameTime);
-            }
+            // Update the current scene
+            _sceneStack.Peek()?.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (_isTransitioning)
-            {
-                // DrawActiveShader transition
-                _activeTransition.Draw(spriteBatch);
 
-                if (_sceneStack.Count > 0)
-                {
-                    _sceneStack.Peek()?.Draw(spriteBatch);
-                }
-            }
-            else
+            // If the top is a pause screen, also draw the scene below it
+            if (_sceneStack.Count > 1 && _sceneStack.Peek() is PausedScene || _sceneStack.Peek() is RetryMenuScene)
             {
-                // If the top is a pause screen, also draw the scene below it
-                if (_sceneStack.Count > 1 && _sceneStack.Peek() is PausedScene || _sceneStack.Peek() is RetryMenuScene)
-                {
-                    _sceneStack.ElementAt(_sceneStack.Count - 2)?.Draw(spriteBatch);
-                }
-                _sceneStack.Peek()?.Draw(spriteBatch);
+                _sceneStack.ElementAt(_sceneStack.Count - 2)?.Draw(spriteBatch);
             }
+            _sceneStack.Peek()?.Draw(spriteBatch);
 
             if (SettingsManager.Instance.Debugging) DrawSceneStackDebug(spriteBatch);
         }
@@ -138,7 +76,7 @@ namespace BulletHellGame.Managers
             spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), debugText, debugPosition + outlineOffset, Color.Black);
             spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), debugText, debugPosition, Color.White);
             debugPosition.Y += 20;
-            foreach (var scene in SceneManager.Instance.SceneStack)
+            foreach (var scene in SceneStack)
             {
                 string sceneName = scene.GetType().Name;
                 spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), sceneName, debugPosition + outlineOffset, Color.Black);
