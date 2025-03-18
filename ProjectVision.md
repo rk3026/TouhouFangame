@@ -1,8 +1,6 @@
-# CPT_S 487 Touhou game
-
 # Game Vision Document - TouHou Bullet Hell Fangame
 
-**Developers:** Harry Ky, Dylan Gyori, Ross Kugler, Linh Nguyen, Toufic Majdalani, Ben Bordon
+**Developers:** Harry Ky, Dylan Gyori, Ross Kugler, Linh Nguyen, Toufic Majdalani  
 **Engine:** C# MonoGame  
 
 ## 1. Game Overview
