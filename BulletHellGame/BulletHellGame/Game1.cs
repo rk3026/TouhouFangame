@@ -6,11 +6,11 @@ namespace BulletHellGame
     public class Game1 : Game
     {
         // Graphics:
-        private GraphicsDeviceManager _graphics;
+        private GraphicsDeviceManager _graphicsDeviceManager;
         private SpriteBatch _spriteBatch;
         private Texture2D _whitePixel; // White pixel for fullscreen shader
         private RenderTarget2D _renderTarget; // Render target for applying shader to the screen
-        private static Point WindowSize { get; set; } = new(640, 480); // 640 x 480 is Retro/Arcade dimensions (like for Touhou 07 - Perfect Cherry Blossom)
+        private static Point DefaultWindowSize { get; set; } = new(640, 480); // 640 x 480 is Retro/Arcade dimensions (like for Touhou 07 - Perfect Cherry Blossom)
 
         // Independent scaling factors and matrix
         private float _scaleX;
@@ -19,31 +19,31 @@ namespace BulletHellGame
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            _graphicsDeviceManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-            _graphics.IsFullScreen = false;
-            _graphics.PreferredBackBufferWidth = WindowSize.X;
-            _graphics.PreferredBackBufferHeight = WindowSize.Y;
-            _graphics.ApplyChanges();
+            _graphicsDeviceManager.IsFullScreen = false;
+            _graphicsDeviceManager.PreferredBackBufferWidth = DefaultWindowSize.X;
+            _graphicsDeviceManager.PreferredBackBufferHeight = DefaultWindowSize.Y;
+            _graphicsDeviceManager.ApplyChanges();
 
             // Allow the window to be resized
             this.Window.AllowUserResizing = true;
             this.Window.ClientSizeChanged += UpdateWindowSize;
 
             // Calculate initial scaling factors
-            _scaleX = (float)_graphics.PreferredBackBufferWidth / WindowSize.X;
-            _scaleY = (float)_graphics.PreferredBackBufferHeight / WindowSize.Y;
+            _scaleX = (float)_graphicsDeviceManager.PreferredBackBufferWidth / DefaultWindowSize.X;
+            _scaleY = (float)_graphicsDeviceManager.PreferredBackBufferHeight / DefaultWindowSize.Y;
             _scaleMatrix = Matrix.CreateScale(_scaleX, _scaleY, 1f);
 
             _spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             // Create render target
-            _renderTarget = new RenderTarget2D(GraphicsDevice, WindowSize.X, WindowSize.Y);
+            _renderTarget = new RenderTarget2D(GraphicsDevice, DefaultWindowSize.X, DefaultWindowSize.Y);
 
             // Create a 1x1 white pixel texture for fullscreen shader
             _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
@@ -54,12 +54,9 @@ namespace BulletHellGame
 
         private void UpdateWindowSize(object sender, EventArgs e)
         {
-            _graphics.PreferredBackBufferWidth = this.Window.ClientBounds.Width;
-            _graphics.PreferredBackBufferHeight = this.Window.ClientBounds.Height;
-            _graphics.ApplyChanges();
-
-            _scaleX = (float)this.Window.ClientBounds.Width / WindowSize.X;
-            _scaleY = (float)this.Window.ClientBounds.Height / WindowSize.Y;
+            // Recalculate the independent scaling factors and matrix
+            _scaleX = (float)this.Window.ClientBounds.Width / DefaultWindowSize.X;  // Base width
+            _scaleY = (float)this.Window.ClientBounds.Height / DefaultWindowSize.Y; // Base height
             _scaleMatrix = Matrix.CreateScale(_scaleX, _scaleY, 1f);
 
             // Recreate the render target when the window size changes

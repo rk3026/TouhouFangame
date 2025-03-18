@@ -109,7 +109,7 @@ namespace BulletHellGame.Scenes
 
             if (_entityManager.GetEntityCount(EntityType.Player) == 0) // if (playerLives == 0) show retry menu
             {
-                SceneManager.Instance.AddScene(new RetryMenuScene(_font, whitePixel, new Vector2(_playableArea.Width / 2, _playableArea.Height / 2), _contentManager, _graphicsDevice));
+                SceneManager.Instance.AddScene(new RetryMenuScene(_font, whitePixel, _contentManager, _graphicsDevice));
             }
 
             _parallaxBackground.Update(gameTime);

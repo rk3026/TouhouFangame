@@ -13,19 +13,16 @@ namespace BulletHellGame.Scenes
         private ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
 
-        public RetryMenuScene(SpriteFont font, Texture2D backgroundTexture, Vector2 screenCenter, ContentManager contentManager, GraphicsDevice graphicsDevice)
+        public RetryMenuScene(SpriteFont font, Texture2D backgroundTexture, ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
             _font = font;
             _backgroundTexture = backgroundTexture;
-            _screenCenter = screenCenter;
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
         }
 
-        public void Load()
-        {
 
-        }
+        public void Load() { }
 
         public void Update(GameTime gameTime)
         {
@@ -52,6 +49,9 @@ namespace BulletHellGame.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Recalculate screen center to handle window resizing
+            _screenCenter = new Vector2(_graphicsDevice.Viewport.Width / 2, _graphicsDevice.Viewport.Height / 2);
+
             string message = "Retry?";
             Vector2 messageSize = _font.MeasureString(message);
             Vector2 messagePos = _screenCenter - messageSize / 2;
@@ -86,5 +86,6 @@ namespace BulletHellGame.Scenes
                 spriteBatch.DrawString(_font, _options[i], optionPositions[i], color);
             }
         }
+
     }
 }
