@@ -37,15 +37,25 @@ namespace BulletHellGame.Scenes
 
         public TestScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
-            this._playableArea = new Rectangle(
-                _playableAreaOffset,
-                _playableAreaOffset,
-                graphicsDevice.Viewport.Width * 2 / 3 - 2 * _playableAreaOffset,
-                graphicsDevice.Viewport.Height - 2 * _playableAreaOffset
-            );
-            this._uiArea = new Rectangle(_playableArea.Right, 0, graphicsDevice.Viewport.Width - _playableArea.Width, graphicsDevice.Viewport.Height);
-            this._enemyIndicatorRenderer = new EnemyIndicatorRenderer(graphicsDevice);
+            Rectangle sceneArea = new Rectangle(0, 0, 640, 480); // Bad, move this out, get the dimensions from the game1's dimensions.
+            int playableWidth = (sceneArea.Width * 2) / 3;
+            int playableHeight = sceneArea.Height;
 
+            this._playableArea = new Rectangle(
+                _playableAreaOffset,  // Offset from the left edge
+                _playableAreaOffset,  // Offset from the top edge
+                playableWidth - 2 * _playableAreaOffset,  // Width with offsets applied
+                playableHeight - 2 * _playableAreaOffset // Height with offsets applied
+            );
+
+            this._uiArea = new Rectangle(
+                playableWidth,  // Starts right after the playable area
+                0,
+                sceneArea.Width - playableWidth,
+                sceneArea.Height
+            );
+
+            this._enemyIndicatorRenderer = new EnemyIndicatorRenderer(graphicsDevice);
             this._contentManager = contentManager;
             this._graphicsDevice = graphicsDevice;
             this._entityManager = new EntityManager(this._playableArea);

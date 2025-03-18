@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Data.DataTransferObjects;
 using BulletHellGame.Managers;
 using BulletHellGame.Scenes;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
 
