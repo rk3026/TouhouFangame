@@ -1,0 +1,7 @@
+{
+  "EnemyIndicator": {
+    "Default": [
+      { "X": 17, "Y": 256, "Width": 49, "Height": 16 }
+    ]
+  }
+}

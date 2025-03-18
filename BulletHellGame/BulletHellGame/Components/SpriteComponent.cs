@@ -43,8 +43,7 @@ public class SpriteComponent : IComponent
         }
     }
 
-
-    public void FlashRed(float duration = 0.2f)
+    public void FlashRed(float duration = 0.1f)
     {
         _isFlashing = true;
         _flashDuration = duration;
@@ -71,7 +70,8 @@ public class SpriteComponent : IComponent
 
         if (!SpriteData.HasAnimation(animationName))
         {
-            throw new ArgumentException($"Animation '{animationName}' not found in the SpriteName.");
+            return;
+            //throw new ArgumentException($"Animation '{animationName}' not found in the SpriteName.");
         }
 
         _currentAnimation = animationName;

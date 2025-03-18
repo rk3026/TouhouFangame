@@ -24,11 +24,11 @@ namespace BulletHellGame.Scenes
             string levelFilePath = Path.Combine(_contentManager.RootDirectory, "Levels", "level1.json");
             _levelData = LevelManager.LoadLevel(levelFilePath);
 
-            // Load assets like _background and music
+            // Load assets like _stageBackground and music
             Texture2D background = _contentManager.Load<Texture2D>(_levelData.Background);
             SoundEffect music = _contentManager.Load<SoundEffect>(_levelData.Music);
 
-            // Play _background music and initialize other assets
+            // Play _stageBackground music and initialize other assets
         }
 
         public void Update(GameTime gameTime)
@@ -57,7 +57,7 @@ namespace BulletHellGame.Scenes
             if (_levelData.Boss != null && gameTime.TotalGameTime.TotalSeconds >= _levelData.Boss.SpawnTime)
             {
                 var boss = EntityManager.Instance.SpawnBoss(_levelData.Boss.Name, _levelData.Boss.SpawnPosition);
-                boss.SetHealth(_levelData.Boss.Health);
+                boss.BuildHealth(_levelData.Boss.Health);
 
                 foreach (var phase in _levelData.Boss.Phases)
                 {

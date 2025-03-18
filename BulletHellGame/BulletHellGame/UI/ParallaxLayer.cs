@@ -26,19 +26,41 @@
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            int numVerticalTiles = (int)Math.Ceiling((double)_parallaxArea.Height / _sourceRect.Height) + 1;
+            // Calculate how much of the top tile is visible
+            int topClippedAmount = (int)_scrollOffset % _sourceRect.Height;
 
-            for (int i = 0; i < numVerticalTiles; i++)
+            // Calculate the vertical starting position to ensure tiles align properly
+            int startY = _parallaxArea.Top - topClippedAmount;
+
+            // Iterate through the tiles and clip the top and bottom edges
+            for (int i = 0; i <= _parallaxArea.Height / _sourceRect.Height + 1; i++)
             {
-                float tileOffset = ((int)_scrollOffset % _sourceRect.Height) - _sourceRect.Height + (i * _sourceRect.Height);
+                int tileY = startY + i * _sourceRect.Height;
 
-                spriteBatch.Draw(
-                    _texture,
-                    new Rectangle(_parallaxArea.Left, (int)tileOffset, _parallaxArea.Width, _sourceRect.Height), // Stretch width
-                    _sourceRect,
-                    Color.White
-                );
+                // Calculate the visible part of the tile that fits inside the parallax area
+                int visibleTop = Math.Max(_parallaxArea.Top, tileY);
+                int visibleBottom = Math.Min(_parallaxArea.Bottom, tileY + _sourceRect.Height);
+                int visibleHeight = visibleBottom - visibleTop;
+
+                if (visibleHeight > 0) // Only draw if part of the tile is visible
+                {
+                    // Calculate the source rectangle to only draw the visible part of the tile
+                    int sourceY = _sourceRect.Y + (visibleTop - tileY);
+                    Rectangle clippedSourceRect = new Rectangle(_sourceRect.X, sourceY, _sourceRect.Width, visibleHeight);
+
+                    // Calculate the destination rectangle to align with the parallax area
+                    Rectangle destinationRect = new Rectangle(
+                        _parallaxArea.Left,
+                        visibleTop,
+                        _parallaxArea.Width,
+                        visibleHeight
+                    );
+
+                    spriteBatch.Draw(_texture, destinationRect, clippedSourceRect, Color.White);
+                }
             }
         }
+
+
     }
 }

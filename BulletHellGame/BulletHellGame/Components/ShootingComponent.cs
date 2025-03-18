@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using BulletHellGame.Data.DataTransferObjects;
+﻿using BulletHellGame.Data.DataTransferObjects;
 
 namespace BulletHellGame.Components
 {
     public class ShootingComponent : IComponent
     {
+        public bool IsShooting { get; set; } = false;
+
         public List<WeaponData> Weapons { get; private set; } = new List<WeaponData>();
 
         // Stores cooldowns per weapon

@@ -7,15 +7,13 @@ namespace BulletHellGame.UI
     public class GameUI
     {
         private SpriteFont _font;
-        private Texture2D _backgroundTexture;
         private Rectangle _uiArea;
         private EntityManager _entityManager;
         private float _elapsedTime;
 
-        public GameUI(SpriteFont font, Texture2D backgroundTexture, Rectangle uiArea, EntityManager entityManager)
+        public GameUI(SpriteFont font, Rectangle uiArea, EntityManager entityManager)
         {
             _font = font;
-            _backgroundTexture = backgroundTexture;
             _uiArea = uiArea;
             _entityManager = entityManager;
             _elapsedTime = 0f;
@@ -28,9 +26,6 @@ namespace BulletHellGame.UI
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Draw the background for the UI area
-            spriteBatch.Draw(_backgroundTexture, _uiArea, Color.Black);
-
             Vector2 position = new Vector2(_uiArea.Left + 10, _uiArea.Top + 10);
 
             spriteBatch.DrawString(_font, $"Bullets: {_entityManager.GetEntityCount(EntityType.Bullet)}", position, Color.White);
@@ -42,7 +37,7 @@ namespace BulletHellGame.UI
             spriteBatch.DrawString(_font, $"Players: {_entityManager.GetEntityCount(EntityType.Player)}", position, Color.White);
             position.Y += 20;
 
-            // Draw elapsed stage time (formatted as MM:SS)
+            // DrawActiveShader elapsed stage time (formatted as MM:SS)
             TimeSpan timeSpan = TimeSpan.FromSeconds(_elapsedTime);
             string timeString = $"{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
             spriteBatch.DrawString(_font, $"Time: {timeString}", position, Color.White);

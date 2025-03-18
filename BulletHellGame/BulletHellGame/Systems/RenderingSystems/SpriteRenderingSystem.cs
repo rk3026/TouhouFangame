@@ -9,9 +9,12 @@ namespace BulletHellGame.Systems.RenderingSystems
     {
         public int DrawPriority => 1;
 
-        private GraphicsDevice _graphicsDevice;
+        private readonly GraphicsDevice _graphicsDevice;
+        private readonly Texture2D whitePixel;
         public SpriteRenderingSystem(GraphicsDevice gd) {
             _graphicsDevice = gd;
+            whitePixel = new Texture2D(_graphicsDevice, 1, 1);
+            whitePixel.SetData(new Color[] { Color.White });
         }
         public void Draw(EntityManager entityManager, SpriteBatch spriteBatch)
         {
@@ -31,18 +34,14 @@ namespace BulletHellGame.Systems.RenderingSystems
                         sc.SpriteEffect = SpriteEffects.None;
                     }
 
-                    // Switch animations if player is moving (definitely want to refactor to separate animations vs sprites)
-                    if (entity.HasComponent<PlayerInputComponent>())
+                    // Switch animations based on movement
+                    if (vc.Velocity.LengthSquared() > 0)
                     {
-                        var playerInputComponent = entity.GetComponent<PlayerInputComponent>();
-                        if (playerInputComponent.IsMovingLeft || playerInputComponent.IsMovingRight)
-                        {
-                            entity.GetComponent<SpriteComponent>().SwitchAnimation("MoveLeft", false);
-                        }
-                        else
-                        {
-                            entity.GetComponent<SpriteComponent>().SwitchAnimation("Idle");
-                        }
+                        sc.SwitchAnimation("MoveLeft", false);
+                    }
+                    else
+                    {
+                        sc.SwitchAnimation("Idle");
                     }
 
                     Vector2 spritePosition = new Vector2(pc.Position.X, pc.Position.Y);

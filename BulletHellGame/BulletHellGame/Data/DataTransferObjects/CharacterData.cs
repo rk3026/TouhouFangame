@@ -2,7 +2,7 @@
 {
     public class CharacterData
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string SpriteName { get; set; }
@@ -14,7 +14,7 @@
         public int InitialBombs { get; set; }
         public string BombCherryLoss { get; set; }
         public float DeathbombWindow { get; set; } = 0.33f;
-        public Dictionary<int, PowerLevelData> PowerLevels { get; set; } = new();
         public List<string> SpecialAbilities { get; set; } = new();
+        public List<ShotTypeData> ShotTypes { get; set; }
     }
 }
