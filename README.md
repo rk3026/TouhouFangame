@@ -1,76 +1,81 @@
-# CPT_S 487 Touhou game
+# 🎇 Touhou-Inspired Bullet Hell Fangame
 
-# Game Vision Document - TouHou Bullet Hell Fangame
+**Developers:**  
+Ross Kugler — [GitHub](https://github.com/rk3026)  
+Huy (Harry) Ky — [GitHub](https://github.com/Harry908)  
+Dylan Gyori — [GitHub](https://github.com/JustDylan)  
+Linh (Jason) Nguyen — [GitHub](https://github.com/linhnt-98)  
+Toufic Majdalani — [GitHub](https://github.com/majdaltouzach)  
+Ben Bordon — [GitHub](https://github.com/wizkid0101)  
 
-**Developers:** Harry Ky, Dylan Gyori, Ross Kugler, Linh Nguyen, Toufic Majdalani, Ben Bordon
-**Engine:** C# MonoGame  
-
-## 1. Game Overview
-This game is a **Bullet Hell fangame** inspired by the **TouHou Project**, featuring fast-paced gameplay with increasingly complex enemy patterns. The game will last **approximately 2-3 minutes**, structured into **four distinct phases**:
-
-1. **Grunt Enemy Waves** – Basic enemy introduction with simple bullet patterns.
-2. **Mid-Boss Battle** – A stronger enemy with elaborate attack patterns.
-3. **More Grunt Waves** – Increased difficulty leading up to the final challenge.
-4. **Final Boss Battle** – A two-stage fight mimicking TouHou spell cards.
-
-## 2. Gameplay Flow (Chronological Sequence)
-
-### Phase 1: Grunt Enemies (0:00 - 0:30)
-- The game begins with **small enemy waves** appearing from different screen positions.
-- Each wave lasts **10 seconds**, progressively increasing in difficulty.
-- Enemies use basic **spread shots and straight-line projectiles**.
-- Player moves using **WASD**, fires using a designated **shoot button**, and can **activate a slow-move mode** for precise dodging.
-
-#### Enemy Waves:
-- **Wave 1 (0:00 - 0:10):** Simple enemies shooting single bullets.
-- **Wave 2 (0:10 - 0:20):** Increased enemy count, introducing diagonal bullet spreads.
-- **Wave 3 (0:20 - 0:30):** Faster enemies that fire in alternating burst patterns.
-
-### Phase 2: Mid-Boss Battle (0:30 - 1:00)
-- A **mid-boss appears at the top of the screen**, challenging the player with more complex bullet patterns.
-- **Mid-Boss HP:** 800 HP
-- The mid-boss has two distinct **spell card attacks**:
-  1. **"Lunar Spiral - Celestial Barrage"** – Fires a spiral pattern of bullets that gradually expands outward.
-  2. **"Blazing Whirlwind - Chaos Burst"** – Alternates between slow-moving large bullets and fast-moving micro-projectiles.
-- Player must balance attacking while dodging dense bullet formations.
-
-### Phase 3: More Grunts (1:00 - 1:30)
-- A second wave of **more aggressive enemies** spawns.
-- New enemy types introduced:
-  - **Homing enemies** – Fire tracking bullets that follow the player.
-  - **Shielded enemies** – Require multiple hits to defeat.
-- **Final wave at 1:20** introduces dense, randomized bullet spreads.
-
-### Phase 4: Final Boss Battle (1:30 - End)
-- The **final boss appears dramatically**, signaling the climax of the game.
-- **Boss HP:** 1500 HP
-
-#### Spell Card Stage 1 (1:30 - 2:22) – *Mimicking First Boss Stage (01:36 – 02:22 in the video)*
-**"Scarlet Veil - Moonlight Blood Dance"**  
-- Fires a **combination of slow-moving dense bullet waves** and **fast-moving projectiles**.
-- Radial bullet spreads appear at **fixed intervals**, forcing the player to navigate precise gaps.
-
-#### Spell Card Stage 2 (2:22 - 3:07) – *Mimicking Third Boss Stage (03:07 – 03:52 in the video)*
-**"Phantom Eclipse - Spirit Bloom Barrage"**  
-- Uses **complex attack patterns**, including:
-  - **Spiral Barrages** – Bullets expand in an elegant, timed swirl pattern.
-  - **Alternating Homing & Non-Homing Shots** – Forces rapid directional changes.
-  - **Delayed Exploding Bullets** – Projectiles that pause before bursting into smaller fragments.
-- As the boss’s HP decreases, **attack density and speed escalate**.
-
-- Upon defeating the boss, the game ends with a **victory screen**.
-
-## 3. Player Information
-- **Lives:** 3
-- **Hitbox Size:** Small, positioned at the center of the sprite.
-- **Controls:**
-  - **WASD:** Movement
-  - **Shoot (Space or customizable):** Continuous fire
-  - **Slow Mode (Shift):** Reduces movement speed for precise dodging
-
-## 4. Additional Features for Authenticity
-- **Grazing Bonus:** Players earn points for narrowly dodging bullets.
-- **Combo Kill Bonus:** Chain kills increase score multipliers.
-- **Unique Bullet Patterns:** Attacks form **circles, waves, and floral spirals**, mimicking TouHou’s signature aesthetic.
-- **Soundtrack & Visual Effects:** Inspired by the fast-paced, high-energy themes of classic TouHou games.
 ---
+
+## 🌟 Overview
+This game is an arcade-like vertical-scrolling bullet hell where players dodge bullet patterns, defeat enemies and bosses, and collect items to increase their score for a level. Our goal was to replicate the core gameplay of *Touhou 7: Perfect Cherry Blossom* while focusing on robust game architecture and well-structured design patterns.  
+![image](https://github.com/user-attachments/assets/474ad122-4b9c-4dab-928d-204cf3081e2e)
+
+
+---
+
+## 🎮 Game Features
+- **Bullet dodging** with precise hitboxes.  
+- **Unique playable characters** with distinct attack styles.  
+- **The Touhou "grazing" mechanic**, rewarding players for narrowly avoiding bullets.
+- **Score tracking**, like an arcade game.
+- **Collectibles and Power-Ups** to improve the player's strength and raise their score.
+- **Unique levels** that contain different enemy and boss layouts.
+- **Pausing and Setting Management** to allow the user customization.
+- **Time-Based Level Progression** so players can do 'Pacifist Runs', playing levels without shooting.
+
+---
+
+## ⚙️ Gameplay Flow
+
+0. **Main Menu:**
+   - At the main menu, a player selects a character to play as, an attack type for their character, and a level.
+   - 
+1. **Level Start:**
+   - The level begins, and after a few seconds, some grunt enemies will spawn and fly around the level.
+   - These early enemies have simpler bullet patterns, giving the player time to warm up.
+   - Enemies may drop collectible loot that either increases score or gives the player extra shooting power, lives, or bombs.
+
+3. **Escalation:**  
+   - As the level progresses, enemies grow stronger, attack in larger numbers, and unleash more intricate bullet patterns.  
+   - Players must skillfully weave through increasingly dense bullet formations while maximizing their score through grazing and enemy takedowns.  
+
+4. **Mid-Boss Encounter:**  
+   - Midway through the level, a **Mid-Boss** appears with multiple attack phases and faster movement.  
+   - The Mid-Boss must either be defeated by reducing its HP to **0** or outlasted until it retreats.  
+
+5. **Second Enemy Section:**  
+   - After the Mid-Boss, another section of enemies spawning occurs, this time with greater intensity.  
+   - New enemy types are introduced, each with unique bullet patterns.  
+
+6. **Final Boss Battle:**  
+   - At the end of the level, the **Final Boss** appears, boasting the most complex attack patterns and highest HP of any enemy.  
+   - The Final Boss fight consists of multiple phases, each ramping up in difficulty.  
+
+7. **Victory:**  
+   - The level ends when the player either defeats the Final Boss or survives long enough.  
+   - The player’s performance is evaluated based on score, lives remaining, and grazing bonuses.  
+
+---
+
+## 🏗️ Design Patterns and Architecture
+We aimed to follow good architectural/design principles throughout the project. Below are lists of the patterns/design choices implemented or planned to be implemented.
+
+### ✅ Implemented
+- **Entity-Component-System (ECS):** Bullets, Enemies, Players, Collectibles, etc. are entities. We attach components to these entities holding data. Then systems operate on entities with specific components.
+- **Builder Pattern:** We use the builder pattern to construct the Entities by attaching all the components they need.
+- **Singleton Pattern:** For managers like InputManager and TextureManager.
+- **Observer Pattern:** For updating UI elements like the game Window.
+- **JSON Loading:** We load all the data we need in our game from JSON files (Character stats, Level descriptions, etc).
+
+### 🛠️ To be Implemented  
+- **Command Pattern:** For scheduling events with Bullets and handling player input.
+
+---
+
+## 🎨 Credits & Attribution
+- **Assets & Inspiration:** ZUN, creator of the Touhou Project.  
+- **Engine:** Built using **MonoGame** in **C#**.  
