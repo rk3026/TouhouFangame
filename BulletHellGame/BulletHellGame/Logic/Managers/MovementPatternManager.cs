@@ -20,7 +20,7 @@ namespace BulletHellGame.Logic.Managers
 
         private void LoadMovementPatterns()
         {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/MovementPatterns.json");
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/MovementPatterns/MovementPatterns.json");
             string json = File.ReadAllText(filePath);
 
             // Deserialize the movement patterns from the JSON file
