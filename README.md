@@ -69,6 +69,7 @@ We aimed to follow good architectural/design principles throughout the project. 
 - **Builder Pattern:** We use the builder pattern to construct the Entities by attaching all the components they need.
 - **Singleton Pattern:** For managers like InputManager and TextureManager.
 - **Observer Pattern:** For updating UI elements like the game Window.
+- **State Pattern:** The scenes act as 'states' and the scene manager is the 'context' in the state pattern.
 - **JSON Loading:** We load all the data we need in our game from JSON files (Character stats, Level descriptions, etc).
 
 ### 🛠️ To be Implemented  
