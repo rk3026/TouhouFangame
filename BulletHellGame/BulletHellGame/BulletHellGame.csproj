@@ -161,28 +161,28 @@
       </Content>
     </ItemGroup>
     <ItemGroup>
-      <None Update="Content\SpriteSheets\Characters.png">
+      <None Update="Logic\Content\SpriteSheets\Characters.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Content\SpriteSheets\Fonts.png">
+      <None Update="Logic\Content\SpriteSheets\Fonts.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Content\SpriteSheets\MenuAndOtherScreens.png">
+      <None Update="Logic\Content\SpriteSheets\MenuAndOtherScreens.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Content\SpriteSheets\ProjectilesAndObjects.png">
+      <None Update="Logic\Content\SpriteSheets\ProjectilesAndObjects.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Content\Sprites\Bullets\ReimuBullet.png">
+      <None Update="Logic\Content\Sprites\Bullets\ReimuBullet.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Content\Sprites\Bullets\ReimuPellet.png">
+      <None Update="Logic\Content\Sprites\Bullets\ReimuPellet.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Content\Sprites\Characters\Reimu\ReimuIdle1.png">
+      <None Update="Logic\Content\Sprites\Characters\Reimu\ReimuIdle1.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Content\Sprites\Enemies\GenericEnemy1Idle1.png">
+      <None Update="Logic\Content\Sprites\Enemies\GenericEnemy1Idle1.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="Data\MovementPatterns.json">

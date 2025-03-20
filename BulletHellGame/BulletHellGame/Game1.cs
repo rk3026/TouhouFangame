@@ -1,4 +1,4 @@
-﻿using BulletHellGame.Managers;
+﻿using BulletHellGame.Logic.Managers;
 using System.IO;
 
 namespace BulletHellGame
