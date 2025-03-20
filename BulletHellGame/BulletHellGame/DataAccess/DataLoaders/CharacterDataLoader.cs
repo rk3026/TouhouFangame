@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Text.Json;
-using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.DataAccess.DataTransferObjects;
 
-namespace BulletHellGame.Data.DataLoaders
+namespace BulletHellGame.DataAccess.DataLoaders
 {
     public class CharacterDataLoader
     {

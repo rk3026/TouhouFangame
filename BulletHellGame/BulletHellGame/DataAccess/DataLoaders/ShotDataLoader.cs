@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Text.Json;
-using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Entities;
 
-namespace BulletHellGame.Data.DataLoaders
+namespace BulletHellGame.DataAccess.DataLoaders
 {
     public static class ShotDataLoader
     {

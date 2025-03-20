@@ -1,7 +1,7 @@
 ﻿using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.DataAccess.DataTransferObjects;
 
 namespace BulletHellGame.Logic.Builders
 {

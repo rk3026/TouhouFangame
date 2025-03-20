@@ -1,8 +1,8 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using System.IO;
 using BulletHellGame.Logic.Managers;
+using BulletHellGame.DataAccess.DataTransferObjects;
 
 namespace BulletHellGame.Presentation.Scenes
 {

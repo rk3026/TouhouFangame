@@ -1,4 +1,4 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
+﻿using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.Presentation.Scenes;
 using Microsoft.Xna.Framework.Content;

@@ -1,6 +1,6 @@
 ﻿using BulletHellGame.Logic.Entities;
 
-namespace BulletHellGame.Data.DataTransferObjects
+namespace BulletHellGame.DataAccess.DataTransferObjects
 {
     public class CollectibleData
     {

@@ -1,4 +1,4 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
+﻿using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;

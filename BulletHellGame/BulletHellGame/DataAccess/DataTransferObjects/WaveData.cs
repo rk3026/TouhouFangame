@@ -1,4 +1,4 @@
-﻿namespace BulletHellGame.Data
+﻿namespace BulletHellGame.DataAccess.DataTransferObjects
 {
     public class WaveData
     {

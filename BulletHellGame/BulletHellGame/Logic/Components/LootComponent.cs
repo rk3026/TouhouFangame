@@ -1,4 +1,4 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
+﻿using BulletHellGame.DataAccess.DataTransferObjects;
 
 namespace BulletHellGame.Logic.Components
 {

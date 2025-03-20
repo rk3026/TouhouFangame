@@ -1,6 +1,4 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
-
-namespace BulletHellGame.Data
+﻿namespace BulletHellGame.DataAccess.DataTransferObjects
 {
     public class EnemySpawnData
     {

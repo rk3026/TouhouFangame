@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using Microsoft.Xna.Framework.Content;
 using System.IO;
-using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.DataAccess.DataTransferObjects;
 
 namespace BulletHellGame.Logic.Managers
 {

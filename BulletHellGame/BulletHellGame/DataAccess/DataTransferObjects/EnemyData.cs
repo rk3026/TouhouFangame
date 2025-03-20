@@ -1,4 +1,4 @@
-﻿namespace BulletHellGame.Data.DataTransferObjects
+﻿namespace BulletHellGame.DataAccess.DataTransferObjects
 {
     public class EnemyData
     {

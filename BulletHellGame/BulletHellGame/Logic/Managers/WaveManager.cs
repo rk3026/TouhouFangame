@@ -1,4 +1,4 @@
-﻿using BulletHellGame.Data;
+﻿using BulletHellGame.DataAccess.DataTransferObjects;
 using System.Linq;
 
 namespace BulletHellGame.Logic.Managers

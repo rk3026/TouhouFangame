@@ -1,8 +1,8 @@
-﻿using BulletHellGame.Data.DataTransferObjects;
-using System.Linq;
+﻿using System.Linq;
 using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.Logic.Entities;
+using BulletHellGame.DataAccess.DataTransferObjects;
 
 namespace BulletHellGame.Presentation.UI
 {

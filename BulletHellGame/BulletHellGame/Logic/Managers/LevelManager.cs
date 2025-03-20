@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using BulletHellGame.Data.DataTransferObjects;
+using BulletHellGame.DataAccess.DataTransferObjects;
 using Newtonsoft.Json;
 
 namespace BulletHellGame.Logic.Managers
