@@ -1,4 +1,5 @@
-﻿using BulletHellGame.Logic.Managers;
+﻿using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Managers;
 using Microsoft.Xna.Framework.Content;
 
 namespace BulletHellGame.Presentation.Scenes
@@ -12,13 +13,15 @@ namespace BulletHellGame.Presentation.Scenes
         private Vector2 _screenCenter;
         private ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
+        private CharacterData _characterData;
 
-        public RetryMenuScene(SpriteFont font, Texture2D backgroundTexture, ContentManager contentManager, GraphicsDevice graphicsDevice)
+        public RetryMenuScene(SpriteFont font, Texture2D backgroundTexture, ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {
             _font = font;
             _backgroundTexture = backgroundTexture;
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
+            _characterData = characterData;
         }
 
 
@@ -37,7 +40,7 @@ namespace BulletHellGame.Presentation.Scenes
                 {
                     SceneManager.Instance.RemoveScene();
                     SceneManager.Instance.RemoveScene();
-                    SceneManager.Instance.AddScene(new TestScene(_contentManager, _graphicsDevice));
+                    SceneManager.Instance.AddScene(new TestScene(_contentManager, _graphicsDevice, _characterData));
                 }
                 else
                 {

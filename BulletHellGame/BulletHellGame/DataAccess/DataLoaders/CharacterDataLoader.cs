@@ -9,56 +9,63 @@ namespace BulletHellGame.DataAccess.DataLoaders
         private static string CHARACTERS_PATH = "Data/Characters"; // Folder containing character JSONs
         private static string SHOT_TYPES_PATH = "Data/ShotTypes"; // Folder containing shot type JSONs
 
-        public CharacterDataLoader()
+        public static CharacterData LoadCharacterData(string characterName)
         {
-            CharacterData reimu = LoadCharacterData("Reimu");
-        }
-
-        public static CharacterData LoadCharacterData(string characterId)
-        {
-            string characterFilePath = Path.Combine(CHARACTERS_PATH, $"{characterId}.json");
-
-            if (!File.Exists(characterFilePath))
+            try
             {
-                throw new FileNotFoundException($"Character file not found: {characterFilePath}");
-            }
+                string characterFilePath = Path.Combine(CHARACTERS_PATH, $"{characterName}.json");
 
-            string json = File.ReadAllText(characterFilePath);
-
-            // Deserialize into DTO first
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-            options.Converters.Add(new Vector2Converter());
-            CharacterDataDto characterDto = JsonSerializer.Deserialize<CharacterDataDto>(json, options);
-
-            // Convert DTO to runtime CharacterData
-            CharacterData characterData = new CharacterData
-            {
-                Id = characterDto.Id,
-                Name = characterDto.Name,
-                Description = characterDto.Description,
-                SpriteName = characterDto.SpriteName,
-                Health = characterDto.Health,
-                HitboxSize = characterDto.HitboxSize,
-                MovementSpeed = characterDto.MovementSpeed,
-                FocusedSpeed = characterDto.FocusedSpeed,
-                InitialLives = characterDto.InitialLives,
-                InitialBombs = characterDto.InitialBombs,
-                BombCherryLoss = characterDto.BombCherryLoss,
-                DeathbombWindow = characterDto.DeathbombWindow,
-                SpecialAbilities = characterDto.SpecialAbilities,
-            };
-            characterData.ShotTypes = new List<ShotTypeData>();
-            foreach (string shotType in characterDto.ShotTypes)
-            {
-                var loadedShotType = ShotTypeLoader.LoadShotTypes(shotType);
-                if (loadedShotType != null)
+                if (!File.Exists(characterFilePath))
                 {
-                    characterData.ShotTypes.Add(loadedShotType);
+                    throw new FileNotFoundException($"Character file not found: {characterFilePath}");
                 }
-            }
 
-            return characterData;
+                string json = File.ReadAllText(characterFilePath);
+
+                // Deserialize into DTO first
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                options.Converters.Add(new Vector2Converter());
+                CharacterDataDto characterDto = JsonSerializer.Deserialize<CharacterDataDto>(json, options);
+
+                // Convert DTO to runtime CharacterData
+                CharacterData characterData = new CharacterData
+                {
+                    Id = characterDto.Id,
+                    Name = characterDto.Name,
+                    Description = characterDto.Description,
+                    SpriteName = characterDto.SpriteName,
+                    Health = characterDto.Health,
+                    HitboxSize = characterDto.HitboxSize,
+                    MovementSpeed = characterDto.MovementSpeed,
+                    FocusedSpeed = characterDto.FocusedSpeed,
+                    InitialLives = characterDto.InitialLives,
+                    InitialBombs = characterDto.InitialBombs,
+                    BombCherryLoss = characterDto.BombCherryLoss,
+                    DeathbombWindow = characterDto.DeathbombWindow,
+                    SpecialAbilities = characterDto.SpecialAbilities,
+                };
+                characterData.ShotTypes = new List<ShotTypeData>();
+                if (characterDto.ShotTypes != null)
+                {
+                    foreach (string shotType in characterDto.ShotTypes)
+                    {
+                        var loadedShotType = ShotTypeLoader.LoadShotTypes(shotType);
+                        if (loadedShotType != null)
+                        {
+                            characterData.ShotTypes.Add(loadedShotType);
+                        }
+                    }
+                }
+
+                return characterData;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading character data for '{characterName}': {ex.Message}");
+                return null;
+            }
         }
+
 
         public class CharacterDataDto
         {
