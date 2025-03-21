@@ -1,6 +1,7 @@
 ﻿using BulletHellGame.DataAccess.DataLoaders;
 using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Managers;
+using BulletHellGame.Logic.Utilities.EntityDataGenerator;
 using Microsoft.Xna.Framework.Content;
 
 namespace BulletHellGame.Presentation.Scenes
@@ -8,6 +9,8 @@ namespace BulletHellGame.Presentation.Scenes
     public class CharacterSelectScene : IScene
     {
         private CharacterData[] characters;
+        private SpriteData backgroundSprite;
+        private SpriteData[] characterSprites;
         private int selectedIndex = 0;
         private GameTime _gameTime;
         private ContentManager _contentManager;
@@ -21,11 +24,21 @@ namespace BulletHellGame.Presentation.Scenes
 
         public void Load()
         {
+            // Load sprite data
+            backgroundSprite = TextureManager.Instance.GetSpriteData("CharacterSelectBackground");
+            characterSprites = new SpriteData[]
+            {
+                TextureManager.Instance.GetSpriteData("ReimuSelect"),
+                TextureManager.Instance.GetSpriteData("MarisaSelect"),
+                TextureManager.Instance.GetSpriteData("SakuyaSelect")
+            };
+
+            // Load character data
             characters = new CharacterData[]
             {
                 CharacterDataLoader.LoadCharacterData("Reimu"),
-                CharacterDataLoader.LoadCharacterData("Marisa"),
-                CharacterDataLoader.LoadCharacterData("Sakuya")
+                EntityDataGenerator.CreateMarisaData(), //CharacterDataLoader.LoadCharacterData("Marisa"),
+                EntityDataGenerator.CreateSakuyaData(), //CharacterDataLoader.LoadCharacterData("Sakuya")
             };
         }
 
@@ -51,24 +64,22 @@ namespace BulletHellGame.Presentation.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Draw background
+            spriteBatch.Draw(backgroundSprite.Texture, Vector2.Zero, backgroundSprite.Animations["Default"][0], Color.White);
+
+            // Draw character names
             for (int i = 0; i < characters.Length; i++)
             {
-                Vector2 position = new Vector2(100, 100 + i * 60);
+                Vector2 namePosition = new Vector2(100, 100 + i * 60);
                 Color textColor = (i == selectedIndex) ? Color.Red : Color.White;
-                string text = characters[i].Name;
+                spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), characters[i].Name, namePosition, textColor);
+            }
 
-                if (i == selectedIndex)
-                {
-                    float time = (float)(_gameTime?.TotalGameTime.TotalSeconds ?? 0f);
-                    float offsetX = (float)Math.Sin(time * 5) * 3;
-                    float offsetY = (float)Math.Cos(time * 5) * 3;
-                    Vector2 animatedPosition = position + new Vector2(offsetX, offsetY);
-                    spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), text, animatedPosition, textColor);
-                }
-                else
-                {
-                    spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), text, position, textColor);
-                }
+            // Draw selected character portrait
+            if (characterSprites[selectedIndex] != null)
+            {
+                Vector2 portraitPosition = new Vector2(400, 100);
+                spriteBatch.Draw(characterSprites[selectedIndex].Texture, portraitPosition, characterSprites[selectedIndex].Animations["Default"][0], Color.White);
             }
         }
     }

@@ -4,5 +4,19 @@
   },
   "GameLogo": {
     "Default": [ { "X": 1276, "Y": 60, "Width": 425, "Height": 197 } ]
+  },
+
+  // Character select screen:
+  "CharacterSelectBackground": {
+    "Default": [ { "X": 33, "Y": 616, "Width": 640, "Height": 480 } ]
+  },
+  "ReimuSelect": {
+    "Default": [ { "X": 1204, "Y": 684, "Width": 268, "Height": 384 } ]
+  },
+  "MarisaSelect": {
+    "Default": [ { "X": 1720, "Y": 677, "Width": 256, "Height": 390 } ]
+  },
+  "SakuyaSelect": {
+    "Default": [ { "X": 2232, "Y": 657, "Width": 260, "Height": 430 } ]
   }
 }
