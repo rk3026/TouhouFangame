@@ -37,6 +37,11 @@ namespace BulletHellGame.Logic.Builders
                 {
                     bullet.AddComponent(new HomingComponent());
                 }
+                else
+                {
+                    bullet.TryGetComponent<HomingComponent>(out HomingComponent homingComponent);
+                    homingComponent.Reset();
+                }
             }
         }
 

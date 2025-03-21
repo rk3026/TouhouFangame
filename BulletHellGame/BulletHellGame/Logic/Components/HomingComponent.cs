@@ -9,5 +9,9 @@ namespace BulletHellGame.Logic.Components
         public float MaxHomingSpeed { get; set; } = 5f; // Maximum speed of the bullet
         public float HomingTimeLeft = 5f;               // How much time before being removed
         public Entity CurrentTarget { get; set; }
+        public void Reset()
+        {
+            this.HomingTimeLeft = 5f;
+        }
     }
 }
