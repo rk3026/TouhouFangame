@@ -83,5 +83,10 @@ namespace BulletHellGame.Logic.Builders
             hc.Hitbox = new Vector2(_entity.GetComponent<SpriteComponent>().CurrentFrame.Width, _entity.GetComponent<SpriteComponent>().CurrentFrame.Width);
             _entity.AddComponent(hc); // Layer 1 = enemies and their bullets
         }
+
+        public override void BuildDespawn()
+        {
+            _entity.AddComponent(new DespawnComponent());
+        }
     }
 }

@@ -37,8 +37,8 @@ namespace BulletHellGame.Presentation.Scenes
             characters = new CharacterData[]
             {
                 CharacterDataLoader.LoadCharacterData("Reimu"),
-                EntityDataGenerator.CreateMarisaData(), //CharacterDataLoader.LoadCharacterData("Marisa"),
-                EntityDataGenerator.CreateSakuyaData(), //CharacterDataLoader.LoadCharacterData("Sakuya")
+                EntityDataGenerator.CreateMarisaData(), //Eventually, replace with: CharacterDataLoader.LoadCharacterData("Marisa"),
+                EntityDataGenerator.CreateSakuyaData(), //Eventually, replace with: CharacterDataLoader.LoadCharacterData("Sakuya")
             };
         }
 
@@ -78,7 +78,7 @@ namespace BulletHellGame.Presentation.Scenes
             // Draw selected character portrait
             if (characterSprites[selectedIndex] != null)
             {
-                Vector2 portraitPosition = new Vector2(400, 100);
+                Vector2 portraitPosition = new Vector2(300, 100);
                 spriteBatch.Draw(characterSprites[selectedIndex].Texture, portraitPosition, characterSprites[selectedIndex].Animations["Default"][0], Color.White);
             }
         }

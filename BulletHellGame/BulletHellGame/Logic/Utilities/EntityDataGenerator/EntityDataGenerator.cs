@@ -138,7 +138,7 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
         {
             CharacterData pd = new CharacterData
             {
-                Name = "Marisa",
+                Name = "Marisa Kirisame",
                 SpriteName = "Marisa",
                 MovementSpeed = 8f,
                 FocusedSpeed = 4f,
@@ -204,7 +204,7 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
         {
             CharacterData pd = new CharacterData
             {
-                Name = "Sakuya",
+                Name = "Sakuya Izayoi",
                 SpriteName = "Sakuya",
                 MovementSpeed = 6f,
                 FocusedSpeed = 2.5f,

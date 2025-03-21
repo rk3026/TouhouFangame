@@ -1,4 +1,5 @@
 {
+  // Main Menu:
   "MainMenu": {
     "Default": [ {"X": 32, "Y": 56, "Width": 640, "Height": 480 } ]
   },
