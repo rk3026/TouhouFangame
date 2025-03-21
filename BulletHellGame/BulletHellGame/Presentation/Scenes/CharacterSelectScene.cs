@@ -58,7 +58,7 @@ namespace BulletHellGame.Presentation.Scenes
             }
             if (InputManager.Instance.ActionPressed(GameAction.Select))
             {
-                SceneManager.Instance.AddScene(new TestScene(_contentManager, _graphicsDevice, characters[selectedIndex]));
+                SceneManager.Instance.AddScene(new TestLMScene(_contentManager, _graphicsDevice, characters[selectedIndex]));
             }
         }
 

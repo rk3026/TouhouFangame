@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Utilities.EntityDataGenerator;
 using BulletHellGame.Presentation.UI;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
@@ -23,6 +22,7 @@ namespace BulletHellGame.Presentation.Scenes
         private ParallaxBackground _parallaxBackground;
         private GameUI _gameUI;
         private EnemyIndicatorRenderer _enemyIndicatorRenderer;
+        private CharacterData _characterData;
 
         // Scene layout
         private Rectangle _playableArea;
@@ -41,7 +41,7 @@ namespace BulletHellGame.Presentation.Scenes
         private float _countdownTimer = 3f;
         private const float CountdownStart = 3f;
 
-        public TestLMScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
+        public TestLMScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {
             Rectangle sceneArea = new Rectangle(0, 0, 640, 480);
             int playableWidth = sceneArea.Width * 2 / 3;
@@ -57,7 +57,8 @@ namespace BulletHellGame.Presentation.Scenes
             _enemyIndicatorRenderer = new EnemyIndicatorRenderer(graphicsDevice);
             _levelManager = new LevelManager(_entityManager, _playableArea);
 
-            _entityManager.SpawnPlayer(EntityDataGenerator.CreateCharacterData());
+            _characterData = characterData;
+            _entityManager.SpawnPlayer(characterData);
         }
 
         public void Load()
@@ -100,7 +101,7 @@ namespace BulletHellGame.Presentation.Scenes
                 SceneManager.Instance.AddScene(new PausedScene(_contentManager, _graphicsDevice));
 
             if (_entityManager.GetEntityCount(EntityType.Player) == 0)
-                SceneManager.Instance.AddScene(new RetryMenuScene(_font, whitePixel, _contentManager, _graphicsDevice));
+                SceneManager.Instance.AddScene(new RetryMenuScene(_font, whitePixel, _contentManager, _graphicsDevice, _characterData));
         }
 
         public void Draw(SpriteBatch spriteBatch)
