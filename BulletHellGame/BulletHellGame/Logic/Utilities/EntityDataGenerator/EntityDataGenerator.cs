@@ -55,10 +55,11 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
             return wave1;
         }
 
-        public static CharacterData CreateCharacterData()
+        public static CharacterData CreateReimuData()
         {
             CharacterData pd = new CharacterData
             {
+                Name = "Reimu",
                 SpriteName = "Reimu",
                 MovementSpeed = 7f,
                 FocusedSpeed = 3f,
@@ -102,23 +103,23 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
                     SpriteName = "Reimu.WhiteBullet"
                 };
 
-                // Orange Card Option:
+                // Orange Card Weapon:
                 WeaponData orangeCardWeapon = new WeaponData();
                 orangeCardWeapon.BulletData = orangeBullet;
                 orangeCardWeapon.FireRate = Math.Max(0.05f, .2f - i * 0.02f);
                 orangeCardWeapon.FireDirections = new List<Vector2>();
                 orangeCardWeapon.TimeSinceLastShot = 0;
 
-                // Giant Card Option:
+                // Giant Card Weapon:
                 WeaponData giantCardWeapon = new WeaponData();
                 giantCardWeapon.BulletData = giantCard;
                 giantCardWeapon.FireRate = Math.Max(0.2f, 0.6f - i * 0.05f); // Start 0.6, decrease by .05 per level
                 giantCardWeapon.FireDirections = new List<Vector2>();
                 giantCardWeapon.TimeSinceLastShot = 0;
 
-                OptionData leftOption = CreateOption(homingBullet, fireRate: 1f - i * 0.02f);
+                OptionData leftOption = CreateOption("Reimu.YinYangOrb", homingBullet, fireRate: 1f - i * 0.02f);
                 leftOption.Offset = new Vector2(-20, 0);
-                OptionData rightOption = CreateOption(homingBullet, fireRate: 1f - i * 0.02f);
+                OptionData rightOption = CreateOption("Reimu.YinYangOrb", homingBullet, fireRate: 1f - i * 0.02f);
                 rightOption.Offset = new Vector2(20, 0);
 
                 if (i >= 0)
@@ -154,11 +155,148 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
             return pd;
         }
 
-        public static OptionData CreateOption(BulletData bulletData, float fireRate)
+        public static CharacterData CreateMarisaData()
+        {
+            CharacterData pd = new CharacterData
+            {
+                Name = "Marisa Kirisame",
+                SpriteName = "Marisa",
+                MovementSpeed = 8f,
+                FocusedSpeed = 4f,
+                Health = 1,
+                InitialLives = 3,
+                InitialBombs = 5,
+                ShotTypes = new List<ShotTypeData>() {
+                    new ShotTypeData
+                    {
+                        Name = "Test",
+                        UnfocusedShot = new ShotData { PowerLevels = new Dictionary<int, PowerLevelData>() },
+                        FocusedShot = new ShotData { PowerLevels = new Dictionary<int, PowerLevelData>() }
+                    }
+                }
+            };
+
+            for (int i = 0; i <= 8; i++)
+            {
+                BulletData laser = new BulletData { Damage = 50 + i * 30, BulletType = BulletType.Standard, SpriteName = "Marisa.LightBeam", RotationSpeed = 0f };
+                BulletData rocket = new BulletData { Damage = 80 + i * 25, BulletType = BulletType.Homing, SpriteName = "Marisa.Rocket" , RotationSpeed = 0f };
+
+                WeaponData laserWeapon = new WeaponData { BulletData = laser, FireRate = Math.Max(0.1f, 0.5f - i * 0.04f), FireDirections = new List<Vector2> { new Vector2(0, -5f) }, TimeSinceLastShot = 0 };
+                WeaponData rocketWeapon = new WeaponData { BulletData = rocket, FireRate = Math.Max(0.2f, 0.7f - i * 0.05f), FireDirections = new List<Vector2>(), TimeSinceLastShot = 0 };
+
+                OptionData leftOption = CreateOption("Marisa.StarOption", rocket, fireRate: 1f - i * 0.02f);
+                leftOption.Offset = new Vector2(-20, 0);
+                OptionData rightOption = CreateOption("Marisa.StarOption", rocket, fireRate: 1f - i * 0.02f);
+                rightOption.Offset = new Vector2(20, 0);
+
+                if (i >= 0)
+                {
+                    laserWeapon.FireDirections.Add(new Vector2(0, -5f));
+                    rocketWeapon.FireDirections.Add(new Vector2(0, -4f));
+                    leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.2f, -3f)); // Slight angle left
+                    rightOption.Weapons.First().FireDirections.Add(new Vector2(0.2f, -3f)); // Slight angle right
+                }
+
+                if (i >= 3)
+                {
+                    laserWeapon.FireDirections.Add(new Vector2(-0.2f, -5f));
+                    rocketWeapon.FireDirections.Add(new Vector2(0.2f, -5f));
+                }
+                if (i >= 6)
+                {
+                    laserWeapon.FireDirections.Add(new Vector2(-0.4f, -5f));
+                    rocketWeapon.FireDirections.Add(new Vector2(0.4f, -5f));
+                }
+
+                PowerLevelData focusedPld = new();
+                focusedPld.MainWeapons.Add(rocketWeapon);
+                pd.ShotTypes.First().FocusedShot.PowerLevels[i] = focusedPld;
+
+                PowerLevelData unfocusedPld = new();
+                unfocusedPld.MainWeapons.Add(laserWeapon);
+                unfocusedPld.Options.Add(leftOption);
+                unfocusedPld.Options.Add(rightOption);
+                pd.ShotTypes.First().UnfocusedShot.PowerLevels[i] = unfocusedPld;
+            }
+            return pd;
+        }
+
+        public static CharacterData CreateSakuyaData()
+        {
+            CharacterData pd = new CharacterData
+            {
+                Name = "Sakuya Izayoi",
+                SpriteName = "Sakuya",
+                MovementSpeed = 6f,
+                FocusedSpeed = 2.5f,
+                Health = 1,
+                InitialLives = 3,
+                InitialBombs = 5,
+                ShotTypes = new List<ShotTypeData>() {
+                    new ShotTypeData
+                    {
+                        Name = "Test",
+                        UnfocusedShot = new ShotData { PowerLevels = new Dictionary<int, PowerLevelData>() },
+                        FocusedShot = new ShotData { PowerLevels = new Dictionary<int, PowerLevelData>() }
+                    }
+                }
+            };
+
+            for (int i = 0; i <= 8; i++)
+            {
+                BulletData blueKnife = new BulletData { Damage = 40 + i * 20, BulletType = BulletType.Standard, SpriteName = "Sakuya.KnifeBlue", RotationSpeed = 0f };
+                BulletData pinkKnife = new BulletData { Damage = 120 + i * 30, BulletType = BulletType.Standard, SpriteName = "Sakuya.KnifePink", RotationSpeed = 0f };
+
+                WeaponData knifeSpread = new WeaponData { BulletData = blueKnife, FireRate = Math.Max(0.15f, 0.4f - i * 0.03f), FireDirections = new List<Vector2>(), TimeSinceLastShot = 0 };
+                for (int j = -1; j <= 1; j++)
+                {
+                    knifeSpread.FireDirections.Add(new Vector2(j * 0.3f, -5f));
+                }
+
+                WeaponData mainWeapon = new WeaponData { BulletData = pinkKnife, FireRate = Math.Max(0.5f, 1f - i * 0.1f), FireDirections = new List<Vector2> { new Vector2(0, -4f) }, TimeSinceLastShot = 0 };
+
+                OptionData leftOption = CreateOption("Sakuya.Option", blueKnife, fireRate: 1f - i * 0.02f);
+                leftOption.Offset = new Vector2(-20, 0);
+                OptionData rightOption = CreateOption("Sakuya.Option", pinkKnife, fireRate: 1f - i * 0.02f);
+                rightOption.Offset = new Vector2(20, 0);
+
+                if (i >= 0)
+                {
+                    knifeSpread.FireDirections.Add(new Vector2(0, -5f));
+                    mainWeapon.FireDirections.Add(new Vector2(0, -4f));
+                    leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.2f, -3f)); // Slight angle left
+                    rightOption.Weapons.First().FireDirections.Add(new Vector2(0.2f, -3f)); // Slight angle right
+                }
+
+                if (i >= 3)
+                {
+                    knifeSpread.FireDirections.Add(new Vector2(-0.2f, -5f));
+                    mainWeapon.FireDirections.Add(new Vector2(0.2f, -5f));
+                }
+                if (i >= 6)
+                {
+                    knifeSpread.FireDirections.Add(new Vector2(-0.4f, -5f));
+                    mainWeapon.FireDirections.Add(new Vector2(0.4f, -5f));
+                }
+
+                PowerLevelData focusedPld = new();
+                focusedPld.MainWeapons.Add(knifeSpread);
+                pd.ShotTypes.First().FocusedShot.PowerLevels[i] = focusedPld;
+
+                PowerLevelData unfocusedPld = new();
+                unfocusedPld.MainWeapons.Add(mainWeapon);
+                unfocusedPld.Options.Add(leftOption);
+                unfocusedPld.Options.Add(rightOption);
+                pd.ShotTypes.First().UnfocusedShot.PowerLevels[i] = unfocusedPld;
+            }
+            return pd;
+        }
+
+        public static OptionData CreateOption(string spriteName, BulletData bulletData, float fireRate)
         {
             return new OptionData
             {
-                SpriteName = "Reimu.YinYangOrb",
+                SpriteName = spriteName,
                 Weapons = new List<WeaponData>
                 {
                     new WeaponData {

@@ -27,6 +27,7 @@
             builder.BuildPowerLevel();
             builder.BuildInput();
             builder.BuildIndicator();
+            builder.BuildDespawn();
         }
     }
 }

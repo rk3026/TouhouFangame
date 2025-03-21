@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Systems;
 
 namespace BulletHellGame.Logic.Systems.LogicSystems
 {
@@ -11,15 +10,23 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
         {
             List<Entity> entitiesToRemove = new List<Entity>();
 
-            foreach (var entity in entityManager.GetEntitiesWithComponents(typeof(PositionComponent), typeof(SpriteComponent)))
+            foreach (var entity in entityManager.GetEntitiesWithComponents(
+                typeof(PositionComponent),
+                typeof(SpriteComponent),
+                typeof(DespawnComponent)))
             {
                 if (entity.TryGetComponent<PositionComponent>(out var pc) &&
-                    entity.TryGetComponent<SpriteComponent>(out var sc))
+                    entity.TryGetComponent<SpriteComponent>(out var sc) &&
+                    entity.TryGetComponent<DespawnComponent>(out var dc))
                 {
-                    if (pc.Position.X < entityManager.Bounds.Left - sc.CurrentFrame.Width
-                        || pc.Position.X - sc.CurrentFrame.Width > entityManager.Bounds.Right
-                        || pc.Position.Y < entityManager.Bounds.Top - sc.CurrentFrame.Height
-                        || pc.Position.Y - sc.CurrentFrame.Height > entityManager.Bounds.Bottom)
+                    if (!dc.DespawnWhenOffScreen) continue;
+
+                    Rectangle boundary = dc.CustomBoundary ?? entityManager.Bounds;
+
+                    if (pc.Position.X < boundary.Left - sc.CurrentFrame.Width
+                        || pc.Position.X - sc.CurrentFrame.Width > boundary.Right
+                        || pc.Position.Y < boundary.Top - sc.CurrentFrame.Height
+                        || pc.Position.Y - sc.CurrentFrame.Height > boundary.Bottom)
                     {
                         entitiesToRemove.Add(entity);
                     }
@@ -32,5 +39,4 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             }
         }
     }
-
 }
