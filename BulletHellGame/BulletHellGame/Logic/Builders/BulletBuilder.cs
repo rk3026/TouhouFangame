@@ -37,6 +37,11 @@ namespace BulletHellGame.Logic.Builders
                 {
                     bullet.AddComponent(new HomingComponent());
                 }
+                else
+                {
+                    bullet.TryGetComponent<HomingComponent>(out HomingComponent homingComponent);
+                    homingComponent.Reset();
+                }
             }
         }
 
@@ -77,6 +82,11 @@ namespace BulletHellGame.Logic.Builders
             HitboxComponent hc = new HitboxComponent(_entity, 3);
             hc.Hitbox = new Vector2(_entity.GetComponent<SpriteComponent>().CurrentFrame.Width, _entity.GetComponent<SpriteComponent>().CurrentFrame.Width);
             _entity.AddComponent(hc); // Layer 1 = enemies and their bullets
+        }
+
+        public override void BuildDespawn()
+        {
+            _entity.AddComponent(new DespawnComponent());
         }
     }
 }

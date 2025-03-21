@@ -22,7 +22,7 @@ namespace BulletHellGame.Presentation.Scenes
         {
             // Load level data from a JSON file
             string levelFilePath = Path.Combine(_contentManager.RootDirectory, "Levels", "level1.json");
-            _levelData = LevelManager.LoadLevel(levelFilePath);
+            ///_levelData = LevelManager.LoadLevel(levelFilePath);
 
             // Load assets like _stageBackground and music
             Texture2D background = _contentManager.Load<Texture2D>(_levelData.Background);

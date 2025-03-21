@@ -28,7 +28,64 @@
   },
   "Reimu.YinYangOrb": {
     "Default": [{ "X": 126, "Y": 16, "Width": 16, "Height": 16 }]
-  }
+  },
 
   // Marisa Stuff
+  "Marisa": {
+    "Idle": [
+      { "X": 263, "Y": 6, "Width": 28, "Height": 42 },
+      { "X": 293, "Y": 6, "Width": 29, "Height": 42 },
+      { "X": 325, "Y": 6, "Width": 28, "Height": 42 },
+      { "X": 357, "Y": 6, "Width": 29, "Height": 42 }
+    ],
+    "MoveLeft": [
+      { "X": 263, "Y": 54, "Width": 28, "Height": 42 },
+      { "X": 295, "Y": 53, "Width": 29, "Height": 43 },
+      { "X": 330, "Y": 54, "Width": 26, "Height": 40 },
+      { "X": 368, "Y": 54, "Width": 26, "Height": 42 },
+      { "X": 394, "Y": 54, "Width": 26, "Height": 42 },
+      { "X": 426, "Y": 54, "Width": 26, "Height": 42 },
+      { "X": 457, "Y": 54, "Width": 29, "Height": 42 },
+      { "X": 486, "Y": 55, "Width": 27, "Height": 38  }
+    ]
+  },
+  "Marisa.LightBeam": {
+    "Default": [{ "X": 386, "Y": 0, "Width": 16, "Height": 36 }]
+  },
+  "Marisa.Rocket": {
+    "Default": [{ "X": 419, "Y": 0, "Width": 14, "Height": 16 }]
+  },
+  "Marisa.StarOption": {
+    "Default": [{ "X": 386, "Y": 36, "Width": 12, "Height": 12 }]
+  },
+
+  // Sakuya Stuff
+  "Sakuya": {
+    "Idle": [
+      { "X": 525, "Y": 6, "Width": 28, "Height": 42 },
+      { "X": 555, "Y": 6, "Width": 29, "Height": 42 },
+      { "X": 587, "Y": 6, "Width": 28, "Height": 42 },
+      { "X": 619, "Y": 6, "Width": 29, "Height": 42 }
+    ],
+    "MoveLeft": [
+      { "X": 525, "Y": 54, "Width": 28, "Height": 42 },
+      { "X": 557, "Y": 53, "Width": 29, "Height": 43 },
+      { "X": 592, "Y": 54, "Width": 26, "Height": 40 },
+      { "X": 630, "Y": 54, "Width": 26, "Height": 42 },
+      { "X": 656, "Y": 54, "Width": 26, "Height": 42 },
+      { "X": 688, "Y": 54, "Width": 26, "Height": 42 },
+      { "X": 719, "Y": 54, "Width": 29, "Height": 42 }
+    ]
+  },
+
+  "Sakuya.KnifeBlue": {
+    "Default": [{ "X": 647, "Y": 4, "Width": 16, "Height": 26 }]
+  },
+  "Sakuya.KnifePink": {
+    "Default": [{ "X": 663, "Y": 4, "Width": 16, "Height": 26 }]
+  },
+  "Sakuya.Option": {
+    "Default": [{ "X": 647, "Y": 32, "Width": 16, "Height": 16 }]
+  }
+
 }

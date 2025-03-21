@@ -34,11 +34,12 @@ namespace BulletHellGame.Presentation.Scenes
         private Rectangle _playableArea;
         private Rectangle _uiArea;
         private const int _playableAreaOffset = 15; // Offset for the playable area on all sides
+        private CharacterData _characterData;
 
-        public TestScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
+        public TestScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {
             Rectangle sceneArea = new Rectangle(0, 0, 640, 480); // Bad, move this out, get the dimensions from the game1's dimensions.
-            int playableWidth = sceneArea.Width * 2 / 3;
+            int playableWidth = sceneArea.Width * 5 / 7;
             int playableHeight = sceneArea.Height;
 
             _playableArea = new Rectangle(
@@ -59,12 +60,12 @@ namespace BulletHellGame.Presentation.Scenes
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
             _entityManager = new EntityManager(_playableArea);
-            _waveManager = new WaveManager(_entityManager);
+            // _waveManager = new WaveManager(_entityManager);
             _systemManager = new SystemManager(_graphicsDevice);
 
             // Load the player entity into the scene
-            CharacterData cd = EntityDataGenerator.CreateCharacterData();
-            _entityManager.SpawnPlayer(cd);
+            _characterData = characterData;
+            _entityManager.SpawnPlayer(_characterData);
         }
 
         public void Load()
@@ -109,7 +110,7 @@ namespace BulletHellGame.Presentation.Scenes
         {
             // Update all entities
             _systemManager.Update(_entityManager, gameTime);
-            _waveManager.Update(gameTime);
+            //_waveManager.Update(gameTime);
 
             if (InputManager.Instance.ActionPressed(GameAction.Pause))
             {
@@ -119,7 +120,7 @@ namespace BulletHellGame.Presentation.Scenes
 
             if (_entityManager.GetEntityCount(EntityType.Player) == 0) // if (playerLives == 0) show retry menu
             {
-                SceneManager.Instance.AddScene(new RetryMenuScene(_font, whitePixel, _contentManager, _graphicsDevice));
+                SceneManager.Instance.AddScene(new RetryMenuScene(_font, whitePixel, _contentManager, _graphicsDevice, _characterData));
             }
 
             _parallaxBackground.Update(gameTime);

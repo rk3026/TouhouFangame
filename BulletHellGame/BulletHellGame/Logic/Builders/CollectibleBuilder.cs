@@ -54,5 +54,10 @@ namespace BulletHellGame.Logic.Builders
                 _entity.AddComponent(hitbox);
             }
         }
+
+        public override void BuildDespawn()
+        {
+            _entity.AddComponent(new DespawnComponent());
+        }
     }
 }

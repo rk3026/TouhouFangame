@@ -6,8 +6,13 @@
         public string LevelName { get; set; }
         public string Background { get; set; }
         public string Music { get; set; }
-        public List<EnemyData> Enemies { get; set; }
-        public List<EnemyData> SubBossPhases { get; set; }
-        public List<EnemyData> BossPhases { get; set; }
+        public List<WaveData> Waves { get; set; }
+        public List<BossData> Bosses { get; set; }
+
+        public LevelData()
+        {
+            Waves = new List<WaveData>();
+            Bosses = new List<BossData>();
+        }
     }
 }

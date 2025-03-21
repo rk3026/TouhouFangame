@@ -189,4 +189,10 @@
         <Message Text="Restoring dotnet tools" Importance="High" />
         <Exec Command="dotnet tool restore" />
     </Target>
+    <ItemGroup>
+      <EditorConfigFiles Remove="D:\Desktop\cpts_487\BulletHellGame\BulletHellGame\Presentation\Scenes\.editorconfig" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="D:\Desktop\cpts_487\BulletHellGame\BulletHellGame\Presentation\Scenes\.editorconfig" />
+    </ItemGroup>
 </Project>
