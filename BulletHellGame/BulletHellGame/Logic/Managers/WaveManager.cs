@@ -1,42 +1,95 @@
 ﻿using BulletHellGame.DataAccess.DataTransferObjects;
-using System.Linq;
+using BulletHellGame.Logic.Entities;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace BulletHellGame.Logic.Managers
 {
     public class WaveManager
     {
-        private List<WaveData> _waves = new List<WaveData>();
-        private EntityManager _entityManager;
-        private float _elapsedTime = 0f; // Track elapsed time
-        private HashSet<WaveData> _spawnedWaves = new HashSet<WaveData>(); // Track spawned waves
+        private readonly EntityManager _entityManager;
+        private readonly Rectangle _playableArea;
 
-        public WaveManager(EntityManager entityManager)
+        private readonly Queue<WaveData> _waveQueue = new();
+        private WaveState _currentWave = null;
+        private float _globalTime = 0f;
+
+        public bool WaveJustCompleted { get; private set; } = false;
+
+        public WaveManager(EntityManager entityManager, Rectangle playableArea)
         {
             _entityManager = entityManager;
+            _playableArea = playableArea;
         }
 
         public void AddWave(WaveData wave)
         {
-            _waves.Add(wave);
+            _waveQueue.Enqueue(wave);
+        }
+
+        public void ClearWaves()
+        {
+            _waveQueue.Clear();
+            _currentWave = null;
+            _globalTime = 0f;
+            WaveJustCompleted = false;
         }
 
         public void Update(GameTime gameTime)
         {
-            _elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _globalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            WaveJustCompleted = false;
 
-            // Spawn waves only once when their start time is reached
-            foreach (var wave in _waves.Where(w => _elapsedTime >= w.StartTime && !_spawnedWaves.Contains(w)))
+            // Start next wave if needed
+            if (_currentWave == null && _waveQueue.Count > 0)
             {
-                foreach (var spawnData in wave.Enemies)
-                {
-                    _entityManager.SpawnEnemy(spawnData.EnemyData, spawnData.SpawnPosition);
-                }
-
-                _spawnedWaves.Add(wave);
+                var nextWave = _waveQueue.Dequeue();
+                _currentWave = new WaveState(nextWave);
             }
 
-            // Remove completed waves
-            _waves.RemoveAll(wave => _spawnedWaves.Contains(wave));
+            if (_currentWave != null)
+            {
+                var wave = _currentWave.Wave;
+                _currentWave.ElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                foreach (var enemySpawn in wave.Enemies)
+                {
+                    if (!_currentWave.Spawned.Contains(enemySpawn) &&
+                        _currentWave.ElapsedTime >= enemySpawn.SpawnTime)
+                    {
+                        _entityManager.SpawnEnemy(enemySpawn.EnemyData, enemySpawn.SpawnPosition);
+                        _currentWave.Spawned.Add(enemySpawn);
+                    }
+                }
+
+                // Completion logic
+                bool allEnemiesSpawned = _currentWave.Spawned.Count == wave.Enemies.Count;
+                bool allEnemiesDefeated = _entityManager.GetEntityCount(EntityType.Enemy) == 0;
+                bool durationExpired = _currentWave.ElapsedTime >= wave.Duration;
+
+                if ((allEnemiesSpawned && allEnemiesDefeated) || durationExpired)
+                {
+                    _currentWave = null;
+                    WaveJustCompleted = true;
+                }
+            }
+        }
+
+        public bool AreAllWavesComplete()
+        {
+            return _currentWave == null && _waveQueue.Count == 0;
+        }
+
+        private class WaveState
+        {
+            public WaveData Wave { get; }
+            public float ElapsedTime { get; set; } = 0f;
+            public HashSet<EnemySpawnData> Spawned { get; } = new();
+
+            public WaveState(WaveData wave)
+            {
+                Wave = wave;
+            }
         }
     }
 }

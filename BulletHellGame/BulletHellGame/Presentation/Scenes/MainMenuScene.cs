@@ -53,7 +53,8 @@ public class MainMenuScene : IScene
             switch (selectedIndex)
             {
                 case 0:
-                    SceneManager.Instance.AddScene(new TestScene(_contentManager, _graphicsDevice));
+                    //SceneManager.Instance.AddScene(new TestScene(_contentManager, _graphicsDevice));
+                    SceneManager.Instance.AddScene(new TestLMScene(_contentManager, _graphicsDevice));
                     break;
                 case 1:
                     SceneManager.Instance.AddScene(new SettingsScene(_contentManager, _graphicsDevice));

@@ -38,7 +38,7 @@ namespace BulletHellGame.Presentation.Scenes
         public TestScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
             Rectangle sceneArea = new Rectangle(0, 0, 640, 480); // Bad, move this out, get the dimensions from the game1's dimensions.
-            int playableWidth = sceneArea.Width * 2 / 3;
+            int playableWidth = sceneArea.Width * 5 / 7;
             int playableHeight = sceneArea.Height;
 
             _playableArea = new Rectangle(
@@ -59,7 +59,7 @@ namespace BulletHellGame.Presentation.Scenes
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
             _entityManager = new EntityManager(_playableArea);
-            _waveManager = new WaveManager(_entityManager);
+            // _waveManager = new WaveManager(_entityManager);
             _systemManager = new SystemManager(_graphicsDevice);
 
             // Load the player entity into the scene
@@ -109,7 +109,7 @@ namespace BulletHellGame.Presentation.Scenes
         {
             // Update all entities
             _systemManager.Update(_entityManager, gameTime);
-            _waveManager.Update(gameTime);
+            //_waveManager.Update(gameTime);
 
             if (InputManager.Instance.ActionPressed(GameAction.Pause))
             {

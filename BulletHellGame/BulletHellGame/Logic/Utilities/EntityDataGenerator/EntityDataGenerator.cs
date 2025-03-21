@@ -14,22 +14,43 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
             "DoubleCircle.DarkYellow", "DoubleCircle.Yellow", "DoubleCircle.Orange", "DoubleCircle.White"
         };
 
+        public static LevelData GenerateLevelData(Rectangle playableArea)
+        {
+            var levelData = new LevelData();
+
+            levelData.LevelName = "Level 1";
+            levelData.LevelId = 1;
+
+            // Add 3 waves
+            for (int i = 0; i < 5; i++)
+            {
+                WaveData wave = CreateWaveData(playableArea);
+                levelData.Waves.Add(wave);
+            }
+
+            // Add 1 boss
+            BossData boss = CreateBossData();
+            levelData.Bosses.Add(boss);
+
+            return levelData;
+        }
+
         public static WaveData CreateWaveData(Rectangle playableArea)
         {
-            WaveData wave1 = new WaveData { StartTime = 5f }; // Wave starts at 5 seconds
+            WaveData wave1 = new WaveData { StartTime = 0f , Duration=20f }; // Wave starts at 5 seconds
             wave1.Enemies.Add(new EnemySpawnData
             {
                 EnemyData = CreateEnemyData(),
                 SpawnTime = 0f,  // Spawns immediately at wave start
                 ExitTime = 10f,   // Leaves after 10 seconds
-                SpawnPosition = new Vector2(playableArea.Width / 2, playableArea.Top)
+                SpawnPosition = new Vector2(playableArea.Width / 2 +50, playableArea.Top+50)
             });
             wave1.Enemies.Add(new EnemySpawnData
             {
                 EnemyData = CreateEnemyData(),
-                SpawnTime = 2f,  // Spawns 2 seconds after wave start
-                ExitTime = 12f,
-                SpawnPosition = new Vector2(playableArea.Width / 2, playableArea.Top)
+                SpawnTime = 0f,  // Spawns 2 seconds after wave start
+                ExitTime = 10f,
+                SpawnPosition = new Vector2(playableArea.Width / 2 -50, playableArea.Top+50)
             });
             return wave1;
         }
