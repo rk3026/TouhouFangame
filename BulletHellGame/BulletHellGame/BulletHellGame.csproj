@@ -11,6 +11,10 @@
         <ApplicationIcon>Icon.ico</ApplicationIcon>
     </PropertyGroup>
     <ItemGroup>
+        <None Remove="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3" />
+        <None Remove="Content\Music\激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷.mp3" />
+        <None Remove="Content\Music\激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3" />
+        <None Remove="Content\Music\紅魔激走劇  Everlasting....mp3" />
         <None Remove="Data\BulletPatterns.json" />
         <None Remove="Data\Characters\Marisa.json" />
         <None Remove="Data\Characters\Reimu.json" />
@@ -46,6 +50,18 @@
         <None Remove="Icon.bmp" />
     </ItemGroup>
     <ItemGroup>
+      <Content Include="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Music\激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Music\激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Music\紅魔激走劇  Everlasting....mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Data\BulletPatterns\BulletPatterns.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
@@ -157,28 +173,28 @@
       </Content>
     </ItemGroup>
     <ItemGroup>
-      <None Update="Logic\Content\SpriteSheets\Characters.png">
+      <None Update="Content\SpriteSheets\Characters.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Logic\Content\SpriteSheets\Fonts.png">
+      <None Update="Content\SpriteSheets\Fonts.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Logic\Content\SpriteSheets\MenuAndOtherScreens.png">
+      <None Update="Content\SpriteSheets\MenuAndOtherScreens.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Logic\Content\SpriteSheets\ProjectilesAndObjects.png">
+      <None Update="Content\SpriteSheets\ProjectilesAndObjects.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Logic\Content\Sprites\Bullets\ReimuBullet.png">
+      <None Update="Content\Sprites\Bullets\ReimuBullet.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Logic\Content\Sprites\Bullets\ReimuPellet.png">
+      <None Update="Content\Sprites\Bullets\ReimuPellet.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Logic\Content\Sprites\Characters\Reimu\ReimuIdle1.png">
+      <None Update="Content\Sprites\Characters\Reimu\ReimuIdle1.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Logic\Content\Sprites\Enemies\GenericEnemy1Idle1.png">
+      <None Update="Content\Sprites\Enemies\GenericEnemy1Idle1.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="Data\MovementPatterns\MovementPatterns.json">

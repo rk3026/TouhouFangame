@@ -60,6 +60,10 @@ namespace BulletHellGame.Presentation.Scenes
             {
                 SceneManager.Instance.AddScene(new TestLMScene(_contentManager, _graphicsDevice, characters[selectedIndex]));
             }
+            if (InputManager.Instance.ActionPressed(GameAction.Pause))
+            {
+                SceneManager.Instance.RemoveScene();
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

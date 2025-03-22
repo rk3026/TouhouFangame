@@ -29,6 +29,8 @@ public class MainMenuScene : IScene
         // Create a 1x1 white pixel texture for the box
         whitePixel = new Texture2D(_graphicsDevice, 1, 1);
         whitePixel.SetData(new Color[] { Color.White });
+
+        BGMManager.Instance.PlayBGM(_contentManager, "01. Ghostly Dream ~ Snow or Cherry Petal");
     }
 
     public void Update(GameTime gameTime)

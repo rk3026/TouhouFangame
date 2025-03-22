@@ -11,6 +11,7 @@ public class SettingsScene : IScene
     private int selectedIndex;
 
     private string[] settingsOptions = {
+        "Master Volume: ",
         "Music Volume: ",
         "Sound Effects: ",
         "Debug Mode: ",
@@ -37,9 +38,10 @@ public class SettingsScene : IScene
 
     private void UpdateMenuText()
     {
-        settingsOptions[0] = $"Music Volume: {Math.Round(SettingsManager.Instance.MusicVolume * 10)}/10";
-        settingsOptions[1] = $"Sound Effects: {Math.Round(SettingsManager.Instance.SFXVolume * 10)}/10";
-        settingsOptions[2] = $"Debug Mode: {(SettingsManager.Instance.Debugging ? "ON" : "OFF")}";
+        settingsOptions[0] = $"Master Volume: {Math.Round(SettingsManager.Instance.MasterVolume * 10)}/10";
+        settingsOptions[1] = $"Music Volume: {Math.Round(SettingsManager.Instance.MusicVolume * 10)}/10";
+        settingsOptions[2] = $"Sound Effects: {Math.Round(SettingsManager.Instance.SFXVolume * 10)}/10";
+        settingsOptions[3] = $"Debug Mode: {(SettingsManager.Instance.Debugging ? "ON" : "OFF")}";
     }
 
     public void Update(GameTime gameTime)
@@ -65,19 +67,29 @@ public class SettingsScene : IScene
 
         if (InputManager.Instance.ActionPressed(GameAction.MenuLeft) || InputManager.Instance.ActionPressed(GameAction.MenuRight))
         {
-            if (selectedIndex == 0) // Music Volume
+            float delta = InputManager.Instance.ActionPressed(GameAction.MenuLeft) ? -0.1f : 0.1f;
+
+            if (selectedIndex == 0) // Master Volume
             {
-                float delta = InputManager.Instance.ActionPressed(GameAction.MenuLeft) ? -0.1f : 0.1f;
-                SettingsManager.Instance.MusicVolume = Math.Clamp(SettingsManager.Instance.MusicVolume + delta, 0f, 1f);
+                SettingsManager.Instance.MasterVolume = Math.Clamp(SettingsManager.Instance.MasterVolume + delta, 0f, 1f);
+
+                // Apply master volume to both BGM and SFX
+                BGMManager.Instance.UpdateVolumeFromSettings();
             }
-            else if (selectedIndex == 1) // SFX Volume
+            else if (selectedIndex == 1) // Music Volume
             {
-                float delta = InputManager.Instance.ActionPressed(GameAction.MenuLeft) ? -0.1f : 0.1f;
+                SettingsManager.Instance.MusicVolume = Math.Clamp(SettingsManager.Instance.MusicVolume + delta, 0f, 1f);
+                BGMManager.Instance.SetVolume(SettingsManager.Instance.MusicVolume);
+            }
+            else if (selectedIndex == 2) // SFX Volume
+            {
                 SettingsManager.Instance.SFXVolume = Math.Clamp(SettingsManager.Instance.SFXVolume + delta, 0f, 1f);
             }
 
             UpdateMenuText();
         }
+
+
 
         if (InputManager.Instance.ActionPressed(GameAction.Select))
         {
@@ -85,16 +97,16 @@ public class SettingsScene : IScene
             {
                 SceneManager.Instance.RemoveScene();
             }
-            else if (selectedIndex == 2) // Toggle Debug Mode
+            else if (selectedIndex == 3) // Toggle Debug Mode
             {
                 SettingsManager.Instance.Debugging = !SettingsManager.Instance.Debugging;
                 UpdateMenuText();
             }
-            else if (selectedIndex == 3) // Toggle Shaders
+            else if (selectedIndex == 4) // Toggle Shaders
             {
                 SceneManager.Instance.AddScene(new ShaderConfigScene(this._contentManager, this._graphicsDevice));
             }
-            else if (selectedIndex == 4) // Rebind Keys
+            else if (selectedIndex == 5) // Rebind Keys
             {
                 SceneManager.Instance.AddScene(new KeyConfigScene(this._contentManager, this._graphicsDevice));
             }
