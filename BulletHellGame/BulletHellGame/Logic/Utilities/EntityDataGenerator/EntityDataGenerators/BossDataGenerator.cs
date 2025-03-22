@@ -10,23 +10,29 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
 
         public static BossData CreateBossData()
         {
-            EnemyData phase1 = CreateBossPhase("DoubleCircle.Red", "circular");
+            EnemyData phase1 = CreateBossPhase("DoubleCircle.Red");
             EnemyData phase2 = CreateBossPhase("DoubleCircle.DarkRed", "zigzag");
             return new BossData { Phases = new List<EnemyData> { phase1, phase2 } };
         }
 
-        public static EnemyData CreateBossPhase(string bulletSprite, string movementPattern)
+        private static float spiralAngle = 0f; // Tracks the spiral's rotation
+
+        public static EnemyData CreateBossPhase(string bulletSprite, string movementPattern = "none")
         {
-            // Circular bullet pattern
+            // Spiral bullet pattern
             int numBullets = _random.Next(8, 13); // Boss fires between 8-12 bullets per shot
             float angleStep = 360f / numBullets; // Evenly distribute bullets
 
             List<Vector2> fireDirections = new List<Vector2>();
             for (int i = 0; i < numBullets; i++)
             {
-                float angle = i * angleStep * (MathF.PI / 180f); // Convert degrees to radians
-                fireDirections.Add(new Vector2(MathF.Cos(angle), MathF.Sin(angle))); // Circular pattern
+                float angle = (spiralAngle + i * angleStep) * (MathF.PI / 180f); // Apply spiral offset and convert degrees to radians
+                fireDirections.Add(new Vector2(MathF.Cos(angle), MathF.Sin(angle)));
             }
+
+            // Increment the spiral angle to create the spinning effect
+            spiralAngle += 10f; // Adjust this value to control spiral tightness
+            if (spiralAngle >= 360f) spiralAngle -= 360f; // Wrap around
 
             return new EnemyData
             {
@@ -50,5 +56,6 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
                 }
             };
         }
+
     }
 }

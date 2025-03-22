@@ -59,8 +59,10 @@ namespace BulletHellGame.Logic.Managers
             }
             else
             {
-                throw new Exception($"Movement pattern '{patternName}' not found.");
+                Console.WriteLine($"Movement pattern '{patternName}' not found.");
+                return null;
             }
         }
+
     }
 }

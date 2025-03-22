@@ -14,6 +14,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                     entity.TryGetComponent<MovementPatternComponent>(out var mpc) &&
                     entity.TryGetComponent<PositionComponent>(out var pc))
                 {
+                    if (mpc.PatternData == null) return;
                     // Update the movement pattern
                     mpc.TimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
 

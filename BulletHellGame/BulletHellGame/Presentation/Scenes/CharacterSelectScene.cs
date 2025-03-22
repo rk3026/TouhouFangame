@@ -4,6 +4,7 @@ using BulletHellGame.Logic.Managers;
 using BulletHellGame.Logic.Utilities.EntityDataGenerator;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
+using System.Text;
 
 namespace BulletHellGame.Presentation.Scenes
 {
@@ -12,10 +13,8 @@ namespace BulletHellGame.Presentation.Scenes
         private enum SelectionPhase { Difficulty, Heroine, Weapon }
         private SelectionPhase currentPhase = SelectionPhase.Difficulty;
 
-        private string[] difficulties = { "Easy", "Normal", "Hard", "Lunatic" }; // Placeholder, pass the difficulty when loading the gameplayscene...
+        private string[] difficulties = { "Easy", "Normal", "Hard", "Lunatic" };
         private CharacterData[] characters;
-        private string[] weapons = { "Weapon A", "Weapon B" }; // Placeholder
-
         private SpriteFont _font;
         private SpriteData backgroundSprite;
         private SpriteData[] characterSprites;
@@ -31,7 +30,7 @@ namespace BulletHellGame.Presentation.Scenes
         private float difficultyTweenProgress = 0f;
         private const float tweenSpeed = 2f;
         private Vector2 difficultyStartPos;
-        private Vector2 difficultyEndPos = new Vector2(50, 380);
+        private Vector2 difficultyEndPos;
 
         public CharacterSelectScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
@@ -49,13 +48,13 @@ namespace BulletHellGame.Presentation.Scenes
                 TextureManager.Instance.GetSpriteData("MarisaSelect"),
                 TextureManager.Instance.GetSpriteData("SakuyaSelect")
             };
-
             characters = new CharacterData[]
             {
                 CharacterDataLoader.LoadCharacterData("Reimu"),
                 EntityDataGenerator.CreateMarisaData(),
                 EntityDataGenerator.CreateSakuyaData()
             };
+            difficultyEndPos = new Vector2(_graphicsDevice.Viewport.X + 50, _graphicsDevice.Viewport.Y + _graphicsDevice.Viewport.Height - 50);
         }
 
         public void Update(GameTime gameTime)
@@ -129,7 +128,7 @@ namespace BulletHellGame.Presentation.Scenes
             {
                 SelectionPhase.Difficulty => difficulties,
                 SelectionPhase.Heroine => characters.Select(c => c.Name).ToArray(),
-                SelectionPhase.Weapon => weapons,
+                SelectionPhase.Weapon => characters[selectedHeroine].ShotTypes.Select(s => s.Name).ToArray(),
                 _ => new string[0],
             };
         }
@@ -157,22 +156,89 @@ namespace BulletHellGame.Presentation.Scenes
                 spriteBatch.DrawString(_font, difficulties[selectedDifficulty], difficultyPosition, Color.White);
             }
 
-            // Draw current options
-            string[] options = GetCurrentOptions();
-            for (int i = 0; i < options.Length; i++)
-            {
-                Vector2 optionPosition = new Vector2(100, 100 + i * 60);
-                Color textColor = (i == selectedIndex) ? Color.Red : Color.White;
-                spriteBatch.DrawString(_font, options[i], optionPosition, textColor);
-            }
-
             // Draw selected heroine portrait
             if (currentPhase >= SelectionPhase.Heroine && selectedHeroine >= 0 && characterSprites[selectedHeroine] != null)
             {
-                float opacity = currentPhase > SelectionPhase.Heroine ? 0.5f : 1f;
+                float opacity = currentPhase > SelectionPhase.Heroine ? 0.3f : 1f;
                 Vector2 portraitPosition = new Vector2(300, 100);
-                spriteBatch.Draw(characterSprites[selectedHeroine].Texture, portraitPosition, characterSprites[selectedHeroine].Animations["Default"][0], Color.White*opacity);
+                spriteBatch.Draw(characterSprites[selectedHeroine].Texture, portraitPosition, characterSprites[selectedHeroine].Animations["Default"][0], Color.White * opacity);
+            }
+
+            // Draw current options
+            float descriptionScale = 0.7f;
+            float maxDescriptionWidth = _graphicsDevice.Viewport.Width - 50; // Adjust as needed
+            string[] options = GetCurrentOptions();
+            float yOffset = 100; // Initial Y offset
+
+            for (int i = 0; i < options.Length; i++)
+            {
+                Vector2 optionPosition = new Vector2(100, yOffset);
+                Color textColor = (i == selectedIndex) ? Color.Red : Color.White;
+
+                // Draw the option
+                spriteBatch.DrawString(_font, options[i], optionPosition, textColor);
+
+                if (currentPhase == SelectionPhase.Weapon)
+                {
+                    yOffset += _font.LineSpacing; // Move down after option
+                    var shotType = characters[selectedHeroine].ShotTypes[i];
+                    string focusedDescription = shotType.FocusedShot?.Description ?? "No description available";
+                    string unfocusedDescription = shotType.UnfocusedShot?.Description ?? "No description available";
+
+                    string wrappedFocusedDescription = WrapText(_font, focusedDescription, maxDescriptionWidth);
+                    string wrappedUnfocusedDescription = WrapText(_font, unfocusedDescription, maxDescriptionWidth);
+
+                    // Draw "Focused Shot" label at normal size
+                    Vector2 focusedLabelPos = new Vector2(120, yOffset);
+                    spriteBatch.DrawString(_font, "Focused Shot:", focusedLabelPos, Color.LightGray);
+                    yOffset += _font.LineSpacing; // Move down after label
+
+                    // Draw wrapped description in smaller size
+                    Vector2 focusedShotPos = new Vector2(140, yOffset);
+                    spriteBatch.DrawString(_font, wrappedFocusedDescription, focusedShotPos, Color.LightGray, 0f, Vector2.Zero, descriptionScale, SpriteEffects.None, 0f);
+                    float wrappedFocusedHeight = _font.MeasureString(wrappedFocusedDescription).Y * descriptionScale;
+                    yOffset += wrappedFocusedHeight;
+
+                    // Draw "Unfocused Shot" label at normal size
+                    Vector2 unfocusedLabelPos = new Vector2(120, yOffset + 10); // Small gap
+                    spriteBatch.DrawString(_font, "Unfocused Shot:", unfocusedLabelPos, Color.LightGray);
+                    yOffset += _font.LineSpacing + 10; // Move down after label
+
+                    // Draw wrapped description in smaller size
+                    Vector2 unfocusedShotPos = new Vector2(140, yOffset);
+                    spriteBatch.DrawString(_font, wrappedUnfocusedDescription, unfocusedShotPos, Color.LightGray, 0f, Vector2.Zero, descriptionScale, SpriteEffects.None, 0f);
+                    float wrappedUnfocusedHeight = _font.MeasureString(wrappedUnfocusedDescription).Y * descriptionScale;
+                }
+                yOffset += 60; // Space between options
             }
         }
+
+
+
+        private string WrapText(SpriteFont font, string text, float maxLineWidth)
+        {
+            string[] words = text.Split(' ');
+            StringBuilder wrappedText = new StringBuilder();
+            float lineWidth = 0f;
+            float spaceWidth = font.MeasureString(" ").X;
+
+            foreach (var word in words)
+            {
+                Vector2 wordSize = font.MeasureString(word);
+
+                // Check if adding the word would exceed the max width
+                if (lineWidth + wordSize.X > maxLineWidth)
+                {
+                    wrappedText.AppendLine();
+                    lineWidth = 0f;
+                }
+
+                wrappedText.Append(word + " ");
+                lineWidth += wordSize.X + spaceWidth;
+            }
+
+            return wrappedText.ToString();
+        }
+
     }
 }
