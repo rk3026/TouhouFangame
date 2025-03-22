@@ -9,6 +9,7 @@
             builder.BuildHealth();
             builder.BuildPosition();
             builder.BuildVelocity();
+            builder.BuildAcceleration();
             builder.BuildSpeed();
             builder.BuildHitbox();
             builder.BuildMovementPattern();

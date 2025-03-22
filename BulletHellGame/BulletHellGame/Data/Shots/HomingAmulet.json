@@ -7,24 +7,33 @@
       "MainWeapons": [
         {
           "SpriteName": "Reimu.OrangeBullet",
+          "FireRate": 0.18,
+          "FireDirections": [
+            {
+              "X": 0,
+              "Y": -5
+            }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.OrangeBullet",
+            "Damage": 25,
+            "BulletType": "Standard"
+          }
+        }
+      ],
+      "SideWeapons": [
+        {
+          "Offset": {
+            "X": -20,
+            "Y": 0
+          },
+          "SpriteName": "Reimu.YinYangOrb",
           "FireRate": 0.5,
           "FireDirections": [
-            { "X": 0, "Y": -5 }
-          ],
-          "BulletData": {
-            "SpriteName": "Reimu.OrangeBullet",
-            "Damage": 25,
-            "BulletType": "Standard"
-          }
-        }
-      ],
-      "SideWeapons": [
-        {
-          "Offset": { "X": -20, "Y": 0 },
-          "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.95,
-          "FireDirections": [
-            { "X": -0.2, "Y": -3 }
+            {
+              "X": -0.2,
+              "Y": -3
+            }
           ],
           "BulletData": {
             "SpriteName": "Reimu.WhiteBullet",
@@ -33,56 +42,17 @@
           }
         },
         {
-          "Offset": { "X": 20, "Y": 0 },
+          "Offset": {
+            "X": 20,
+            "Y": 0
+          },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.95,
+          "FireRate": 0.5,
           "FireDirections": [
-            { "X": 0.2, "Y": -3 }
-          ],
-          "BulletData": {
-            "SpriteName": "Reimu.WhiteBullet",
-            "Damage": 100,
-            "BulletType": "Homing"
-          }
-        }
-      ]
-    },
-    {
-      "Level": 1,
-      "MainWeapons": [
-        {
-          "SpriteName": "Reimu.OrangeBullet",
-          "FireRate": 0.45,
-          "FireDirections": [
-            { "X": 0, "Y": -5 }
-          ],
-          "BulletData": {
-            "SpriteName": "Reimu.OrangeBullet",
-            "Damage": 25,
-            "BulletType": "Standard"
-          }
-        }
-      ],
-      "SideWeapons": [
-        {
-          "Offset": { "X": -20, "Y": 0 },
-          "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.95,
-          "FireDirections": [
-            { "X": -0.2, "Y": -3 }
-          ],
-          "BulletData": {
-            "SpriteName": "Reimu.WhiteBullet",
-            "Damage": 100,
-            "BulletType": "Homing"
-          }
-        },
-        {
-          "Offset": { "X": 20, "Y": 0 },
-          "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.95,
-          "FireDirections": [
-            { "X": 0.2, "Y": -3 }
+            {
+              "X": 0.2,
+              "Y": -3
+            }
           ],
           "BulletData": {
             "SpriteName": "Reimu.WhiteBullet",
@@ -97,7 +67,7 @@
       "MainWeapons": [
         {
           "SpriteName": "Reimu.OrangeBullet",
-          "FireRate": 0.4,
+          "FireRate": 0.14,
           "FireDirections": [
             { "X": 0, "Y": -5 },
             { "X": -0.5, "Y": -5},
@@ -114,7 +84,7 @@
         {
           "Offset": { "X": -20, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.95,
+          "FireRate": 0.4,
           "FireDirections": [
             { "X": -0.2, "Y": -3 }
           ],
@@ -127,7 +97,7 @@
         {
           "Offset": { "X": 20, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.95,
+          "FireRate": 0.4,
           "FireDirections": [
             { "X": 0.2, "Y": -3 }
           ],
@@ -144,7 +114,7 @@
       "MainWeapons": [
         {
           "SpriteName": "Reimu.OrangeBullet",
-          "FireRate": 0.35,
+          "FireRate": 0.14,
           "FireDirections": [
             { "X": 0, "Y": -5 },
             { "X": -0.5, "Y": -5},
@@ -161,7 +131,7 @@
         {
           "Offset": { "X": -20, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.9,
+          "FireRate": 0.35,
           "FireDirections": [
             { "X": -0.2, "Y": -3 },
             { "X": -0.2, "Y": -1 }
@@ -175,7 +145,7 @@
         {
           "Offset": { "X": 20, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.9,
+          "FireRate": 0.35,
           "FireDirections": [
             { "X": 0.2, "Y": -3 },
             { "X": 0.2, "Y": -1 }
@@ -193,7 +163,7 @@
       "MainWeapons": [
         {
           "SpriteName": "Reimu.OrangeBullet",
-          "FireRate": 0.3,
+          "FireRate": 0.12,
           "FireDirections": [
             { "X": 0, "Y": -5 },
             { "X": -0.5, "Y": -5},
@@ -210,7 +180,7 @@
         {
           "Offset": { "X": -20, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.85,
+          "FireRate": 0.3,
           "FireDirections": [
             { "X": -0.2, "Y": -3 },
             { "X": -0.4, "Y": -1 }
@@ -224,7 +194,7 @@
         {
           "Offset": { "X": 20, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.85,
+          "FireRate": 0.3,
           "FireDirections": [
             { "X": 0.2, "Y": -3 },
             { "X": 0.4, "Y": -1 }
@@ -261,7 +231,7 @@
         {
           "Offset": { "X": -25, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.8,
+          "FireRate": 0.28,
           "FireDirections": [
             { "X": -0.3, "Y": -3 },
             { "X": -0.5, "Y": -1 }
@@ -275,7 +245,7 @@
         {
           "Offset": { "X": 25, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.8,
+          "FireRate": 0.28,
           "FireDirections": [
             { "X": 0.3, "Y": -3 },
             { "X": 0.5, "Y": -1 }
@@ -293,7 +263,7 @@
       "MainWeapons": [
         {
           "SpriteName": "Reimu.OrangeBullet",
-          "FireRate": 0.2,
+          "FireRate": 0.1,
           "FireDirections": [
             { "X": 0, "Y": -5 },
             { "X": -0.4, "Y": -5 },
@@ -312,7 +282,7 @@
         {
           "Offset": { "X": -30, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.75,
+          "FireRate": 0.25,
           "FireDirections": [
             { "X": -0.3, "Y": -3 },
             { "X": -0.6, "Y": -1 }
@@ -326,7 +296,7 @@
         {
           "Offset": { "X": 30, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.75,
+          "FireRate": 0.25,
           "FireDirections": [
             { "X": 0.3, "Y": -3 },
             { "X": 0.6, "Y": -1 }
@@ -344,7 +314,7 @@
       "MainWeapons": [
         {
           "SpriteName": "Reimu.OrangeBullet",
-          "FireRate": 0.15,
+          "FireRate": 0.1,
           "FireDirections": [
             { "X": 0, "Y": -5 },
             { "X": -0.5, "Y": -5 },
@@ -363,7 +333,7 @@
         {
           "Offset": { "X": -35, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.7,
+          "FireRate": 0.25,
           "FireDirections": [
             { "X": -0.4, "Y": -3 },
             { "X": -0.7, "Y": -1 }
@@ -377,7 +347,7 @@
         {
           "Offset": { "X": 35, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
-          "FireRate": 0.7,
+          "FireRate": 0.25,
           "FireDirections": [
             { "X": 0.4, "Y": -3 },
             { "X": 0.7, "Y": -1 }

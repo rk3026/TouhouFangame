@@ -7,5 +7,6 @@
         public float TimeSinceLastShot { get; set; }
 
         public List<Vector2> FireDirections { get; set; }
+
     }
 }

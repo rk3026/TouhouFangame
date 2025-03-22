@@ -38,6 +38,7 @@ namespace BulletHellGame.Logic.Builders
         public virtual void BuildSprite() { }
         public virtual void BuildPosition() { }
         public virtual void BuildVelocity() { }
+        public virtual void BuildAcceleration() { }
         public virtual void BuildSpeed() { }
         public virtual void BuildMovementPattern() { }
         public virtual void BuildShooting() { }

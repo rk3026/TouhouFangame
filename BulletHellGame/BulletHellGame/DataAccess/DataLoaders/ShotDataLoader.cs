@@ -26,22 +26,45 @@ namespace BulletHellGame.DataAccess.DataLoaders
                 using JsonDocument doc = JsonDocument.Parse(json);
                 JsonElement root = doc.RootElement;
 
+                var powerLevels = new Dictionary<int, PowerLevelData>();
+
+                foreach (var level in root.GetProperty("PowerLevels").EnumerateArray())
+                {
+                    int levelNumber = level.GetProperty("Level").GetInt32();
+                    powerLevels[levelNumber] = new PowerLevelData
+                    {
+                        MainWeapons = level.GetProperty("MainWeapons").EnumerateArray()
+                            .Select(ParseWeapon).ToList(),
+                        Options = level.TryGetProperty("SideWeapons", out JsonElement sideWeapons)
+                            ? sideWeapons.EnumerateArray().Select(ParseOption).ToList()
+                            : new List<OptionData>()
+                    };
+                }
+
+                // Fill missing levels by interpolating from nearest defined levels
+                int maxLevel = powerLevels.Keys.Max();
+                for (int i = 1; i <= maxLevel; i++)
+                {
+                    if (!powerLevels.ContainsKey(i))
+                    {
+                        // Find the closest previous and next defined levels
+                        int prevLevel = powerLevels.Keys.Where(l => l < i).DefaultIfEmpty(1).Max();
+                        int nextLevel = powerLevels.Keys.Where(l => l > i).DefaultIfEmpty(maxLevel).Min();
+
+                        // Copy the data from the closest previous level (or interpolate if needed)
+                        powerLevels[i] = new PowerLevelData
+                        {
+                            MainWeapons = powerLevels[prevLevel].MainWeapons,
+                            Options = powerLevels[prevLevel].Options
+                        };
+                    }
+                }
+
                 return new ShotData
                 {
                     Name = root.GetProperty("Name").GetString(),
                     Description = root.GetProperty("Description").GetString(),
-                    PowerLevels = root.GetProperty("PowerLevels").EnumerateArray()
-                        .ToDictionary(
-                            level => level.GetProperty("Level").GetInt32(),
-                            level => new PowerLevelData
-                            {
-                                MainWeapons = level.GetProperty("MainWeapons").EnumerateArray()
-                                    .Select(ParseWeapon).ToList(),
-                                Options = level.TryGetProperty("SideWeapons", out JsonElement sideWeapons)
-                                    ? sideWeapons.EnumerateArray().Select(ParseOption).ToList()
-                                    : new List<OptionData>()
-                            }
-                        )
+                    PowerLevels = powerLevels
                 };
             }
             catch (Exception ex)
@@ -50,6 +73,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
                 return null;
             }
         }
+
 
 
         private static WeaponData ParseWeapon(JsonElement weaponElement)

@@ -176,13 +176,16 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
                 }
             };
 
+            float minFireRate = 0.20f;
+            float maxFireRate = 0.05f;
+            float stepFireRate = 0.02f;
             for (int i = 0; i <= 8; i++)
             {
                 BulletData laser = new BulletData { Damage = 50 + i * 30, BulletType = BulletType.Standard, SpriteName = "Marisa.LightBeam", RotationSpeed = 0f };
-                BulletData rocket = new BulletData { Damage = 80 + i * 25, BulletType = BulletType.Homing, SpriteName = "Marisa.Rocket" , RotationSpeed = 0f };
+                BulletData rocket = new BulletData { Damage = 80 + i * 25, BulletType = BulletType.Standard, SpriteName = "Marisa.Rocket" , RotationSpeed = 0f, Acceleration=new Vector2(0,-6) };
 
-                WeaponData laserWeapon = new WeaponData { BulletData = laser, FireRate = Math.Max(0.1f, 0.5f - i * 0.04f), FireDirections = new List<Vector2> { new Vector2(0, -5f) }, TimeSinceLastShot = 0 };
-                WeaponData rocketWeapon = new WeaponData { BulletData = rocket, FireRate = Math.Max(0.2f, 0.7f - i * 0.05f), FireDirections = new List<Vector2>(), TimeSinceLastShot = 0 };
+                WeaponData laserWeapon = new WeaponData { BulletData = laser, FireRate = Math.Max(minFireRate, maxFireRate - i * stepFireRate), FireDirections = new List<Vector2> { new Vector2(0, -5f) }, TimeSinceLastShot = 0 };
+                WeaponData rocketWeapon = new WeaponData { BulletData = rocket, FireRate = Math.Max(minFireRate, maxFireRate - i * stepFireRate), FireDirections = new List<Vector2>(), TimeSinceLastShot = 0 };
 
                 OptionData leftOption = CreateOption("Marisa.StarOption", rocket, fireRate: 1f - i * 0.02f);
                 leftOption.Offset = new Vector2(-20, 0);
@@ -192,7 +195,7 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
                 if (i >= 0)
                 {
                     laserWeapon.FireDirections.Add(new Vector2(0, -5f));
-                    rocketWeapon.FireDirections.Add(new Vector2(0, -4f));
+                    rocketWeapon.FireDirections.Add(new Vector2(0, -0f));
                     leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.2f, -3f)); // Slight angle left
                     rightOption.Weapons.First().FireDirections.Add(new Vector2(0.2f, -3f)); // Slight angle right
                 }
@@ -200,12 +203,12 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
                 if (i >= 3)
                 {
                     laserWeapon.FireDirections.Add(new Vector2(-0.2f, -5f));
-                    rocketWeapon.FireDirections.Add(new Vector2(0.2f, -5f));
+                    rocketWeapon.FireDirections.Add(new Vector2(0.2f, -0f));
                 }
                 if (i >= 6)
                 {
                     laserWeapon.FireDirections.Add(new Vector2(-0.4f, -5f));
-                    rocketWeapon.FireDirections.Add(new Vector2(0.4f, -5f));
+                    rocketWeapon.FireDirections.Add(new Vector2(0.4f, -0f));
                 }
 
                 PowerLevelData focusedPld = new();
@@ -242,18 +245,21 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
                 }
             };
 
+            float minFireRate = 0.20f;
+            float maxFireRate = 0.05f;
+            float stepFireRate = 0.02f;
             for (int i = 0; i <= 8; i++)
             {
                 BulletData blueKnife = new BulletData { Damage = 40 + i * 20, BulletType = BulletType.Standard, SpriteName = "Sakuya.KnifeBlue", RotationSpeed = 0f };
                 BulletData pinkKnife = new BulletData { Damage = 120 + i * 30, BulletType = BulletType.Standard, SpriteName = "Sakuya.KnifePink", RotationSpeed = 0f };
 
-                WeaponData knifeSpread = new WeaponData { BulletData = blueKnife, FireRate = Math.Max(0.15f, 0.4f - i * 0.03f), FireDirections = new List<Vector2>(), TimeSinceLastShot = 0 };
+                WeaponData knifeSpread = new WeaponData { BulletData = blueKnife, FireRate = Math.Max(minFireRate, maxFireRate - i * stepFireRate), FireDirections = new List<Vector2>(), TimeSinceLastShot = 0 };
                 for (int j = -1; j <= 1; j++)
                 {
                     knifeSpread.FireDirections.Add(new Vector2(j * 0.3f, -5f));
                 }
 
-                WeaponData mainWeapon = new WeaponData { BulletData = pinkKnife, FireRate = Math.Max(0.5f, 1f - i * 0.1f), FireDirections = new List<Vector2> { new Vector2(0, -4f) }, TimeSinceLastShot = 0 };
+                WeaponData mainWeapon = new WeaponData { BulletData = pinkKnife, FireRate = Math.Max(minFireRate, maxFireRate - i * stepFireRate), FireDirections = new List<Vector2> { new Vector2(0, -4f) }, TimeSinceLastShot = 0 };
 
                 OptionData leftOption = CreateOption("Sakuya.Option", blueKnife, fireRate: 1f - i * 0.02f);
                 leftOption.Offset = new Vector2(-20, 0);

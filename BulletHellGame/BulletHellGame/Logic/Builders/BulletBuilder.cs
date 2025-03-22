@@ -24,6 +24,7 @@ namespace BulletHellGame.Logic.Builders
             bullet.GetComponent<SpriteComponent>().RotationSpeed = bulletData.RotationSpeed;
             bullet.GetComponent<HitboxComponent>().Hitbox = new Vector2(bullet.GetComponent<SpriteComponent>().CurrentFrame.Width, bullet.GetComponent<SpriteComponent>().CurrentFrame.Height);
             bullet.GetComponent<DamageComponent>().BaseDamage = bulletData.Damage;
+            bullet.GetComponent<AccelerationComponent>().Acceleration = bulletData.Acceleration;
             if (bulletData.BulletType != BulletType.Homing)
             {
                 if (bullet.HasComponent<HomingComponent>())
@@ -62,6 +63,11 @@ namespace BulletHellGame.Logic.Builders
         public override void BuildVelocity()
         {
             _entity.AddComponent(new VelocityComponent());
+        }
+
+        public override void BuildAcceleration()
+        {
+            _entity.AddComponent(new AccelerationComponent(_entityData.Acceleration));
         }
 
         public override void BuildDamage()
