@@ -3,81 +3,79 @@ using BulletHellGame.DataAccess.DataTransferObjects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace BulletHellGame.DataAccess.DataLoaders;
-
-/**
- * Implementing leve1.json with 5 waves. Reference DataTransferObjects (LevelData, WaveData)
- * Wave 1, 2: Standard Grunt fights
- * Wave 3: Mid-level boss
- * Wave 4: Grunt fights with additional complexity
- * Wave 5: Final boss which can spawn grunts in its path
- */
-public class LevelWaveLoader
+namespace BulletHellGame.DataAccess.DataLoaders
 {
-    private static LevelWaveLoader _instance;
-    public static LevelWaveLoader Instance => _instance ??= new LevelWaveLoader();
-
-    private Dictionary<string, LevelData> _levels;
-
-    private LevelWaveLoader()
+    /**
+     * Implementing level1.json with 5 waves. Reference DataTransferObjects (LevelData, WaveData)
+     * Wave 1, 2: Standard Grunt fights
+     * Wave 3: Mid-level boss
+     * Wave 4: Grunt fights with additional complexity
+     * Wave 5: Final boss which can spawn grunts in its path
+     */
+    public class LevelWaveLoader
     {
-        _levels = new Dictionary<string, LevelData>();
-        LoadLevels();
-    }
+        private static LevelWaveLoader _instance;
+        public static LevelWaveLoader Instance => _instance ??= new LevelWaveLoader();
 
-    private void LoadLevels()
-    {
-        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/Levels/level1.json");
-        string json = File.ReadAllText(filePath);
+        private Dictionary<string, LevelData> _levels;
 
-        // Deserialize the levels from the JSON file
-        var levelJson = JObject.Parse(json);
-
-        LevelData levelData = new LevelData
+        private LevelWaveLoader()
         {
-            Waves = new List<WaveData>()
-        };
+            _levels = new Dictionary<string, LevelData>();
+            LoadLevels();
+        }
 
-        foreach (var wave in levelJson["waves"])
+        private void LoadLevels()
         {
-            WaveData waveData = new WaveData
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/Levels/level1.json");
+            string json = File.ReadAllText(filePath);
+
+            // Deserialize the levels from the JSON file
+            var levelJson = JObject.Parse(json);
+
+            LevelData levelData = new LevelData
             {
-                Enemies = new List<EnemySpawnData>()
+                Waves = new List<WaveData>()
             };
 
-            foreach (var enemy in wave["enemies"])
+            foreach (var wave in levelJson["waves"])
             {
-                waveData.Enemies.Add(new EnemySpawnData
+                WaveData waveData = new WaveData
                 {
                     SpawnTime = wave["spawn_time"].Value<float>(),
-                    EnemyData = new EnemyData
+                    Formation = wave["formation"].Value<string>(),
+                    Enemies = new List<EnemySpawnData>()
+                };
+
+                foreach (var enemy in wave["enemies"])
+                {
+                    waveData.Enemies.Add(new EnemySpawnData
                     {
-                        Name = enemy["type"].Value<string>(),
-                        Health = enemy["health"].Value<int>(),
-                        MovementPattern = wave["formation"].Value<string>()
-                    },
-                    SpawnPosition = new Vector2(enemy["spawn_position"]["x"].Value<float>(), enemy["spawn_position"]["y"].Value<float>())
-                });
+                        Type = enemy["type"].Value<string>(),
+                        SpawnPosition = new Vector2(enemy["spawn_position"]["x"].Value<float>(), enemy["spawn_position"]["y"].Value<float>()),
+                        Health = enemy["health"].Value<int>()
+                    });
+                }
+
+                levelData.Waves.Add(waveData);
             }
 
-            levelData.Waves.Add(waveData);
+            // Cache the level data for reuse
+            _levels[levelJson["level_name"].Value<string>()] = levelData;
         }
 
-        // Cache the level data for reuse
-        _levels[levelJson["level_name"].Value<string>()] = levelData;
-    }
-
-    // Retrieve a level by name
-    public LevelData GetLevel(string levelName)
-    {
-        if (_levels.ContainsKey(levelName))
+        // Retrieve a level by name
+        public LevelData GetLevel(string levelName)
         {
-            return _levels[levelName];
-        }
-        else
-        {
-            Console.WriteLine($"Level '{levelName}' not found");
-            return null;
+            if (_levels.ContainsKey(levelName))
+            {
+                return _levels[levelName];
+            }
+            else
+            {
+                Console.WriteLine($"Level '{levelName}' not found");
+                return null;
+            }
         }
     }
 }

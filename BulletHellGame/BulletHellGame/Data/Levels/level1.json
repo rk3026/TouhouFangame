@@ -12,6 +12,11 @@
           "type": "EnemyTypeA",
           "spawn_position": { "x": 100, "y": -100 },
           "health": 10
+        },
+        {
+          "type": "EnemyTypeC",
+          "spawn_position": { "x": 200, "y": -100 },
+          "health": 15
         }
       ]
     },
@@ -23,6 +28,59 @@
           "type": "EnemyTypeB",
           "spawn_position": { "x": 200, "y": -100 },
           "health": 20
+        },
+        {
+          "type": "EnemyTypeD",
+          "spawn_position": { "x": 300, "y": -100 },
+          "health": 25
+        }
+      ]
+    },
+    {
+      "spawn_time": 10.0,
+      "formation": "boss",
+      "enemies": [
+        {
+          "type": "MidBoss",
+          "spawn_position": { "x": 150, "y": -200 },
+          "health": 500
+        }
+      ]
+    },
+    {
+      "spawn_time": 20.0,
+      "formation": "complex",
+      "enemies": [
+        {
+          "type": "EnemyTypeA",
+          "spawn_position": { "x": 100, "y": -100 },
+          "health": 15
+        },
+        {
+          "type": "EnemyTypeB",
+          "spawn_position": { "x": 200, "y": -100 },
+          "health": 20
+        },
+        {
+          "type": "EnemyTypeC",
+          "spawn_position": { "x": 300, "y": -100 },
+          "health": 25
+        }
+      ]
+    },
+    {
+      "spawn_time": 30.0,
+      "formation": "final_boss",
+      "enemies": [
+        {
+          "type": "FinalBoss",
+          "spawn_position": { "x": 150, "y": -200 },
+          "health": 1000
+        },
+        {
+          "type": "EnemyTypeD",
+          "spawn_position": { "x": 250, "y": -200 },
+          "health": 30
         }
       ]
     }
