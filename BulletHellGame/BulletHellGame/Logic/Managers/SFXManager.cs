@@ -5,6 +5,8 @@ namespace BulletHellGame.Logic.Managers
 {
     public class SFXManager
     {
+        private static readonly float GLOBAL_SFX_SCALE = 0.1f;
+
         private static SFXManager _instance;
         public static SFXManager Instance => _instance ??= new SFXManager();
 
@@ -40,7 +42,7 @@ namespace BulletHellGame.Logic.Managers
 
                 // Randomize pitch, volume, and pan
                 instance.Pitch = MathHelper.Clamp((float)(random.NextDouble() * 2 - 1) * pitchVariance, -1f, 1f);
-                instance.Volume = MathHelper.Clamp(masterVolume * sfxVolume * (1f + (float)(random.NextDouble() * 2 - 1) * volumeVariance), 0f, 1f);
+                instance.Volume = MathHelper.Clamp(masterVolume * sfxVolume * (1f + (float)(random.NextDouble() * 2 - 1) * volumeVariance), 0f, 1f) * GLOBAL_SFX_SCALE; // also reduce volume because SFX are loud
                 instance.Pan = MathHelper.Clamp((float)(random.NextDouble() * 2 - 1) * panVariance, -1f, 1f);
 
                 instance.Play();

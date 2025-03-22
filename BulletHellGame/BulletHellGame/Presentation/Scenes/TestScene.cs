@@ -89,7 +89,7 @@ namespace BulletHellGame.Presentation.Scenes
                 _stageBackground.Texture,
                 _stageBackground.Animations.First().Value.First(),
                 _playableArea,
-                speed: 100f
+                speed: -100f
             );
 
             // Determine bush width from sprite data
@@ -100,9 +100,10 @@ namespace BulletHellGame.Presentation.Scenes
             Rectangle rightBushArea = new Rectangle(_playableArea.Right - bushWidth, _playableArea.Top, bushWidth, _playableArea.Height);
 
             // Add left and right bushes as parallax layers
-            _parallaxBackground.AddLayer(_bush1Sprite.Texture, _bush1Sprite.Animations.First().Value.First(), leftBushArea, 100f);
-            _parallaxBackground.AddLayer(_bush2Sprite.Texture, _bush2Sprite.Animations.First().Value.First(), rightBushArea, 100f);
+            _parallaxBackground.AddLayer(_bush1Sprite.Texture, _bush1Sprite.Animations.First().Value.First(), leftBushArea, -100f);
+            _parallaxBackground.AddLayer(_bush2Sprite.Texture, _bush2Sprite.Animations.First().Value.First(), rightBushArea, -100f);
 
+            BGMManager.Instance.PlayBGM(_contentManager, "紅魔激走劇  Everlasting...");
             _gameUI = new GameUI(_font, _uiArea, _entityManager);
         }
 

@@ -6,6 +6,8 @@ namespace BulletHellGame.Logic.Managers
 {
     public class BGMManager
     {
+        private static readonly float GLOBAL_BGM_SCALE = 0.1f;
+
         private static BGMManager _instance;
         public static BGMManager Instance => _instance ??= new BGMManager();
 
@@ -47,7 +49,7 @@ namespace BulletHellGame.Logic.Managers
         public void SetVolume(float volume)
         {
             float masterVolume = SettingsManager.Instance.MasterVolume;
-            MediaPlayer.Volume = MathHelper.Clamp(masterVolume * volume, 0f, 1f) * 0.1f; // Songs are FUCKING loud so reduce volume
+            MediaPlayer.Volume = MathHelper.Clamp(masterVolume * volume, 0f, 1f) * GLOBAL_BGM_SCALE; // Songs are FUCKING loud so reduce volume
         }
 
         public void UpdateVolumeFromSettings()

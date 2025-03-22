@@ -73,7 +73,7 @@ public class SettingsScene : IScene
             {
                 SettingsManager.Instance.MasterVolume = Math.Clamp(SettingsManager.Instance.MasterVolume + delta, 0f, 1f);
 
-                // Apply master volume to both BGM and SFX
+                // Apply master volume
                 BGMManager.Instance.UpdateVolumeFromSettings();
             }
             else if (selectedIndex == 1) // Music Volume

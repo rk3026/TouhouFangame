@@ -20,14 +20,20 @@
         public void Update(GameTime gameTime)
         {
             _scrollOffset += _speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            // Wrap the scroll offset properly for both directions
             if (_scrollOffset >= _sourceRect.Height)
                 _scrollOffset -= _sourceRect.Height;
+            else if (_scrollOffset <= -_sourceRect.Height)
+                _scrollOffset += _sourceRect.Height;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Calculate how much of the top tile is visible
-            int topClippedAmount = (int)_scrollOffset % _sourceRect.Height;
+            // Handle negative offset correctly
+            int topClippedAmount = (int)(_scrollOffset % _sourceRect.Height);
+            if (topClippedAmount < 0)
+                topClippedAmount += _sourceRect.Height;
 
             // Calculate the vertical starting position to ensure tiles align properly
             int startY = _parallaxArea.Top - topClippedAmount;
@@ -60,7 +66,5 @@
                 }
             }
         }
-
-
     }
 }
