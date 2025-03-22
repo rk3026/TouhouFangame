@@ -1,9 +1,6 @@
 ﻿using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Utilities.EntityDataGenerator;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BulletHellGame.Logic.Managers
 {
