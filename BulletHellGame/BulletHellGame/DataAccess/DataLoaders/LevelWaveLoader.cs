@@ -27,52 +27,44 @@ public class LevelWaveLoader
 
     private void LoadLevels()
     {
-        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/Levels/Levels.json");
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/Levels/level1.json");
         string json = File.ReadAllText(filePath);
 
         // Deserialize the levels from the JSON file
-        var levels = JsonConvert.DeserializeObject<Dictionary<string, List<JObject>>>(json);
+        var levelJson = JObject.Parse(json);
 
-        // Manually create LevelData and cache it
-        foreach (var level in levels)
+        LevelData levelData = new LevelData
         {
-            LevelData levelData = new LevelData
+            Waves = new List<WaveData>()
+        };
+
+        foreach (var wave in levelJson["waves"])
+        {
+            WaveData waveData = new WaveData
             {
-                Waves = new List<WaveData>()
+                Enemies = new List<EnemySpawnData>()
             };
 
-            foreach (var wave in level.Value)
+            foreach (var enemy in wave["enemies"])
             {
-                WaveData waveData = new WaveData
+                waveData.Enemies.Add(new EnemySpawnData
                 {
-                    Enemies = new List<EnemySpawnData>()
-                };
-
-                foreach (var enemySpawn in wave["enemies"])
-                {
-                    float spawnTime = enemySpawn["spawnTime"].Value<float>();
-                    var enemyData = enemySpawn["enemyData"] as JObject;
-                    var spawnPosition = enemySpawn["spawnPosition"] as JObject;
-
-                    waveData.Enemies.Add(new EnemySpawnData
+                    SpawnTime = wave["spawn_time"].Value<float>(),
+                    EnemyData = new EnemyData
                     {
-                        SpawnTime = spawnTime,
-                        EnemyData = new EnemyData
-                        {
-                            Name = enemyData["name"].Value<string>(),
-                            Health = enemyData["health"].Value<int>(),
-                            MovementPattern = enemyData["movementPattern"].Value<string>()
-                        },
-                        SpawnPosition = new Vector2(spawnPosition["x"].Value<float>(), spawnPosition["y"].Value<float>())
-                    });
-                }
-
-                levelData.Waves.Add(waveData);
+                        Name = enemy["type"].Value<string>(),
+                        Health = enemy["health"].Value<int>(),
+                        MovementPattern = wave["formation"].Value<string>()
+                    },
+                    SpawnPosition = new Vector2(enemy["spawn_position"]["x"].Value<float>(), enemy["spawn_position"]["y"].Value<float>())
+                });
             }
 
-            // Cache the level data for reuse
-            _levels[level.Key] = levelData;
+            levelData.Waves.Add(waveData);
         }
+
+        // Cache the level data for reuse
+        _levels[levelJson["level_name"].Value<string>()] = levelData;
     }
 
     // Retrieve a level by name
@@ -84,6 +76,7 @@ public class LevelWaveLoader
         }
         else
         {
+            Console.WriteLine($"Level '{levelName}' not found");
             return null;
         }
     }
