@@ -1,4 +1,40 @@
 {
+  // Lazers
+  "Lazer.Gray": { "Default" : [{ "X": 8, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.DarkRed": { "Default" : [{ "X": 24, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.Red": { "Default" : [{ "X": 40, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.Purple": { "Default" : [{ "X": 56, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.Pink": { "Default" : [{ "X": 72, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.DarkBlue": { "Default" : [{ "X": 88, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.Blue": { "Default" : [{ "X": 104, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.Teal": { "Default" : [{ "X": 120, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.LightBlue": { "Default" : [{ "X": 136, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.Green": { "Default" : [{ "X": 152, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.LightGreen": { "Default" : [{ "X": 168, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.Chartreuse": { "Default" : [{ "X": 184, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.DarkYellow": { "Default" : [{ "X": 200, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.Yellow": { "Default" : [{ "X": 216, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.Orange": { "Default" : [{ "X": 232, "Y": 10, "Width": 16, "Height": 14 }]},
+  "Lazer.White": { "Default" : [{ "X": 248, "Y": 10, "Width": 16, "Height": 14 }]},
+
+  // Diamond Bullets
+  "Diamond.Gray": { "Default" : [{ "X": 8, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.DarkRed": { "Default" : [{ "X": 24, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.Red": { "Default" : [{ "X": 40, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.Purple": { "Default" : [{ "X": 56, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.Pink": { "Default" : [{ "X": 72, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.DarkBlue": { "Default" : [{ "X": 88, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.Blue": { "Default" : [{ "X": 104, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.Teal": { "Default" : [{ "X": 120, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.LightBlue": { "Default" : [{ "X": 136, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.Green": { "Default" : [{ "X": 152, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.LightGreen": { "Default" : [{ "X": 168, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.Chartreuse": { "Default" : [{ "X": 184, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.DarkYellow": { "Default" : [{ "X": 200, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.Yellow": { "Default" : [{ "X": 216, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.Orange": { "Default" : [{ "X": 232, "Y": 26, "Width": 16, "Height": 16 }]},
+  "Diamond.White": { "Default" : [{ "X": 248, "Y": 26, "Width": 16, "Height": 16 }]},
+
   // DoubleCircles
   "DoubleCircle.Gray": { "Default" : [{ "X": 8, "Y": 42, "Width": 16, "Height": 16 }]},
   "DoubleCircle.DarkRed": { "Default" : [{ "X": 24, "Y": 42, "Width": 16, "Height": 16 }]},
@@ -17,8 +53,23 @@
   "DoubleCircle.Orange": { "Default" : [{ "X": 232, "Y": 42, "Width": 16, "Height": 16 }]},
   "DoubleCircle.White": { "Default" : [{ "X": 248, "Y": 42, "Width": 16, "Height": 16 }]},
 
-  // Lazers
-  "Lazer.White": { "Default" : [{ "X": 8, "Y": 10, "Width": 16, "Height": 14 }]},
+  // SingleCircles
+  "SingleCircle.Gray": { "Default" : [{ "X": 8, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.DarkRed": { "Default" : [{ "X": 24, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.Red": { "Default" : [{ "X": 40, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.Purple": { "Default" : [{ "X": 56, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.Pink": { "Default" : [{ "X": 72, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.DarkBlue": { "Default" : [{ "X": 88, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.Blue": { "Default" : [{ "X": 104, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.Teal": { "Default" : [{ "X": 120, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.LightBlue": { "Default" : [{ "X": 136, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.Green": { "Default" : [{ "X": 152, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.LightGreen": { "Default" : [{ "X": 168, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.Chartreuse": { "Default" : [{ "X": 184, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.DarkYellow": { "Default" : [{ "X": 200, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.Yellow": { "Default" : [{ "X": 216, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.Orange": { "Default" : [{ "X": 232, "Y": 58, "Width": 16, "Height": 16 }]},
+  "SingleCircle.White": { "Default" : [{ "X": 248, "Y": 58, "Width": 16, "Height": 16 }]},
 
   // Collectibles
   "PowerUpSmall": { "Default" : [{ "X": 10, "Y": 338, "Width": 13, "Height": 13 }]},

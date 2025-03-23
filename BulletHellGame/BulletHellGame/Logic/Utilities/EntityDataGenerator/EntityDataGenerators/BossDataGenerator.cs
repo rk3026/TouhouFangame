@@ -10,14 +10,14 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
 
         public static BossData CreateBossData()
         {
-            EnemyData phase1 = CreateBossPhase("DoubleCircle.Red");
-            EnemyData phase2 = CreateBossPhase("DoubleCircle.DarkRed", "zigzag");
+            EnemyData phase1 = CreateBossPhase("Diamond.Blue");
+            EnemyData phase2 = CreateBossPhase("SingleCircle.Blue", "zigzag", 0.5f);
             return new BossData { Phases = new List<EnemyData> { phase1, phase2 } };
         }
 
         private static float spiralAngle = 0f; // Tracks the spiral's rotation
 
-        public static EnemyData CreateBossPhase(string bulletSprite, string movementPattern = "none")
+        public static EnemyData CreateBossPhase(string bulletSprite, string movementPattern = "none", float bulletRotationSpeed = 0f)
         {
             // Spiral bullet pattern
             int numBullets = _random.Next(8, 13); // Boss fires between 8-12 bullets per shot
@@ -48,7 +48,8 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
                         {
                             SpriteName = bulletSprite,
                             Damage = _random.Next(30, 50),
-                            BulletType = BulletType.Standard
+                            BulletType = BulletType.Standard,
+                            RotationSpeed = bulletRotationSpeed,
                         },
                         FireDirections = fireDirections, // Assign generated directions
                         FireRate = 0.3f + (float)_random.NextDouble() * (1.0f - 0.3f) // Random fire rate between 0.3s and 1.0s

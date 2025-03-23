@@ -114,6 +114,8 @@ namespace BulletHellGame.Logic.Managers
                 _bulletBuilder.ApplyBulletData(bullet, bulletData);
                 bullet.GetComponent<HitboxComponent>().Layer = layer;
                 bullet.GetComponent<OwnerComponent>().Owner = owner;
+                bullet.GetComponent<SpriteComponent>().CurrentRotation = (float)Math.Atan2(velocity.Y, velocity.X);
+
             }
             else
             {
@@ -122,6 +124,7 @@ namespace BulletHellGame.Logic.Managers
                 bullet = _bulletBuilder.GetResult();
                 bullet.AddComponent(new OwnerComponent(owner));
                 bullet.GetComponent<HitboxComponent>().Layer = layer;
+                bullet.GetComponent<SpriteComponent>().CurrentRotation = (float)Math.Atan2(velocity.Y, velocity.X);
             }
 
             SpawnEntity(EntityType.Bullet, bullet, position, velocity);
