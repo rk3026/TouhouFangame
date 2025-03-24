@@ -33,7 +33,7 @@ This game is an arcade-like vertical-scrolling bullet hell where players dodge b
 
 0. **Main Menu:**
    - At the main menu, a player selects a character to play as, an attack type for their character, and a level.
-   - 
+
 1. **Level Start:**
    - The level begins, and after a few seconds, some grunt enemies will spawn and fly around the level.
    - These early enemies have simpler bullet patterns, giving the player time to warm up.
