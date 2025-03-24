@@ -12,6 +12,10 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(InputComponent)))
             {
                 entity.GetComponent<InputComponent>().Controller.Update(entityManager, entity);
+
+                // Now update all the things from the controller
+                // if (Controller.IsShooting) spawn a bullet;
+                // if (Controller.IsMoving) vc.Velocity = Controller.speed * controller.direction;
             }
         }
     }

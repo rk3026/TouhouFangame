@@ -4,9 +4,9 @@ using BulletHellGame.Logic.Managers;
 
 namespace BulletHellGame.Logic.Controllers
 {
-    public class OptionController : IController
+    public class OptionController : EntityController
     {
-        public void Update(EntityManager entityManager, Entity entity)
+        public override void Update(EntityManager entityManager, Entity entity)
         {
             // Grab components
             if (!(entity.TryGetComponent<ShootingComponent>(out var sc) &&

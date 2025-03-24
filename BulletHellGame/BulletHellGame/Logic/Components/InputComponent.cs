@@ -4,9 +4,9 @@ namespace BulletHellGame.Logic.Components
 {
     public class InputComponent : IComponent
     {
-        public IController Controller { get; set; } // The controller is who is controlling the entity that has this component
+        public EntityController Controller { get; set; } // The controller is who is controlling the entity that has this component
 
-        public InputComponent(IController controller)
+        public InputComponent(EntityController controller)
         {
             Controller = controller;
         }

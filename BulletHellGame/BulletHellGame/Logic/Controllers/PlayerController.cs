@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace BulletHellGame.Logic.Controllers
 {
-    public class PlayerController : IController
+    public class PlayerController : EntityController
     {
-        public void Update(EntityManager entityManager, Entity entity)
+        public override void Update(EntityManager entityManager, Entity entity)
         {
             var inputManager = InputManager.Instance;
 
