@@ -45,11 +45,11 @@
 /processorParam:Quality=Best
 /build:Music/01. Ghostly Dream ~ Snow or Cherry Petal.mp3
 
-#begin Music/CallToAdventure.mp3
-/importer:Mp3Importer
+#begin Music/CallToAdventure1.wav
+/importer:WavImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Music/CallToAdventure.mp3
+/build:Music/CallToAdventure1.wav
 
 #begin Music/広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3
 /importer:Mp3Importer
