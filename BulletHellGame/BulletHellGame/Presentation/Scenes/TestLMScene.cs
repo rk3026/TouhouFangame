@@ -103,6 +103,11 @@ namespace BulletHellGame.Presentation.Scenes
 
             if (_entityManager.GetEntityCount(EntityType.Player) == 0)
                 SceneManager.Instance.AddScene(new RetryMenuScene(_font, whitePixel, _contentManager, _graphicsDevice, _characterData));
+            if (_levelManager.LevelComplete && !_levelManager.StartNextLevel())
+            {
+                SceneManager.Instance.AddScene(new WinScene(_contentManager, _graphicsDevice,_characterData));
+            }
+                
         }
 
         public void Draw(SpriteBatch spriteBatch)

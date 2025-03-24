@@ -40,7 +40,7 @@ namespace BulletHellGame.Presentation.Scenes
                 {
                     SceneManager.Instance.RemoveScene();
                     SceneManager.Instance.RemoveScene();
-                    SceneManager.Instance.AddScene(new TestScene(_contentManager, _graphicsDevice, _characterData));
+                    SceneManager.Instance.AddScene(new TestLMScene(_contentManager, _graphicsDevice, _characterData));
                 }
                 else
                 {

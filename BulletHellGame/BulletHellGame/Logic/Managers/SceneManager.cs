@@ -24,12 +24,14 @@ namespace BulletHellGame.Logic.Managers
 
         public void RemoveScene()
         {
+            BGMManager.Instance.StopBGM();
             if (_sceneStack.Count == 0) return;
             _sceneStack.Pop();
         }
 
         public void ClearScenes()
         {
+            BGMManager.Instance.StopBGM();
             _sceneStack.Clear();
         }
 
@@ -47,7 +49,7 @@ namespace BulletHellGame.Logic.Managers
         public void Draw(SpriteBatch spriteBatch)
         {
             // If the top is a pause screen, also draw the scene below it
-            if (_sceneStack.Count > 1 && _sceneStack.Peek() is PausedScene || _sceneStack.Peek() is RetryMenuScene)
+            if (_sceneStack.Count > 1 && _sceneStack.Peek() is PausedScene || _sceneStack.Peek() is RetryMenuScene || _sceneStack.Peek() is WinScene)
             {
                 _sceneStack.ElementAt(1)?.Draw(spriteBatch);
             }

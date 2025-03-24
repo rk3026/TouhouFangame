@@ -12,7 +12,7 @@ namespace BulletHellGame.Logic.Managers
 
         private Dictionary<int, LevelData> _levels;
         private int _currentLevel = 1;
-        private int _totalLevels = 3;
+        private int _totalLevels = 1;
 
         private bool _bossSpawned = false;
         private bool _levelComplete = false;
@@ -91,15 +91,17 @@ namespace BulletHellGame.Logic.Managers
             }
         }
 
-        public void StartNextLevel()
+        public bool StartNextLevel()
         {
             if (_currentLevel < _totalLevels)
             {
                 StartLevel(_currentLevel + 1);
+                return true;
             }
             else
             {
-                // All levels complete! Trigger game end or cutscene
+               // All levels complete! Trigger game end or cutscene
+               return false;
             }
         }
 

@@ -56,7 +56,6 @@ namespace BulletHellGame.Presentation.Scenes
                         break;
                     case 2:
                         // Exit to Main Menu
-                        BGMManager.Instance.StopBGM();
                         SceneManager.Instance.ClearScenes();
                         SceneManager.Instance.AddScene(new MainMenuScene(_contentManager, _graphicsDevice));
                         break;
