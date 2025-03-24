@@ -11,7 +11,8 @@ Ben Bordon — [GitHub](https://github.com/wizkid0101)
 ---
 
 ## 🌟 Overview
-This game is an arcade-like vertical-scrolling bullet hell where players dodge bullet patterns, defeat enemies and bosses, and collect items to increase their score for a level. Our goal was to replicate the core gameplay of *Touhou 7: Perfect Cherry Blossom* while focusing on robust game architecture and well-structured design patterns.  
+This game is an arcade-like vertical-scrolling bullet hell where players dodge bullet patterns, defeat enemies and bosses, and collect items to increase their score for a level. Our goal was to replicate the core gameplay of *Touhou 7: Perfect Cherry Blossom* while focusing on robust game architecture and well-structured design patterns.
+
 ![image](https://github.com/user-attachments/assets/474ad122-4b9c-4dab-928d-204cf3081e2e)
 
 ---
