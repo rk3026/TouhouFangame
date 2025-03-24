@@ -36,7 +36,7 @@ namespace BulletHellGame.Logic.Builders
 
         public override void BuildInput()
         {
-            _entity.AddComponent(new InputComponent(new OptionController()));
+            _entity.AddComponent(new ControllerComponent(new OptionController()));
         }
     }
 }
