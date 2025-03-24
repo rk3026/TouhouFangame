@@ -4,7 +4,9 @@ using BulletHellGame.DataAccess.DataTransferObjects;
 namespace BulletHellGame.Logic.Managers
 {
 
-    // Manages access to movement patterns
+    /// <summary>
+    /// Manages access to movement patterns.
+    /// </summary>
     public class MovementPatternManager
     {
         private static MovementPatternManager _instance;
