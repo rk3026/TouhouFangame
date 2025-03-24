@@ -121,9 +121,19 @@ namespace BulletHellGame.Presentation.Scenes
                 return;
             }
 
-            if (_entityManager.GetEntityCount(EntityType.Player) == 0) // if (playerLives == 0) show retry menu
+            if (_entityManager.GetEntityCount(EntityType.Player) == 0)
             {
-                SceneManager.Instance.AddScene(new RetryMenuScene(_font, whitePixel, _contentManager, _graphicsDevice, _characterData));
+                // Shrink the menu size slightly compared to the playable area
+                int menuPadding = 40;
+                Rectangle menuLocation = new Rectangle(
+                    _playableArea.X + menuPadding,
+                    _playableArea.Y + menuPadding,
+                    _playableArea.Width - menuPadding * 2,
+                    _playableArea.Height - menuPadding * 2
+                );
+
+                // Add the RetryMenuScene with the smaller menu location
+                SceneManager.Instance.AddScene(new RetryMenuScene(menuLocation, whitePixel, _contentManager, _graphicsDevice, _characterData));
             }
 
             _parallaxBackground.Update(gameTime);

@@ -9,14 +9,16 @@ namespace BulletHellGame.Presentation.Scenes
         private Texture2D whitePixel;
         private int selectedIndex;
         private string[] menuOptions = { "Play Again", "Settings", "Exit to Main Menu" };
+        private Rectangle _menuLocation;
         private ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
         private CharacterData _characterData;
 
         public bool IsOverlay => true;
 
-        public WinScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
+        public WinScene(Rectangle menuLocation, ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {
+            _menuLocation = menuLocation;
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
             _characterData = characterData;
@@ -81,27 +83,27 @@ namespace BulletHellGame.Presentation.Scenes
             // Semi-transparent overlay
             spriteBatch.Draw(whitePixel, new Rectangle(0, 0, screenWidth, screenHeight), Color.Black * 0.5f);
 
-            // Define the menu box size
-            int boxWidth = screenWidth / 2;
-            int boxHeight = screenHeight / 2;
-            int boxX = (screenWidth - boxWidth) / 2;
-            int boxY = (screenHeight - boxHeight) / 2;
+            // Draw _menuLocation box
+            spriteBatch.Draw(whitePixel, _menuLocation, Color.Black * 0.9f);
 
-            // Draw _stageBackground box
-            spriteBatch.Draw(whitePixel, new Rectangle(boxX, boxY, boxWidth, boxHeight), Color.Black * 0.9f);
+            // Calculate the center of the menu location
+            Vector2 menuCenter = new Vector2(_menuLocation.X + _menuLocation.Width / 2, _menuLocation.Y + _menuLocation.Height / 2);
 
-            // Draw "Level Complete!" text
+            // Draw "Level Complete!" text at the top of the menu
             string levelCompleteText = "Level Complete!";
             Vector2 levelCompleteSize = FontManager.Instance.GetFont("DFPPOPCorn-W12").MeasureString(levelCompleteText);
-            Vector2 levelCompletePosition = new Vector2((screenWidth - levelCompleteSize.X) / 2, boxY + 20);
+            Vector2 levelCompletePosition = new Vector2(menuCenter.X - levelCompleteSize.X / 2, _menuLocation.Y + 20);
             DrawOutlinedText(spriteBatch, levelCompleteText, levelCompletePosition, Color.Black, 2);
             spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), levelCompleteText, levelCompletePosition, Color.Yellow);
 
-            // Draw menu options
+            // Draw menu options centered within _menuLocation
+            float optionSpacing = 50f;
+            float startY = levelCompletePosition.Y + levelCompleteSize.Y + 40;
+
             for (int i = 0; i < menuOptions.Length; i++)
             {
                 Vector2 textSize = FontManager.Instance.GetFont("DFPPOPCorn-W12").MeasureString(menuOptions[i]);
-                Vector2 position = new Vector2(boxX + (boxWidth - textSize.X) / 2, boxY + 100 + i * 50);
+                Vector2 position = new Vector2(menuCenter.X - textSize.X / 2, startY + i * optionSpacing);
 
                 if (i == selectedIndex)
                 {
@@ -117,6 +119,7 @@ namespace BulletHellGame.Presentation.Scenes
                 spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), menuOptions[i], position, textColor);
             }
         }
+
 
 
         private void DrawOutlinedText(SpriteBatch spriteBatch, string text, Vector2 position, Color outlineColor, int outlineWidth)

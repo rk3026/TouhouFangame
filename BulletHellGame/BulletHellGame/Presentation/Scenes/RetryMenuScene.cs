@@ -10,16 +10,17 @@ namespace BulletHellGame.Presentation.Scenes
         private Texture2D _backgroundTexture;
         private int _selectedIndex = 0;
         private string[] _options = { "Yes", "No" };
-        private Vector2 _screenCenter;
+        private Rectangle _menuLocation;
         private ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
         private CharacterData _characterData;
 
         public bool IsOverlay => true;
 
-        public RetryMenuScene(SpriteFont font, Texture2D backgroundTexture, ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
+        public RetryMenuScene(Rectangle menuLocation, Texture2D backgroundTexture, ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {
-            _font = font;
+            _menuLocation = menuLocation;
+            _font = FontManager.Instance.GetFont("DFPPOPCorn-W12");
             _backgroundTexture = backgroundTexture;
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
@@ -54,43 +55,35 @@ namespace BulletHellGame.Presentation.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Recalculate screen center to handle window resizing
-            _screenCenter = new Vector2(_graphicsDevice.Viewport.Width / 2, _graphicsDevice.Viewport.Height / 2);
+            // Draw the background using _menuLocation
+            spriteBatch.Draw(_backgroundTexture, _menuLocation, Color.Black * 0.7f);
 
+            // Calculate the center of the menu location
+            Vector2 menuCenter = new Vector2(_menuLocation.X + _menuLocation.Width / 2, _menuLocation.Y + _menuLocation.Height / 2);
+
+            // Draw the "Retry?" message at the top of the menu
             string message = "Retry?";
             Vector2 messageSize = _font.MeasureString(message);
-            Vector2 messagePos = _screenCenter - messageSize / 2;
+            Vector2 messagePos = new Vector2(menuCenter.X - messageSize.X / 2, _menuLocation.Y + 20);
+            spriteBatch.DrawString(_font, message, messagePos, Color.White);
 
-            Vector2 padding = new Vector2(40, 30);
-            float maxWidth = messageSize.X;
-            float totalHeight = messageSize.Y;
+            // Calculate total height of options and spacing to center vertically
+            float optionSpacing = 40f;
+            float totalOptionsHeight = _options.Length * _font.LineSpacing + (_options.Length - 1) * (optionSpacing - _font.LineSpacing);
+            float startY = menuCenter.Y - totalOptionsHeight / 2;
 
-            Vector2[] optionPositions = new Vector2[_options.Length];
-
+            // Draw each option centered within the menu location
             for (int i = 0; i < _options.Length; i++)
             {
                 Vector2 optionSize = _font.MeasureString(_options[i]);
-                maxWidth = MathF.Max(maxWidth, optionSize.X);
-                optionPositions[i] = _screenCenter + new Vector2(0, (i + 1) * 40) - optionSize / 2;
-                totalHeight += optionSize.Y + 20;
-            }
+                Vector2 optionPos = new Vector2(menuCenter.X - optionSize.X / 2, startY + i * optionSpacing);
 
-            Rectangle backgroundRect = new Rectangle(
-                (int)(_screenCenter.X - maxWidth / 2 - padding.X / 2),
-                (int)(messagePos.Y - padding.Y / 2),
-                (int)(maxWidth + padding.X),
-                (int)(totalHeight + padding.Y)
-            );
-
-            spriteBatch.Draw(_backgroundTexture, backgroundRect, Color.Black * 0.7f);
-            spriteBatch.DrawString(_font, message, messagePos, Color.White);
-
-            for (int i = 0; i < _options.Length; i++)
-            {
                 Color color = i == _selectedIndex ? Color.Yellow : Color.White;
-                spriteBatch.DrawString(_font, _options[i], optionPositions[i], color);
+                spriteBatch.DrawString(_font, _options[i], optionPos, color);
             }
         }
+
+
 
     }
 }

@@ -104,10 +104,29 @@ namespace BulletHellGame.Presentation.Scenes
                 SceneManager.Instance.AddScene(new PausedScene(_contentManager, _graphicsDevice));
 
             if (_entityManager.GetEntityCount(EntityType.Player) == 0)
-                SceneManager.Instance.AddScene(new RetryMenuScene(_font, whitePixel, _contentManager, _graphicsDevice, _characterData));
+            {
+                // Shrink the menu size slightly compared to the playable area
+                int menuPadding = 40;
+                Rectangle menuLocation = new Rectangle(
+                    _playableArea.X + menuPadding,
+                    _playableArea.Y + menuPadding,
+                    _playableArea.Width - menuPadding * 2,
+                    _playableArea.Height - menuPadding * 2
+                );
+
+                // Add the RetryMenuScene with the smaller menu location
+                SceneManager.Instance.AddScene(new RetryMenuScene(menuLocation, whitePixel, _contentManager, _graphicsDevice, _characterData));
+            }
+
             if (_levelManager.LevelComplete && !_levelManager.StartNextLevel())
             {
-                SceneManager.Instance.AddScene(new WinScene(_contentManager, _graphicsDevice,_characterData));
+                Rectangle menuLocation = new Rectangle(
+                    _playableArea.X + 40,
+                    _playableArea.Y + 40,
+                    _playableArea.Width - 80,
+                    _playableArea.Height - 80
+                );
+                SceneManager.Instance.AddScene(new WinScene(menuLocation, _contentManager, _graphicsDevice, _characterData));
             }
                 
         }
