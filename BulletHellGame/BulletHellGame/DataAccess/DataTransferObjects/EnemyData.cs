@@ -8,5 +8,6 @@
         public ShootingPatternData BulletPattern { get; set; }
         public List<WeaponData> Weapons { get; set; }
         public List<CollectibleData> Loot {  get; set; } = new List<CollectibleData>();
+        public string Name { get; set; }
     }
 }
