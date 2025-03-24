@@ -146,7 +146,7 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
                 if (i >= 0)
                 {
                     laserWeapon.FireDirections.Add(new Vector2(0, -5f));
-                    rocketWeapon.FireDirections.Add(new Vector2(0, -0f));
+                    rocketWeapon.FireDirections.Add(new Vector2(0, -0.001f));
                     leftOption.Weapons.First().FireDirections.Add(new Vector2(-0.2f, -3f)); // Slight angle left
                     rightOption.Weapons.First().FireDirections.Add(new Vector2(0.2f, -3f)); // Slight angle right
                 }
@@ -154,12 +154,12 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
                 if (i >= 3)
                 {
                     laserWeapon.FireDirections.Add(new Vector2(-0.2f, -5f));
-                    rocketWeapon.FireDirections.Add(new Vector2(0.2f, -0f));
+                    rocketWeapon.FireDirections.Add(new Vector2(0.2f, -0.001f));
                 }
                 if (i >= 6)
                 {
                     laserWeapon.FireDirections.Add(new Vector2(-0.4f, -5f));
-                    rocketWeapon.FireDirections.Add(new Vector2(0.4f, -0f));
+                    rocketWeapon.FireDirections.Add(new Vector2(0.4f, -0.001f));
                 }
 
                 PowerLevelData focusedPld = new();
