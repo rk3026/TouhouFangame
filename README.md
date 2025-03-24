@@ -14,7 +14,6 @@ Ben Bordon — [GitHub](https://github.com/wizkid0101)
 This game is an arcade-like vertical-scrolling bullet hell where players dodge bullet patterns, defeat enemies and bosses, and collect items to increase their score for a level. Our goal was to replicate the core gameplay of *Touhou 7: Perfect Cherry Blossom* while focusing on robust game architecture and well-structured design patterns.  
 ![image](https://github.com/user-attachments/assets/474ad122-4b9c-4dab-928d-204cf3081e2e)
 
-
 ---
 
 ## 🎮 Game Features
@@ -70,6 +69,8 @@ We aimed to follow good architectural/design principles throughout the project. 
 - **Singleton Pattern:** For managers like InputManager and TextureManager.
 - **Observer Pattern:** For updating UI elements like the game Window.
 - **State Pattern:** The scenes act as 'states' and the scene manager is the 'context' in the state pattern.
+- **Facade Pattern:** We have an EntityDataGenerator class for generating test data without having to load from a JSON. This class acts as a facade for the other generator classes.
+- **Flyweight Pattern:** The TextureManager is a Flyweight, and SpriteComponent holds some extrinsic state while utilizing the intrinsic state of texture sprite data.
 - **JSON Loading:** We load all the data we need in our game from JSON files (Character stats, Level descriptions, etc).
 
 ### 🛠️ To be Implemented  
