@@ -8,11 +8,12 @@ namespace BulletHellGame.Presentation.Scenes
     {
         private Texture2D whitePixel;
         private int selectedIndex;
-        private string[] menuOptions = { "ReRun", "Settings", "Exit to Main Menu" };
+        private string[] menuOptions = { "Play Again", "Settings", "Exit to Main Menu" };
         private ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
         private CharacterData _characterData;
 
+        public bool IsOverlay => true;
 
         public WinScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {
@@ -25,7 +26,7 @@ namespace BulletHellGame.Presentation.Scenes
         {
             FontManager.Instance.LoadFont(_contentManager, "DFPPOPCorn-W12");
             BGMManager.Instance.PlayBGM(_contentManager, "CallToAdventure");
-            BGMManager.Instance.SetVolume(1f);
+
             // Create a 1x1 white pixel texture for the _stageBackground
             whitePixel = new Texture2D(_graphicsDevice, 1, 1);
             whitePixel.SetData(new Color[] { Color.White });
@@ -64,19 +65,12 @@ namespace BulletHellGame.Presentation.Scenes
                         break;
                     case 2:
                         // Exit to Main Menu
-                        BGMManager.Instance.StopBGM();
                         SceneManager.Instance.ClearScenes();
                         SceneManager.Instance.AddScene(new MainMenuScene(_contentManager, _graphicsDevice));
                         break;
                 }
             }
-
-            if (InputManager.Instance.ActionPressed(GameAction.Pause))
-            {
-                SceneManager.Instance.RemoveScene();
-            }
         }
-
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -96,11 +90,18 @@ namespace BulletHellGame.Presentation.Scenes
             // Draw _stageBackground box
             spriteBatch.Draw(whitePixel, new Rectangle(boxX, boxY, boxWidth, boxHeight), Color.Black * 0.9f);
 
+            // Draw "Level Complete!" text
+            string levelCompleteText = "Level Complete!";
+            Vector2 levelCompleteSize = FontManager.Instance.GetFont("DFPPOPCorn-W12").MeasureString(levelCompleteText);
+            Vector2 levelCompletePosition = new Vector2((screenWidth - levelCompleteSize.X) / 2, boxY + 20);
+            DrawOutlinedText(spriteBatch, levelCompleteText, levelCompletePosition, Color.Black, 2);
+            spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), levelCompleteText, levelCompletePosition, Color.Yellow);
+
             // Draw menu options
             for (int i = 0; i < menuOptions.Length; i++)
             {
                 Vector2 textSize = FontManager.Instance.GetFont("DFPPOPCorn-W12").MeasureString(menuOptions[i]);
-                Vector2 position = new Vector2(boxX + (boxWidth - textSize.X) / 2, boxY + 50 + i * 50);
+                Vector2 position = new Vector2(boxX + (boxWidth - textSize.X) / 2, boxY + 100 + i * 50);
 
                 if (i == selectedIndex)
                 {
@@ -116,6 +117,7 @@ namespace BulletHellGame.Presentation.Scenes
                 spriteBatch.DrawString(FontManager.Instance.GetFont("DFPPOPCorn-W12"), menuOptions[i], position, textColor);
             }
         }
+
 
         private void DrawOutlinedText(SpriteBatch spriteBatch, string text, Vector2 position, Color outlineColor, int outlineWidth)
         {

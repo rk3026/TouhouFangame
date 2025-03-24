@@ -12,6 +12,8 @@ namespace BulletHellGame.Presentation.Scenes
         private int shaderIndex = 0;
         private string[] shaderNames;
 
+        public bool IsOverlay => false;
+
         public ShaderConfigScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
             _contentManager = contentManager;

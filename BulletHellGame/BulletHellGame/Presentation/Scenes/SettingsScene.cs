@@ -20,6 +20,8 @@ public class SettingsScene : IScene
         "Back"
     };
 
+    public bool IsOverlay => false;
+
     public SettingsScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
     {
         this._contentManager = contentManager;
@@ -72,14 +74,10 @@ public class SettingsScene : IScene
             if (selectedIndex == 0) // Master Volume
             {
                 SettingsManager.Instance.MasterVolume = Math.Clamp(SettingsManager.Instance.MasterVolume + delta, 0f, 1f);
-
-                // Apply master volume
-                BGMManager.Instance.UpdateVolumeFromSettings();
             }
             else if (selectedIndex == 1) // Music Volume
             {
                 SettingsManager.Instance.MusicVolume = Math.Clamp(SettingsManager.Instance.MusicVolume + delta, 0f, 1f);
-                BGMManager.Instance.SetVolume(SettingsManager.Instance.MusicVolume);
             }
             else if (selectedIndex == 2) // SFX Volume
             {

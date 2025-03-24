@@ -24,14 +24,12 @@ namespace BulletHellGame.Logic.Managers
 
         public void RemoveScene()
         {
-            BGMManager.Instance.StopBGM();
             if (_sceneStack.Count == 0) return;
             _sceneStack.Pop();
         }
 
         public void ClearScenes()
         {
-            BGMManager.Instance.StopBGM();
             _sceneStack.Clear();
         }
 
@@ -48,15 +46,24 @@ namespace BulletHellGame.Logic.Managers
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // If the top is a pause screen, also draw the scene below it
-            if (_sceneStack.Count > 1 && _sceneStack.Peek() is PausedScene || _sceneStack.Peek() is RetryMenuScene || _sceneStack.Peek() is WinScene)
+            int drawStartIndex = 0;
+
+            // Start from the top and go downwards to find the first non-overlay scene
+            while (drawStartIndex < _sceneStack.Count - 1 && _sceneStack.ElementAt(drawStartIndex).IsOverlay)
             {
-                _sceneStack.ElementAt(1)?.Draw(spriteBatch);
+                drawStartIndex++;
             }
-            _sceneStack.Peek()?.Draw(spriteBatch);
+
+            // Draw all scenes from that point up to the current scene
+            for (int i = drawStartIndex; i >= 0; i--)
+            {
+                _sceneStack.ElementAt(i)?.Draw(spriteBatch);
+            }
 
             if (SettingsManager.Instance.Debugging) DrawSceneStackDebug(spriteBatch);
         }
+
+
 
         private void DrawSceneStackDebug(SpriteBatch spriteBatch)
         {

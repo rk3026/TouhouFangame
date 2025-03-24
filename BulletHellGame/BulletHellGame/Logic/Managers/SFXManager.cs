@@ -17,6 +17,9 @@ namespace BulletHellGame.Logic.Managers
         {
             _soundEffects = new Dictionary<string, SoundEffect>();
             _soundInstances = new Dictionary<string, SoundEffectInstance>();
+
+            // Subscribe to volume changes
+            SettingsManager.Instance.OnVolumeChanged += UpdateAllVolumes;
         }
 
         public void LoadSound(ContentManager contentManager, string soundName, string soundPath)
@@ -42,10 +45,11 @@ namespace BulletHellGame.Logic.Managers
 
                 // Randomize pitch, volume, and pan
                 instance.Pitch = MathHelper.Clamp((float)(random.NextDouble() * 2 - 1) * pitchVariance, -1f, 1f);
-                instance.Volume = MathHelper.Clamp(masterVolume * sfxVolume * (1f + (float)(random.NextDouble() * 2 - 1) * volumeVariance), 0f, 1f) * GLOBAL_SFX_SCALE; // also reduce volume because SFX are loud
+                instance.Volume = MathHelper.Clamp(masterVolume * sfxVolume * (1f + (float)(random.NextDouble() * 2 - 1) * volumeVariance), 0f, 1f) * GLOBAL_SFX_SCALE;
                 instance.Pan = MathHelper.Clamp((float)(random.NextDouble() * 2 - 1) * panVariance, -1f, 1f);
 
                 instance.Play();
+                _soundInstances[soundName] = instance; // Track active sounds for volume updates
             }
         }
 
@@ -54,6 +58,18 @@ namespace BulletHellGame.Logic.Managers
             if (_soundInstances.TryGetValue(soundName, out SoundEffectInstance instance))
             {
                 instance.Stop();
+                _soundInstances.Remove(soundName);
+            }
+        }
+
+        private void UpdateAllVolumes()
+        {
+            float masterVolume = SettingsManager.Instance.MasterVolume;
+            float sfxVolume = SettingsManager.Instance.SFXVolume;
+
+            foreach (var instance in _soundInstances.Values)
+            {
+                instance.Volume = MathHelper.Clamp(masterVolume * sfxVolume, 0f, 1f) * GLOBAL_SFX_SCALE;
             }
         }
     }

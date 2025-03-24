@@ -15,6 +15,8 @@ namespace BulletHellGame.Presentation.Scenes
         private GraphicsDevice _graphicsDevice;
         private CharacterData _characterData;
 
+        public bool IsOverlay => true;
+
         public RetryMenuScene(SpriteFont font, Texture2D backgroundTexture, ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {
             _font = font;

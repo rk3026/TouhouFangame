@@ -13,6 +13,8 @@ namespace BulletHellGame.Presentation.Scenes
         private EntityManager _entityManager;
         private SystemManager _systemManager;
 
+        public bool IsOverlay => false;
+
         public GameplayScene(ContentManager contentManager, LevelData levelData)
         {
             _contentManager = contentManager;

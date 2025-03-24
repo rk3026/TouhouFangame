@@ -32,6 +32,8 @@ namespace BulletHellGame.Presentation.Scenes
         private Vector2 difficultyStartPos;
         private Vector2 difficultyEndPos;
 
+        public bool IsOverlay => false;
+
         public CharacterSelectScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
             _contentManager = contentManager;

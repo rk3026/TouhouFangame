@@ -36,6 +36,8 @@ namespace BulletHellGame.Presentation.Scenes
         private const int _playableAreaOffset = 15; // Offset for the playable area on all sides
         private CharacterData _characterData;
 
+        public bool IsOverlay => false;
+
         public TestScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {
             Rectangle sceneArea = new Rectangle(0, 0, 640, 480); // Bad, move this out, get the dimensions from the game1's dimensions.

@@ -11,6 +11,8 @@ namespace BulletHellGame.Presentation.Scenes
         private ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
 
+        public bool IsOverlay => true;
+
         public PausedScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
             _contentManager = contentManager;

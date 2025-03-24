@@ -14,7 +14,11 @@ namespace BulletHellGame.Logic.Managers
         private Song _currentBGM;
         private string _currentTrack;
 
-        private BGMManager() { }
+        private BGMManager()
+        {
+            // Subscribe to settings changes
+            SettingsManager.Instance.OnVolumeChanged += () => SetVolume(SettingsManager.Instance.MusicVolume);
+        }
 
         public void PlayBGM(ContentManager contentManager, string trackName, bool loop = true)
         {
@@ -46,15 +50,10 @@ namespace BulletHellGame.Logic.Managers
             }
         }
 
-        public void SetVolume(float volume)
+        private void SetVolume(float volume)
         {
             float masterVolume = SettingsManager.Instance.MasterVolume;
-            MediaPlayer.Volume = MathHelper.Clamp(masterVolume * volume, 0f, 1f) * GLOBAL_BGM_SCALE; // Songs are FUCKING loud so reduce volume
-        }
-
-        public void UpdateVolumeFromSettings()
-        {
-            SetVolume(SettingsManager.Instance.MusicVolume);
+            MediaPlayer.Volume = MathHelper.Clamp(masterVolume * volume, 0f, 1f) * GLOBAL_BGM_SCALE;
         }
     }
 }

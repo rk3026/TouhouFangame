@@ -41,6 +41,8 @@ namespace BulletHellGame.Presentation.Scenes
         private float _countdownTimer = 3f;
         private const float CountdownStart = 3f;
 
+        public bool IsOverlay => false;
+
         public TestLMScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {
             Rectangle sceneArea = new Rectangle(0, 0, 640, 480);
