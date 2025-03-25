@@ -2,6 +2,7 @@
 using BulletHellGame.Logic.Controllers;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Strategies.CollisionStrategies;
 
 namespace BulletHellGame.Logic.Builders
 {
@@ -56,6 +57,17 @@ namespace BulletHellGame.Logic.Builders
         public override void BuildInput()
         {
             _entity.AddComponent(new ControllerComponent(new EnemyController()));
+        }
+
+        public override void BuildCollisionStrategy()
+        {
+            _entity.AddComponent(new CollisionStrategyComponent(new EnemyCollisionStrategy()));
+        }
+
+        public override void BuildDamage()
+        {
+            // Enemies deal damage when colliding with player
+            _entity.AddComponent(new DamageComponent(25));
         }
     }
 }

@@ -58,6 +58,7 @@ namespace BulletHellGame.Logic.Builders
         public virtual void BuildPowerLevel() { }
         public virtual void BuildIndicator() { }
         public virtual void BuildDespawn() { }
+        public virtual void BuildCollisionStrategy() { }
 
         public Entity GetResult()
         {

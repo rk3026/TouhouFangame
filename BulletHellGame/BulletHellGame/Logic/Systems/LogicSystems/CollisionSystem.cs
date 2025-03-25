@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Systems;
 
 namespace BulletHellGame.Logic.Systems.LogicSystems
 {
@@ -17,80 +16,9 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
 
         private void ApplyCollision(EntityManager entityManager, Entity owner, Entity other)
         {
-            if (owner.TryGetComponent<InvincibilityComponent>(out var ic) && ic.RemainingTime > 0) return; // Ignore damage while invincible
-
-            // Handle damage logic if the owner has health and the other entity has a damage component
-            if (owner.TryGetComponent<HealthComponent>(out var health) &&
-                other.TryGetComponent<DamageComponent>(out var damage))
+            if (owner.TryGetComponent<CollisionStrategyComponent>(out var csc))
             {
-                // Apply damage if no ownership conflict exists
-                health.TakeDamage(damage.CalculateDamage());
-                SFXManager.Instance.PlaySound("se_damage00");
-
-                if (owner.TryGetComponent<SpriteComponent>(out var sprite))
-                {
-                    sprite.FlashRed();
-                }
-
-                if (owner.TryGetComponent<PlayerStatsComponent>(out var psc))
-                {
-                    if (health.CurrentHealth <= 0) // Check if the player is out of health
-                    {
-                        if (psc.Lives > 0) // Only decrement if they have extra lives
-                        {
-                            psc.Lives -= 1;
-                            health.Heal(health.MaxHealth);
-                            if (ic != null)
-                            {
-                                ic.RemainingTime = 2f;
-                            }
-                            sprite.FlashRed();
-                            return; // Prevent player removal
-                        }
-                    }
-                }
-                entityManager.QueueEntityForRemoval(other);
-            }
-
-            // Handle collectible pickup logic
-            if (owner.TryGetComponent<CollectorComponent>(out var cc) &&
-                owner.TryGetComponent<PlayerStatsComponent>(out var stats) &&
-                other.TryGetComponent<PickUpEffectComponent>(out var pec))
-            {
-                foreach (var effect in pec.Effects)
-                {
-                    switch (effect.Key)
-                    {
-                        case CollectibleType.OneUp:
-                            stats.Lives += effect.Value;
-                            break;
-
-                        case CollectibleType.Bomb:
-                            stats.Bombs += effect.Value;
-                            break;
-
-                        case CollectibleType.PowerUp:
-                            stats.Score += effect.Value;
-                            stats.Power += effect.Value;
-                            break;
-
-                        case CollectibleType.PointItem:
-                            stats.Score += effect.Value;
-                            break;
-
-                        case CollectibleType.StarItem:
-                            stats.Score += effect.Value / 2; // Small score reward
-                            stats.CherryPoints += effect.Value; // Add cherry points
-                            break;
-
-                        case CollectibleType.CherryItem:
-                            stats.CherryPoints += effect.Value; // Increase cherry points
-                            stats.CherryPlus += effect.Value / 2; // Some amount goes into Cherry+
-                            break;
-                    }
-                }
-
-                entityManager.QueueEntityForRemoval(other); // Remove collectible after pickup
+                csc.CollisionStrategy.ApplyCollision(entityManager, owner, other);
             }
         }
 

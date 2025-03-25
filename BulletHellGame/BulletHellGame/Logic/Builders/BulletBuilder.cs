@@ -2,6 +2,7 @@
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Strategies.CollisionStrategies;
 
 namespace BulletHellGame.Logic.Builders
 {
@@ -93,6 +94,11 @@ namespace BulletHellGame.Logic.Builders
         public override void BuildDespawn()
         {
             _entity.AddComponent(new DespawnComponent());
+        }
+
+        public override void BuildCollisionStrategy()
+        {
+            _entity.AddComponent(new CollisionStrategyComponent(new BulletCollisionStrategy()));
         }
     }
 }

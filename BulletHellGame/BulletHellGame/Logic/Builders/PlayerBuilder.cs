@@ -3,6 +3,7 @@ using BulletHellGame.Logic.Controllers;
 using BulletHellGame.Logic.Managers;
 using System.Linq;
 using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Strategies.CollisionStrategies;
 
 namespace BulletHellGame.Logic.Builders
 {
@@ -105,6 +106,11 @@ namespace BulletHellGame.Logic.Builders
             HitboxComponent hc = new HitboxComponent(_entity, 2);
             hc.Hitbox = new Vector2(4, 4);
             _entity.AddComponent(hc);
+        }
+
+        public override void BuildCollisionStrategy()
+        {
+            _entity.AddComponent(new CollisionStrategyComponent(new PlayerCollisionStrategy()));
         }
     }
 }
