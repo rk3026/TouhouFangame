@@ -27,7 +27,7 @@ namespace BulletHellGame.Presentation.Scenes
         public void Load()
         {
             FontManager.Instance.LoadFont(_contentManager, "DFPPOPCorn-W12");
-            BGMManager.Instance.PlayBGM(_contentManager, "CallToAdventure");
+            BGMManager.Instance.PlayBGM(_contentManager, "CallToAdventure1");
 
             // Create a 1x1 white pixel texture for the _stageBackground
             whitePixel = new Texture2D(_graphicsDevice, 1, 1);
