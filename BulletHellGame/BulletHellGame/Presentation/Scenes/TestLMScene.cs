@@ -87,7 +87,7 @@ namespace BulletHellGame.Presentation.Scenes
 
             _gameUI = new GameUI(_font, _uiArea, _entityManager);
 
-            BGMManager.Instance.PlayBGM(_contentManager, "広有射怪鳥事Till When原曲広有射怪鳥事Till When");
+            BGMManager.Instance.PlayBGM(_contentManager, "DeathDeservioli");
             _levelManager.StartLevel(1);
         }
 
