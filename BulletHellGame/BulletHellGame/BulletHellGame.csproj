@@ -12,7 +12,6 @@
     </PropertyGroup>
     <ItemGroup>
         <None Remove="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3" />
-        <None Remove="Content\Music\激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷.mp3" />
         <None Remove="Content\Music\激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3" />
         <None Remove="Content\Music\紅魔激走劇  Everlasting....mp3" />
         <None Remove="Data\BulletPatterns.json" />
@@ -51,9 +50,6 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="Content\Music\激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷.mp3">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Content\Music\激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3">
@@ -173,6 +169,9 @@
       </Content>
     </ItemGroup>
     <ItemGroup>
+      <None Update="Content\Music\激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷.mp3">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
       <None Update="Content\SpriteSheets\Characters.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>

@@ -4,6 +4,7 @@ using BulletHellGame.Logic.Managers;
 using BulletHellGame.Presentation.UI;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace BulletHellGame.Presentation.Scenes
 {
@@ -87,7 +88,15 @@ namespace BulletHellGame.Presentation.Scenes
 
             _gameUI = new GameUI(_font, _uiArea, _entityManager);
 
-            BGMManager.Instance.PlayBGM(_contentManager, "広有射怪鳥事Till When原曲広有射怪鳥事Till When");
+            List<string> bgms = new()
+            {
+                "紅魔激走劇  Everlasting...",
+                //"激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷",
+                //"広有射怪鳥事Till When原曲広有射怪鳥事Till When"
+            };
+            string bgm = bgms[new Random().Next(bgms.Count)];
+
+            BGMManager.Instance.PlayBGM(_contentManager, bgm);
             _levelManager.StartLevel(1);
         }
 
@@ -99,6 +108,8 @@ namespace BulletHellGame.Presentation.Scenes
             _levelManager.Update(gameTime);
             _parallaxBackground.Update(gameTime);
             _gameUI.Update(gameTime);
+
+            if (_levelManager.BossSpawned) BGMManager.Instance.PlayBGM(_contentManager, "激戦アレンジ 有頂天変  wonderful heaven 東方緋想天");
 
             if (InputManager.Instance.ActionPressed(GameAction.Pause))
                 SceneManager.Instance.AddScene(new PausedScene(_contentManager, _graphicsDevice));

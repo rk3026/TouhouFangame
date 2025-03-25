@@ -27,8 +27,9 @@ namespace BulletHellGame.Presentation.Scenes
             _characterData = characterData;
         }
 
-
-        public void Load() { }
+        public void Load() {
+            BGMManager.Instance.StopBGM();
+        }
 
         public void Update(GameTime gameTime)
         {
