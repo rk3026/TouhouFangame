@@ -57,12 +57,6 @@
 /processorParam:Quality=Best
 /build:Music/DeathDeservioli.mp3
 
-#begin Music/Pizza Tower OST - The Death That I Deservioli (Lap 2) [v8Tj15iSHbM].mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Music/Pizza Tower OST - The Death That I Deservioli (Lap 2) [v8Tj15iSHbM].mp3
-
 #begin Music/広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
