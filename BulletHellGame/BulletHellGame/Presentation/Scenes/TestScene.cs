@@ -105,7 +105,7 @@ namespace BulletHellGame.Presentation.Scenes
             _parallaxBackground.AddLayer(_bush1Sprite.Texture, _bush1Sprite.Animations.First().Value.First(), leftBushArea, -100f);
             _parallaxBackground.AddLayer(_bush2Sprite.Texture, _bush2Sprite.Animations.First().Value.First(), rightBushArea, -100f);
 
-            BGMManager.Instance.PlayBGM(_contentManager, "紅魔激走劇  Everlasting...");
+            BGMManager.Instance.PlayBGM(_contentManager, "DeathDeservioli");
             _gameUI = new GameUI(_font, _uiArea, _entityManager);
         }
 
