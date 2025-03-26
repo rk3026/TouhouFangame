@@ -1,5 +1,6 @@
 ﻿using BulletHellGame.Logic.Managers;
 using System.IO;
+using System.Linq;
 
 namespace BulletHellGame
 {
@@ -106,24 +107,52 @@ namespace BulletHellGame
             base.Draw(gameTime);
         }
 
-
         private void LoadFonts()
         {
-            // Loading fonts
-            FontManager.Instance.LoadFont(Content, "DFPPOPCorn-W12");
-            FontManager.Instance.LoadFont(Content, "Arial");
+            string projectRoot = AppContext.BaseDirectory;
+            string fontsPath = Path.Combine(projectRoot, "Data", "Fonts");
+
+            if (!Directory.Exists(fontsPath))
+            {
+                Console.WriteLine($"Error: Fonts directory not found: {fontsPath}");
+                return;
+            }
+
+            // Get all font files (assuming they are .spritefont or .ttf/.otf)
+            string[] fontFiles = Directory.GetFiles(fontsPath, "*.*")
+                                          .Where(file => file.EndsWith(".spritefont") || file.EndsWith(".ttf") || file.EndsWith(".otf"))
+                                          .ToArray();
+
+            foreach (string fontFile in fontFiles)
+            {
+                // Extract filename without extension (MonoGame loads fonts by name, not file path)
+                string fontName = Path.GetFileNameWithoutExtension(fontFile);
+
+                FontManager.Instance.LoadFont(Content, fontName);
+            }
         }
 
         private void LoadTextures()
         {
-            // Loading all textures via spritesheets
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/Characters.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/EnemiesAndBosses.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/MenuAndOtherScreens.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/ProjectilesAndObjects.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/StagesTilesAndBackgrounds.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/Fonts.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/SidebarLoadAndPauseScreens.json");
+            string projectRoot = AppContext.BaseDirectory; // Get bin/Debug folder
+            string spriteSheetPath = Path.Combine(projectRoot, "Data", "SpriteSheets");
+
+            if (!Directory.Exists(spriteSheetPath))
+            {
+                Console.WriteLine($"Error: Sprite sheet directory not found: {spriteSheetPath}");
+                return;
+            }
+
+            // Get all JSON files in the directory
+            string[] jsonFiles = Directory.GetFiles(spriteSheetPath, "*.json");
+
+            foreach (string jsonFile in jsonFiles)
+            {
+                // Convert absolute path to relative path (required for Content loading)
+                string relativePath = Path.GetRelativePath(projectRoot, jsonFile).Replace("\\", "/");
+
+                TextureManager.Instance.LoadSpriteSheetData(Content, relativePath);
+            }
         }
 
         private void LoadShaders()

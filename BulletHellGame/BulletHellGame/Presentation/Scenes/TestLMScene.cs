@@ -4,7 +4,6 @@ using BulletHellGame.Logic.Managers;
 using BulletHellGame.Presentation.UI;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 
 namespace BulletHellGame.Presentation.Scenes
 {
