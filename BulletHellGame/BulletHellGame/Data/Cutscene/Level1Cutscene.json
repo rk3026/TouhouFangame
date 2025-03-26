@@ -1,0 +1,53 @@
+{
+  [
+    {
+      "BackgroundAsset": "ForestBackground",
+      "MusicAsset": "BGM/PeacefulTheme",
+      "SpriteAsset": "Reimu",
+      "Dialogue": [
+        {
+          "Speaker": "Reimu",
+          "Line": "It’s another quiet day at the shrine...",
+          "Expression": "Default"
+        },
+        {
+          "Speaker": "Reimu",
+          "Line": "But something feels off today.",
+          "Expression": "Thinking"
+        },
+        {
+          "Speaker": "Reimu",
+          "Line": "I should go check things out.",
+          "Expression": "Serious"
+        }
+      ]
+    },
+    {
+      "BackgroundAsset": "ShrineBackground",
+      "MusicAsset": "BGM/SuspenseTheme",
+      "SpriteAsset": "Reimu",
+      "Dialogue": [
+        {
+          "Speaker": "???",
+          "Line": "You're too late, shrine maiden.",
+          "Expression": "Smug"
+        },
+        {
+          "Speaker": "Reimu",
+          "Line": "Show yourself!",
+          "Expression": "Angry"
+        },
+        {
+          "Speaker": "Reimu",
+          "Line": "You won’t get away this time!",
+          "Expression": "Furious"
+        }
+      ]
+    }
+  ]
+
+
+
+
+
+}
