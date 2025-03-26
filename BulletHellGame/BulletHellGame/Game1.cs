@@ -124,6 +124,7 @@ namespace BulletHellGame
             TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/StagesTilesAndBackgrounds.json");
             TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/Fonts.json");
             TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/SidebarLoadAndPauseScreens.json");
+            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/CutsceneCharacter.json");
         }
 
         private void LoadShaders()
