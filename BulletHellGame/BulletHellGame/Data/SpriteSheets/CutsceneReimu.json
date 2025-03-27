@@ -1,79 +1,76 @@
 {
-  
-    "ReimuCutscene": {
-      "Default": [
-        {
-          "X": 0,
-          "Y": 0,
-          "Width": 256,
-          "Height": 256
-        }
-      ],
-      "Thinking": [
-        {
-          "X": 256,
-          "Y": 0,
-          "Width": 256,
-          "Height": 256
-        }
-      ],
-      "Angry": [
-        {
-          "X": 512,
-          "Y": 0,
-          "Width": 256,
-          "Height": 256
-        }
-      ],
-      "Sad": [
-        {
-          "X": 0,
-          "Y": 256,
-          "Width": 256,
-          "Height": 256
-        }
-      ],
-      "Furious": [
-        {
-          "X": 256,
-          "Y": 256,
-          "Width": 256,
-          "Height": 256
-        }
-      ],
-      "Surprised": [
-        {
-          "X": 512,
-          "Y": 256,
-          "Width": 256,
-          "Height": 256
-        }
-      ],
-      "Laughing": [
-        {
-          "X": 0,
-          "Y": 512,
-          "Width": 256,
-          "Height": 256
-        }
-      ],
-      "Cheerful": [
-        {
-          "X": 256,
-          "Y": 512,
-          "Width": 256,
-          "Height": 256
-        }
-      ],
-      "Smug": [
-        {
-          "X": 512,
-          "Y": 512,
-          "Width": 256,
-          "Height": 256
-        }
-      ]
-    }
-  
-
+  "ReimuCutscene": {
+    "Default": [
+      {
+        "X": 0,
+        "Y": 0,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Side": [
+      {
+        "X": 256,
+        "Y": 0,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Angry": [
+      {
+        "X": 512,
+        "Y": 0,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Sad": [
+      {
+        "X": 0,
+        "Y": 256,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Determined": [
+      {
+        "X": 256,
+        "Y": 256,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Surprised": [
+      {
+        "X": 512,
+        "Y": 256,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Smug": [
+      {
+        "X": 0,
+        "Y": 512,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Happy": [
+      {
+        "X": 256,
+        "Y": 512,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Confident": [
+      {
+        "X": 512,
+        "Y": 512,
+        "Width": 256,
+        "Height": 256
+      }
+    ]
+  }
 }

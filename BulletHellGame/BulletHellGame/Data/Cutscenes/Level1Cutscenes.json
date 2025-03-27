@@ -1,0 +1,24 @@
+[
+  {
+    "BackgroundAsset": "touhou",
+    "MusicAsset": "01. Ghostly Dream ~ Snow or Cherry Petal",
+    "SpriteAsset": "ReimuCutscene",
+    "Dialogue": [
+      {
+        "Speaker": "Reimu",
+        "Line": "Another quiet morning at the shrine...",
+        "Expression": "Default"
+      },
+      {
+        "Speaker": "Reimu",
+        "Line": "I wonder how long it’ll stay peaceful.",
+        "Expression": "Concerned"
+      },
+      {
+        "Speaker": "Reimu",
+        "Line": "Well, time to go investigate.",
+        "Expression": "Determined"
+      }
+    ]
+  }
+]

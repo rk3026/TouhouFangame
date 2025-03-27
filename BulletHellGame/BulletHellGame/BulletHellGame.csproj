@@ -222,4 +222,7 @@
     <ItemGroup>
       <None Include="D:\Desktop\cpts_487\BulletHellGame\BulletHellGame\Presentation\Scenes\.editorconfig" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Content\Backgrounds\" />
+    </ItemGroup>
 </Project>

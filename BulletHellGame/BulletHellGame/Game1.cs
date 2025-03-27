@@ -95,6 +95,8 @@ namespace BulletHellGame
             GraphicsDevice.SetRenderTarget(_renderTarget);
             _spriteBatch.Begin();
             SceneManager.Instance.Draw(_spriteBatch);
+            
+            
             _spriteBatch.End();
             GraphicsDevice.SetRenderTarget(null);
 

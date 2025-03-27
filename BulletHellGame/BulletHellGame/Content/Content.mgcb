@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Backgrounds/touhou.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Backgrounds/touhou.jpg
+
 #begin Fonts/Arial.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -44,6 +56,12 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/01. Ghostly Dream ~ Snow or Cherry Petal.mp3
+
+#begin Music/02. Paradise ~ Deep Mountain.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/02. Paradise ~ Deep Mountain.mp3
 
 #begin Music/CallToAdventure1.wav
 /importer:WavImporter
