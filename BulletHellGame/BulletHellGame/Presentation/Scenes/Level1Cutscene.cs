@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BulletHellGame.DataAccess.DataLoaders;
 using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.Presentation.Scenes;
@@ -14,27 +13,31 @@ public class Level1CutsceneScene : IScene
 
     private ContentManager content;
     private GraphicsDevice graphics;
-    private Texture2D backgroundTexture;
-    private Dictionary<string, SpriteData> characterPortraits = new();
     private SpriteFont font;
     private Texture2D whitePixel;
+    private Texture2D backgroundTexture;
+
+    private Dictionary<string, SpriteData> characterPortraits = new();
 
     private List<DialogueLine> dialogue;
     private int currentLine = 0;
 
-    private float typeTimer = 0;
+    private float typeTimer = 0f;
     private float typeDelay = 0.03f;
     private string visibleText = "";
     private bool textDone = false;
 
+    private bool flashActive = false;
     private float flashTimer = 0f;
     private float flashDuration = 0.15f;
-    private bool flashActive = false;
 
-    public Level1CutsceneScene(ContentManager content, GraphicsDevice graphics)
+    private CharacterData selectedCharacter;
+
+    public Level1CutsceneScene(ContentManager content, GraphicsDevice graphics, CharacterData selectedCharacter)
     {
         this.content = content;
         this.graphics = graphics;
+        this.selectedCharacter = selectedCharacter;
     }
 
     public void Load()
@@ -44,26 +47,30 @@ public class Level1CutsceneScene : IScene
         whitePixel.SetData(new[] { Color.White });
 
         backgroundTexture = content.Load<Texture2D>("Backgrounds/touhou");
-        characterPortraits["Reimu"] = TextureManager.Instance.GetSpriteData("ReimuSelect");
-        characterPortraits["Marisa"] = TextureManager.Instance.GetSpriteData("MarisaSelect");
-        characterPortraits["Sakuya"] = TextureManager.Instance.GetSpriteData("SakuyaSelect");
 
-        BGMManager.Instance.PlayBGM(content, "02. Paradise ~ Deep Mountain");
+        Texture2D reimuTexture = content.Load<Texture2D>("SpriteSheets/CutsceneReimu");
+        Texture2D marisaTexture = content.Load<Texture2D>("SpriteSheets/CutsceneMarisa");
+        Texture2D sakuyaTexture = content.Load<Texture2D>("SpriteSheets/CutsceneSakuya");
+
+        characterPortraits["Reimu"] = TextureManager.Instance.Create3x3SpriteSheet(reimuTexture, "ReimuCutscene");
+        characterPortraits["Marisa"] = TextureManager.Instance.Create3x3SpriteSheet(marisaTexture, "MarisaCutscene");
+        characterPortraits["Sakuya"] = TextureManager.Instance.Create3x3SpriteSheet(sakuyaTexture, "SakuyaCutscene");
+
+        BGMManager.Instance.PlayBGM(content, "01. Ghostly Dream ~ Snow or Cherry Petal");
 
         dialogue = new List<DialogueLine>
         {
-            new DialogueLine { Speaker = "Reimu", Line = "Another quiet morning at the shrine...", Expression = "Default" },
-            new DialogueLine { Speaker = "Marisa", Line = "Yo! Reimu, you up already?", Expression = "Happy" },
-            new DialogueLine { Speaker = "Reimu", Line = "Of course I am. What's going on?", Expression = "Determined" },
-            new DialogueLine { Speaker = "Sakuya", Line = "I sensed something unusual in the air today.", Expression = "Concerned" },
-            new DialogueLine { Speaker = "Marisa", Line = "Guess it's another incident, huh?", Expression = "Default" }
+            new DialogueLine { Speaker = "Reimu", Line = "Another quiet morning at the shrine...", Expression = "Pose1" },
+            new DialogueLine { Speaker = "Marisa", Line = "Yo! Reimu! Already up, ze?", Expression = "Pose2" },
+            new DialogueLine { Speaker = "Sakuya", Line = "I sensed something unusual in the air today.", Expression = "Pose3" },
+            new DialogueLine { Speaker = "Reimu", Line = "Time to investigate then.", Expression = "Pose5" }
         };
     }
 
     public void Update(GameTime gameTime)
     {
-        var input = InputManager.Instance;
         float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        var input = InputManager.Instance;
 
         if (dialogue != null && currentLine < dialogue.Count)
         {
@@ -92,7 +99,7 @@ public class Level1CutsceneScene : IScene
                 if (currentLine >= dialogue.Count)
                 {
                     SceneManager.Instance.RemoveScene();
-                    SceneManager.Instance.AddScene(new StageIntroScene(content, graphics));
+                    SceneManager.Instance.AddScene(new StageIntroScene(content, graphics, selectedCharacter));
                 }
             }
         }
@@ -159,13 +166,15 @@ public class StageIntroScene : IScene
     private SpriteFont font;
     private float timer = 0f;
     private float displayDuration = 2.5f;
+    private CharacterData selectedCharacter;
 
     public bool IsOverlay => false;
 
-    public StageIntroScene(ContentManager content, GraphicsDevice graphics)
+    public StageIntroScene(ContentManager content, GraphicsDevice graphics, CharacterData selectedCharacter)
     {
         this.content = content;
         this.graphics = graphics;
+        this.selectedCharacter = selectedCharacter;
     }
 
     public void Load()
@@ -179,21 +188,17 @@ public class StageIntroScene : IScene
         if (timer >= displayDuration)
         {
             SceneManager.Instance.RemoveScene();
-            SceneManager.Instance.AddScene(new TestLMScene(content, graphics, CharacterDataLoader.LoadCharacterData("Reimu")));
+            SceneManager.Instance.AddScene(new TestLMScene(content, graphics, selectedCharacter));
         }
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
         graphics.Clear(Color.Black);
-
         string text = "STAGE 1 START!";
         Vector2 textSize = font.MeasureString(text);
-        Vector2 position = new Vector2(
-            (graphics.Viewport.Width - textSize.X) / 2,
-            (graphics.Viewport.Height - textSize.Y) / 2
-        );
-
+        Vector2 position = new Vector2((graphics.Viewport.Width - textSize.X) / 2, (graphics.Viewport.Height - textSize.Y) / 2);
         spriteBatch.DrawString(font, text, position, Color.White);
     }
 }
+
