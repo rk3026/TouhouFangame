@@ -39,6 +39,9 @@
         <None Remove="Data\ShotTypes\SpiritSign-PursuitType-.json" />
         <None Remove="Data\ShotTypes\TimeSign-TrickyType-.json" />
         <None Remove="Data\SpriteSheets\Characters.json" />
+        <None Remove="Data\SpriteSheets\CutsceneMarisa.json" />
+        <None Remove="Data\SpriteSheets\CutsceneReimu.json" />
+        <None Remove="Data\SpriteSheets\CutsceneSakuya.json" />
         <None Remove="Data\SpriteSheets\EnemiesAndBosses.json" />
         <None Remove="Data\SpriteSheets\Fonts.json" />
         <None Remove="Data\SpriteSheets\MenuAndOtherScreens.json" />
@@ -128,6 +131,15 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\ShotTypes\TimeSign-TrickyType-.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\CutsceneMarisa.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\CutsceneReimu.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\CutsceneSakuya.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\SpriteSheets\Fonts.json">

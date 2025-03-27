@@ -1,6 +1,6 @@
 {
-  {
-    "Reimu": {
+  
+    "SakuyaCutscene": {
       "Default": [
         {
           "X": 0,
@@ -9,7 +9,7 @@
           "Height": 256
         }
       ],
-      "Thinking": [
+      "Suspicious": [
         {
           "X": 256,
           "Y": 0,
@@ -17,7 +17,7 @@
           "Height": 256
         }
       ],
-      "Angry": [
+      "AttackPose": [
         {
           "X": 512,
           "Y": 0,
@@ -25,7 +25,7 @@
           "Height": 256
         }
       ],
-      "Sad": [
+      "ClosedEyes": [
         {
           "X": 0,
           "Y": 256,
@@ -33,7 +33,7 @@
           "Height": 256
         }
       ],
-      "Furious": [
+      "AngrySmile": [
         {
           "X": 256,
           "Y": 256,
@@ -41,7 +41,7 @@
           "Height": 256
         }
       ],
-      "Surprised": [
+      "Stoic": [
         {
           "X": 512,
           "Y": 256,
@@ -49,23 +49,23 @@
           "Height": 256
         }
       ],
-      "Laughing": [
+      "Unimpressed": [
         {
           "X": 0,
-          "Y": 512,
-          "Width": 256,
-          "Height": 256
-        }
-      ],
-      "Cheerful": [
-        {
-          "X": 256,
           "Y": 512,
           "Width": 256,
           "Height": 256
         }
       ],
       "Smug": [
+        {
+          "X": 256,
+          "Y": 512,
+          "Width": 256,
+          "Height": 256
+        }
+      ],
+      "Bowing": [
         {
           "X": 512,
           "Y": 512,
@@ -74,6 +74,4 @@
         }
       ]
     }
-  }
-
-}
+ }

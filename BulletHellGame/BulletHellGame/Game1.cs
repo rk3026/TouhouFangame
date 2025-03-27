@@ -118,13 +118,19 @@ namespace BulletHellGame
         {
             // Loading all textures via spritesheets
             TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/Characters.json");
+
             TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/EnemiesAndBosses.json");
+
+            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/CutsceneReimu.json");
+            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/CutsceneSakuya.json");
+
+            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/CutsceneMarisa.json");
             TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/MenuAndOtherScreens.json");
             TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/ProjectilesAndObjects.json");
             TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/StagesTilesAndBackgrounds.json");
             TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/Fonts.json");
             TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/SidebarLoadAndPauseScreens.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/CutsceneCharacter.json");
+          
         }
 
         private void LoadShaders()
