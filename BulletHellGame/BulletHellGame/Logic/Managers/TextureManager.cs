@@ -18,6 +18,32 @@ namespace BulletHellGame.Logic.Managers
         /// <summary>
         /// Loads all the textures on a sprite sheet given the data json file for that sheet.
         /// </summary>
+        public SpriteData Create3x3SpriteSheet(Texture2D texture, string spriteKey)
+        {
+            int frameWidth = texture.Width / 3;
+            int frameHeight = texture.Height / 3;
+
+            // Build the animations dictionary
+            Dictionary<string, List<Rectangle>> animations = new Dictionary<string, List<Rectangle>>
+            {
+                ["Pose1"] = new List<Rectangle> { new Rectangle(0, 0, frameWidth, frameHeight) },
+                ["Pose2"] = new List<Rectangle> { new Rectangle(frameWidth, 0, frameWidth, frameHeight) },
+                ["Pose3"] = new List<Rectangle> { new Rectangle(frameWidth * 2, 0, frameWidth, frameHeight) },
+
+                ["Pose4"] = new List<Rectangle> { new Rectangle(0, frameHeight, frameWidth, frameHeight) },
+                ["Pose5"] = new List<Rectangle> { new Rectangle(frameWidth, frameHeight, frameWidth, frameHeight) },
+                ["Pose6"] = new List<Rectangle> { new Rectangle(frameWidth * 2, frameHeight, frameWidth, frameHeight) },
+
+                ["Pose7"] = new List<Rectangle> { new Rectangle(0, frameHeight * 2, frameWidth, frameHeight) },
+                ["Pose8"] = new List<Rectangle> { new Rectangle(frameWidth, frameHeight * 2, frameWidth, frameHeight) },
+                ["Pose9"] = new List<Rectangle> { new Rectangle(frameWidth * 2, frameHeight * 2, frameWidth, frameHeight) }
+            };
+
+            // Create and store a SpriteData
+            SpriteData spriteData = new SpriteData(texture, animations, spriteKey);
+            _sprites[spriteKey] = spriteData;
+            return spriteData;
+        }
         public void LoadSpriteSheetData(ContentManager content, string jsonFilePath)
         {
             // Read and parse the JSON file
