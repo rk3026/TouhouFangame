@@ -12,7 +12,6 @@
     </PropertyGroup>
     <ItemGroup>
         <None Remove="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3" />
-        <None Remove="Content\Music\激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷.mp3" />
         <None Remove="Content\Music\激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3" />
         <None Remove="Content\Music\紅魔激走劇  Everlasting....mp3" />
         <None Remove="Data\BulletPatterns.json" />
@@ -40,6 +39,9 @@
         <None Remove="Data\ShotTypes\SpiritSign-PursuitType-.json" />
         <None Remove="Data\ShotTypes\TimeSign-TrickyType-.json" />
         <None Remove="Data\SpriteSheets\Characters.json" />
+        <None Remove="Data\SpriteSheets\CutsceneMarisa.json" />
+        <None Remove="Data\SpriteSheets\CutsceneReimu.json" />
+        <None Remove="Data\SpriteSheets\CutsceneSakuya.json" />
         <None Remove="Data\SpriteSheets\EnemiesAndBosses.json" />
         <None Remove="Data\SpriteSheets\Fonts.json" />
         <None Remove="Data\SpriteSheets\MenuAndOtherScreens.json" />
@@ -51,9 +53,6 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="Content\Music\激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷.mp3">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Content\Music\激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3">
@@ -134,6 +133,15 @@
       <Content Include="Data\ShotTypes\TimeSign-TrickyType-.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <Content Include="Data\SpriteSheets\CutsceneMarisa.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\CutsceneReimu.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\CutsceneSakuya.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Data\SpriteSheets\Fonts.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
@@ -173,6 +181,9 @@
       </Content>
     </ItemGroup>
     <ItemGroup>
+      <None Update="Content\Music\激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷.mp3">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
       <None Update="Content\SpriteSheets\Characters.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
@@ -210,5 +221,8 @@
     </ItemGroup>
     <ItemGroup>
       <None Include="D:\Desktop\cpts_487\BulletHellGame\BulletHellGame\Presentation\Scenes\.editorconfig" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Content\Backgrounds\" />
     </ItemGroup>
 </Project>

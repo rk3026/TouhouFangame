@@ -58,6 +58,7 @@ public class MainMenuScene : IScene
             {
                 case 0:
                     SceneManager.Instance.AddScene(new CharacterSelectScene(_contentManager, _graphicsDevice));
+
                     break;
                 case 1:
                     SceneManager.Instance.AddScene(new SettingsScene(_contentManager, _graphicsDevice));

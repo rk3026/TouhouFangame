@@ -131,11 +131,13 @@ namespace BulletHellGame.Logic.Managers
         }
 
 
-        public void SpawnEnemy(EnemyData enemyData, Vector2 position, Vector2 velocity = default)
+        public Entity SpawnEnemy(EnemyData enemyData, Vector2 position, Vector2 velocity = default)
         {
             _enemyBuilder.SetEntityData(enemyData);
             _entityDirector.ConstructEntity(_enemyBuilder);
-            SpawnEntity(EntityType.Enemy, _enemyBuilder.GetResult(), position, velocity);
+            Entity enemy = _enemyBuilder.GetResult();
+            SpawnEntity(EntityType.Enemy, enemy, position, velocity);
+            return enemy;
         }
 
         public void SpawnPlayer(CharacterData playerData)

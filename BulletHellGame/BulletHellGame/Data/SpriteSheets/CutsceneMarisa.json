@@ -1,0 +1,76 @@
+{
+  "MarisaCutscene": {
+    "Default": [
+      {
+        "X": 0,
+        "Y": 0,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Thinking": [
+      {
+        "X": 256,
+        "Y": 0,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "SideEye": [
+      {
+        "X": 512,
+        "Y": 0,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Smiling": [
+      {
+        "X": 0,
+        "Y": 256,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Angry": [
+      {
+        "X": 256,
+        "Y": 256,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Worried": [
+      {
+        "X": 512,
+        "Y": 256,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Laughing": [
+      {
+        "X": 0,
+        "Y": 512,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Excited": [
+      {
+        "X": 256,
+        "Y": 512,
+        "Width": 256,
+        "Height": 256
+      }
+    ],
+    "Pouting": [
+      {
+        "X": 512,
+        "Y": 512,
+        "Width": 256,
+        "Height": 256
+      }
+    ]
+  }
+}

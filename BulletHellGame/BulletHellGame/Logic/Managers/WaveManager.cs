@@ -13,6 +13,7 @@ namespace BulletHellGame.Logic.Managers
         private readonly Queue<WaveData> _waveQueue = new();
         private WaveState _currentWave = null;
         private float _globalTime = 0f;
+        private List<Entity> _spawnedEnemies = new();
 
         public bool WaveJustCompleted { get; private set; } = false;
 
@@ -57,8 +58,9 @@ namespace BulletHellGame.Logic.Managers
                     if (!_currentWave.Spawned.Contains(enemySpawn) &&
                         _currentWave.ElapsedTime >= enemySpawn.SpawnTime)
                     {
-                        _entityManager.SpawnEnemy(enemySpawn.EnemyData, enemySpawn.SpawnPosition);
+                        Entity entity = _entityManager.SpawnEnemy(enemySpawn.EnemyData, enemySpawn.SpawnPosition);
                         _currentWave.Spawned.Add(enemySpawn);
+                        _spawnedEnemies.Add(entity);
                     }
                 }
 
@@ -71,6 +73,10 @@ namespace BulletHellGame.Logic.Managers
                 {
                     _currentWave = null;
                     WaveJustCompleted = true;
+                    if (durationExpired)
+                    {
+                        _spawnedEnemies.ForEach(e => _entityManager.QueueEntityForRemoval(e));
+                    }
                 }
             }
         }

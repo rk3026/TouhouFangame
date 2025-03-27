@@ -1,0 +1,77 @@
+{
+  
+    "SakuyaCutscene": {
+      "Default": [
+        {
+          "X": 0,
+          "Y": 0,
+          "Width": 256,
+          "Height": 256
+        }
+      ],
+      "Suspicious": [
+        {
+          "X": 256,
+          "Y": 0,
+          "Width": 256,
+          "Height": 256
+        }
+      ],
+      "AttackPose": [
+        {
+          "X": 512,
+          "Y": 0,
+          "Width": 256,
+          "Height": 256
+        }
+      ],
+      "ClosedEyes": [
+        {
+          "X": 0,
+          "Y": 256,
+          "Width": 256,
+          "Height": 256
+        }
+      ],
+      "AngrySmile": [
+        {
+          "X": 256,
+          "Y": 256,
+          "Width": 256,
+          "Height": 256
+        }
+      ],
+      "Stoic": [
+        {
+          "X": 512,
+          "Y": 256,
+          "Width": 256,
+          "Height": 256
+        }
+      ],
+      "Unimpressed": [
+        {
+          "X": 0,
+          "Y": 512,
+          "Width": 256,
+          "Height": 256
+        }
+      ],
+      "Smug": [
+        {
+          "X": 256,
+          "Y": 512,
+          "Width": 256,
+          "Height": 256
+        }
+      ],
+      "Bowing": [
+        {
+          "X": 512,
+          "Y": 512,
+          "Width": 256,
+          "Height": 256
+        }
+      ]
+    }
+ }

@@ -14,7 +14,8 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
             // Add 3 waves
             for (int i = 0; i < 5; i++)
             {
-                WaveData wave = WaveDataGenerator.CreateWaveData(playableArea);
+                bool circular = i % 2 == 0;
+                WaveData wave = WaveDataGenerator.CreateWaveData(playableArea, circular);
                 levelData.Waves.Add(wave);
             }
 
