@@ -7,8 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BulletHell.ECS\BulletHell.ECS.csproj" />
-  </ItemGroup>
-
 </Project>
