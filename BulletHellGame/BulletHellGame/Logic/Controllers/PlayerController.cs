@@ -48,7 +48,7 @@ namespace BulletHellGame.Logic.Controllers
             );
 
             // Shooting input
-            shootingComponent.IsShooting = inputManager.ActionDown(GameAction.Shoot);
+            this.IsShooting = inputManager.ActionDown(GameAction.Shoot);
 
             // Option switching logic
             UpdateShootingModes(entity, entityManager, isFocused, psc, powerLevelComponent);

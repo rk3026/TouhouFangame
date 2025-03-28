@@ -10,11 +10,9 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
         {
             foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(ControllerComponent)))
             {
+                // Controller updates to determine what the entity is doing currently
                 entity.GetComponent<ControllerComponent>().Controller.Update(entityManager, entity);
 
-                // Now update all the things from the controller
-                // if (Controller.IsShooting) spawn a bullet;
-                // if (Controller.IsMoving) vc.Velocity = Controller.speed * controller.direction;
             }
         }
     }

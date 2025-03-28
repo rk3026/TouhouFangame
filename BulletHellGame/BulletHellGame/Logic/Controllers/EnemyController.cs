@@ -14,7 +14,7 @@ namespace BulletHellGame.Logic.Controllers
                 return;
             }
 
-            sc.IsShooting = true; // Constantly trying to shoot
+            this.IsShooting = true; // Constantly trying to shoot
             
         }
     }

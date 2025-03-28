@@ -14,7 +14,7 @@ namespace BulletHellGame.Logic.Controllers
             {
                 return;
             }
-            sc.IsShooting = oc.Owner.GetComponent<ShootingComponent>().IsShooting; // Only able to shoot if its owner is
+            this.IsShooting = oc.Owner.GetComponent<ControllerComponent>().Controller.IsShooting; // Only able to shoot if its owner is
         }
     }
 }
