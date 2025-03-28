@@ -202,6 +202,9 @@ namespace BulletHellGame.Logic.Managers
             {
                 RegisterComponent(component.GetType(), entity);
             }
+
+            entity.OnComponentAdded += (component) => RegisterComponent(component.GetType(), entity);
+            entity.OnComponentRemoved += (component) => UnregisterComponent(component.GetType(), entity);
         }
 
         private void RegisterComponent(Type componentType, Entity entity)
