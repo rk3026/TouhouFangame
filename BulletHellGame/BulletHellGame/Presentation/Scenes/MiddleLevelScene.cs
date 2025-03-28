@@ -106,7 +106,7 @@ public class MidLevelDialogueScene : IScene
                 var rect = frames[0];
 
                 // scale down the portrait
-                float portraitScale = 0.5f;
+                float portraitScale = .76f;
                 float scaledHeight = rect.Height * portraitScale;
 
                 // position near left side above text strip
