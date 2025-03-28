@@ -9,17 +9,28 @@
         private Dictionary<Type, object> componentStorages = new(); // Key: ComponentType, Value: ComponentStorage object
         private Dictionary<int, int> _entityComponentMasks = new();  // Key: entityId, Value: Bitmask
         private int nextEntityId = 0; // Next available entity ID to assign to a newly created entity
+        private Queue<int> availableEntityIds = new();  // Queue for reused entity IDs
 
         public static World Create() => new World();
 
         /// <summary>
-        /// Creates an entity with the specified components and returns it's ID in the world.
+        /// Creates an entity with the specified components and returns its ID in the world.
         /// </summary>
         /// <param name="components"></param>
         /// <returns></returns>
         public int CreateEntity(params object[] components)
         {
-            int entityId = nextEntityId++;
+            int entityId;
+            if (availableEntityIds.Count > 0)
+            {
+                // Reuse an available ID from the deleted entities
+                entityId = availableEntityIds.Dequeue();
+            }
+            else
+            {
+                // Otherwise, use the next available ID
+                entityId = nextEntityId++;
+            }
 
             foreach (var component in components)
             {
@@ -47,9 +58,11 @@
                 {
                     archetype.RemoveEntity(entityId);
                 }
+
+                // Reuse the entity ID
+                availableEntityIds.Enqueue(entityId);
             }
         }
-
 
         /// <summary>
         /// Adds a component to an entity.
@@ -152,7 +165,6 @@
 
             return results;
         }
-
 
         private void UpdateEntityArchetype(int entityId)
         {

@@ -1,7 +1,7 @@
 ﻿namespace BulletHell.ECS
 {
     /// <summary>
-    /// A class that keeps track of newly created component types and assigns them an index.
+    /// A class that keeps track of newly created component types and assigns them an index (used to make the bitmasks for an archetype).
     /// </summary>
     internal static class ComponentRegistry
     {

@@ -9,34 +9,30 @@ public partial class Program
         var world = World.Create();
         Console.WriteLine("World created.\n");
 
-        // Create some initial entities (player, enemy, boss, etc.)
         CreateEntities(world, 23);
 
-        // Query entities by components and display their details
         QueryEntitiesWithPosition(world);
         QueryEntitiesWithVelocity(world);
         QueryEntitiesWithHealth(world);
 
-        // Update the player and enemy positions
         UpdateEntityPositions(world);
 
-        // Test HealthComponent: simulate damage
         SimulateDamage(world);
 
-        // Remove PositionComponent from the player and check updates
         RemovePositionComponentFromPlayer(world);
 
-        // Query entities with both PositionComponent and VelocityComponent after removal
         QueryEntitiesWithPositionAndVelocity(world);
 
-        // Add a new component (e.g., Shield) to the player
         AddShieldComponentToPlayer(world);
 
-        // Query entities with PositionComponent, VelocityComponent, and ShieldComponent
         QueryEntitiesWithPositionVelocityAndShield(world);
 
-        // Query entities with multiple combinations of components
         QueryEntitiesWithMultipleComponents(world);
+
+        TestEntityDeletion(world);
+
+        CreateEntities(world, 7);
+        RemoveHealthComponentFromRandomEntities(world);
 
         Console.WriteLine("\nEnd of program.");
     }
@@ -48,7 +44,7 @@ public partial class Program
         Random rand = new Random();
         for (int i = 0; i < numberOfEntities; i++)
         {
-            // Randomly decide which components to assign
+            // Randomly decide which component stats
             var position = new PositionComponent { X = rand.Next(-50, 50), Y = rand.Next(-50, 50) };
             var velocity = new VelocityComponent { X = rand.Next(-5, 5), Y = rand.Next(-5, 5) };
             var health = new HealthComponent { Health = rand.Next(10, 100) };
@@ -57,13 +53,13 @@ public partial class Program
             // Create the entity with some random components
             if (shield != null)
             {
-                world.CreateEntity(position, velocity, health, shield);
-                Console.WriteLine($"Created entity {i} with Position {position.X} {position.Y}, Velocity {velocity.X} {velocity.Y}, Health {health.Health}, and Shield {shield.Value}.");
+                int entityId = world.CreateEntity(position, velocity, health, shield);
+                Console.WriteLine($"Created entity {entityId} with Position {position.X} {position.Y}, Velocity {velocity.X} {velocity.Y}, Health {health.Health}, and Shield {shield.Value}.");
             }
             else
             {
-                world.CreateEntity(position, velocity, health);
-                Console.WriteLine($"Created entity {i} with Position {position.X} {position.Y}, Velocity {velocity.X} {velocity.Y}, Health {health.Health}.");
+                int entityId = world.CreateEntity(position, velocity, health);
+                Console.WriteLine($"Created entity {entityId} with Position {position.X} {position.Y}, Velocity {velocity.X} {velocity.Y}, Health {health.Health}.");
             }
         }
         Console.WriteLine();
@@ -227,4 +223,63 @@ public partial class Program
         }
         Console.WriteLine();
     }
+
+    private static void RemoveEntity(World world, int entityId)
+    {
+        Console.WriteLine($"\nRemoving entity {entityId}...");
+
+        // Assuming the world has an entity removal method, call it
+        world.DestroyEntity(entityId);
+
+        Console.WriteLine($"Entity {entityId} removed from the world.\n");
+    }
+
+    private static void TestEntityDeletion(World world)
+    {
+        Console.WriteLine("\nTesting Entity Deletion...");
+
+        // Create an entity and query it
+        var entityId = world.CreateEntity(new PositionComponent { X = 0, Y = 0 }, new VelocityComponent { X = 1, Y = 1 }, new HealthComponent { Health = 100 });
+        Console.WriteLine($"Entity {entityId} created and added to the world.");
+
+        // Query and display the entity before deletion
+        QueryEntitiesWithPosition(world);
+        QueryEntitiesWithVelocity(world);
+        QueryEntitiesWithHealth(world);
+
+        Console.WriteLine("Removing entity...");
+        // Now, let's delete the entity
+        RemoveEntity(world, entityId);
+
+        Console.WriteLine("Removing 6,11, and 20");
+        RemoveEntity(world, 6);
+        RemoveEntity(world, 11);
+        RemoveEntity(world, 20);
+
+        // Query again after deletion to ensure it's removed
+        QueryEntitiesWithPosition(world);
+        QueryEntitiesWithVelocity(world);
+        QueryEntitiesWithHealth(world);
+
+        Console.WriteLine("\nEnd of entity deletion test.\n");
+    }
+
+    private static void RemoveHealthComponentFromRandomEntities(World world)
+    {
+        Console.WriteLine("\nRemoving HealthComponent from random entities...");
+
+        var queryDescription = new QueryDescription().WithAll<HealthComponent>();
+        var sortedEntities = world.Query(queryDescription).OrderBy(entity => entity.Item1); // Sort by entityId
+
+        foreach (var (entityId, components) in sortedEntities)
+        {
+            // Remove HealthComponent from the entity
+            world.RemoveComponent(entityId, typeof(HealthComponent));
+            Console.WriteLine($"HealthComponent removed from entity {entityId}.");
+        }
+
+        // Query again after removal
+        QueryEntitiesWithHealth(world);
+    }
+
 }

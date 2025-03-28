@@ -1,7 +1,7 @@
 ﻿namespace BulletHell.ECS
 {
     /// <summary>
-    /// Specifies the components required for a query.
+    /// Specifies the components required for a query on the world.
     /// </summary>
     public class QueryDescription
     {
