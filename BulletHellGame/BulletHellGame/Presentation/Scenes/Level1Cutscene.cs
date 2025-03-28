@@ -56,7 +56,7 @@ public class Level1CutsceneScene : IScene
         characterPortraits["Marisa"] = TextureManager.Instance.Create3x3SpriteSheet(marisaTexture, "MarisaCutscene");
         characterPortraits["Sakuya"] = TextureManager.Instance.Create3x3SpriteSheet(sakuyaTexture, "SakuyaCutscene");
 
-        BGMManager.Instance.PlayBGM(content, "01. Ghostly Dream ~ Snow or Cherry Petal");
+        BGMManager.Instance.PlayBGM(content, "02. Paradise ~ Deep Mountain");
 
         dialogue = new List<DialogueLine>
         {

@@ -24,6 +24,7 @@ namespace BulletHellGame.Presentation.Scenes
         private GameUI _gameUI;
         private EnemyIndicatorRenderer _enemyIndicatorRenderer;
         private CharacterData _characterData;
+        private Dictionary<string, SpriteData> characterPortraits = new();
 
         // Scene layout
         private Rectangle _playableArea;
@@ -36,6 +37,7 @@ namespace BulletHellGame.Presentation.Scenes
         private float _transitionTimer = 0f;
         private const float TransitionDuration = 2f;
         private string _transitionMessage = "";
+        private bool bossDialogueShown = false;
 
         // Countdown
         private bool _isCountdownActive = false;
@@ -73,6 +75,7 @@ namespace BulletHellGame.Presentation.Scenes
             _stageBackground = TextureManager.Instance.GetSpriteData("Level1.Background");
             _bush1Sprite = TextureManager.Instance.GetSpriteData("Level1.Bush1");
             _bush2Sprite = TextureManager.Instance.GetSpriteData("Level1.Bush2");
+   
 
             whitePixel = new Texture2D(_graphicsDevice, 1, 1);
             whitePixel.SetData(new Color[] { Color.White });
@@ -109,7 +112,20 @@ namespace BulletHellGame.Presentation.Scenes
             _parallaxBackground.Update(gameTime);
             _gameUI.Update(gameTime);
 
-            if (_levelManager.BossSpawned) BGMManager.Instance.PlayBGM(_contentManager, "激戦アレンジ 有頂天変  wonderful heaven 東方緋想天");
+            if (_levelManager.BossSpawned && !bossDialogueShown)
+            {
+                bossDialogueShown = true;
+
+                // Play boss music
+                BGMManager.Instance.PlayBGM(_contentManager, "激戦アレンジ 有頂天変  wonderful heaven 東方緋想天");
+
+                // Show mid-boss dialogue
+                string characterName = _characterData.Name; // e.g., "Reimu"
+                string line = "So you're the one behind this... I won't hold back!";
+
+                SceneManager.Instance.AddScene(new MidLevelDialogueScene(_contentManager, _graphicsDevice, characterName, line));
+            }
+
 
             if (InputManager.Instance.ActionPressed(GameAction.Pause))
                 SceneManager.Instance.AddScene(new PausedScene(_contentManager, _graphicsDevice));
