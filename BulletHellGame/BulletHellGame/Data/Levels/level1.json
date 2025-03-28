@@ -9,14 +9,12 @@
       "formation": "zigzag",
       "enemies": [
         {
-          "type": "EnemyTypeA",
-          "spawn_position": { "x": 100, "y": -100 },
-          "health": 10
+          "enemyId": "0",
+          "spawn_position": { "x": 100, "y": -100 }
         },
         {
-          "type": "EnemyTypeC",
-          "spawn_position": { "x": 200, "y": -100 },
-          "health": 15
+          "enemyId": "1",
+          "spawn_position": { "x": 200, "y": -100 }
         }
       ]
     },
@@ -25,14 +23,12 @@
       "formation": "sin_wave",
       "enemies": [
         {
-          "type": "EnemyTypeB",
-          "spawn_position": { "x": 200, "y": -100 },
-          "health": 20
+          "enemyId": "0",
+          "spawn_position": { "x": 200, "y": -100 }
         },
         {
-          "type": "EnemyTypeD",
-          "spawn_position": { "x": 300, "y": -100 },
-          "health": 25
+          "enemyId": "1",
+          "spawn_position": { "x": 300, "y": -100 }
         }
       ]
     },
@@ -41,9 +37,8 @@
       "formation": "boss",
       "enemies": [
         {
-          "type": "MidBoss",
-          "spawn_position": { "x": 150, "y": -200 },
-          "health": 500
+          "enemyId": "2",
+          "spawn_position": { "x": 150, "y": -200 }
         }
       ]
     },
@@ -52,19 +47,16 @@
       "formation": "complex",
       "enemies": [
         {
-          "type": "EnemyTypeA",
-          "spawn_position": { "x": 100, "y": -100 },
-          "health": 15
+          "enemyId": "0",
+          "spawn_position": { "x": 100, "y": -100 }
         },
         {
           "type": "EnemyTypeB",
-          "spawn_position": { "x": 200, "y": -100 },
-          "health": 20
+          "spawn_position": { "x": 200, "y": -100 }
         },
         {
           "type": "EnemyTypeC",
-          "spawn_position": { "x": 300, "y": -100 },
-          "health": 25
+          "spawn_position": { "x": 300, "y": -100 }
         }
       ]
     },
@@ -73,14 +65,12 @@
       "formation": "final_boss",
       "enemies": [
         {
-          "type": "FinalBoss",
-          "spawn_position": { "x": 150, "y": -200 },
-          "health": 1000
+          "enemyId": "0",
+          "spawn_position": { "x": 150, "y": -200 }
         },
         {
-          "type": "EnemyTypeD",
-          "spawn_position": { "x": 250, "y": -200 },
-          "health": 30
+          "enemyId": "0",
+          "spawn_position": { "x": 250, "y": -200 }
         }
       ]
     }
@@ -90,57 +80,13 @@
     "spawn_time": 120.0,
     "spawn_position": { "x": 150, "y": -200 },
     "start_position": { "x": 150, "y": 150 },
-    "health": 3000,
-    "phases": [
-      {
-        "health_threshold": 1500,
-        "bullet_patterns": [
-          {
-            "type": "bullet",
-            "speed": 6,
-            "fire_rate": 0.05
-          }
-        ]
-      }
-    ]
+    "enemyId": "3"
   },
   "boss": {
     "name": "Letty Whiterock",
     "spawn_time": 240.0,
     "spawn_position": { "x": 150, "y": -200 },
     "start_position": { "x": 150, "y": 150 },
-    "health": 10000,
-    "phases": [
-      {
-        "health_threshold": 7500,
-        "bullet_patterns": [
-          {
-            "type": "laser_beam",
-            "speed": 6,
-            "fire_rate": 0.05
-          }
-        ]
-      },
-      {
-        "health_threshold": 5000,
-        "bullet_patterns": [
-          {
-            "type": "bullet",
-            "speed": 6,
-            "fire_rate": 0.05
-          }
-        ]
-      },
-      {
-        "health_threshold": 2500,
-        "bullet_patterns": [
-          {
-            "type": "spiral",
-            "speed": 6,
-            "fire_rate": 0.05
-          }
-        ]
-      }
-    ]
+    "enemyId": "4"
   }
 }

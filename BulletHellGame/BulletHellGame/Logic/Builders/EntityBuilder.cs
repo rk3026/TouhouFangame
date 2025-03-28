@@ -3,7 +3,7 @@
 namespace BulletHellGame.Logic.Builders
 {
     /// <summary>
-    /// A class for building entities. Each entity builder has a specific type of entity data class
+    /// A class for building entities. Each entity builder has a specific id of entity data class
     /// that it uses to build an entity.
     /// </summary>
     /// <typeparam name="T"> A data class used to build an entity. </typeparam>

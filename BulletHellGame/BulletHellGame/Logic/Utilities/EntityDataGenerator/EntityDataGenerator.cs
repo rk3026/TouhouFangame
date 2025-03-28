@@ -39,5 +39,10 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
         {
             return BossDataGenerator.CreateBossData();
         }
+
+        public static List<CollectibleData> GenerateRandomLoot()
+        {
+            return CollectibleDataGenerator.GenerateRandomLoot();
+        }
     }
 }

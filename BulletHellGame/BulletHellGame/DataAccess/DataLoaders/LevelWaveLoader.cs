@@ -42,7 +42,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
             {
                 WaveData waveData = new WaveData
                 {
-                    SpawnTime = wave["spawn_time"].Value<float>(),
+                    StartTime = wave["spawn_time"].Value<float>(),
                     Formation = wave["formation"].Value<string>(),
                     Enemies = new List<EnemySpawnData>()
                 };
@@ -51,7 +51,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
                 {
                     waveData.Enemies.Add(new EnemySpawnData
                     {
-                        Type = enemy["type"].Value<string>(), // TODO: Switch to EnemyDataLoader.cs which will reference EnemyData.json in Data Directory
+                        Type = enemy["id"].Value<string>(), // TODO: Switch to EnemyDataLoader.cs which will reference EnemyData.json in Data Directory
                         SpawnPosition = new Vector2(enemy["spawn_position"]["x"].Value<float>(), enemy["spawn_position"]["y"].Value<float>()),
                         Health = enemy["health"].Value<int>()
                     });

@@ -51,7 +51,7 @@ namespace BulletHellGame.Logic.Entities
         // Probably not use this (removing components is costly, it has to loop through all the components)
         public void RemoveComponent<T>() where T : class, IComponent
         {
-            // Find the component of type T
+            // Find the component of id T
             var component = _components.OfType<T>().FirstOrDefault();
 
             if (component != null)
