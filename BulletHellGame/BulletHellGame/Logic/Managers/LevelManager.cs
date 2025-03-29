@@ -36,22 +36,6 @@ namespace BulletHellGame.Logic.Managers
 
             for (int level = 1; level <= _totalLevels; level++)
             {
-                //var levelData = new LevelData();
-
-                //int waveCount = level * 2;
-                //for (int i = 0; i < waveCount; i++)
-                //{
-                //    var wave = EntityDataGenerator.CreateWaveData(_playableArea);
-                //    levelData.Waves.Add(wave);
-                //}
-
-                //int bossCount = (level == _totalLevels) ? 2 : 1;
-                //for (int i = 0; i < bossCount; i++)
-                //{
-                //    var boss = EntityDataGenerator.CreateBossData();
-                //    levelData.Bosses.Add(boss);
-                //}
-
                 var levelData = new LevelData();
                 levelData = EntityDataGenerator.GenerateLevelData(_playableArea);
                 _levels[level] = levelData;
@@ -112,15 +96,13 @@ namespace BulletHellGame.Logic.Managers
 
             var level = _levels[_currentLevel];
 
-            foreach (var boss in level.Bosses)
-            {
-                Vector2 spawnPos = new Vector2(
-                    _entityManager.Bounds.Width / 2,
-                    _entityManager.Bounds.Top + 50
-                );
+            Vector2 spawnPos = new Vector2(
+                _entityManager.Bounds.Width / 2,
+                _entityManager.Bounds.Top + 50
+            );
 
-                _entityManager.SpawnBoss(boss, spawnPos);
-            }
+            if (_levels[_currentLevel].Boss != null)
+                _entityManager.SpawnBoss(_levels[_currentLevel].Boss, spawnPos);
 
             _bossSpawned = true;
         }

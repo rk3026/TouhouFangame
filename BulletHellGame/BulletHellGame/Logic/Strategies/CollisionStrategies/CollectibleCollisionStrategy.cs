@@ -11,6 +11,7 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
             // Handle collectible pickup logic
             if (other.TryGetComponent<CollectorComponent>(out var cc) &&
                 other.TryGetComponent<PlayerStatsComponent>(out var stats) &&
+                other.TryGetComponent<BombingComponent>(out var bc) &&
                 owner.TryGetComponent<PickUpEffectComponent>(out var pec))
             {
                 foreach (var effect in pec.Effects)
@@ -22,7 +23,7 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
                             break;
 
                         case CollectibleType.Bomb:
-                            stats.Bombs += effect.Value;
+                            bc.BombCount += effect.Value;
                             break;
 
                         case CollectibleType.PowerUp:

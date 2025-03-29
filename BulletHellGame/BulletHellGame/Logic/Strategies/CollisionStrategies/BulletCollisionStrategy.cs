@@ -20,7 +20,6 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
                 {
                     ic.RemainingTime = 2f;
                 }
-                SFXManager.Instance.PlaySound("se_damage00");
 
                 if (other.TryGetComponent<SpriteComponent>(out var sprite))
                 {

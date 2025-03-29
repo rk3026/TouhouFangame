@@ -73,7 +73,7 @@ namespace BulletHellGame.Logic.Managers
         {
             if (type == EntityType.Enemy)
             {
-                return _activeEntities[EntityType.Enemy].Count + _activeEntities[EntityType.Boss].Count; // Bosses are considered as enemies too.
+                return _activeEntities[EntityType.Enemy].Count + _activeEntities[EntityType.Boss].Count; // Boss are considered as enemies too.
             }
 
             return _activeEntities[type].Count;

@@ -112,5 +112,10 @@ namespace BulletHellGame.Logic.Builders
         {
             _entity.AddComponent(new CollisionStrategyComponent(new PlayerCollisionStrategy()));
         }
+
+        public override void BuildBombing()
+        {
+            _entity.AddComponent(new BombingComponent(_entityData.InitialBombs, 3f));
+        }
     }
 }

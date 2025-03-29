@@ -49,6 +49,9 @@ namespace BulletHellGame.Logic.Controllers
 
             // Shooting input
             this.IsShooting = inputManager.ActionDown(GameAction.Shoot);
+            this.IsBombing = inputManager.ActionDown(GameAction.Bomb);
+            this.IsMoving = direction.LengthSquared() > 0;
+            this.Direction = (float)Math.Atan2(direction.Y, direction.X);
 
             // Option switching logic
             UpdateShootingModes(entity, entityManager, isFocused, psc, powerLevelComponent);

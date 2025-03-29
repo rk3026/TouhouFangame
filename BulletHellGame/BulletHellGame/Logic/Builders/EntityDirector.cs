@@ -30,6 +30,7 @@
             builder.BuildIndicator();
             builder.BuildDespawn();
             builder.BuildCollisionStrategy();
+            builder.BuildBombing();
         }
     }
 }

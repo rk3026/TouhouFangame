@@ -8,6 +8,13 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
     {
         private static Random _random = new Random();
 
+        public static BossData CreateSubBossData()
+        {
+            EnemyData phase1 = CreateBossPhase("Diamond.Blue");
+            EnemyData phase2 = CreateBossPhase("SingleCircle.Blue", "zigzag", 0.5f);
+            return new BossData { Phases = new List<EnemyData> { phase1, phase2 } };
+        }
+
         public static BossData CreateBossData()
         {
             EnemyData phase1 = CreateBossPhase("Diamond.Blue");
@@ -57,6 +64,5 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
                 }
             };
         }
-
     }
 }
