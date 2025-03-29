@@ -1,6 +1,8 @@
 ﻿using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Utilities.EntityDataGenerator;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace BulletHellGame.Logic.Managers
 {
@@ -14,10 +16,12 @@ namespace BulletHellGame.Logic.Managers
         private int _currentLevel = 1;
         private int _totalLevels = 1;
 
+        private bool _subBossSpawned = false;
         private bool _bossSpawned = false;
         private bool _levelComplete = false;
 
         public bool WaveJustCompleted => _waveManager.WaveJustCompleted;
+        public bool SubBossSpawned => _subBossSpawned;
         public bool BossSpawned => _bossSpawned;
         public bool LevelComplete => _levelComplete;
 
@@ -36,8 +40,7 @@ namespace BulletHellGame.Logic.Managers
 
             for (int level = 1; level <= _totalLevels; level++)
             {
-                var levelData = new LevelData();
-                levelData = EntityDataGenerator.GenerateLevelData(_playableArea);
+                var levelData = EntityDataGenerator.GenerateLevelData(_playableArea);
                 _levels[level] = levelData;
             }
         }
@@ -47,6 +50,7 @@ namespace BulletHellGame.Logic.Managers
             if (!_levels.ContainsKey(level)) return;
 
             _currentLevel = level;
+            _subBossSpawned = false;
             _bossSpawned = false;
             _levelComplete = false;
 
@@ -62,13 +66,16 @@ namespace BulletHellGame.Logic.Managers
         {
             _waveManager.Update(gameTime);
 
-            // Spawn boss when all waves are done and boss hasn't been spawned yet
-            if (_waveManager.AreAllWavesComplete() && !_bossSpawned)
+            if (_waveManager.AreAllWavesComplete() && !_subBossSpawned)
+            {
+                SpawnSubBoss();
+            }
+
+            if (_subBossSpawned && !_bossSpawned && _entityManager.GetEntityCount(EntityType.Boss) == 0)
             {
                 SpawnBoss();
             }
 
-            // Mark level complete once all bosses are defeated
             if (_bossSpawned && _entityManager.GetEntityCount(EntityType.Boss) == 0)
             {
                 _levelComplete = true;
@@ -84,9 +91,25 @@ namespace BulletHellGame.Logic.Managers
             }
             else
             {
-               // All levels complete! Trigger game end or cutscene
-               return false;
+                return false; // Game finished
             }
+        }
+
+        public void SpawnSubBoss()
+        {
+            if (_subBossSpawned || !_levels.ContainsKey(_currentLevel))
+                return;
+
+            var level = _levels[_currentLevel];
+            if (level.SubBoss == null) return;
+
+            Vector2 spawnPos = new Vector2(
+                _entityManager.Bounds.Width / 2,
+                _entityManager.Bounds.Top + 50
+            );
+
+            _entityManager.SpawnBoss(level.SubBoss, spawnPos);
+            _subBossSpawned = true;
         }
 
         public void SpawnBoss()
@@ -95,15 +118,14 @@ namespace BulletHellGame.Logic.Managers
                 return;
 
             var level = _levels[_currentLevel];
+            if (level.Boss == null) return;
 
             Vector2 spawnPos = new Vector2(
                 _entityManager.Bounds.Width / 2,
                 _entityManager.Bounds.Top + 50
             );
 
-            if (_levels[_currentLevel].Boss != null)
-                _entityManager.SpawnBoss(_levels[_currentLevel].Boss, spawnPos);
-
+            _entityManager.SpawnBoss(level.Boss, spawnPos);
             _bossSpawned = true;
         }
 

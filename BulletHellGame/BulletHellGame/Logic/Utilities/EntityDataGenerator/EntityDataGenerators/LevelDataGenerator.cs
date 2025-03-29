@@ -20,8 +20,9 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
             }
 
             // Add 1 boss
-            BossData boss = BossDataGenerator.CreateBossData();
             BossData subboss = BossDataGenerator.CreateSubBossData();
+            BossData boss = BossDataGenerator.CreateBossData();
+            levelData.SubBoss = subboss;
             levelData.Boss = boss;
 
             return levelData;
