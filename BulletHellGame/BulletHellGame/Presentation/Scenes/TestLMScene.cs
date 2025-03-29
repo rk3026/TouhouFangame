@@ -210,7 +210,7 @@ namespace BulletHellGame.Presentation.Scenes
                 ? $"{(int)(waveTimeLeft / 60)}:{waveTimeLeft % 60:00}"
                 : "00:00";
 
-            Vector2 position = new Vector2(_playableArea.Right - 100, _playableArea.Top + 10);
+            Vector2 position = new Vector2(_playableArea.Right - 55 , _playableArea.Top + 5);
             spriteBatch.DrawString(_font, timeText, position, Color.White);
         }
 
