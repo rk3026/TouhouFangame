@@ -96,6 +96,16 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             {
                 velocityComponent.Velocity = Vector2.Normalize(velocityComponent.Velocity) * homingComponent.MaxHomingSpeed;
             }
+
+            // Rotate the sprite to face the target
+            if (bullet.TryGetComponent<SpriteComponent>(out var spriteComponent))
+            {
+                // Calculate the angle to the target
+                float angle = MathF.Atan2(directionToTarget.Y, directionToTarget.X);
+
+                // Update the sprite's rotation
+                spriteComponent.CurrentRotation = angle;
+            }
         }
     }
 }

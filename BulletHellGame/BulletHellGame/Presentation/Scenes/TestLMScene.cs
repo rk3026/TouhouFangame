@@ -23,6 +23,7 @@ namespace BulletHellGame.Presentation.Scenes
         private GameUI _gameUI;
         private EnemyIndicatorRenderer _enemyIndicatorRenderer;
         private CharacterData _characterData;
+        private Dictionary<string, string> phaseSongs;
 
         // Scene layout
         private Rectangle _playableArea;
@@ -30,16 +31,11 @@ namespace BulletHellGame.Presentation.Scenes
         private const int _playableAreaOffset = 15;
 
         // Transition
-        private enum TransitionState { None, WaveComplete, BossIncoming, LevelComplete }
+        private enum TransitionState { None, WaveComplete, BossWave, LevelComplete }
         private TransitionState _transitionState = TransitionState.None;
         private float _transitionTimer = 0f;
         private const float TransitionDuration = 2f;
         private string _transitionMessage = "";
-
-        // Countdown
-        private bool _isCountdownActive = false;
-        private float _countdownTimer = 3f;
-        private const float CountdownStart = 3f;
 
         public bool IsOverlay => false;
 
@@ -61,6 +57,36 @@ namespace BulletHellGame.Presentation.Scenes
 
             _characterData = characterData;
             _entityManager.SpawnPlayer(characterData);
+
+            // Define phase songs
+            phaseSongs = new Dictionary<string, string>
+            {
+                { "SubBoss", "激戦アレンジ 有頂天変  wonderful heaven 東方緋想天" },
+                { "Boss", "激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷" },
+                { "Normal", "紅魔激走劇  Everlasting..."}
+            };
+
+            _levelManager.OnBossSpawned += () =>
+            {
+                // Determine the current phase and play the corresponding song
+                if (_levelManager.GetCurrentWaveType() == WaveType.SubBoss)
+                {
+                    BGMManager.Instance.PlayBGM(_contentManager, phaseSongs["SubBoss"]);
+                }
+                else if (_levelManager.GetCurrentWaveType() == WaveType.Boss)
+                {
+                    BGMManager.Instance.PlayBGM(_contentManager, phaseSongs["Boss"]);
+                }
+
+                _transitionState = TransitionState.BossWave;
+                _transitionMessage = "Boss Incoming!";
+                _transitionTimer = TransitionDuration;
+            };
+
+            _levelManager.OnBossDefeated += () =>
+            {
+                BGMManager.Instance.PlayBGM(_contentManager, phaseSongs["Normal"]);
+            };
         }
 
         public void Load()
@@ -108,14 +134,14 @@ namespace BulletHellGame.Presentation.Scenes
             _parallaxBackground.Update(gameTime);
             _gameUI.Update(gameTime);
 
-            if (_levelManager.BossSpawned) BGMManager.Instance.PlayBGM(_contentManager, "激戦アレンジ 有頂天変  wonderful heaven 東方緋想天");
+            // Handle transition states for wave-related messages
+            HandleTransitionStates(gameTime);
 
             if (InputManager.Instance.ActionPressed(GameAction.Pause))
                 SceneManager.Instance.AddScene(new PausedScene(_contentManager, _graphicsDevice));
 
             if (_entityManager.GetEntityCount(EntityType.Player) == 0)
             {
-                // Shrink the menu size slightly compared to the playable area
                 int menuPadding = 40;
                 Rectangle menuLocation = new Rectangle(
                     _playableArea.X + menuPadding,
@@ -124,11 +150,10 @@ namespace BulletHellGame.Presentation.Scenes
                     _playableArea.Height - menuPadding * 2
                 );
 
-                // Add the RetryMenuScene with the smaller menu location
                 SceneManager.Instance.AddScene(new RetryMenuScene(menuLocation, whitePixel, _contentManager, _graphicsDevice, _characterData));
             }
 
-            if (_levelManager.LevelComplete && !_levelManager.StartNextLevel())
+            if (_levelManager.LevelComplete() && !_levelManager.StartNextLevel())
             {
                 Rectangle menuLocation = new Rectangle(
                     _playableArea.X + 40,
@@ -138,7 +163,27 @@ namespace BulletHellGame.Presentation.Scenes
                 );
                 SceneManager.Instance.AddScene(new WinScene(menuLocation, _contentManager, _graphicsDevice, _characterData));
             }
-                
+        }
+
+        private void HandleTransitionStates(GameTime gameTime)
+        {
+            // Check for wave transitions (e.g., new wave, wave complete, boss incoming)
+            if (_levelManager.WaveJustCompleted)
+            {
+                _transitionState = TransitionState.WaveComplete;
+                _transitionMessage = "Wave Complete!";
+                _transitionTimer = TransitionDuration;
+            }
+
+            // Countdown for transition display
+            if (_transitionTimer > 0)
+            {
+                _transitionTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                _transitionState = TransitionState.None;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -150,7 +195,51 @@ namespace BulletHellGame.Presentation.Scenes
             _enemyIndicatorRenderer.Draw(_entityManager, spriteBatch);
             _gameUI.Draw(spriteBatch);
 
+            // Draw transition message
+            DrawTransitionMessage(spriteBatch);
+
+            DrawWaveTimeLeft(spriteBatch);
         }
+
+        private void DrawWaveTimeLeft(SpriteBatch spriteBatch)
+        {
+            // Get the current wave time left from the LevelManager
+            float waveTimeLeft = _levelManager.GetCurrentWaveTimeLeft();
+
+            string timeText = waveTimeLeft > 0
+                ? $"{(int)(waveTimeLeft / 60)}:{waveTimeLeft % 60:00}"
+                : "00:00";
+
+            Vector2 position = new Vector2(_playableArea.Right - 100, _playableArea.Top + 10);
+            spriteBatch.DrawString(_font, timeText, position, Color.White);
+        }
+
+        private void DrawTransitionMessage(SpriteBatch spriteBatch)
+        {
+            if (_transitionState == TransitionState.None) return;
+
+            Vector2 messagePosition = new Vector2(_playableArea.X + 100, _playableArea.Y + 50);
+
+            // Calculate the alpha for the fade effect based on the transition timer
+            // We want it to fade in and out once, so we just want a smooth 0 -> 1 -> 0 transition.
+            float alpha = 1f - Math.Abs(2f * (_transitionTimer / TransitionDuration) - 1f);
+
+            Color messageColor = Color.White * alpha;
+            Color outlineColor = Color.Black * alpha;
+
+            // Offset for the outline (you can adjust the offsets for thicker or thinner outline)
+            float outlineOffset = 2f;
+
+            // Draw the outline by rendering the text in different directions
+            spriteBatch.DrawString(_font, _transitionMessage, messagePosition + new Vector2(-outlineOffset, -outlineOffset), outlineColor); // Top-Left
+            spriteBatch.DrawString(_font, _transitionMessage, messagePosition + new Vector2(outlineOffset, -outlineOffset), outlineColor);  // Top-Right
+            spriteBatch.DrawString(_font, _transitionMessage, messagePosition + new Vector2(-outlineOffset, outlineOffset), outlineColor); // Bottom-Left
+            spriteBatch.DrawString(_font, _transitionMessage, messagePosition + new Vector2(outlineOffset, outlineOffset), outlineColor);  // Bottom-Right
+
+            // Finally, draw the main message on top of the outline
+            spriteBatch.DrawString(_font, _transitionMessage, messagePosition, messageColor);
+        }
+
 
         private void DrawSidebar(SpriteBatch spriteBatch)
         {

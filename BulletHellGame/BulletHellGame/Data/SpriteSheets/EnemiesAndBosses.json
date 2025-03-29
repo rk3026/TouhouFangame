@@ -14,9 +14,37 @@
       { "X": 1017, "Y": 984, "Width": 28, "Height": 28 }
     ]
   },
+
   "Fairy.White": {
-    "Idle": [ { "X": 794, "Y": 1017, "Width": 24, "Height": 27 } ]
+    "Idle": [
+      { "X": 794, "Y": 1017, "Width": 24, "Height": 27 },
+      { "X": 825, "Y": 1017, "Width": 26, "Height": 27 },
+      { "X": 856, "Y": 1017, "Width": 28, "Height": 27 },
+      { "X": 889, "Y": 1017, "Width": 27, "Height": 27 }
+    ],
+    "Moving": [
+      { "X": 921, "Y": 1016, "Width": 27, "Height": 28 },
+      { "X": 954, "Y": 1016, "Width": 26, "Height": 28 },
+      { "X": 985, "Y": 1016, "Width": 28, "Height": 28 },
+      { "X": 1017, "Y": 1016, "Width": 28, "Height": 28 }
+    ]
   },
+
+  "Fairy.Pink": {
+    "Idle": [
+      { "X": 794, "Y": 1050, "Width": 24, "Height": 27 },
+      { "X": 825, "Y": 1050, "Width": 26, "Height": 27 },
+      { "X": 856, "Y": 1050, "Width": 28, "Height": 27 },
+      { "X": 889, "Y": 1050, "Width": 27, "Height": 27 }
+    ],
+    "Moving": [
+      { "X": 921, "Y": 1049, "Width": 27, "Height": 28 },
+      { "X": 954, "Y": 1049, "Width": 26, "Height": 28 },
+      { "X": 985, "Y": 1049, "Width": 28, "Height": 28 },
+      { "X": 1017, "Y": 1049, "Width": 28, "Height": 28 }
+    ]
+  },
+
 
   // SubBosses
   "Cirno": {

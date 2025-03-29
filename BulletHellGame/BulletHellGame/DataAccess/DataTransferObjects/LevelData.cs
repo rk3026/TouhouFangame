@@ -7,8 +7,6 @@
         public string Background { get; set; }
         public string Music { get; set; }
         public List<WaveData> Waves { get; set; }
-        public BossData SubBoss { get; set; }
-        public BossData Boss { get; set; }
 
         public LevelData()
         {

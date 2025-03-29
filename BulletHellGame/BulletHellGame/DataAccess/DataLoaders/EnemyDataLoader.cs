@@ -8,14 +8,14 @@ using System.Text.Json;
 namespace BulletHellGame.DataAccess.DataLoaders
 {
     /// <summary>
-    /// This class will read data from EnemyData.json.
+    /// This class will read data from GruntData.json.
     /// It will load all enemy types and return the specific one requested.
     /// </summary>
     public static class EnemyDataLoader
     {
         private static readonly string EnemiesDirectory = Path.Combine("Data", "Enemies");
 
-        public static EnemyData LoadEnemyData(string enemyId)
+        public static GruntData LoadEnemyData(string enemyId)
         {
             var filePath = Path.Combine(EnemiesDirectory, "Enemies.json");
             if (!File.Exists(filePath))
@@ -39,9 +39,9 @@ namespace BulletHellGame.DataAccess.DataLoaders
             return ConvertDtoToEnemyData(enemyDto);
         }
 
-        private static EnemyData ConvertDtoToEnemyData(EnemyDto dto)
+        private static GruntData ConvertDtoToEnemyData(EnemyDto dto)
         {
-            return new EnemyData
+            return new GruntData
             {
                 SpriteName = dto.SpriteName,
                 Health = dto.Health,

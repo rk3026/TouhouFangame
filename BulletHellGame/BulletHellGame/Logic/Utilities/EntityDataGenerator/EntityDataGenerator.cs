@@ -30,19 +30,18 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
             return CharacterDataGenerator.CreateSakuyaData();
         }
 
-        public static EnemyData CreateEnemyData()
+        public static GruntData CreateEnemyData()
         {
-            return EnemyDataGenerator.CreateEnemyData();
+            return GruntDataGenerator.CreateGruntData();
+        }
+        public static BossData CreateSubBossData()
+        {
+            return BossDataGenerator.CreateSubBossData();
         }
 
         public static BossData CreateBossData()
         {
             return BossDataGenerator.CreateBossData();
-        }
-
-        public static BossData CreateSubBossData()
-        {
-            return BossDataGenerator.CreateSubBossData();
         }
 
         public static List<CollectibleData> GenerateRandomLoot()

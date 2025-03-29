@@ -131,7 +131,7 @@ namespace BulletHellGame.Logic.Managers
         }
 
 
-        public Entity SpawnEnemy(EnemyData enemyData, Vector2 position, Vector2 velocity = default)
+        public Entity SpawnEnemy(GruntData enemyData, Vector2 position, Vector2 velocity = default)
         {
             _enemyBuilder.SetEntityData(enemyData);
             _entityDirector.ConstructEntity(_enemyBuilder);
@@ -164,7 +164,7 @@ namespace BulletHellGame.Logic.Managers
             }
         }
 
-        public void SpawnBoss(BossData bossData, Vector2 position)
+        public Entity SpawnBoss(BossData bossData, Vector2 position)
         {
             _bossBuilder.SetEntityData(bossData);
             _entityDirector.ConstructEntity(_bossBuilder);
@@ -180,6 +180,7 @@ namespace BulletHellGame.Logic.Managers
                     RegisterComponent(component.GetType(), boss);
                 }
             }
+            return boss;
         }
 
         public void SpawnCollectible(CollectibleData collectibleData, Vector2 position, Vector2 velocity = default)

@@ -57,6 +57,12 @@
 /processorParam:Quality=Best
 /build:Music/CallToAdventure1.wav
 
+#begin Music/CheerfulHeart_Victory.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/CheerfulHeart_Victory.mp3
+
 #begin Music/広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

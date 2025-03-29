@@ -6,10 +6,10 @@ using BulletHellGame.Logic.Strategies.CollisionStrategies;
 
 namespace BulletHellGame.Logic.Builders
 {
-    public class EnemyBuilder : EntityBuilder<EnemyData>
+    public class EnemyBuilder : EntityBuilder<GruntData>
     {
         public EnemyBuilder() : base() { }
-        public EnemyBuilder(EnemyData data) : base(data) { }
+        public EnemyBuilder(GruntData data) : base(data) { }
 
         public override void BuildHealth()
         {
