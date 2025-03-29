@@ -1,6 +1,7 @@
 ﻿using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
+using BulletHellGame.Logic.Managers.BulletHellGame.Logic.Managers;
 using BulletHellGame.Presentation.UI;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
@@ -130,12 +131,10 @@ namespace BulletHellGame.Presentation.Scenes
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             _systemManager.Update(_entityManager, gameTime);
+            ParticleEffectManager.Instance.Update(gameTime);
             _levelManager.Update(gameTime);
             _parallaxBackground.Update(gameTime);
             _gameUI.Update(gameTime);
-
-            // Handle transition states for wave-related messages
-            HandleTransitionStates(gameTime);
 
             if (InputManager.Instance.ActionPressed(GameAction.Pause))
                 SceneManager.Instance.AddScene(new PausedScene(_contentManager, _graphicsDevice));
@@ -190,6 +189,7 @@ namespace BulletHellGame.Presentation.Scenes
         {
             _parallaxBackground.Draw(spriteBatch);
             _systemManager.Draw(_entityManager, spriteBatch);
+            ParticleEffectManager.Instance.Draw(spriteBatch);
 
             DrawSidebar(spriteBatch);
             _enemyIndicatorRenderer.Draw(_entityManager, spriteBatch);

@@ -1,4 +1,5 @@
 ﻿using BulletHellGame.Logic.Managers;
+using BulletHellGame.Logic.Utilities;
 using System.IO;
 using System.Linq;
 
@@ -49,6 +50,8 @@ namespace BulletHellGame
             // Create a 1x1 white pixel texture for fullscreen shader
             _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
             _whitePixel.SetData(new[] { Color.White });
+
+            TextureManager.Instance.Initialize(this.GraphicsDevice);
 
             base.Initialize();
         }

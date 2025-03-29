@@ -7,6 +7,8 @@ namespace BulletHellGame.Logic.Managers
 {
     public class TextureManager
     {
+        private GraphicsDevice _graphicsDevice;
+
         private static TextureManager _instance;
         public static TextureManager Instance => _instance ??= new TextureManager();
 
@@ -14,6 +16,11 @@ namespace BulletHellGame.Logic.Managers
         private readonly Dictionary<string, SpriteData> _sprites = new();
 
         private TextureManager() { }
+
+        public void Initialize(GraphicsDevice graphicsDevice)
+        {
+            this._graphicsDevice = graphicsDevice;
+        }
 
         /// <summary>
         /// Loads all the textures on a sprite sheet given the data json file for that sheet.
@@ -97,5 +104,19 @@ namespace BulletHellGame.Logic.Managers
         {
             return _sprites["Default"];
         }
+
+        public Texture2D GetPixelTexture(Color color, int width, int height)
+        {
+            Texture2D pixel = new Texture2D(this._graphicsDevice, width, height);
+            Color[] data = new Color[width * height];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = color;
+            }
+            pixel.SetData(data);
+
+            return pixel;
+        }
+
     }
 }
