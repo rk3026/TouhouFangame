@@ -153,12 +153,12 @@ namespace BulletHellGame.Presentation.Scenes
                     _playableArea.Width - 80,
                     _playableArea.Height - 80
                 );
-                SceneManager.Instance.AddScene(new WinScene(menuLocation, _contentManager, _graphicsDevice, _characterData));
+
+                SceneManager.Instance.AddScene(new WinScene(menuLocation, _contentManager, _graphicsDevice, _characterData, _entityManager));
             }
-                
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+            public void Draw(SpriteBatch spriteBatch)
         {
             _parallaxBackground.Draw(spriteBatch);
             _systemManager.Draw(_entityManager, spriteBatch);
