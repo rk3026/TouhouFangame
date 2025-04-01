@@ -13,6 +13,7 @@ namespace BulletHellGame.Presentation.Scenes
         private string[] shaderNames;
 
         public bool IsOverlay => false;
+        public bool IsMenu => true;
 
         public ShaderConfigScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {

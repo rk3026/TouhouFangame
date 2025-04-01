@@ -16,6 +16,7 @@ namespace BulletHellGame.Presentation.Scenes
         private ContentManager _contentManager;
 
         public bool IsOverlay => false;
+        public bool IsMenu => true;
 
         public KeyConfigScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {

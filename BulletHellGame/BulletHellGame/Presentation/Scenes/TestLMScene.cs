@@ -39,6 +39,7 @@ namespace BulletHellGame.Presentation.Scenes
         private string _transitionMessage = "";
 
         public bool IsOverlay => false;
+        public bool IsMenu => false;
 
         public TestLMScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {

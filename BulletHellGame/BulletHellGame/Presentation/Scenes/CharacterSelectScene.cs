@@ -34,6 +34,8 @@ namespace BulletHellGame.Presentation.Scenes
 
         public bool IsOverlay => false;
 
+        public bool IsMenu => true;
+
         public CharacterSelectScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
             _contentManager = contentManager;
@@ -74,6 +76,16 @@ namespace BulletHellGame.Presentation.Scenes
                 if (difficultyTweenProgress < 0f) difficultyTweenProgress = 0f;
             }
 
+            HandleMenuNavigation();
+
+            if (currentPhase == SelectionPhase.Heroine)
+            {
+                selectedHeroine = selectedIndex;
+            }
+        }
+
+        private void HandleMenuNavigation()
+        {
             if (InputManager.Instance.ActionPressed(GameAction.MenuUp))
             {
                 selectedIndex--;
@@ -116,11 +128,6 @@ namespace BulletHellGame.Presentation.Scenes
                 {
                     SceneManager.Instance.RemoveScene();
                 }
-            }
-
-            if (currentPhase == SelectionPhase.Heroine)
-            {
-                selectedHeroine = selectedIndex;
             }
         }
 

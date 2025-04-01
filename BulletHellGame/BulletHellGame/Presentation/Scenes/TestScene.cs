@@ -37,6 +37,7 @@ namespace BulletHellGame.Presentation.Scenes
         private CharacterData _characterData;
 
         public bool IsOverlay => false;
+        public bool IsMenu => false;
 
         public TestScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {

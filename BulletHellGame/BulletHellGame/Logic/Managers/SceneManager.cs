@@ -9,10 +9,10 @@ namespace BulletHellGame.Logic.Managers
         public static SceneManager Instance => _instance ??= new SceneManager();
 
         private readonly Stack<IScene> _sceneStack = new Stack<IScene>();
-
-        private IScene _newScene;
+        public Action SceneChanged;
 
         public IReadOnlyCollection<IScene> SceneStack => _sceneStack;
+
 
         private SceneManager() { }
 
@@ -20,17 +20,20 @@ namespace BulletHellGame.Logic.Managers
         {
             newScene.Load();
             _sceneStack.Push(newScene);
+            SceneChanged?.Invoke();
         }
 
         public void RemoveScene()
         {
             if (_sceneStack.Count == 0) return;
             _sceneStack.Pop();
+            SceneChanged?.Invoke();
         }
 
         public void ClearScenes()
         {
             _sceneStack.Clear();
+            SceneChanged?.Invoke();
         }
 
         public IScene GetCurrentScene()

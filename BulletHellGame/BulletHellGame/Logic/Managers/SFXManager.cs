@@ -32,7 +32,7 @@ namespace BulletHellGame.Logic.Managers
             }
         }
 
-        public void PlaySound(string soundName, bool loop = false, float pitchVariance = 0.1f, float volumeVariance = 0.1f, float panVariance = 0.1f)
+        public void PlaySound(string soundName, bool loop = false, bool varySound = true)
         {
             if (_soundEffects.TryGetValue(soundName, out SoundEffect soundEffect))
             {
@@ -43,7 +43,12 @@ namespace BulletHellGame.Logic.Managers
                 float masterVolume = SettingsManager.Instance.MasterVolume;
                 float sfxVolume = SettingsManager.Instance.SFXVolume;
 
-                // Randomize pitch, volume, and pan
+                // Default variance values
+                float pitchVariance = varySound ? 0.1f : 0f;
+                float volumeVariance = varySound ? 0.1f : 0f;
+                float panVariance = varySound ? 0.1f : 0f;
+
+                // Apply variations only if enabled
                 instance.Pitch = MathHelper.Clamp((float)(random.NextDouble() * 2 - 1) * pitchVariance, -1f, 1f);
                 instance.Volume = MathHelper.Clamp(masterVolume * sfxVolume * (1f + (float)(random.NextDouble() * 2 - 1) * volumeVariance), 0f, 1f) * GLOBAL_SFX_SCALE;
                 instance.Pan = MathHelper.Clamp((float)(random.NextDouble() * 2 - 1) * panVariance, -1f, 1f);
@@ -52,6 +57,7 @@ namespace BulletHellGame.Logic.Managers
                 _soundInstances[soundName] = instance; // Track active sounds for volume updates
             }
         }
+
 
         public void StopSound(string soundName)
         {
