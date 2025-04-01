@@ -131,6 +131,8 @@ namespace BulletHellGame.Presentation.Scenes
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            HandleTransitionStates(gameTime);
+
             _systemManager.Update(_entityManager, gameTime);
             ParticleEffectManager.Instance.Update(gameTime);
             _levelManager.Update(gameTime);
