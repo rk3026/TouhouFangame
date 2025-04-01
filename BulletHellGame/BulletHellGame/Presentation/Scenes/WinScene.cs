@@ -86,10 +86,10 @@ public class WinScene : IScene
             if (spriteData.Animations.TryGetValue("Pose1", out var frames))
             {
                 var rect = frames[0];
-                float scale = 0.53F;
+                float scale = 0.51F;
 
                 Vector2 pos = new Vector2(
-                    _menuLocation.X + 20,
+                    _menuLocation.X + -50,
                     _menuLocation.Y + _menuLocation.Height - rect.Height * scale - 20
                 );
 
@@ -117,8 +117,8 @@ public class WinScene : IScene
         Vector2 playAgainPos = new Vector2(splitMidX + 20, statsArea.Bottom - 40 + bounceOffset);
         Vector2 mainMenuPos = new Vector2(splitMidX + 20, statsArea.Bottom - 10 + bounceOffset);
 
-        spriteBatch.DrawString(_font, "Press Z to Play Again", playAgainPos, Color.LimeGreen * textAlpha);
-        spriteBatch.DrawString(_font, "Press P to Main Menu", mainMenuPos, Color.LightBlue * textAlpha);
+        spriteBatch.DrawString(_font, "Press Enter to Play Again", playAgainPos, Color.LimeGreen * textAlpha);
+        spriteBatch.DrawString(_font, "Press ESC to Exit to Main Menu", mainMenuPos, Color.LightBlue * textAlpha);
     }
 }
 
