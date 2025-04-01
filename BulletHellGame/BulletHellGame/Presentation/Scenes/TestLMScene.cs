@@ -243,7 +243,6 @@ namespace BulletHellGame.Presentation.Scenes
             spriteBatch.DrawString(_font, _transitionMessage, messagePosition, messageColor);
         }
 
-
         private void DrawSidebar(SpriteBatch spriteBatch)
         {
             Rectangle sourceRect = _sidebarBackground.Animations.First().Value.First();

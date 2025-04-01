@@ -142,7 +142,7 @@ namespace BulletHellGame
 
             if (!Directory.Exists(spriteSheetPath))
             {
-                Console.WriteLine($"Error: Sprite sheet directory not found: {spriteSheetPath}");
+                Console.WriteLine($"Error: SpriteName sheet directory not found: {spriteSheetPath}");
                 return;
             }
 
