@@ -25,6 +25,7 @@ namespace BulletHellGame.Logic.Managers
         private EnemyBuilder _enemyBuilder = new();
         private OptionBuilder _optionBuilder = new();
         private PlayerBuilder _playerBuilder = new();
+        private SpawnerBuilder _spawnerBuilder = new();
 
 
         public EntityManager(Rectangle bounds)
@@ -142,10 +143,17 @@ namespace BulletHellGame.Logic.Managers
 
         public void SpawnPlayer(CharacterData playerData)
         {
+            // Create the player entity:
             Vector2 playerStartPosition = new Vector2(Bounds.Width / 2, Bounds.Height - Bounds.Height / 10);
             _playerBuilder.SetEntityData(playerData);
             _entityDirector.ConstructEntity(_playerBuilder);
             Entity player = _playerBuilder.GetResult();
+
+            // Create the spawner that will be used to shoot bullets:
+            SpawnerData spawnerData = new SpawnerData(playerData.ShotTypes.First().UnfocusedShot.PowerLevels[0].MainWeapons, player, "");
+            _spawnerBuilder.SetEntityData(spawnerData);
+            Entity spawner = _spawnerBuilder.GetResult();
+            SpawnEntity(EntityType.Spawner, spawner, playerStartPosition, Vector2.Zero);
 
             SpawnEntity(EntityType.Player, player, playerStartPosition, Vector2.Zero);
 

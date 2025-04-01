@@ -44,12 +44,6 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(new MovementPatternComponent(_entityData.Phases[0].MovementPattern));
         }
 
-        public override void BuildShooting()
-        {
-            ShootingComponent shc = new ShootingComponent(_entityData.Phases[0].Weapons);
-            _entity.AddComponent(shc);
-        }
-
         public override void BuildHitbox()
         {
             HitboxComponent hc = new HitboxComponent(_entity, 1);

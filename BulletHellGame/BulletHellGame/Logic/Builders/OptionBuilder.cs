@@ -29,11 +29,6 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(new VelocityComponent());
         }
 
-        public override void BuildShooting()
-        {
-            _entity.AddComponent(new ShootingComponent(_entityData.Weapons));
-        }
-
         public override void BuildInput()
         {
             _entity.AddComponent(new ControllerComponent(new OptionController()));
