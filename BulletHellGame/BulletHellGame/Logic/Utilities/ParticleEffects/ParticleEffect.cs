@@ -1,4 +1,4 @@
-﻿namespace BulletHellGame.Logic.Utilities
+﻿namespace BulletHellGame.Logic.Utilities.ParticleEffects
 {
     public class ParticleEffect
     {
@@ -20,7 +20,7 @@
             _currentFrameIndex = 0;
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             if (IsComplete)
                 return;
@@ -41,7 +41,7 @@
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (IsComplete)
                 return; // Don't draw if the effect is complete

@@ -20,6 +20,11 @@ namespace BulletHellGame.Logic.Managers
         public void Initialize(GraphicsDevice graphicsDevice)
         {
             this._graphicsDevice = graphicsDevice;
+
+            // Set up a default sprite:
+            Texture2D texture = GetPixelTexture(Color.Blue, 10, 10);
+            SpriteData sd = new SpriteData(texture, new Dictionary<string, List<Rectangle>>(), "Default");
+            _sprites.Add("Default", sd);
         }
 
         /// <summary>
@@ -90,20 +95,14 @@ namespace BulletHellGame.Logic.Managers
         /// </summary>
         public SpriteData GetSpriteData(string spriteName)
         {
-            if (string.IsNullOrEmpty(spriteName)) return GetDefaultSpriteData();
             return _sprites.TryGetValue(spriteName, out var spriteInfo) ? spriteInfo : GetDefaultSpriteData();
-        }
-
-        public void SetDefaultTexture(Texture2D texture)
-        {
-            SpriteData sd = new SpriteData(texture ,new Dictionary<string, List<Rectangle>>(), "Default");
-            _sprites.Add("Default", sd);
         }
 
         public SpriteData GetDefaultSpriteData()
         {
             return _sprites["Default"];
         }
+
 
         public Texture2D GetPixelTexture(Color color, int width, int height)
         {

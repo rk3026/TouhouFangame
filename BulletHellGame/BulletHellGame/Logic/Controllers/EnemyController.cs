@@ -8,14 +8,7 @@ namespace BulletHellGame.Logic.Controllers
     {
         public override void Update(EntityManager entityManager, Entity entity)
         {
-            // Grab components
-            if (!entity.TryGetComponent<ShootingComponent>(out var sc))
-            {
-                return;
-            }
-
             this.IsShooting = true; // Constantly trying to shoot
-            
         }
     }
 }

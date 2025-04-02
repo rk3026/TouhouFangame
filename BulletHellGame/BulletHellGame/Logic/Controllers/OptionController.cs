@@ -8,13 +8,14 @@ namespace BulletHellGame.Logic.Controllers
     {
         public override void Update(EntityManager entityManager, Entity entity)
         {
-            // Grab components
-            if (!(entity.TryGetComponent<ShootingComponent>(out var sc) &&
-                entity.TryGetComponent<OwnerComponent>(out var oc)))
+            var ownerComponent = entity.GetComponent<OwnerComponent>();
+            var weaponPosition = entity.GetComponent<PositionComponent>();
+
+            if (ownerComponent.Owner.TryGetComponent<PositionComponent>(out var ownerPos))
             {
-                return;
+                weaponPosition.Position = ownerPos.Position + ownerComponent.Offset;
             }
-            this.IsShooting = oc.Owner.GetComponent<ControllerComponent>().Controller.IsShooting; // Only able to shoot if its owner is
+            this.IsShooting = ownerComponent.Owner.GetComponent<ControllerComponent>().Controller.IsShooting;
         }
     }
 }

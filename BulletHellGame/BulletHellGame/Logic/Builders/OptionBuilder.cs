@@ -29,7 +29,7 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(new VelocityComponent());
         }
 
-        public override void BuildInput()
+        public override void BuildController()
         {
             _entity.AddComponent(new ControllerComponent(new OptionController()));
         }

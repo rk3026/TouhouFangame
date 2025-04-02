@@ -53,7 +53,7 @@ namespace BulletHellGame.Logic.Builders
         public virtual void BuildCollector() { }  // Only for player/collector entities
         public virtual void BuildMagnet() { } // Only for player
         public virtual void BuildPlayerStats() { } // Only for player
-        public virtual void BuildInput() { }
+        public virtual void BuildController() { }
         public virtual void BuildInvincibility() { }
         public virtual void BuildPowerLevel() { }
         public virtual void BuildIndicator() { }

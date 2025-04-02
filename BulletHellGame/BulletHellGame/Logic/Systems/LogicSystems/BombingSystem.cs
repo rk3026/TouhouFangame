@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Managers.BulletHellGame.Logic.Managers;
 
 namespace BulletHellGame.Logic.Systems.LogicSystems
 {

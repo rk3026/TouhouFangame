@@ -6,13 +6,13 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
 {
     public class CollectibleCollisionStrategy : ICollisionStrategy
     {
-        public void ApplyCollision(EntityManager entityManager, Entity owner, Entity other)
+        public void ApplyCollision(EntityManager entityManager, Entity collidingEntity, Entity other)
         {
             // Handle collectible pickup logic
             if (other.TryGetComponent<CollectorComponent>(out var cc) &&
                 other.TryGetComponent<PlayerStatsComponent>(out var stats) &&
                 other.TryGetComponent<BombingComponent>(out var bc) &&
-                owner.TryGetComponent<PickUpEffectComponent>(out var pec))
+                collidingEntity.TryGetComponent<PickUpEffectComponent>(out var pec))
             {
                 foreach (var effect in pec.Effects)
                 {
@@ -45,7 +45,7 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
                             stats.CherryPlus += effect.Value / 2; // Some amount goes into Cherry+
                             break;
                     }
-                    entityManager.QueueEntityForRemoval(owner);
+                    entityManager.QueueEntityForRemoval(collidingEntity);
                 }
             }
         }

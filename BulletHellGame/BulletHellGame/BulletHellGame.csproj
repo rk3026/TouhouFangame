@@ -11,6 +11,9 @@
         <ApplicationIcon>Icon.ico</ApplicationIcon>
     </PropertyGroup>
     <ItemGroup>
+        <None Remove="Content\Fonts\Arial.spritefont" />
+        <None Remove="Content\Fonts\DFPPOPCorn-W12.spritefont" />
+        <None Remove="Content\Fonts\DFPPOPCorn-W12.ttf" />
         <None Remove="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3" />
         <None Remove="Content\Music\激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3" />
         <None Remove="Content\Music\紅魔激走劇  Everlasting....mp3" />
@@ -49,6 +52,15 @@
         <None Remove="Icon.bmp" />
     </ItemGroup>
     <ItemGroup>
+      <Content Include="Content\Fonts\Arial.spritefont">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Fonts\DFPPOPCorn-W12.spritefont">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Fonts\DFPPOPCorn-W12.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>

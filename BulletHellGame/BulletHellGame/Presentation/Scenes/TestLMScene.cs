@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Managers.BulletHellGame.Logic.Managers;
 using BulletHellGame.Presentation.UI;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;

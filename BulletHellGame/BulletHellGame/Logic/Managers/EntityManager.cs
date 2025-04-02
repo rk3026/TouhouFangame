@@ -27,7 +27,6 @@ namespace BulletHellGame.Logic.Managers
         private PlayerBuilder _playerBuilder = new();
         private SpawnerBuilder _spawnerBuilder = new();
 
-
         public EntityManager(Rectangle bounds)
         {
             Bounds = bounds;
@@ -68,7 +67,6 @@ namespace BulletHellGame.Logic.Managers
 
             return resultSet.ToList();
         }
-
 
         public int GetEntityCount(EntityType type)
         {
@@ -148,20 +146,20 @@ namespace BulletHellGame.Logic.Managers
             _playerBuilder.SetEntityData(playerData);
             _entityDirector.ConstructEntity(_playerBuilder);
             Entity player = _playerBuilder.GetResult();
-
-            // Create the spawner that will be used to shoot bullets:
-            SpawnerData spawnerData = new SpawnerData(playerData.ShotTypes.First().UnfocusedShot.PowerLevels[0].MainWeapons, player, "");
-            _spawnerBuilder.SetEntityData(spawnerData);
-            Entity spawner = _spawnerBuilder.GetResult();
-            SpawnEntity(EntityType.Spawner, spawner, playerStartPosition, Vector2.Zero);
-
             SpawnEntity(EntityType.Player, player, playerStartPosition, Vector2.Zero);
 
-            // Create the weapons of the character (they are separate entitites):
-            // for however many options the player has (typically 2):
-            for (int i = 0; i < playerData.ShotTypes.First().UnfocusedShot.PowerLevels.FirstOrDefault().Value.Options.Count; i++) // At first, set them to power level 0
+            // Create the spawner that will be used to shoot bullets:
+            SpawnerData playerSpawnerData = new SpawnerData(playerData.ShotTypes.First().UnfocusedShot.PowerLevels[0].MainWeapons, player, "");
+            _spawnerBuilder.SetEntityData(playerSpawnerData);
+            _entityDirector.ConstructEntity(_spawnerBuilder);
+            Entity playerSpawner = _spawnerBuilder.GetResult();
+            SpawnEntity(EntityType.Spawner, playerSpawner, playerStartPosition, Vector2.Zero);
+
+            // Create the options of the character (they are separate entities):
+            var powerLevelData = playerData.ShotTypes.First().UnfocusedShot.PowerLevels.FirstOrDefault().Value;
+            for (int i = 0; i < powerLevelData.Options.Count; i++) // At first, set them to power level 0
             {
-                OptionData optionData = playerData.ShotTypes.First().UnfocusedShot.PowerLevels.FirstOrDefault().Value.Options[i];
+                OptionData optionData = powerLevelData.Options[i];
 
                 _optionBuilder.SetEntityData(optionData);
                 _entityDirector.ConstructEntity(_optionBuilder);
@@ -169,6 +167,13 @@ namespace BulletHellGame.Logic.Managers
 
                 option.AddComponent(new OwnerComponent(player, optionData.Offset));
                 SpawnEntity(EntityType.Option, option, playerStartPosition, Vector2.Zero);
+
+                // Create a spawner for this option:
+                SpawnerData optionSpawnerData = new SpawnerData(optionData.Weapons, option, "");
+                _spawnerBuilder.SetEntityData(optionSpawnerData);
+                _entityDirector.ConstructEntity(_spawnerBuilder);
+                Entity optionSpawner = _spawnerBuilder.GetResult();
+                SpawnEntity(EntityType.Spawner, optionSpawner, optionData.Offset, Vector2.Zero);
             }
         }
 

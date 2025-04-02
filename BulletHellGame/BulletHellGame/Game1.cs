@@ -113,7 +113,7 @@ namespace BulletHellGame
         private void LoadFonts()
         {
             string projectRoot = AppContext.BaseDirectory;
-            string fontsPath = Path.Combine(projectRoot, "Data", "Fonts");
+            string fontsPath = Path.Combine(projectRoot, "Content", "Fonts");
 
             if (!Directory.Exists(fontsPath))
             {
@@ -121,9 +121,8 @@ namespace BulletHellGame
                 return;
             }
 
-            // Get all font files (assuming they are .spritefont or .ttf/.otf)
             string[] fontFiles = Directory.GetFiles(fontsPath, "*.*")
-                                          .Where(file => file.EndsWith(".spritefont") || file.EndsWith(".ttf") || file.EndsWith(".otf"))
+                                          .Where(file => file.EndsWith(".spritefont"))
                                           .ToArray();
 
             foreach (string fontFile in fontFiles)

@@ -43,6 +43,10 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             {
                 return hc.Layer;
             }
+            else if (entity.TryGetComponent<OwnerComponent>(out var oc) && oc.Owner.TryGetComponent<HitboxComponent>(out hc))
+            {
+                return hc.Layer;
+            }
             else return 2; // Default to player layer
         }
 

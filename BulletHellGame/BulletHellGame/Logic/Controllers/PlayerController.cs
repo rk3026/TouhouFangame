@@ -17,7 +17,6 @@ namespace BulletHellGame.Logic.Controllers
                   entity.TryGetComponent<VelocityComponent>(out var vc) &&
                   entity.TryGetComponent<SpriteComponent>(out var sc) &&
                   entity.TryGetComponent<SpeedComponent>(out var speedComponent) &&
-                  entity.TryGetComponent<ShootingComponent>(out var shootingComponent) &&
                   entity.TryGetComponent<PowerLevelComponent>(out var powerLevelComponent) &&
                   entity.TryGetComponent<PlayerStatsComponent>(out var psc)))
             {
@@ -53,7 +52,7 @@ namespace BulletHellGame.Logic.Controllers
             this.IsMoving = direction.LengthSquared() > 0;
             this.Direction = (float)Math.Atan2(direction.Y, direction.X);
 
-            // Option switching logic
+            // Power level switching logic
             UpdateShootingModes(entity, entityManager, isFocused, psc, powerLevelComponent);
         }
 
@@ -74,25 +73,35 @@ namespace BulletHellGame.Logic.Controllers
                     ? plc.UnfocusedPowerLevels[currentPowerLevel].Options
                     : new List<OptionData>(); // Default to empty list if not found
 
-            // Update the player's shooting component
-            if (player.TryGetComponent<ShootingComponent>(out var playerShooting))
+            // Find the player's spawner and update its weapons
+            var playerSpawner = entityManager.GetEntitiesWithComponents(typeof(OwnerComponent), typeof(ShootingComponent))
+                .FirstOrDefault(e =>
+                    e.TryGetComponent<OwnerComponent>(out var owner) && owner.Owner == player);
+
+            if (playerSpawner != null && playerSpawner.TryGetComponent<ShootingComponent>(out var spawnerShootingComponent))
             {
-                playerShooting.SetWeapons(mainWeapons);
+                spawnerShootingComponent.SetWeapons(mainWeapons);
             }
 
-            // Get all options owned by the player
-            List<Entity> options = entityManager.GetEntitiesWithComponents(typeof(OwnerComponent), typeof(ShootingComponent))
-                .Where(option => option.TryGetComponent<OwnerComponent>(out var owner) && owner.Owner == player)
+            // Find all option spawners (spawners whose owner is an option of the player)
+            var optionSpawners = entityManager.GetEntitiesWithComponents(typeof(OwnerComponent), typeof(ShootingComponent))
+                .Where(e =>
+                    e.TryGetComponent<OwnerComponent>(out var owner) &&
+                    owner.Owner != null &&
+                    owner.Owner.TryGetComponent<OwnerComponent>(out var optionOwner) &&
+                    optionOwner.Owner == player)
                 .ToList();
 
-            for (int i = 0; i < options.Count; i++)
+            for (int i = 0; i < optionSpawners.Count; i++)
             {
-                if (options[i].TryGetComponent<ShootingComponent>(out var optionShooting))
+                if (optionSpawners[i].TryGetComponent<ShootingComponent>(out var optionSpawnerComponent))
                 {
                     List<WeaponData> optionWeaponData = i < optionWeapons.Count ? optionWeapons[i].Weapons : new List<WeaponData>();
-                    optionShooting.SetWeapons(optionWeaponData);
+                    optionSpawnerComponent.SetWeapons(optionWeaponData);
                 }
             }
         }
+
+
     }
 }

@@ -57,7 +57,7 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(new IndicatorComponent());
         }
 
-        public override void BuildInput()
+        public override void BuildController()
         {
             _entity.AddComponent(new ControllerComponent(new EnemyController()));
         }

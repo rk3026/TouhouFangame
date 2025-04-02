@@ -27,7 +27,6 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
         {
             hitboxGrid.Clear();
 
-
             entityManager.OperateOnEntities((entity) => {
 
                 entity.TryGetComponent<HitboxComponent>(out var hc);

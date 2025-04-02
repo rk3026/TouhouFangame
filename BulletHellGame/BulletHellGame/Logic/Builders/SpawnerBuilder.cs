@@ -1,5 +1,6 @@
 ﻿using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Components;
+using BulletHellGame.Logic.Controllers;
 using BulletHellGame.Logic.Managers;
 
 namespace BulletHellGame.Logic.Builders
@@ -32,6 +33,11 @@ namespace BulletHellGame.Logic.Builders
         public override void BuildSprite()
         {
             _entity.AddComponent(new SpriteComponent(TextureManager.Instance.GetSpriteData(_entityData.SpriteName)));
+        }
+
+        public override void BuildController()
+        {
+            _entity.AddComponent(new ControllerComponent(new SpawnerController()));
         }
     }
 }

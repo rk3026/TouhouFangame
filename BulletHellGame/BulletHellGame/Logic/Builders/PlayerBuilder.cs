@@ -55,7 +55,7 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(new PlayerStatsComponent(_entityData.InitialLives, _entityData.InitialBombs));
         }
 
-        public override void BuildInput()
+        public override void BuildController()
         {
             _entity.AddComponent(new ControllerComponent(new PlayerController()));
         }
