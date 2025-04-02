@@ -14,6 +14,11 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
                 other.TryGetComponent<BombingComponent>(out var bc) &&
                 collidingEntity.TryGetComponent<PickUpEffectComponent>(out var pec))
             {
+                if (other.HasComponent<InvincibilityComponent>() && other.GetComponent<InvincibilityComponent>().RemainingTime > 0)
+                {
+                    return; // Ignore collectibles while invincible
+                }
+
                 foreach (var effect in pec.Effects)
                 {
                     switch (effect.Key)

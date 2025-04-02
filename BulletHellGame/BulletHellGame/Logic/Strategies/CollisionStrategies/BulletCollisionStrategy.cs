@@ -35,8 +35,6 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
                         {
                             psc.Lives -= 1;
                             health.Heal(health.MaxHealth);
-                            sprite.FlashRed();
-                            return; // Prevent player removal
                         }
                     }
                 }
