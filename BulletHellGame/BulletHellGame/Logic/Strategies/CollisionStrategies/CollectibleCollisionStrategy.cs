@@ -45,6 +45,7 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
                             stats.CherryPlus += effect.Value / 2; // Some amount goes into Cherry+
                             break;
                     }
+                    SFXManager.Instance.PlaySound("se_bonus");
                     entityManager.QueueEntityForRemoval(collidingEntity);
                 }
             }

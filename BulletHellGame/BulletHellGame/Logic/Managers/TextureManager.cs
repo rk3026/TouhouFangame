@@ -103,7 +103,6 @@ namespace BulletHellGame.Logic.Managers
             return _sprites["Default"];
         }
 
-
         public Texture2D GetPixelTexture(Color color, int width, int height)
         {
             Texture2D pixel = new Texture2D(this._graphicsDevice, width, height);

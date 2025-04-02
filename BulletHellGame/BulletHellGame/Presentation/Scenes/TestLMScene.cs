@@ -104,13 +104,13 @@ namespace BulletHellGame.Presentation.Scenes
             whitePixel.SetData(new Color[] { Color.White });
 
             _parallaxBackground = new ParallaxBackground();
-            _parallaxBackground.AddLayer(_stageBackground.Texture, _stageBackground.Animations.First().Value.First(), _playableArea, 100f);
+            _parallaxBackground.AddLayer(_stageBackground.Texture, _stageBackground.Animations.First().Value.First(), _playableArea, -100f);
 
             int bushWidth = _bush1Sprite.Animations.First().Value.First().Width;
             Rectangle leftBushArea = new Rectangle(_playableArea.Left, _playableArea.Top, bushWidth, _playableArea.Height);
             Rectangle rightBushArea = new Rectangle(_playableArea.Right - bushWidth, _playableArea.Top, bushWidth, _playableArea.Height);
-            _parallaxBackground.AddLayer(_bush1Sprite.Texture, _bush1Sprite.Animations.First().Value.First(), leftBushArea, 100f);
-            _parallaxBackground.AddLayer(_bush2Sprite.Texture, _bush2Sprite.Animations.First().Value.First(), rightBushArea, 100f);
+            _parallaxBackground.AddLayer(_bush1Sprite.Texture, _bush1Sprite.Animations.First().Value.First(), leftBushArea, -100f);
+            _parallaxBackground.AddLayer(_bush2Sprite.Texture, _bush2Sprite.Animations.First().Value.First(), rightBushArea, -100f);
 
             _gameUI = new GameUI(_font, _uiArea, _entityManager);
 

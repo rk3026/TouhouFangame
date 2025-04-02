@@ -34,6 +34,7 @@ namespace BulletHellGame.Logic.Managers
 
         public void PlaySound(string soundName, bool loop = false, bool varySound = true)
         {
+            varySound = false; // Disable sound variance for now, there is a bug where it somehow changes the pitch/variance of the bgmusic too, wtfrick
             if (_soundEffects.TryGetValue(soundName, out SoundEffect soundEffect))
             {
                 var instance = soundEffect.CreateInstance();
