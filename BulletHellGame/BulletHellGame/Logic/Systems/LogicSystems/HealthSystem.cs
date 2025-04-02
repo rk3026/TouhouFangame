@@ -1,6 +1,7 @@
 ﻿using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
+using System.Linq;
 
 namespace BulletHellGame.Logic.Systems.LogicSystems
 {
@@ -31,7 +32,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             {
                 if (entity.TryGetComponent<BossPhaseComponent>(out var bossPhase))
                 {
-                    HandleBossPhase(entity, healthComponent, bossPhase, entitiesToRemove);
+                    HandleBossPhase(entity, healthComponent, bossPhase, entitiesToRemove, entityManager);
                 }
                 else
                 {
@@ -62,12 +63,12 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             }
         }
 
-        private void HandleBossPhase(Entity entity, HealthComponent healthComponent, BossPhaseComponent bossPhase, List<Entity> entitiesToRemove)
+        private void HandleBossPhase(Entity entity, HealthComponent healthComponent, BossPhaseComponent bossPhase, List<Entity> entitiesToRemove, EntityManager entityManager)
         {
             if (bossPhase.AdvancePhase())
             {
                 // Reset stats for the new phase
-                ResetBossStats(entity, healthComponent, bossPhase);
+                ResetBossStats(entity, healthComponent, bossPhase, entityManager);
             }
             else
             {
@@ -76,7 +77,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             }
         }
 
-        private void ResetBossStats(Entity entity, HealthComponent healthComponent, BossPhaseComponent bossPhase)
+        private void ResetBossStats(Entity entity, HealthComponent healthComponent, BossPhaseComponent bossPhase, EntityManager entityManager)
         {
             var newPhaseData = bossPhase.GetCurrentPhaseData();
 
@@ -91,9 +92,15 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             var movementPatternComponent = entity.GetComponent<MovementPatternComponent>();
             movementPatternComponent.PatternData = MovementPatternManager.Instance.GetPattern(newPhaseData.MovementPattern);
 
-            // Reset weapon stats
-            var shootingComponent = entity.GetComponent<ShootingComponent>();
-            shootingComponent.SetWeapons(newPhaseData.Weapons);
+            // Find the spawner entity
+            var spawner = entityManager.GetEntitiesWithComponents(typeof(ShootingComponent), typeof(OwnerComponent))
+                .FirstOrDefault(e => e.GetComponent<OwnerComponent>().Owner == entity);
+
+            if (spawner != null && spawner.TryGetComponent<ShootingComponent>(out var spawnerShootingComponent))
+            {
+                spawnerShootingComponent.SetWeapons(newPhaseData.Weapons);
+            }
         }
+
     }
 }
