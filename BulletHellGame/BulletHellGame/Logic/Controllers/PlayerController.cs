@@ -71,7 +71,7 @@ namespace BulletHellGame.Logic.Controllers
                 ? plc.FocusedPowerLevels[currentPowerLevel].Options
                 : plc.UnfocusedPowerLevels.ContainsKey(currentPowerLevel)
                     ? plc.UnfocusedPowerLevels[currentPowerLevel].Options
-                    : new List<OptionData>(); // Default to empty list if not found
+                    : new List<SpawnerData>(); // Default to empty list if not found
 
             // Find the player's spawner and update its weapons
             var playerSpawner = entityManager.GetEntitiesWithComponents(typeof(OwnerComponent), typeof(ShootingComponent))

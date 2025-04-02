@@ -27,7 +27,7 @@ namespace BulletHellGame.Logic.Builders
 
         public override void BuildOwner()
         {
-            _entity.AddComponent(new OwnerComponent(_entityData.Owner));
+            _entity.AddComponent(new OwnerComponent(_entityData.Owner, _entityData.Offset));
         }
 
         public override void BuildSprite()
@@ -35,6 +35,7 @@ namespace BulletHellGame.Logic.Builders
             SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.SpriteName);
             SpriteComponent spriteComponent = new SpriteComponent(spriteData);
             spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
+            spriteComponent.RotationSpeed = 0.1f;
             _entity.AddComponent(spriteComponent);
         }
 

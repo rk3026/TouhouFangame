@@ -68,9 +68,9 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
                 giantCardWeapon.FireDirections = new List<Vector2>();
                 giantCardWeapon.TimeSinceLastShot = 0;
 
-                OptionData leftOption = CreateOption("Reimu.YinYangOrb", homingBullet, fireRate: 1f - i * 0.02f);
+                SpawnerData leftOption = CreateOption("Reimu.YinYangOrb", homingBullet, fireRate: 1f - i * 0.02f);
                 leftOption.Offset = new Vector2(-20, 0);
-                OptionData rightOption = CreateOption("Reimu.YinYangOrb", homingBullet, fireRate: 1f - i * 0.02f);
+                SpawnerData rightOption = CreateOption("Reimu.YinYangOrb", homingBullet, fireRate: 1f - i * 0.02f);
                 rightOption.Offset = new Vector2(20, 0);
 
                 if (i >= 0)
@@ -138,9 +138,9 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
                 WeaponData laserWeapon = new WeaponData { BulletData = laser, FireRate = Math.Max(minFireRate, maxFireRate - i * stepFireRate), FireDirections = new List<Vector2> { new Vector2(0, -5f) }, TimeSinceLastShot = 0 };
                 WeaponData rocketWeapon = new WeaponData { BulletData = rocket, FireRate = Math.Max(minFireRate, maxFireRate - i * stepFireRate), FireDirections = new List<Vector2>(), TimeSinceLastShot = 0 };
 
-                OptionData leftOption = CreateOption("Marisa.StarOption", rocket, fireRate: 1f - i * 0.02f);
+                SpawnerData leftOption = CreateOption("Marisa.StarOption", rocket, fireRate: 1f - i * 0.02f);
                 leftOption.Offset = new Vector2(-20, 0);
-                OptionData rightOption = CreateOption("Marisa.StarOption", rocket, fireRate: 1f - i * 0.02f);
+                SpawnerData rightOption = CreateOption("Marisa.StarOption", rocket, fireRate: 1f - i * 0.02f);
                 rightOption.Offset = new Vector2(20, 0);
 
                 if (i >= 0)
@@ -212,9 +212,9 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
 
                 WeaponData mainWeapon = new WeaponData { BulletData = pinkKnife, FireRate = Math.Max(minFireRate, maxFireRate - i * stepFireRate), FireDirections = new List<Vector2> { new Vector2(0, -4f) }, TimeSinceLastShot = 0 };
 
-                OptionData leftOption = CreateOption("Sakuya.Option", blueKnife, fireRate: 1f - i * 0.02f);
+                SpawnerData leftOption = CreateOption("Sakuya.Option", blueKnife, fireRate: 1f - i * 0.02f);
                 leftOption.Offset = new Vector2(-20, 0);
-                OptionData rightOption = CreateOption("Sakuya.Option", pinkKnife, fireRate: 1f - i * 0.02f);
+                SpawnerData rightOption = CreateOption("Sakuya.Option", pinkKnife, fireRate: 1f - i * 0.02f);
                 rightOption.Offset = new Vector2(20, 0);
 
                 if (i >= 0)
@@ -249,9 +249,9 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
             return pd;
         }
 
-        public static OptionData CreateOption(string spriteName, BulletData bulletData, float fireRate)
+        public static SpawnerData CreateOption(string spriteName, BulletData bulletData, float fireRate)
         {
-            return new OptionData
+            return new SpawnerData
             {
                 SpriteName = spriteName,
                 Weapons = new List<WeaponData>
