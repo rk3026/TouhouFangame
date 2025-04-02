@@ -80,8 +80,6 @@ namespace BulletHellGame.Logic.Managers
 
         public int TotalEntityCount => _activeEntities.Values.Sum(list => list.Count);
 
-        public List<Entity> GetActiveEntities() => _activeEntities.Values.SelectMany(e => e).ToList();
-
         public void QueueEntityForRemoval(Entity entity)
         {
             if (entity == null) return;
@@ -128,7 +126,6 @@ namespace BulletHellGame.Logic.Managers
 
             SpawnEntity(EntityType.Bullet, bullet, position, velocity);
         }
-
 
         public Entity SpawnEnemy(GruntData enemyData, Vector2 position, Vector2 velocity = default)
         {

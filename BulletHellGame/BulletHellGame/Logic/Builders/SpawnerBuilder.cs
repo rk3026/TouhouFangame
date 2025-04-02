@@ -32,7 +32,10 @@ namespace BulletHellGame.Logic.Builders
 
         public override void BuildSprite()
         {
-            _entity.AddComponent(new SpriteComponent(TextureManager.Instance.GetSpriteData(_entityData.SpriteName)));
+            SpriteData spriteData = TextureManager.Instance.GetSpriteData(_entityData.SpriteName);
+            SpriteComponent spriteComponent = new SpriteComponent(spriteData);
+            spriteComponent.SpriteData.Origin = new Vector2(spriteComponent.CurrentFrame.Width / 2, spriteComponent.CurrentFrame.Height / 2);
+            _entity.AddComponent(spriteComponent);
         }
 
         public override void BuildController()

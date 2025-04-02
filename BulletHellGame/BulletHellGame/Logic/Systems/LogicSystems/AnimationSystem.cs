@@ -1,4 +1,5 @@
-﻿using BulletHellGame.Logic.Entities;
+﻿using BulletHellGame.Logic.Components;
+using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
 
 namespace BulletHellGame.Logic.Systems.LogicSystems
@@ -29,7 +30,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                     if (sc._currentAnimation == null || !sc.SpriteData.Animations.ContainsKey(sc._currentAnimation))
                     {
                         // No animation to update
-                        return;
+                        continue;
                     }
 
                     if (sc.SpriteData.Animations[sc._currentAnimation].Count > 1)
