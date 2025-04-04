@@ -117,7 +117,7 @@ namespace BulletHellGame.Presentation.Scenes
                 bossDialogueShown = true;
 
                 // Play boss music
-                BGMManager.Instance.PlayBGM(_contentManager, "激戦アレンジ 有頂天変  wonderful heaven 東方緋想天");
+                BGMManager.Instance.PlayBGM(_contentManager, "DeathDeservioli");
 
                 // Show mid-boss dialogue
                 string characterName = _characterData.Name; // e.g., "Reimu"
