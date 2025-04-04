@@ -1,5 +1,7 @@
 ﻿using BulletHellGame.DataAccess.DataLoaders;
 using BulletHellGame.DataAccess.DataTransferObjects;
+//using BulletHellGame.DataAccess.DataLoaders;
+using BulletHellGame.Presentation.Scenes;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.Logic.Utilities.EntityDataGenerator;
 using Microsoft.Xna.Framework.Content;
@@ -97,8 +99,8 @@ namespace BulletHellGame.Presentation.Scenes
                         selectedHeroine = selectedIndex;
                         break;
                     case SelectionPhase.Weapon:
-                        selectedWeapon = selectedIndex;
-                        SceneManager.Instance.AddScene(new Level1CutsceneScene(_contentManager, _graphicsDevice, characters[selectedHeroine]));
+                        var cutsceneData = CutsceneDataLoader.LoadCutsceneData("Level1Cutscenes");
+                        SceneManager.Instance.AddScene(new CutsceneScene(_contentManager, _graphicsDevice, cutsceneData, characters[selectedHeroine]));
                         return;
                 }
                 selectedIndex = 0;
