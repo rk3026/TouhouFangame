@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -96,3 +96,4 @@ public class DialogueLine
     public string Line { get; set; }
     public string Expression { get; set; }
 }
+

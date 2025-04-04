@@ -1,4 +1,4 @@
-﻿public class CutsceneManager
+﻿﻿public class CutsceneManager
 {
     private static CutsceneManager _instance;
     public static CutsceneManager Instance => _instance ??= new CutsceneManager();

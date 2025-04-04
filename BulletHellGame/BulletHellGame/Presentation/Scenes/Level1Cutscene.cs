@@ -46,8 +46,6 @@ public class Level1CutsceneScene : IScene
         whitePixel = new Texture2D(graphics, 1, 1);
         whitePixel.SetData(new[] { Color.White });
 
-        backgroundTexture = content.Load<Texture2D>("Backgrounds/touhou");
-
         Texture2D reimuTexture = content.Load<Texture2D>("SpriteSheets/CutsceneReimu");
         Texture2D marisaTexture = content.Load<Texture2D>("SpriteSheets/CutsceneMarisa");
         Texture2D sakuyaTexture = content.Load<Texture2D>("SpriteSheets/CutsceneSakuya");
@@ -56,15 +54,27 @@ public class Level1CutsceneScene : IScene
         characterPortraits["Marisa"] = TextureManager.Instance.Create3x3SpriteSheet(marisaTexture, "MarisaCutscene");
         characterPortraits["Sakuya"] = TextureManager.Instance.Create3x3SpriteSheet(sakuyaTexture, "SakuyaCutscene");
 
-        BGMManager.Instance.PlayBGM(content, "02. Paradise ~ Deep Mountain");
-
-        dialogue = new List<DialogueLine>
+        var cutscenes = CutsceneManager.Instance.GetCutscenesForLevel(1);
+        if (cutscenes != null && cutscenes.Count > 0)
         {
-            new DialogueLine { Speaker = "Reimu", Line = "Another quiet morning at the shrine...", Expression = "Pose1" },
-            new DialogueLine { Speaker = "Marisa", Line = "Yo! Reimu! Already up, ze?", Expression = "Pose2" },
-            new DialogueLine { Speaker = "Sakuya", Line = "I sensed something unusual in the air today.", Expression = "Pose3" },
-            new DialogueLine { Speaker = "Reimu", Line = "Time to investigate then.", Expression = "Pose5" }
-        };
+            var cutscene = cutscenes[0];
+            backgroundTexture = content.Load<Texture2D>(cutscene.BackgroundAsset);
+            BGMManager.Instance.PlayBGM(content, cutscene.MusicAsset);
+            dialogue = cutscene.Dialogue;
+        }
+        else
+        {
+            // Fallback if no cutscene data is found
+            backgroundTexture = content.Load<Texture2D>("Backgrounds/touhou");
+            BGMManager.Instance.PlayBGM(content, "02. Paradise ~ Deep Mountain");
+            dialogue = new List<DialogueLine>
+            {
+                new DialogueLine { Speaker = "Reimu", Line = "Another quiet morning at the shrine...", Expression = "Pose1" },
+                new DialogueLine { Speaker = "Marisa", Line = "Yo! Reimu! Already up, ze?", Expression = "Pose2" },
+                new DialogueLine { Speaker = "Sakuya", Line = "I sensed something unusual in the air today.", Expression = "Pose3" },
+                new DialogueLine { Speaker = "Reimu", Line = "Time to investigate then.", Expression = "Pose5" }
+            };
+        }
     }
 
     public void Update(GameTime gameTime)
