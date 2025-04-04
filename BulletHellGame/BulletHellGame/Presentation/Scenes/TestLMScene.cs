@@ -109,7 +109,7 @@ namespace BulletHellGame.Presentation.Scenes
             _parallaxBackground.Update(gameTime);
             _gameUI.Update(gameTime);
 
-            if (_levelManager.BossSpawned) BGMManager.Instance.PlayBGM(_contentManager, "激戦アレンジ 有頂天変  wonderful heaven 東方緋想天");
+            if (_levelManager.BossSpawned) BGMManager.Instance.PlayBGM(_contentManager, "DeathDeservioli");
 
             if (InputManager.Instance.ActionPressed(GameAction.Pause))
                 SceneManager.Instance.AddScene(new PausedScene(_contentManager, _graphicsDevice));
