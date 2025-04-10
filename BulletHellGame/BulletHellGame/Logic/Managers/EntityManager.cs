@@ -137,7 +137,7 @@ namespace BulletHellGame.Logic.Managers
             // Create a spawner for the enemy's weapons
             if (enemyData.Weapons != null && enemyData.Weapons.Count > 0)
             {
-                SpawnerData enemySpawnerData = new SpawnerData(enemyData.Weapons, enemy, "");
+                SpawnerData enemySpawnerData = new SpawnerData(enemyData.Weapons, enemy, string.Empty);
                 _spawnerBuilder.SetEntityData(enemySpawnerData);
                 _entityDirector.ConstructEntity(_spawnerBuilder);
                 Entity enemySpawner = _spawnerBuilder.GetResult();
@@ -157,7 +157,7 @@ namespace BulletHellGame.Logic.Managers
             SpawnEntity(EntityType.Player, player, playerStartPosition, Vector2.Zero);
 
             // Create the main spawner for the player
-            SpawnerData playerSpawnerData = new SpawnerData(playerData.ShotTypes.First().UnfocusedShot.PowerLevels[0].MainWeapons, player, "");
+            SpawnerData playerSpawnerData = new SpawnerData(playerData.ShotTypes.First().UnfocusedShot.PowerLevels[0].MainWeapons, player, string.Empty);
             _spawnerBuilder.SetEntityData(playerSpawnerData);
             _entityDirector.ConstructEntity(_spawnerBuilder);
             Entity playerSpawner = _spawnerBuilder.GetResult();
@@ -197,7 +197,7 @@ namespace BulletHellGame.Logic.Managers
                 // Create a spawner for the boss's weapons
                 if (bossData.Weapons != null && bossData.Weapons.Count > 0)
                 {
-                    SpawnerData bossSpawnerData = new SpawnerData(bossData.Weapons, boss, "");
+                    SpawnerData bossSpawnerData = new SpawnerData(bossData.Weapons, boss, string.Empty);
                     _spawnerBuilder.SetEntityData(bossSpawnerData);
                     _entityDirector.ConstructEntity(_spawnerBuilder);
                     Entity bossSpawner = _spawnerBuilder.GetResult();

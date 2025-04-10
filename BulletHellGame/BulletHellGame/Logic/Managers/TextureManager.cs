@@ -95,6 +95,7 @@ namespace BulletHellGame.Logic.Managers
         /// </summary>
         public SpriteData GetSpriteData(string spriteName)
         {
+            if (String.IsNullOrEmpty(spriteName)) return new SpriteData(new Texture2D(_graphicsDevice, 1, 1), new Dictionary<string, List<Rectangle>>(), string.Empty);
             return _sprites.TryGetValue(spriteName, out var spriteInfo) ? spriteInfo : GetDefaultSpriteData();
         }
 
