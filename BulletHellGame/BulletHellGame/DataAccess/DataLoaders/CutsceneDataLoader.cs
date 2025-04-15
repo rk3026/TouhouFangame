@@ -6,7 +6,7 @@ using BulletHellGame.DataAccess.DataTransferObjects;
 
 public static class CutsceneDataLoader
 {
-    private static readonly string CUTSCENE_PATH = "Content/Data/Cutscenes";
+    private static readonly string CUTSCENE_PATH = "Data/Cutscenes";
 
     public static List<CutsceneData> LoadCutscenesForLevel(int level)
     {
