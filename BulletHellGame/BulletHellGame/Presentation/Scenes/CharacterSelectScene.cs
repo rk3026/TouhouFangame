@@ -100,7 +100,7 @@ namespace BulletHellGame.Presentation.Scenes
                         break;
                     case SelectionPhase.Weapon:
                         var cutsceneData = CutsceneDataLoader.LoadCutsceneData("Level1Cutscenes");
- //                       SceneManager.Instance.AddScene(new CutsceneScene(_contentManager, _graphicsDevice, cutsceneData, characters[selectedHeroine]));
+ SceneManager.Instance.AddScene(new CutsceneScene(_contentManager, _graphicsDevice, cutsceneData, characters[selectedHeroine]));
                         return;
                 }
                 selectedIndex = 0;
