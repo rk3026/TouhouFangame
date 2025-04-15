@@ -51,6 +51,12 @@
 /processorParam:TextureFormat=Color
 /build:Fonts/TouhouFontWhite.png
 
+#begin Mr. Sauceman - The Death that I Deservioli.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Mr. Sauceman - The Death that I Deservioli.mp3
+
 #begin Music/01. Ghostly Dream ~ Snow or Cherry Petal.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
@@ -68,12 +74,6 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/CallToAdventure1.wav
-
-#begin Music/DeathDeservioli.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Music/DeathDeservioli.mp3
 
 #begin Music/広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3
 /importer:Mp3Importer
