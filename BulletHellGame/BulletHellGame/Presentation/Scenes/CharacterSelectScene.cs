@@ -98,7 +98,7 @@ namespace BulletHellGame.Presentation.Scenes
                         break;
                     case SelectionPhase.Weapon:
                         selectedWeapon = selectedIndex;
-                        SceneManager.Instance.AddScene(new Level1CutsceneScene(_contentManager, _graphicsDevice, characters[selectedHeroine]));
+                        SceneManager.Instance.AddScene(new Level1CutsceneScene(_contentManager, _graphicsDevice, characters[selectedHeroine], null));
                         return;
                 }
                 selectedIndex = 0;

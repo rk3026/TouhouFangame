@@ -20,7 +20,23 @@ namespace BulletHellGame.Logic.Managers
         MenuDown,
         MenuLeft,
         MenuRight,
+
+        ShootP2,
+        BombP2,
+        SlowP2,
+        SkipTextP2,
+        PauseP2,
+        MoveUpP2,
+        MoveDownP2,
+        MoveLeftP2,
+        MoveRightP2,
+        SelectP2,
+        MenuUpP2,
+        MenuDownP2,
+        MenuLeftP2,
+        MenuRightP2,
     }
+
 
     public class KeybindManager
     {

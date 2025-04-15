@@ -32,12 +32,14 @@ public class Level1CutsceneScene : IScene
     private float flashDuration = 0.15f;
 
     private CharacterData selectedCharacter;
+    private CharacterData selectedCharacter2;
 
-    public Level1CutsceneScene(ContentManager content, GraphicsDevice graphics, CharacterData selectedCharacter)
+    public Level1CutsceneScene(ContentManager content, GraphicsDevice graphics, CharacterData selectedCharacter, CharacterData selectedCharacter2)
     {
         this.content = content;
         this.graphics = graphics;
         this.selectedCharacter = selectedCharacter;
+        this.selectedCharacter2 = selectedCharacter2;
     }
 
     public void Load()
