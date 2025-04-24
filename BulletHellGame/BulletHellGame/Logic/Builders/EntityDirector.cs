@@ -31,6 +31,7 @@
             builder.BuildDespawn();
             builder.BuildCollisionStrategy();
             builder.BuildBombing();
+            builder.BuildPush();
         }
     }
 }
