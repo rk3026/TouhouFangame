@@ -1,23 +1,28 @@
 [
   {
-    "BackgroundAsset": "touhou",
-    "MusicAsset": "01. Ghostly Dream ~ Snow or Cherry Petal",
+    "BackgroundAsset": "Backgrounds/touhou",
+    "MusicAsset": "02. Paradise ~ Deep Mountain",
     "SpriteAsset": "ReimuCutscene",
     "Dialogue": [
       {
         "Speaker": "Reimu",
         "Line": "Another quiet morning at the shrine...",
-        "Expression": "Default"
+        "Expression": "Pose1"
+      },
+      {
+        "Speaker": "Marisa",
+        "Line": "Yo! Reimu! Already up, ze?",
+        "Expression": "Pose2"
+      },
+      {
+        "Speaker": "Sakuya",
+        "Line": "I sensed something unusual in the air today.",
+        "Expression": "Pose3"
       },
       {
         "Speaker": "Reimu",
-        "Line": "I wonder how long it’ll stay peaceful.",
-        "Expression": "Concerned"
-      },
-      {
-        "Speaker": "Reimu",
-        "Line": "Well, time to go investigate.",
-        "Expression": "Determined"
+        "Line": "Time to investigate then.",
+        "Expression": "Pose5"
       }
     ]
   }
