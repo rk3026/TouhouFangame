@@ -1,4 +1,5 @@
 ﻿using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.Presentation.UI;
@@ -38,6 +39,9 @@ namespace BulletHellGame.Presentation.Scenes
         private string _transitionMessage = "";
 
         public bool IsOverlay => false;
+        public bool IsMenu => false;
+
+        private SpriteEffects _screenFlip = SpriteEffects.None; // Track whether the screen is flipped
 
         public TestLMScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {
@@ -103,13 +107,13 @@ namespace BulletHellGame.Presentation.Scenes
             whitePixel.SetData(new Color[] { Color.White });
 
             _parallaxBackground = new ParallaxBackground();
-            _parallaxBackground.AddLayer(_stageBackground.Texture, _stageBackground.Animations.First().Value.First(), _playableArea, 100f);
+            _parallaxBackground.AddLayer(_stageBackground.Texture, _stageBackground.Animations.First().Value.First(), _playableArea, -100f);
 
             int bushWidth = _bush1Sprite.Animations.First().Value.First().Width;
             Rectangle leftBushArea = new Rectangle(_playableArea.Left, _playableArea.Top, bushWidth, _playableArea.Height);
             Rectangle rightBushArea = new Rectangle(_playableArea.Right - bushWidth, _playableArea.Top, bushWidth, _playableArea.Height);
-            _parallaxBackground.AddLayer(_bush1Sprite.Texture, _bush1Sprite.Animations.First().Value.First(), leftBushArea, 100f);
-            _parallaxBackground.AddLayer(_bush2Sprite.Texture, _bush2Sprite.Animations.First().Value.First(), rightBushArea, 100f);
+            _parallaxBackground.AddLayer(_bush1Sprite.Texture, _bush1Sprite.Animations.First().Value.First(), leftBushArea, -100f);
+            _parallaxBackground.AddLayer(_bush2Sprite.Texture, _bush2Sprite.Animations.First().Value.First(), rightBushArea, -100f);
 
             _gameUI = new GameUI(_font, _uiArea, _entityManager);
 
@@ -125,17 +129,88 @@ namespace BulletHellGame.Presentation.Scenes
             _levelManager.StartLevel(1);
         }
 
+        private SpriteEffects _lastScreenFlip = SpriteEffects.None;
+        private void FlipScreenLogic()
+        {
+            // Flip toggles
+            if (InputManager.Instance.ActionPressed(GameAction.MenuUp))
+                _screenFlip ^= SpriteEffects.FlipVertically;
+
+            if (InputManager.Instance.ActionPressed(GameAction.MenuLeft))
+                _screenFlip ^= SpriteEffects.FlipHorizontally;
+
+            // If flip hasn't changed, don't do anything
+            if (_screenFlip == _lastScreenFlip)
+                return;
+
+            bool flipX = (_screenFlip & SpriteEffects.FlipHorizontally) != (_lastScreenFlip & SpriteEffects.FlipHorizontally);
+            bool flipY = (_screenFlip & SpriteEffects.FlipVertically) != (_lastScreenFlip & SpriteEffects.FlipVertically);
+
+            float centerX = (_playableArea.X + _playableArea.Width) / 2f;
+            float centerY = (_playableArea.Y + _playableArea.Height) / 2f;
+
+            // Flip positions and velocities
+            foreach (Entity entity in _entityManager.GetEntitiesWithComponents(
+                typeof(PositionComponent), typeof(VelocityComponent), typeof(SpriteComponent)))
+            {
+                var pc = entity.GetComponent<PositionComponent>();
+                var vc = entity.GetComponent<VelocityComponent>();
+                var sc = entity.GetComponent<SpriteComponent>();
+
+                sc.SpriteEffect = _screenFlip;
+
+                if (flipX)
+                {
+                    pc.Position = new Vector2(2 * centerX - pc.Position.X, pc.Position.Y);
+                    vc.Velocity = new Vector2(-vc.Velocity.X, vc.Velocity.Y);
+                }
+
+                if (flipY)
+                {
+                    pc.Position = new Vector2(pc.Position.X, 2 * centerY - pc.Position.Y);
+                    vc.Velocity = new Vector2(vc.Velocity.X, -vc.Velocity.Y);
+                }
+            }
+
+            // Flip fire directions
+            foreach (Entity entity in _entityManager.GetEntitiesWithComponents(typeof(ShootingComponent)))
+            {
+                var shooting = entity.GetComponent<ShootingComponent>();
+
+                foreach (var weapon in shooting.Weapons)
+                {
+                    for (int i = 0; i < weapon.FireDirections.Count; i++)
+                    {
+                        var dir = weapon.FireDirections[i];
+
+                        if (flipX)
+                            dir.X *= -1;
+
+                        if (flipY)
+                            dir.Y *= -1;
+
+                        weapon.FireDirections[i] = dir;
+                    }
+                }
+            }
+
+            _lastScreenFlip = _screenFlip;
+        }
+
+
+
         public void Update(GameTime gameTime)
         {
+            FlipScreenLogic();
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            _systemManager.Update(_entityManager, gameTime);
-            _levelManager.Update(gameTime);
-            _parallaxBackground.Update(gameTime);
-            _gameUI.Update(gameTime);
-
-            // Handle transition states for wave-related messages
             HandleTransitionStates(gameTime);
+
+            _systemManager.Update(_entityManager, gameTime);
+            ParticleEffectManager.Instance.Update(gameTime);
+            _levelManager.Update(gameTime);
+            _parallaxBackground.Update(gameTime, _screenFlip);
+            _gameUI.Update(gameTime);
 
             if (InputManager.Instance.ActionPressed(GameAction.Pause))
                 SceneManager.Instance.AddScene(new PausedScene(_contentManager, _graphicsDevice));
@@ -188,18 +263,18 @@ namespace BulletHellGame.Presentation.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            _parallaxBackground.Draw(spriteBatch);
+            _parallaxBackground.Draw(spriteBatch, _screenFlip); // Apply flip to background if needed
             _systemManager.Draw(_entityManager, spriteBatch);
+            ParticleEffectManager.Instance.Draw(spriteBatch);
 
             DrawSidebar(spriteBatch);
             _enemyIndicatorRenderer.Draw(_entityManager, spriteBatch);
             _gameUI.Draw(spriteBatch);
-
-            // Draw transition message
             DrawTransitionMessage(spriteBatch);
 
             DrawWaveTimeLeft(spriteBatch);
         }
+
 
         private void DrawWaveTimeLeft(SpriteBatch spriteBatch)
         {
@@ -239,7 +314,6 @@ namespace BulletHellGame.Presentation.Scenes
             // Finally, draw the main message on top of the outline
             spriteBatch.DrawString(_font, _transitionMessage, messagePosition, messageColor);
         }
-
 
         private void DrawSidebar(SpriteBatch spriteBatch)
         {

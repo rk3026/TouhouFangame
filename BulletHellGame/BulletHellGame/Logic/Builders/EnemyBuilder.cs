@@ -32,11 +32,6 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(new MovementPatternComponent(_entityData.MovementPattern));
         }
 
-        public override void BuildShooting()
-        {
-            _entity.AddComponent(new ShootingComponent(_entityData.Weapons));
-        }
-
         public override void BuildLoot()
         {
             if (_entityData.Loot.Count > 0)
@@ -54,7 +49,7 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(hc);
         }
 
-        public override void BuildInput()
+        public override void BuildController()
         {
             _entity.AddComponent(new ControllerComponent(new EnemyController()));
         }

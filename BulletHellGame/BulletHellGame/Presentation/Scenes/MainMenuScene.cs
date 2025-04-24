@@ -15,6 +15,7 @@ public class MainMenuScene : IScene
     private string[] menuOptions = { "Start Game", "Settings", "Exit" };
 
     public bool IsOverlay => false;
+    public bool IsMenu => true;
 
     public MainMenuScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
     {

@@ -55,7 +55,7 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(new PlayerStatsComponent(_entityData.InitialLives, _entityData.InitialBombs));
         }
 
-        public override void BuildInput()
+        public override void BuildController()
         {
             _entity.AddComponent(new ControllerComponent(new PlayerController()));
         }
@@ -85,20 +85,6 @@ namespace BulletHellGame.Logic.Builders
                 }
             }
             _entity.AddComponent(plc);
-        }
-
-        public override void BuildShooting()
-        {
-            if (_entityData.ShotTypes.First().UnfocusedShot.PowerLevels.ContainsKey(0))
-            {
-                List<WeaponData> weapons = new List<WeaponData>();
-                foreach (var weapon in _entityData.ShotTypes.First().UnfocusedShot.PowerLevels[0].MainWeapons)
-                {
-                    weapons.Add(weapon);
-                }
-                ShootingComponent sc = new ShootingComponent(weapons);
-                _entity.AddComponent(sc);
-            }
         }
 
         public override void BuildHitbox()

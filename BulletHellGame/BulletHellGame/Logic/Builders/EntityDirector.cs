@@ -26,7 +26,7 @@
             builder.BuildPlayerStats();
             builder.BuildInvincibility();
             builder.BuildPowerLevel();
-            builder.BuildInput();
+            builder.BuildController();
             builder.BuildIndicator();
             builder.BuildDespawn();
             builder.BuildCollisionStrategy();

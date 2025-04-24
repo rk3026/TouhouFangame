@@ -1,4 +1,5 @@
 ﻿using BulletHellGame.Logic.Managers;
+using BulletHellGame.Logic.Utilities;
 using System.IO;
 using System.Linq;
 
@@ -49,6 +50,8 @@ namespace BulletHellGame
             // Create a 1x1 white pixel texture for fullscreen shader
             _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
             _whitePixel.SetData(new[] { Color.White });
+
+            TextureManager.Instance.Initialize(this.GraphicsDevice);
 
             base.Initialize();
         }
@@ -110,7 +113,7 @@ namespace BulletHellGame
         private void LoadFonts()
         {
             string projectRoot = AppContext.BaseDirectory;
-            string fontsPath = Path.Combine(projectRoot, "Data", "Fonts");
+            string fontsPath = Path.Combine(projectRoot, "Content", "Fonts");
 
             if (!Directory.Exists(fontsPath))
             {
@@ -118,9 +121,8 @@ namespace BulletHellGame
                 return;
             }
 
-            // Get all font files (assuming they are .spritefont or .ttf/.otf)
             string[] fontFiles = Directory.GetFiles(fontsPath, "*.*")
-                                          .Where(file => file.EndsWith(".spritefont") || file.EndsWith(".ttf") || file.EndsWith(".otf"))
+                                          .Where(file => file.EndsWith(".spritefont"))
                                           .ToArray();
 
             foreach (string fontFile in fontFiles)
@@ -139,7 +141,7 @@ namespace BulletHellGame
 
             if (!Directory.Exists(spriteSheetPath))
             {
-                Console.WriteLine($"Error: Sprite sheet directory not found: {spriteSheetPath}");
+                Console.WriteLine($"Error: SpriteName sheet directory not found: {spriteSheetPath}");
                 return;
             }
 

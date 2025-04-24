@@ -6,16 +6,17 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
 {
     public class BulletCollisionStrategy : ICollisionStrategy
     {
-        public void ApplyCollision(EntityManager entityManager, Entity owner, Entity other)
+        public void ApplyCollision(EntityManager entityManager, Entity collidingEntity, Entity other)
         {
             if (other.TryGetComponent<InvincibilityComponent>(out var ic) && ic.RemainingTime > 0) return; // Ignore damage while invincible
 
-            // Handle damage logic if the owner has health and the other entity has a damage component
             if (other.TryGetComponent<HealthComponent>(out var health) &&
-                owner.TryGetComponent<DamageComponent>(out var damage))
+                collidingEntity.TryGetComponent<DamageComponent>(out var dc))
             {
-                // Apply damage if no ownership conflict exists
-                health.TakeDamage(damage.CalculateDamage());
+                int damageVal = dc.CalculateDamage();
+                health.TakeDamage(damageVal);
+                ParticleEffectManager.Instance.SpawnDamageNumber(other.GetComponent<PositionComponent>().Position, damageVal);
+
                 if (ic != null)
                 {
                     ic.RemainingTime = 2f;
@@ -34,12 +35,10 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
                         {
                             psc.Lives -= 1;
                             health.Heal(health.MaxHealth);
-                            sprite.FlashRed();
-                            return; // Prevent player removal
                         }
                     }
                 }
-                entityManager.QueueEntityForRemoval(owner);
+                entityManager.QueueEntityForRemoval(collidingEntity);
             }
         }
     }

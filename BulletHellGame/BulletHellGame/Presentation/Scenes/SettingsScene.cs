@@ -21,6 +21,7 @@ public class SettingsScene : IScene
     };
 
     public bool IsOverlay => false;
+    public bool IsMenu => true;
 
     public SettingsScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
     {

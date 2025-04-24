@@ -7,6 +7,8 @@ namespace BulletHellGame.Logic.Managers
 {
     public class TextureManager
     {
+        private GraphicsDevice _graphicsDevice;
+
         private static TextureManager _instance;
         public static TextureManager Instance => _instance ??= new TextureManager();
 
@@ -14,6 +16,16 @@ namespace BulletHellGame.Logic.Managers
         private readonly Dictionary<string, SpriteData> _sprites = new();
 
         private TextureManager() { }
+
+        public void Initialize(GraphicsDevice graphicsDevice)
+        {
+            this._graphicsDevice = graphicsDevice;
+
+            // Set up a default sprite:
+            Texture2D texture = GetPixelTexture(Color.Blue, 10, 10);
+            SpriteData sd = new SpriteData(texture, new Dictionary<string, List<Rectangle>>(), "Default");
+            _sprites.Add("Default", sd);
+        }
 
         /// <summary>
         /// Loads all the textures on a sprite sheet given the data json file for that sheet.
@@ -83,19 +95,27 @@ namespace BulletHellGame.Logic.Managers
         /// </summary>
         public SpriteData GetSpriteData(string spriteName)
         {
-            if (string.IsNullOrEmpty(spriteName)) return GetDefaultSpriteData();
+            if (String.IsNullOrEmpty(spriteName)) return new SpriteData(new Texture2D(_graphicsDevice, 1, 1), new Dictionary<string, List<Rectangle>>(), string.Empty);
             return _sprites.TryGetValue(spriteName, out var spriteInfo) ? spriteInfo : GetDefaultSpriteData();
-        }
-
-        public void SetDefaultTexture(Texture2D texture)
-        {
-            SpriteData sd = new SpriteData(texture ,new Dictionary<string, List<Rectangle>>(), "Default");
-            _sprites.Add("Default", sd);
         }
 
         public SpriteData GetDefaultSpriteData()
         {
             return _sprites["Default"];
         }
+
+        public Texture2D GetPixelTexture(Color color, int width, int height)
+        {
+            Texture2D pixel = new Texture2D(this._graphicsDevice, width, height);
+            Color[] data = new Color[width * height];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = color;
+            }
+            pixel.SetData(data);
+
+            return pixel;
+        }
+
     }
 }
