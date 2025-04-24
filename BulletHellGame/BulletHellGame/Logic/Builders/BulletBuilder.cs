@@ -100,5 +100,19 @@ namespace BulletHellGame.Logic.Builders
         {
             _entity.AddComponent(new CollisionStrategyComponent(new BulletCollisionStrategy()));
         }
+
+        public override void BuildPush()
+        {
+            Vector2 hitbox = _entity.GetComponent<HitboxComponent>().Hitbox;
+            if (hitbox.X > 30)
+            {
+                _entity.AddComponent(new PusherComponent());
+            }
+            else
+            {
+                _entity.AddComponent(new PushableComponent());
+            }
+
+        }
     }
 }

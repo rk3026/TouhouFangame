@@ -60,6 +60,7 @@ namespace BulletHellGame.Logic.Builders
         public virtual void BuildDespawn() { }
         public virtual void BuildCollisionStrategy() { }
         public virtual void BuildBombing() { }
+        public virtual void BuildPush() { }
 
         public Entity GetResult()
         {
