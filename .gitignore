@@ -9,6 +9,10 @@
 # Zip file
 *.zip
 
+# Stupid Rider bullshit
+.idea/projectSettingsUpdater.xml
+
+
 # User-specific files
 *.rsuser
 *.suo
