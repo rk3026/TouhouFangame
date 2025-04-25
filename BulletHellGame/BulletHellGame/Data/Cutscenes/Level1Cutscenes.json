@@ -2,7 +2,7 @@
   {
     "BackgroundAsset": "Backgrounds/touhou",
     "MusicAsset": "02. Paradise ~ Deep Mountain",
-    "SpriteAsset": "ReimuCutscene",
+    "SpriteAsset": "SpriteSheets/CutsceneReimu",
     "Dialogue": [
       {
         "Speaker": "Reimu",

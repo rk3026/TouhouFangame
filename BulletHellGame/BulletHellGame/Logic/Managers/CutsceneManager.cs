@@ -1,4 +1,4 @@
-﻿using BulletHellGame.DataAccess.DataTransferObjects;
+﻿﻿using BulletHellGame.DataAccess.DataTransferObjects;
 
 public class CutsceneManager
 {
@@ -19,5 +19,14 @@ public class CutsceneManager
     public List<CutsceneData> GetCutscenesForLevel(int level)
     {
         return cutscenesPerLevel.TryGetValue(level, out var cutscenes) ? cutscenes : new List<CutsceneData>();
+    }
+
+    public CutsceneData GetCutsceneForLevel(int level, int index = 0)
+    {
+        if (cutscenesPerLevel.TryGetValue(level, out var cutscenes) && cutscenes.Count > index)
+        {
+            return cutscenes[index];
+        }
+        return null;
     }
 }

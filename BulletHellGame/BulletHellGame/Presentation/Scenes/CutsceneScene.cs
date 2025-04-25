@@ -32,6 +32,8 @@ namespace BulletHellGame.Presentation.Scenes
         public void Load()
         {
             _font = _contentManager.Load<SpriteFont>("Fonts/DFPPOPCorn-W12");
+
+            // Load assets from cutscene data
             _backgroundTexture = _contentManager.Load<Texture2D>(_cutsceneData.BackgroundAsset);
             _characterSprite = _contentManager.Load<Texture2D>(_cutsceneData.SpriteAsset);
         }
