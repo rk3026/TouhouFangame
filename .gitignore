@@ -8,10 +8,9 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 # Zip file
 *.zip
-
-# Stupid Rider bullshit
-.idea/projectSettingsUpdater.xml
-
+# IDEA directory
+.idea/
+BulletHellGame/.idea/.idea.BulletHellGame/.idea/projectSettingsUpdater.xml
 
 # User-specific files
 *.rsuser
