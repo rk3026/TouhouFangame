@@ -3,6 +3,7 @@ using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Strategies.CollisionStrategies;
+using BulletHellGame.Logic.Utilities.EntityDataGenerator;
 
 namespace BulletHellGame.Logic.Builders
 {
@@ -26,6 +27,7 @@ namespace BulletHellGame.Logic.Builders
             bullet.GetComponent<HitboxComponent>().Hitbox = new Vector2(bullet.GetComponent<SpriteComponent>().CurrentFrame.Width, bullet.GetComponent<SpriteComponent>().CurrentFrame.Height);
             bullet.GetComponent<DamageComponent>().BaseDamage = bulletData.Damage;
             bullet.GetComponent<AccelerationComponent>().Acceleration = bulletData.Acceleration;
+            bullet.GetComponent<BounceComponent>().CanBounce = bulletData.BulletType == BulletType.Bouncy;
             if (bulletData.BulletType != BulletType.Homing)
             {
                 if (bullet.HasComponent<HomingComponent>())
@@ -136,6 +138,33 @@ namespace BulletHellGame.Logic.Builders
                 _entity.AddComponent(new PushableComponent());
             }
 
+        }
+
+        public override void BuildBulletContainer()
+        {
+            float largeBulletMinimumWidth = 50f;
+            Vector2 bulletSize = _entity.GetComponent<HitboxComponent>().Hitbox;
+
+            if (bulletSize.X > largeBulletMinimumWidth)
+            {
+                BulletContainerComponent bulletContainerComponent = new BulletContainerComponent();
+                BulletData bulletData = new BulletData
+                {
+                    BulletType = BulletType.Bouncy,
+                    SpriteName = "SingleCircle.Red",
+                    Damage = _entityData.Damage / 2,
+                    RotationSpeed = _entityData.RotationSpeed,
+                    Acceleration = _entityData.Acceleration,
+                };
+                bulletContainerComponent.BulletsToSpawn.Add(bulletData, 10);
+                _entity.AddComponent(bulletContainerComponent);
+            }
+        }
+
+        public override void BuildBounce()
+        {
+
+            _entity.AddComponent(new BounceComponent(_entityData.BulletType == BulletType.Bouncy));
         }
     }
 }

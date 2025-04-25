@@ -35,6 +35,25 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
 
             foreach (var entity in entitiesToRemove)
             {
+                if (entity.TryGetComponent<BulletContainerComponent>(out var bcc) &&
+                    entity.TryGetComponent<PositionComponent>(out var pc) &&
+                    entity.TryGetComponent<HitboxComponent>(out var hc) &&
+                    entity.TryGetComponent<OwnerComponent>(out var oc)
+                    )
+                {
+                    foreach (var bulletData in bcc.BulletsToSpawn.Keys)
+                    {
+                        for (int i = 0; i < bcc.BulletsToSpawn[bulletData]; i++)
+                        {
+                            // Assign random direction velocity
+                            float angle = Random.Shared.NextSingle() * MathF.Tau; // 0 to 2π
+                            var direction = new Vector2(MathF.Cos(angle), MathF.Sin(angle));
+                            Entity bullet = entityManager.SpawnBullet(bulletData, pc.Position, hc.Layer, direction, oc.Owner);
+                            bullet.GetComponent<DespawnComponent>().DespawnWhenOffScreen = false;
+                        }
+                    }
+                }
+
                 entityManager.QueueEntityForRemoval(entity);
             }
         }
