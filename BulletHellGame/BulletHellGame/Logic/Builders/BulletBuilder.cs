@@ -45,6 +45,27 @@ namespace BulletHellGame.Logic.Builders
                     homingComponent.Reset();
                 }
             }
+
+            // Horrible code, but I don't care and it works:
+            // Remove existing push components (if pooled previously)
+            if (bullet.HasComponent<PushableComponent>())
+                bullet.RemoveComponent<PushableComponent>();
+
+            if (bullet.HasComponent<PusherComponent>())
+                bullet.RemoveComponent<PusherComponent>();
+
+            // Re-add push logic if needed
+            float largeBulletMinimumWidth = 50f;
+            //Vector2 bulletSize = _entity.GetComponent<SpriteComponent>().CurrentFrame.Size.ToVector2();
+            Vector2 bulletSize = bullet.GetComponent<HitboxComponent>().Hitbox;
+            if (bulletSize.X > largeBulletMinimumWidth)
+            {
+                bullet.AddComponent(new PusherComponent());
+            }
+            else
+            {
+                bullet.AddComponent(new PushableComponent());
+            }
         }
 
         public override void BuildSprite()
@@ -103,8 +124,10 @@ namespace BulletHellGame.Logic.Builders
 
         public override void BuildPush()
         {
-            Vector2 hitbox = _entity.GetComponent<HitboxComponent>().Hitbox;
-            if (hitbox.X > 30)
+            float largeBulletMinimumWidth = 50f;
+            //Vector2 bulletSize = _entity.GetComponent<SpriteComponent>().CurrentFrame.Size.ToVector2();
+            Vector2 bulletSize = _entity.GetComponent<HitboxComponent>().Hitbox;
+            if (bulletSize.X > largeBulletMinimumWidth)
             {
                 _entity.AddComponent(new PusherComponent());
             }

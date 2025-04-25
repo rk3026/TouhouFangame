@@ -50,13 +50,15 @@ namespace BulletHellGame.Presentation.Scenes
             {
                 TextureManager.Instance.GetSpriteData("ReimuSelect"),
                 TextureManager.Instance.GetSpriteData("MarisaSelect"),
-                TextureManager.Instance.GetSpriteData("SakuyaSelect")
+                TextureManager.Instance.GetSpriteData("SakuyaSelect"),
+                TextureManager.Instance.GetSpriteData("ReimuSelect"),
             };
             characters = new CharacterData[]
             {
                 CharacterDataLoader.LoadCharacterData("Reimu"),
                 EntityDataGenerator.CreateMarisaData(),
-                EntityDataGenerator.CreateSakuyaData()
+                EntityDataGenerator.CreateSakuyaData(),
+                EntityDataGenerator.CreateEpicTestData()
             };
             difficultyEndPos = new Vector2(_graphicsDevice.Viewport.X + 50, _graphicsDevice.Viewport.Y + _graphicsDevice.Viewport.Height - 50);
         }
