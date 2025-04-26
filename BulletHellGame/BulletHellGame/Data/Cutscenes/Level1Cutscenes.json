@@ -5,24 +5,25 @@
     "SpriteAsset": "SpriteSheets/CutsceneReimu",
     "Dialogue": [
       {
-        "Speaker": "Reimu",
+        "SpeakerName": "Reimu",
         "Line": "Another quiet morning at the shrine...",
-        "Expression": "Pose1"
+        "SpriteExpression": "Pose1",
+        "TypeDelay": 0.03,
+        "FlashAfterLine": false
       },
       {
-        "Speaker": "Marisa",
+        "SpeakerName": "Marisa",
         "Line": "Yo! Reimu! Already up, ze?",
-        "Expression": "Pose2"
+        "SpriteExpression": "Pose2",
+        "TypeDelay": 0.03,
+        "FlashAfterLine": false
       },
       {
-        "Speaker": "Sakuya",
-        "Line": "I sensed something unusual in the air today.",
-        "Expression": "Pose3"
-      },
-      {
-        "Speaker": "Reimu",
-        "Line": "Time to investigate then.",
-        "Expression": "Pose5"
+        "SpeakerName": "Sakuya",
+        "Line": "I sensed something unusual in the air...",
+        "SpriteExpression": "Pose1",
+        "TypeDelay": 0.03,
+        "FlashAfterLine": true
       }
     ]
   }
