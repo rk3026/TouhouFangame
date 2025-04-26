@@ -1,4 +1,4 @@
-﻿namespace BulletHellGame.DataAccess.DataTransferObjects
+namespace BulletHellGame.DataAccess.DataTransferObjects
 {
     public class CutsceneData
     {
@@ -10,8 +10,10 @@
 
     public class DialogueLine
     {
-        public string SpeakerName;
-        public string Line;
-        public string SpriteExpression;
+        public string SpeakerName { get; set; }
+        public string Line { get; set; }
+        public string SpriteExpression { get; set; }
+        public float TypeDelay { get; set; } = 0.03f;
+        public bool FlashAfterLine { get; set; } = false;
     }
 }

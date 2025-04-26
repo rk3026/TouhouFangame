@@ -11,7 +11,7 @@ namespace BulletHellGame.Presentation.Scenes
     {
         private readonly ContentManager _contentManager;
         private readonly GraphicsDevice _graphicsDevice;
-        private readonly CutsceneData _cutsceneData;
+        private CutsceneData _cutsceneData;
         private readonly CharacterData _characterData;
 
         private SpriteFont _font;
@@ -25,7 +25,7 @@ namespace BulletHellGame.Presentation.Scenes
         {
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
-            _cutsceneData = cutsceneData;
+            _cutsceneData = cutscenes != null && cutscenes.Count > 0 ? cutscenes[0] : null;
             _characterData = characterData;
         }
 
