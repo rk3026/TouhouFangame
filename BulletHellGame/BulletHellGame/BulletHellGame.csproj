@@ -26,6 +26,7 @@
         <None Remove="Data\Levels\bullets.json" />
         <None Remove="Data\Levels\enemies.json" />
         <None Remove="Data\Levels\levels.json" />
+        <None Remove="Data\Levels\loots.json" />
         <None Remove="Data\Levels\waves.json" />
         <None Remove="Data\Levels\weapons.json" />
         <None Remove="Data\Shots\Extermination.json" />
@@ -97,6 +98,9 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\Levels\level1.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Levels\loots.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\Levels\waves.json">
