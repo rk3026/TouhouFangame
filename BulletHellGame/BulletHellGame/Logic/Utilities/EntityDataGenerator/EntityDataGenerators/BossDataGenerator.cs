@@ -23,6 +23,7 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
         public static BossData CreateSubBossData()
         {
             GruntData phase1 = CreateCirnoSpiralPhase();
+            //GruntData phase1 = CreateCirnoLaserPhase();
             GruntData phase2 = CreateCirnoAimedBurstPhase();
 
             return new BossData
@@ -128,6 +129,47 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
                             SpriteName = bulletSprite,
                             Damage = 15,
                             BulletType = BulletType.Standard,
+                            RotationSpeed = 0f
+                        },
+                        FireDirections = fireDirections,
+                        FireRate = 0.5f
+                    }
+                }
+            };
+        }
+
+        private static GruntData CreateCirnoLaserPhase()
+        {
+            string bulletSprite = "Lazer.Red";
+            int numBullets = 16;
+            float angleStep = 360f / numBullets;
+            var fireDirections = new List<Vector2>();
+
+            for (int i = 0; i < numBullets; i++)
+            {
+                float angle = (spiralAngle + i * angleStep) * (MathF.PI / 180f);
+                fireDirections.Add(new Vector2(MathF.Cos(angle), MathF.Sin(angle)));
+            }
+
+            spiralAngle += 20f;
+            if (spiralAngle >= 360f) spiralAngle -= 360f;
+
+            return new GruntData
+            {
+                Name = "Cirno - Phase 1",
+                SpriteName = "Cirno",
+                MovementPattern = "circle",
+                Health = 7000,
+
+                Weapons = new List<WeaponData>
+                {
+                    new WeaponData
+                    {
+                        BulletData = new BulletData
+                        {
+                            SpriteName = bulletSprite,
+                            Damage = 25,
+                            BulletType = BulletType.Laser,
                             RotationSpeed = 0f
                         },
                         FireDirections = fireDirections,
