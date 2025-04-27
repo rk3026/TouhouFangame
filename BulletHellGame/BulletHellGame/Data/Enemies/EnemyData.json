@@ -1,0 +1,24 @@
+{
+  "enemies": [
+    {
+      "id": "0",
+      "spriteName": "Fairy.White",
+      "health": 25,
+      "movement_pattern": "zigzag",
+      "loot_table": [
+        { "collectible_type": "PowerUp", "drop_rate": 0.5 },
+        { "collectible_type": "PointItem", "drop_rate": 0.3 }
+      ]
+    },
+    {
+      "id": "1",
+      "spriteName": "Fairy.Green",
+      "health": 50,
+      "movement_pattern": "circular",
+      "loot_table": [
+        { "collectible_type": "OneUp", "drop_rate": 0.2 },
+        { "collectible_type": "Bomb", "drop_rate": 0.4 }
+      ]
+    }
+  ]
+}

@@ -27,17 +27,275 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/DFPPOPCorn-W12.spritefont
 
-#begin Fonts/TouhouFontWhite.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Fonts/TouhouFontWhite.png
+#begin Music/01. Ghostly Dream ~ Snow or Cherry Petal.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/01. Ghostly Dream ~ Snow or Cherry Petal.mp3
+
+#begin Music/AlanWalker_Fade.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/AlanWalker_Fade.mp3
+
+#begin Music/CallToAdventure1.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/CallToAdventure1.wav
+
+#begin Music/CheerfulHeart_Victory.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/CheerfulHeart_Victory.mp3
+
+#begin Music/広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3
+
+#begin Music/激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷.mp3
+
+#begin Music/激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3
+
+#begin Music/紅魔激走劇  Everlasting....mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/紅魔激走劇  Everlasting....mp3
+
+#begin Shaders/CRT_Shader.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/CRT_Shader.fx
+
+#begin Shaders/Glitch_Shader.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/Glitch_Shader.fx
+
+#begin Shaders/MagicAura_Shader.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/MagicAura_Shader.fx
+
+#begin Sounds/menu_back.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/menu_back.wav
+
+#begin Sounds/menu_move.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/menu_move.wav
+
+#begin Sounds/menu_select.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/menu_select.wav
+
+#begin Sounds/se_bonus.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_bonus.wav
+
+#begin Sounds/se_bonus2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_bonus2.wav
+
+#begin Sounds/se_border.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_border.wav
+
+#begin Sounds/se_cancel00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_cancel00.wav
+
+#begin Sounds/se_cat00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_cat00.wav
+
+#begin Sounds/se_damage00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_damage00.wav
+
+#begin Sounds/se_enep00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_enep00.wav
+
+#begin Sounds/se_enep01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_enep01.wav
+
+#begin Sounds/se_extend.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_extend.wav
+
+#begin Sounds/se_graze.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_graze.wav
+
+#begin Sounds/se_gun00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_gun00.wav
+
+#begin Sounds/se_item00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_item00.wav
+
+#begin Sounds/se_kira00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_kira00.wav
+
+#begin Sounds/se_kira01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_kira01.wav
+
+#begin Sounds/se_kira02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_kira02.wav
+
+#begin Sounds/se_lazer00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_lazer00.wav
+
+#begin Sounds/se_lazer01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_lazer01.wav
+
+#begin Sounds/se_nep00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_nep00.wav
+
+#begin Sounds/se_ok00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_ok00.wav
+
+#begin Sounds/se_pause.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_pause.wav
+
+#begin Sounds/se_pldead00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_pldead00.wav
+
+#begin Sounds/se_plst00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_plst00.wav
+
+#begin Sounds/se_power0.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_power0.wav
+
+#begin Sounds/se_power1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_power1.wav
+
+#begin Sounds/se_powerup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_powerup.wav
+
+#begin Sounds/se_select00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_select00.wav
+
+#begin Sounds/se_tan00.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_tan00.wav
+
+#begin Sounds/se_tan01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_tan01.wav
+
+#begin Sounds/se_tan02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_tan02.wav
+
+#begin Sounds/se_timeout.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/se_timeout.wav
+
+#begin Sounds/shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/shoot.wav
 
 #begin Sprites/Bullets/ReimuBullet.png
 /importer:TextureImporter
@@ -158,6 +416,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:SpriteSheets/ProjectilesAndObjects.png
+
+#begin SpriteSheets/SidebarLoadAndPauseScreens.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/SidebarLoadAndPauseScreens.png
 
 #begin SpriteSheets/StagesTilesAndBackgrounds.png
 /importer:TextureImporter

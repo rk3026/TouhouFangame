@@ -1,0 +1,22 @@
+{
+  "Id": 1,
+  "Name": "Reimu Hakurei",
+  "Description": "Wonderful Shrine Maiden of Paradise",
+  "SpriteName": "Reimu",
+  "Health": 100,
+  "HitboxSize": {
+    "X": 3,
+    "Y": 3
+  },
+  "MovementSpeed": 7,
+  "FocusedSpeed": 3,
+  "InitialLives": 3,
+  "InitialBombs": 5,
+  "BombCherryLoss": "small",
+  "DeathbombWindow": 0.33,
+  "SpecialAbilities": [
+    "Smaller Hitbox.",
+    "Extra time for bombing after getting hit."
+  ],
+  "ShotTypes": [ "SpiritSign-PursuitType-", "DreamSign-Rapid-FireType-" ]
+}

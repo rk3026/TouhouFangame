@@ -11,41 +11,141 @@
         <ApplicationIcon>Icon.ico</ApplicationIcon>
     </PropertyGroup>
     <ItemGroup>
+        <None Remove="Content\Fonts\Arial.spritefont" />
+        <None Remove="Content\Fonts\DFPPOPCorn-W12.spritefont" />
+        <None Remove="Content\Fonts\DFPPOPCorn-W12.ttf" />
+        <None Remove="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3" />
+        <None Remove="Content\Music\激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3" />
+        <None Remove="Content\Music\紅魔激走劇  Everlasting....mp3" />
         <None Remove="Data\BulletPatterns.json" />
-        <None Remove="Data\CharacterData.json" />
-        <None Remove="Data\CollectibleData.json" />
+        <None Remove="Data\Characters\Marisa.json" />
+        <None Remove="Data\Characters\Reimu.json" />
+        <None Remove="Data\Characters\Sakuya.json" />
         <None Remove="Data\EnemyData.json" />
         <None Remove="Data\level1.json" />
-        <None Remove="Data\SpriteSheetData.json" />
+        <None Remove="Data\Shots\Extermination.json" />
+        <None Remove="Data\Shots\HakureiAmulet.json" />
+        <None Remove="Data\Shots\HomingAmulet.json" />
+        <None Remove="Data\Shots\IllusionLaser.json" />
+        <None Remove="Data\Shots\JacktheLudoBile.json" />
+        <None Remove="Data\Shots\JacktheRipper.json" />
+        <None Remove="Data\Shots\MagicMissle.json" />
+        <None Remove="Data\Shots\MagicNapalm.json" />
+        <None Remove="Data\Shots\Misdirection.json" />
+        <None Remove="Data\Shots\PersuasionNeedle.json" />
+        <None Remove="Data\Shots\PowerDirection.json" />
+        <None Remove="Data\Shots\StreamLaser.json" />
+        <None Remove="Data\ShotTypes\DreamSign-Rapid-FireType-.json" />
+        <None Remove="Data\ShotTypes\IllusionSign-Attack-Range-OrientedType-.json" />
+        <None Remove="Data\ShotTypes\LoveSign-PenetrationType-.json" />
+        <None Remove="Data\ShotTypes\MagicSign-Power-OrientedType-.json" />
+        <None Remove="Data\ShotTypes\SpiritSign-PursuitType-.json" />
+        <None Remove="Data\ShotTypes\TimeSign-TrickyType-.json" />
         <None Remove="Data\SpriteSheets\Characters.json" />
         <None Remove="Data\SpriteSheets\EnemiesAndBosses.json" />
+        <None Remove="Data\SpriteSheets\Fonts.json" />
         <None Remove="Data\SpriteSheets\MenuAndOtherScreens.json" />
         <None Remove="Data\SpriteSheets\ProjectilesAndObjects.json" />
+        <None Remove="Data\SpriteSheets\SidebarLoadAndPauseScreens.json" />
         <None Remove="Data\SpriteSheets\StagesTilesAndBackgrounds.json" />
-        <None Remove="Data\WeaponData.json" />
         <None Remove="Icon.ico" />
         <None Remove="Icon.bmp" />
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Data\BulletPatterns.json">
+      <Content Include="Content\Fonts\Arial.spritefont">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Include="Data\CharacterData.json">
+      <Content Include="Content\Fonts\DFPPOPCorn-W12.spritefont">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Include="Data\CollectibleData.json">
+      <Content Include="Content\Fonts\DFPPOPCorn-W12.ttf">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Include="Data\EnemyData.json">
+      <Content Include="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Music\激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Music\紅魔激走劇  Everlasting....mp3">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\BulletPatterns\BulletPatterns.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Characters\Marisa.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Characters\Reimu.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Characters\Sakuya.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Enemies\EnemyData.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\Levels\level1.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Include="Data\SpriteSheetData.json">
+      <Content Include="Data\Shots\Extermination.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Include="Data\WeaponData.json">
+      <Content Include="Data\Shots\HakureiAmulet.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Shots\HomingAmulet.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Shots\IllusionLaser.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Shots\JacktheLudoBile.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Shots\JacktheRipper.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Shots\MagicMissle.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Shots\MagicNapalm.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Shots\Misdirection.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Shots\PersuasionNeedle.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Shots\PowerDirection.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Shots\StreamLaser.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\ShotTypes\DreamSign-Rapid-FireType-.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\ShotTypes\IllusionSign-Attack-Range-OrientedType-.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\ShotTypes\LoveSign-PenetrationType-.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\ShotTypes\MagicSign-Power-OrientedType-.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\ShotTypes\SpiritSign-PursuitType-.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\ShotTypes\TimeSign-TrickyType-.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\Fonts.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\SpriteSheets\SidebarLoadAndPauseScreens.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
@@ -81,6 +181,9 @@
       </Content>
     </ItemGroup>
     <ItemGroup>
+      <None Update="Content\Music\激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷.mp3">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
       <None Update="Content\SpriteSheets\Characters.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
@@ -105,7 +208,7 @@
       <None Update="Content\Sprites\Enemies\GenericEnemy1Idle1.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Data\MovementPatterns.json">
+      <None Update="Data\MovementPatterns\MovementPatterns.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
@@ -113,4 +216,10 @@
         <Message Text="Restoring dotnet tools" Importance="High" />
         <Exec Command="dotnet tool restore" />
     </Target>
+    <ItemGroup>
+      <EditorConfigFiles Remove="D:\Desktop\cpts_487\BulletHellGame\BulletHellGame\Presentation\Scenes\.editorconfig" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="D:\Desktop\cpts_487\BulletHellGame\BulletHellGame\Presentation\Scenes\.editorconfig" />
+    </ItemGroup>
 </Project>

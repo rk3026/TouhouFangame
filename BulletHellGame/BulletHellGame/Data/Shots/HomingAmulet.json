@@ -1,0 +1,386 @@
+{
+  "Name": "Homing Amulet",
+  "Description": "Reimu throws cards in front of her, while the yin-yang options fire weak homing bullets, covering a fair amount of the screen.",
+  "PowerLevels": [
+    {
+      "Level": 0,
+      "MainWeapons": [
+        {
+          "SpriteName": "Reimu.OrangeBullet",
+          "FireRate": 0.18,
+          "FireDirections": [
+            {
+              "X": 0,
+              "Y": -5
+            }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.OrangeBullet",
+            "Damage": 25,
+            "BulletType": "Standard"
+          }
+        }
+      ],
+      "SideWeapons": [
+        {
+          "Offset": {
+            "X": -20,
+            "Y": 0
+          },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.5,
+          "FireDirections": [
+            {
+              "X": -0.2,
+              "Y": -3
+            }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 100,
+            "BulletType": "Homing"
+          }
+        },
+        {
+          "Offset": {
+            "X": 20,
+            "Y": 0
+          },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.5,
+          "FireDirections": [
+            {
+              "X": 0.2,
+              "Y": -3
+            }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 100,
+            "BulletType": "Homing"
+          }
+        }
+      ]
+    },
+    {
+      "Level": 2,
+      "MainWeapons": [
+        {
+          "SpriteName": "Reimu.OrangeBullet",
+          "FireRate": 0.14,
+          "FireDirections": [
+            { "X": 0, "Y": -5 },
+            { "X": -0.5, "Y": -5},
+            { "X": -0.5, "Y": -5}
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.OrangeBullet",
+            "Damage": 60,
+            "BulletType": "Standard"
+          }
+        }
+      ],
+      "SideWeapons": [
+        {
+          "Offset": { "X": -20, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.4,
+          "FireDirections": [
+            { "X": -0.2, "Y": -3 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 100,
+            "BulletType": "Homing"
+          }
+        },
+        {
+          "Offset": { "X": 20, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.4,
+          "FireDirections": [
+            { "X": 0.2, "Y": -3 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 100,
+            "BulletType": "Homing"
+          }
+        }
+      ]
+    },
+    {
+      "Level": 3,
+      "MainWeapons": [
+        {
+          "SpriteName": "Reimu.OrangeBullet",
+          "FireRate": 0.14,
+          "FireDirections": [
+            { "X": 0, "Y": -5 },
+            { "X": -0.5, "Y": -5},
+            { "X": -0.5, "Y": -5}
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.OrangeBullet",
+            "Damage": 60,
+            "BulletType": "Standard"
+          }
+        }
+      ],
+      "SideWeapons": [
+        {
+          "Offset": { "X": -20, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.35,
+          "FireDirections": [
+            { "X": -0.2, "Y": -3 },
+            { "X": -0.2, "Y": -1 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 140,
+            "BulletType": "Homing"
+          }
+        },
+        {
+          "Offset": { "X": 20, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.35,
+          "FireDirections": [
+            { "X": 0.2, "Y": -3 },
+            { "X": 0.2, "Y": -1 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 140,
+            "BulletType": "Homing"
+          }
+        }
+      ]
+    },
+    {
+      "Level": 4,
+      "MainWeapons": [
+        {
+          "SpriteName": "Reimu.OrangeBullet",
+          "FireRate": 0.12,
+          "FireDirections": [
+            { "X": 0, "Y": -5 },
+            { "X": -0.5, "Y": -5},
+            { "X": -0.5, "Y": -5}
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.OrangeBullet",
+            "Damage": 200,
+            "BulletType": "Standard"
+          }
+        }
+      ],
+      "SideWeapons": [
+        {
+          "Offset": { "X": -20, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.3,
+          "FireDirections": [
+            { "X": -0.2, "Y": -3 },
+            { "X": -0.4, "Y": -1 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 180,
+            "BulletType": "Homing"
+          }
+        },
+        {
+          "Offset": { "X": 20, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.3,
+          "FireDirections": [
+            { "X": 0.2, "Y": -3 },
+            { "X": 0.4, "Y": -1 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 180,
+            "BulletType": "Homing"
+          }
+        }
+      ]
+    },
+    {
+      "Level": 5,
+      "MainWeapons": [
+        {
+          "SpriteName": "Reimu.OrangeBullet",
+          "FireRate": 0.25,
+          "FireDirections": [
+            { "X": 0, "Y": -5 },
+            { "X": -0.3, "Y": -5 },
+            { "X": 0.3, "Y": -5 },
+            { "X": -0.15, "Y": -5 },
+            { "X": 0.15, "Y": -5 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.OrangeBullet",
+            "Damage": 140,
+            "BulletType": "Standard"
+          }
+        }
+      ],
+      "SideWeapons": [
+        {
+          "Offset": { "X": -25, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.28,
+          "FireDirections": [
+            { "X": -0.3, "Y": -3 },
+            { "X": -0.5, "Y": -1 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 220,
+            "BulletType": "Homing"
+          }
+        },
+        {
+          "Offset": { "X": 25, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.28,
+          "FireDirections": [
+            { "X": 0.3, "Y": -3 },
+            { "X": 0.5, "Y": -1 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 220,
+            "BulletType": "Homing"
+          }
+        }
+      ]
+    },
+    {
+      "Level": 6,
+      "MainWeapons": [
+        {
+          "SpriteName": "Reimu.OrangeBullet",
+          "FireRate": 0.1,
+          "FireDirections": [
+            { "X": 0, "Y": -5 },
+            { "X": -0.4, "Y": -5 },
+            { "X": 0.4, "Y": -5 },
+            { "X": -0.2, "Y": -5 },
+            { "X": 0.2, "Y": -5 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.OrangeBullet",
+            "Damage": 170,
+            "BulletType": "Standard"
+          }
+        }
+      ],
+      "SideWeapons": [
+        {
+          "Offset": { "X": -30, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.25,
+          "FireDirections": [
+            { "X": -0.3, "Y": -3 },
+            { "X": -0.6, "Y": -1 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 260,
+            "BulletType": "Homing"
+          }
+        },
+        {
+          "Offset": { "X": 30, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.25,
+          "FireDirections": [
+            { "X": 0.3, "Y": -3 },
+            { "X": 0.6, "Y": -1 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 260,
+            "BulletType": "Homing"
+          }
+        }
+      ]
+    },
+    {
+      "Level": 7,
+      "MainWeapons": [
+        {
+          "SpriteName": "Reimu.OrangeBullet",
+          "FireRate": 0.1,
+          "FireDirections": [
+            { "X": 0, "Y": -5 },
+            { "X": -0.5, "Y": -5 },
+            { "X": 0.5, "Y": -5 },
+            { "X": -0.25, "Y": -5 },
+            { "X": 0.25, "Y": -5 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.OrangeBullet",
+            "Damage": 200,
+            "BulletType": "Standard"
+          }
+        }
+      ],
+      "SideWeapons": [
+        {
+          "Offset": { "X": -35, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.25,
+          "FireDirections": [
+            { "X": -0.4, "Y": -3 },
+            { "X": -0.7, "Y": -1 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 300,
+            "BulletType": "Homing"
+          }
+        },
+        {
+          "Offset": { "X": 35, "Y": 0 },
+          "SpriteName": "Reimu.YinYangOrb",
+          "FireRate": 0.25,
+          "FireDirections": [
+            { "X": 0.4, "Y": -3 },
+            { "X": 0.7, "Y": -1 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.WhiteBullet",
+            "Damage": 300,
+            "BulletType": "Homing"
+          }
+        }
+      ]
+    },
+    {
+      "Level": 8,
+      "MainWeapons": [
+        {
+          "SpriteName": "Reimu.OrangeBullet",
+          "FireRate": 0.05,
+          "FireDirections": [
+            { "X": 0, "Y": -5 },
+            { "X": -0.6, "Y": -5 },
+            { "X": 0.6, "Y": -5 },
+            { "X": -0.3, "Y": -5 },
+            { "X": 0.3, "Y": -5 }
+          ],
+          "BulletData": {
+            "SpriteName": "Reimu.OrangeBullet",
+            "Damage": 240,
+            "BulletType": "Standard"
+          }
+        }
+      ],
+      "SideWeapons": []
+    }
+  ]
+}

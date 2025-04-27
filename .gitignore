@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/windows,linux,csharp,visualstudio,rider,dotnetcore
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,csharp,visualstudio,rider,dotnetcore
 
@@ -433,6 +432,7 @@ obj/
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+**/.idea/**/vcs.xml
 
 # AWS User-specific
 .idea/**/aws.xml
@@ -705,3 +705,26 @@ $RECYCLE.BIN/
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,csharp,visualstudio,rider,dotnetcore
+### Wine ###
+/.wine
+/wine/
+*.wineprefix
+*.wine
+*.lnk
+*.desktop
+*_wine.log
+wine.log
+winecfg.log
+**/drive_c/**
+*/drive_c/*
+*/drive_c/Program Files/
+*/drive_c/Program Files (x86)/
+*/drive_c/users/*
+**/dosdevices/**
+**/system.reg
+**/user.reg
+**/userdef.reg
+**/software.reg
+**/.update-timestamp
+**/.mgstats
+

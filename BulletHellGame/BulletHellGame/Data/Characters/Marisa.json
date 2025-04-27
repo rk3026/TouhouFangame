@@ -1,0 +1,19 @@
+{
+  "id": 2,
+  "name": "Marisa Kirisame",
+  "description": "Ordinary Black Magician",
+  "sprite_name": "Marisa",
+  "health": 100,
+  "hitbox_size": { "x": 3, "y": 3 },
+  "movement_speed": 8,
+  "focused_speed": 4,
+  "initial_lives": 3,
+  "initial_bombs": 2,
+  "bomb_cherry_loss": "large",
+  "deathbomb_window": 0.25,
+  "special_abilities": [
+    "Low threshold of items' max value.",
+    "Low point of collection boundary."
+  ],
+  "shot_types": [ "MagicSign-Power-OrientedType-", "LoveSign-PenetrationType-" ]
+}
