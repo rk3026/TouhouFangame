@@ -59,6 +59,8 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
         {
             var data = phase.GetCurrentPhaseData();
 
+            health.MaxHealth = data.Health;
+
             // Reset health
             health.Heal(data.Health);
 

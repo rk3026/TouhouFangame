@@ -19,15 +19,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
 
         private static IEnemyData GetEnemyData(string type)
         {
-            switch(type)
-            {
-                case "grunt":
-                    return GruntDataGenerator.CreateGruntData();
-                case "subBoss":
-                    return BossDataGenerator.CreateSubBossData();
-            }
-
-            return null;
+            return EnemyDataLoader.GetEnemy(type);
         }
 
         public static WaveData GetWave(string waveId, Rectangle playableArea)
