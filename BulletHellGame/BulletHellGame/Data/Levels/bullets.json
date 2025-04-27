@@ -1,0 +1,8 @@
+{
+    "bullet": {
+        "sprite": "Lazer.Gray",
+        "damage": 100,
+        "rotationSpeed" : 1,
+        "type": "Homing"
+    }
+}

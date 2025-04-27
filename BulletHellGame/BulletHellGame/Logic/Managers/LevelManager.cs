@@ -1,6 +1,8 @@
-﻿using BulletHellGame.DataAccess.DataTransferObjects;
+﻿using BulletHellGame.DataAccess.DataLoaders;
+using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.Logic.Utilities.EntityDataGenerator;
+using BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerators;
 
 public class LevelManager
 {
@@ -30,13 +32,16 @@ public class LevelManager
 
     private void LoadLevelData()
     {
-        _levels = new Dictionary<int, LevelData>();
+        _levels = LevelDataLoader.LoadLevelData(_playableArea);
+        _totalLevels = _levels.Count;
+
+        /*_levels = new Dictionary<int, LevelData>();
 
         for (int level = 1; level <= _totalLevels; level++)
         {
             var levelData = EntityDataGenerator.GenerateLevelData(_playableArea);
             _levels[level] = levelData;
-        }
+        }*/
     }
 
     public void StartLevel(int level)
