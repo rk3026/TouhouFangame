@@ -50,6 +50,8 @@ namespace BulletHellGame.Logic.Builders
             }
 
             ResetPushLogicAndSplitting(bullet);
+
+            bullet.GetComponent<BounceComponent>().CanBounce = bulletData.BulletType == BulletType.Bouncy;
         }
 
         private void ResetPushLogicAndSplitting(Entity bullet)
@@ -179,7 +181,6 @@ namespace BulletHellGame.Logic.Builders
 
         public override void BuildBounce()
         {
-
             _entity.AddComponent(new BounceComponent(_entityData.BulletType == BulletType.Bouncy));
         }
 
