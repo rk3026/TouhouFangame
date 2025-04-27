@@ -1,0 +1,9 @@
+{
+    "1" : {
+        "duration": 102938,
+        "wave type": "grunt",
+        "enemySpawnData": [ "grunt spawn", "subBoss spawn", "Boss spawn" ]
+    },
+
+    { "ID": "Boss" }
+}
