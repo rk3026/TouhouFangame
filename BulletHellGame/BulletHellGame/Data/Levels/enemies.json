@@ -5,7 +5,7 @@
         "health": 100,
         "movementPattern": "zigzag",
         "shootingPattern": "",
-        "weapons": [ "grunt" ],
+        "weapons": [ "laser" ],
         "lootTable": "nameoftable"
     },
 
@@ -15,7 +15,7 @@
         "health": 1000,
         "movementPattern": "zigzag",
         "shootingPattern": "",
-        "weapons": [ "grunt", "boss", "boss", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt" ],
+        "weapons": [ "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser", "laser" ],
         "lootTable": "nameoftable"
     },
 
@@ -30,7 +30,7 @@
         "health": 7000,
         "movementPattern": "circle",
         "shootingPattern": "",
-        "weapons": [ "boss" ],
+        "weapons": [ "laser" ],
         "lootTable": "nameoftable"
     },
 
@@ -40,7 +40,7 @@
         "health": 30000,
         "movementPattern": "zigzag",
         "shootingPattern": "",
-        "weapons": [ "grunt" ],
+        "weapons": [ "laser" ],
         "lootTable": "nameoftable"
     }
 }

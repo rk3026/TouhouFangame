@@ -35,7 +35,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
             }
             
             gruntData.Weapons = weapons;
-            gruntData.Loot = CollectibleDataGenerator.GenerateRandomLoot();
+            gruntData.Loot = LootTableLoader.GetLoot(enemyJson["lootTable"].Value<string>());
 
             return gruntData;
         }
@@ -102,6 +102,8 @@ namespace BulletHellGame.DataAccess.DataLoaders
 
         private static WeaponData GetWeapon(string weaponId)
         {
+            return WeaponDataLoader.GetWeapon(weaponId);
+            /*
             switch (weaponId)
             {
                 case "grunt":
@@ -144,7 +146,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
 
             }
 
-            return null;
+            return null;*/
         }
 
         

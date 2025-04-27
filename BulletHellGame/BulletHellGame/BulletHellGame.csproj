@@ -23,9 +23,11 @@
         <None Remove="Data\Characters\Sakuya.json" />
         <None Remove="Data\EnemyData.json" />
         <None Remove="Data\level1.json" />
+        <None Remove="Data\Levels\bullets.json" />
         <None Remove="Data\Levels\enemies.json" />
         <None Remove="Data\Levels\levels.json" />
         <None Remove="Data\Levels\waves.json" />
+        <None Remove="Data\Levels\weapons.json" />
         <None Remove="Data\Shots\Extermination.json" />
         <None Remove="Data\Shots\HakureiAmulet.json" />
         <None Remove="Data\Shots\HomingAmulet.json" />
@@ -88,6 +90,9 @@
       <Content Include="Data\Enemies\EnemyData.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <Content Include="Data\Levels\bullets.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Data\Levels\enemies.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
@@ -95,6 +100,9 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\Levels\waves.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Levels\weapons.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\Shots\Extermination.json">
