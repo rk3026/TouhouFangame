@@ -3,7 +3,6 @@ using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Strategies.CollisionStrategies;
-using BulletHellGame.Logic.Utilities.EntityDataGenerator;
 
 namespace BulletHellGame.Logic.Builders
 {
@@ -24,6 +23,8 @@ namespace BulletHellGame.Logic.Builders
             bullet.AddComponent(new SpriteComponent(spriteData));
             bullet.GetComponent<SpriteComponent>().SpriteData.Origin = new Vector2(bullet.GetComponent<SpriteComponent>().CurrentFrame.Width / 2, bullet.GetComponent<SpriteComponent>().CurrentFrame.Height / 2);
             bullet.GetComponent<SpriteComponent>().RotationSpeed = bulletData.RotationSpeed;
+            bullet.GetComponent<SpriteComponent>().CurrentRotation = 0f;
+            bullet.GetComponent<SpriteComponent>().Scale = Vector2.One;
             bullet.GetComponent<HitboxComponent>().Hitbox = new Vector2(bullet.GetComponent<SpriteComponent>().CurrentFrame.Width, bullet.GetComponent<SpriteComponent>().CurrentFrame.Height);
             bullet.GetComponent<DamageComponent>().BaseDamage = bulletData.Damage;
             bullet.GetComponent<AccelerationComponent>().Acceleration = bulletData.Acceleration;
@@ -79,6 +80,7 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(spriteComponent);
         }
 
+
         public override void BuildPosition()
         {
             _entity.AddComponent(new PositionComponent());
@@ -110,7 +112,8 @@ namespace BulletHellGame.Logic.Builders
         public override void BuildHitbox()
         {
             HitboxComponent hc = new HitboxComponent(_entity, 3);
-            hc.Hitbox = new Vector2(_entity.GetComponent<SpriteComponent>().CurrentFrame.Width, _entity.GetComponent<SpriteComponent>().CurrentFrame.Width);
+            SpriteComponent sc = _entity.GetComponent<SpriteComponent>();
+            hc.Hitbox = new Vector2(sc.CurrentFrame.Width, sc.CurrentFrame.Width);
             _entity.AddComponent(hc); // Layer 1 = enemies and their bullets
         }
 

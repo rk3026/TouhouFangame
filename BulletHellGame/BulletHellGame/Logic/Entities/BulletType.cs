@@ -6,5 +6,6 @@
         Homing,
         Explosive,
         Bouncy,
+        Laser,
     }
 }
