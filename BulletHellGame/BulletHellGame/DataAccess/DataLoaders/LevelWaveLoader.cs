@@ -13,76 +13,56 @@ namespace BulletHellGame.DataAccess.DataLoaders
      * Wave 4: Grunt fights with additional complexity
      * Wave 5: Final boss which can spawn grunts in its path
      */
-    public class LevelWaveLoader
+    public static class LevelWaveLoader
     {
-        public static WaveData GetWave(string waveID, Rectangle playableArea)
+        const string WAVE_JSON_PATH = "./Data/Levels/waves.json";
+
+        private static IEnemyData GetEnemyData(string type)
         {
-            WaveData wave = WaveDataGenerator.CreateWaveData(playableArea, false);
+            switch(type)
+            {
+                case "grunt":
+                    return GruntDataGenerator.CreateGruntData();
+                case "subBoss":
+                    return BossDataGenerator.CreateSubBossData();
+            }
+
+            return null;
+        }
+
+        public static WaveData GetWave(string waveId, Rectangle playableArea)
+        {
+            var waveJson = JsonUtility.LoadJson(WAVE_JSON_PATH)[waveId];
+
+            WaveData wave = new WaveData();
+
+            wave.StartTime = waveJson["startTime"].Value<float>();
+            wave.Duration = waveJson["duration"].Value<float>();
+            wave.WaveType = Enum.Parse<WaveType>(waveJson["waveType"].Value<string>());
+
+            List<EnemySpawnData> enemies = new List<EnemySpawnData>();
+            foreach(var enemyJson in waveJson["enemySpawnData"])
+            {
+                enemies.Add(new EnemySpawnData
+                {
+                    EnemyData = GetEnemyData(enemyJson["type"].Value<string>()),
+                    SpawnTime = enemyJson["spawnTime"].Value<float>(),
+                    ExitTime = enemyJson["exitTime"].Value<float>(),
+                    SpawnPosition = new Vector2(
+                        enemyJson["x"].Value<float>() * playableArea.Width,
+                        enemyJson["y"].Value<float>() * playableArea.Height
+                    )
+                });
+            }
+
+            wave.Enemies = enemies;
+
+            //Enum.Parse<WaveType>("Normal");
+
             return wave;
         }
 
-        private static LevelWaveLoader _instance;
-        public static LevelWaveLoader Instance => _instance ??= new LevelWaveLoader();
 
-        private Dictionary<string, LevelData> _levels;
 
-        private LevelWaveLoader()
-        {
-            _levels = new Dictionary<string, LevelData>();
-            LoadLevels();
-        }
-
-        private void LoadLevels()
-        {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/Levels/level1.json");
-            string json = File.ReadAllText(filePath);
-
-            // Deserialize the levels from the JSON file
-            var levelJson = JObject.Parse(json);
-
-            LevelData levelData = new LevelData
-            {
-                Waves = new List<WaveData>()
-            };
-
-            foreach (var wave in levelJson["waves"])
-            {
-                WaveData waveData = new WaveData
-                {
-                    StartTime = wave["spawn_time"].Value<float>(),
-                    Formation = wave["formation"].Value<string>(),
-                    Enemies = new List<EnemySpawnData>()
-                };
-
-                foreach (var enemy in wave["enemies"])
-                {
-                    waveData.Enemies.Add(new EnemySpawnData
-                    {
-                        Type = enemy["id"].Value<string>(), // TODO: Switch to EnemyDataLoader.cs which will reference GruntData.json in Data Directory
-                        SpawnPosition = new Vector2(enemy["spawn_position"]["x"].Value<float>(), enemy["spawn_position"]["y"].Value<float>()),
-                        Health = enemy["health"].Value<int>()
-                    });
-                }
-
-                levelData.Waves.Add(waveData);
-            }
-
-            // Cache the level data for reuse
-            _levels[levelJson["level_name"].Value<string>()] = levelData;
-        }
-
-        // Retrieve a level by name
-        public LevelData GetLevel(string levelName)
-        {
-            if (_levels.ContainsKey(levelName))
-            {
-                return _levels[levelName];
-            }
-            else
-            {
-                Console.WriteLine($"Level '{levelName}' not found");
-                return null;
-            }
-        }
     }
 }

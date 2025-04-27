@@ -4,8 +4,9 @@
         "background": "forest.png",
         "music": "adventure_theme.mp3",
         "waveIds": [
-            "wave1_normal",
-            "wave2_normal"
+            "grunt",
+            "grunt",
+            "subBoss"
         ]
     },
 
@@ -14,7 +15,7 @@
         "background": "forest.png",
         "music": "adventure_theme.mp3",
         "waveIds": [
-            "wave1_normal"
+            "grunt"
         ]
     }
 }

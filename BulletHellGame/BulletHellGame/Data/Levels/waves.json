@@ -1,9 +1,89 @@
 {
-    "1" : {
-        "duration": 102938,
-        "wave type": "grunt",
-        "enemySpawnData": [ "grunt spawn", "subBoss spawn", "Boss spawn" ]
+    "subBoss": {
+        "startTime": 0,
+        "duration": 60,
+        "waveType": "SubBoss",
+        "enemySpawnData": [
+            {
+                "type": "subBoss",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.5,
+                "y": 0.1
+            }
+        ]
     },
 
-    { "ID": "Boss" }
+    "grunt": {
+        "startTime": 0,
+        "duration": 30,
+        "waveType": "Normal",
+        "enemySpawnData": [
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.1,
+                "y": 0.1
+            },
+
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.2,
+                "y": 0.1
+            },
+
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.3,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.4,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.5,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.6,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.7,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.8,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.9,
+                "y": 0.1
+            }
+        ]
+    }
 }

@@ -13,6 +13,9 @@ namespace BulletHellGame.DataAccess.DataLoaders
     /// </summary>
     public static class EnemyDataLoader
     {
+
+
+
         private static readonly string EnemiesDirectory = Path.Combine("Data", "Enemies");
 
         public static GruntData LoadEnemyData(string enemyId)
