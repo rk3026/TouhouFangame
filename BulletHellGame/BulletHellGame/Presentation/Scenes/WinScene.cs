@@ -15,6 +15,7 @@ namespace BulletHellGame.Presentation.Scenes
         private CharacterData _characterData;
 
         public bool IsOverlay => true;
+        public bool IsMenu { get; }
 
         public WinScene(Rectangle menuLocation, ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {

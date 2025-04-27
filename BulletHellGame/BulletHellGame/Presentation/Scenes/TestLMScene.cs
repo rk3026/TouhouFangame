@@ -131,7 +131,7 @@ namespace BulletHellGame.Presentation.Scenes
                 SceneManager.Instance.AddScene(new RetryMenuScene(menuLocation, whitePixel, _contentManager, _graphicsDevice, _characterData));
             }
 
-            if (_levelManager.LevelComplete && !_levelManager.StartNextLevel())
+            if (_levelManager.LevelComplete() && !_levelManager.StartNextLevel())
             {
                 Rectangle menuLocation = new Rectangle(
                     _playableArea.X + 40,

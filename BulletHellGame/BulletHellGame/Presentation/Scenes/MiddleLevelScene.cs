@@ -41,6 +41,7 @@ public class MidLevelDialogueScene : IScene
     private float shakeDuration = 0.5f;
 
     public bool IsOverlay => true; // Keep it overlay so gameplay isn't paused
+    public bool IsMenu { get; }
 
     public MidLevelDialogueScene(
         ContentManager content,

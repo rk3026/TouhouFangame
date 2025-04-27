@@ -15,6 +15,7 @@ public class LevelManager
     private int _totalLevels = 1;
 
     public bool WaveJustCompleted => _waveManager.WaveJustCompleted;
+    public bool BossSpawned { get; }
 
     public event Action OnBossSpawned;
     public event Action OnBossDefeated;

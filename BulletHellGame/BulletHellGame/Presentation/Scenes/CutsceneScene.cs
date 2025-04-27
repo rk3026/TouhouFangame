@@ -20,6 +20,7 @@ namespace BulletHellGame.Presentation.Scenes
         private int _currentDialogueIndex = 0;
 
         public bool IsOverlay => false;
+        public bool IsMenu { get; }
 
         public CutsceneScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CutsceneData cutsceneData, CharacterData characterData)
         {
