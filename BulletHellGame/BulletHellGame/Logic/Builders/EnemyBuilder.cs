@@ -2,13 +2,14 @@
 using BulletHellGame.Logic.Controllers;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Strategies.CollisionStrategies;
 
 namespace BulletHellGame.Logic.Builders
 {
-    public class EnemyBuilder : EntityBuilder<EnemyData>
+    public class EnemyBuilder : EntityBuilder<GruntData>
     {
         public EnemyBuilder() : base() { }
-        public EnemyBuilder(EnemyData data) : base(data) { }
+        public EnemyBuilder(GruntData data) : base(data) { }
 
         public override void BuildHealth()
         {
@@ -31,11 +32,6 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(new MovementPatternComponent(_entityData.MovementPattern));
         }
 
-        public override void BuildShooting()
-        {
-            _entity.AddComponent(new ShootingComponent(_entityData.Weapons));
-        }
-
         public override void BuildLoot()
         {
             if (_entityData.Loot.Count > 0)
@@ -53,9 +49,20 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(hc);
         }
 
-        public override void BuildInput()
+        public override void BuildController()
         {
             _entity.AddComponent(new ControllerComponent(new EnemyController()));
+        }
+
+        public override void BuildCollisionStrategy()
+        {
+            _entity.AddComponent(new CollisionStrategyComponent(new EnemyCollisionStrategy()));
+        }
+
+        public override void BuildDamage()
+        {
+            // Enemies deal damage when colliding with player
+            _entity.AddComponent(new DamageComponent(25));
         }
     }
 }

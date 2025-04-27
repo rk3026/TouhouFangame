@@ -2,6 +2,7 @@
 using BulletHellGame.Logic.Controllers;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Strategies.CollisionStrategies;
 
 namespace BulletHellGame.Logic.Builders
 {
@@ -43,12 +44,6 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(new MovementPatternComponent(_entityData.Phases[0].MovementPattern));
         }
 
-        public override void BuildShooting()
-        {
-            ShootingComponent shc = new ShootingComponent(_entityData.Phases[0].Weapons);
-            _entity.AddComponent(shc);
-        }
-
         public override void BuildHitbox()
         {
             HitboxComponent hc = new HitboxComponent(_entity, 1);
@@ -62,9 +57,19 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(new IndicatorComponent());
         }
 
-        public override void BuildInput()
+        public override void BuildController()
         {
             _entity.AddComponent(new ControllerComponent(new EnemyController()));
+        }
+
+        public override void BuildCollisionStrategy()
+        {
+            _entity.AddComponent(new CollisionStrategyComponent(new EnemyCollisionStrategy()));
+        }
+
+        public override void BuildDamage()
+        {
+            _entity.AddComponent(new DamageComponent(100));
         }
     }
 }

@@ -5,15 +5,15 @@ namespace BulletHellGame.Logic.Components
     public class BossPhaseComponent : IComponent
     {
         public int CurrentPhase { get; private set; }
-        public List<EnemyData> Phases { get; private set; }
+        public List<GruntData> Phases { get; private set; }
 
-        public BossPhaseComponent(List<EnemyData> phases)
+        public BossPhaseComponent(List<GruntData> phases)
         {
             Phases = phases;
             CurrentPhase = 0;
         }
 
-        public EnemyData GetCurrentPhaseData()
+        public GruntData GetCurrentPhaseData()
         {
             return Phases[CurrentPhase];
         }

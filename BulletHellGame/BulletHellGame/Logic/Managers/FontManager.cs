@@ -32,7 +32,6 @@ namespace BulletHellGame.Logic.Managers
             }
             else
             {
-
                 throw new KeyNotFoundException($"Font '{fontName}' not loaded.");
             }
         }

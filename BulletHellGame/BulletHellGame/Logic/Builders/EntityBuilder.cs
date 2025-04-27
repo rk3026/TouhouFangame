@@ -3,7 +3,7 @@
 namespace BulletHellGame.Logic.Builders
 {
     /// <summary>
-    /// A class for building entities. Each entity builder has a specific type of entity data class
+    /// A class for building entities. Each entity builder has a specific id of entity data class
     /// that it uses to build an entity.
     /// </summary>
     /// <typeparam name="T"> A data class used to build an entity. </typeparam>
@@ -53,11 +53,14 @@ namespace BulletHellGame.Logic.Builders
         public virtual void BuildCollector() { }  // Only for player/collector entities
         public virtual void BuildMagnet() { } // Only for player
         public virtual void BuildPlayerStats() { } // Only for player
-        public virtual void BuildInput() { }
+        public virtual void BuildController() { }
         public virtual void BuildInvincibility() { }
         public virtual void BuildPowerLevel() { }
         public virtual void BuildIndicator() { }
         public virtual void BuildDespawn() { }
+        public virtual void BuildCollisionStrategy() { }
+        public virtual void BuildBombing() { }
+        public virtual void BuildPush() { }
 
         public Entity GetResult()
         {

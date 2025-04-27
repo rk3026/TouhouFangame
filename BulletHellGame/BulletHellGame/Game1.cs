@@ -95,8 +95,6 @@ namespace BulletHellGame
             GraphicsDevice.SetRenderTarget(_renderTarget);
             _spriteBatch.Begin();
             SceneManager.Instance.Draw(_spriteBatch);
-            
-            
             _spriteBatch.End();
             GraphicsDevice.SetRenderTarget(null);
 
@@ -118,21 +116,25 @@ namespace BulletHellGame
 
         private void LoadTextures()
         {
-            // Loading all textures via spritesheets
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/Characters.json");
+            string projectRoot = AppContext.BaseDirectory; // Get bin/Debug folder
+            string spriteSheetPath = Path.Combine(projectRoot, "Data", "SpriteSheets");
 
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/EnemiesAndBosses.json");
+            if (!Directory.Exists(spriteSheetPath))
+            {
+                Console.WriteLine($"Error: SpriteName sheet directory not found: {spriteSheetPath}");
+                return;
+            }
 
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/CutsceneReimu.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/CutsceneSakuya.json");
+            // Get all JSON files in the directory
+            string[] jsonFiles = Directory.GetFiles(spriteSheetPath, "*.json");
 
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/CutsceneMarisa.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/MenuAndOtherScreens.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/ProjectilesAndObjects.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/StagesTilesAndBackgrounds.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/Fonts.json");
-            TextureManager.Instance.LoadSpriteSheetData(Content, "Data/SpriteSheets/SidebarLoadAndPauseScreens.json");
-          
+            foreach (string jsonFile in jsonFiles)
+            {
+                // Convert absolute path to relative path (required for Content loading)
+                string relativePath = Path.GetRelativePath(projectRoot, jsonFile).Replace("\\", "/");
+
+                TextureManager.Instance.LoadSpriteSheetData(Content, relativePath);
+            }
         }
 
         private void LoadShaders()

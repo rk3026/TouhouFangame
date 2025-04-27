@@ -14,6 +14,7 @@ namespace BulletHellGame.Presentation.Scenes
         private SystemManager _systemManager;
 
         public bool IsOverlay => false;
+        public bool IsMenu => false;
 
         public GameplayScene(ContentManager contentManager, LevelData levelData)
         {

@@ -16,6 +16,7 @@ namespace BulletHellGame.Presentation.Scenes
         private CharacterData _characterData;
 
         public bool IsOverlay => true;
+        public bool IsMenu => true;
 
         public RetryMenuScene(Rectangle menuLocation, Texture2D backgroundTexture, ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {

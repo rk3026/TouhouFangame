@@ -32,7 +32,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
     {
         [JsonProperty("id")]
         public string Id { get; set; }
-        [JsonProperty("type")]
+        [JsonProperty("id")]
         public string Type { get; set; }
         [JsonProperty("speed")]
         public float Speed { get; set; }

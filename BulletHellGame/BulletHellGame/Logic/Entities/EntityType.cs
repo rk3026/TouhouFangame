@@ -8,5 +8,6 @@
         Player,
         Boss,
         Option,
+        Spawner,
     }
 }

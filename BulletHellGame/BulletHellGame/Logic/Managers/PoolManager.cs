@@ -16,6 +16,7 @@ namespace BulletHellGame.Logic.Managers
             _maxPoolSizes[EntityType.Enemy] = 0; //100
             _maxPoolSizes[EntityType.Option] = 0; //10
             _maxPoolSizes[EntityType.Player] = 0; //5
+            _maxPoolSizes[EntityType.Spawner] = 0;
         }
 
         // Retrieves an entity from the pool

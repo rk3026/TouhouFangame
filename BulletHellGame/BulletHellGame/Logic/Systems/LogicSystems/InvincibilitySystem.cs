@@ -14,6 +14,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             {
                 var invincibility = entity.GetComponent<InvincibilityComponent>();
                 invincibility.RemainingTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                invincibility.RemainingTime = Math.Max(0f, invincibility.RemainingTime);
 
                 if (entity.TryGetComponent<SpriteComponent>(out var sprite))
                 {

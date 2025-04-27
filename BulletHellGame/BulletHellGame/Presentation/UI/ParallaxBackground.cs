@@ -19,16 +19,16 @@
             _layers.Clear();
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, SpriteEffects se = SpriteEffects.None)
         {
             foreach (var layer in _layers)
-                layer.Update(gameTime);
+                layer.Update(gameTime, se);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteEffects se = SpriteEffects.None)
         {
             foreach (var layer in _layers)
-                layer.Draw(spriteBatch);
+                layer.Draw(spriteBatch, se);
         }
     }
 }

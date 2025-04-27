@@ -15,7 +15,9 @@ public class MainMenuScene : IScene
     private string[] menuOptions = { "Start Game", "Settings", "Exit" };
 
     public bool IsOverlay => false;
-       public MainMenuScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
+    public bool IsMenu => true;
+
+    public MainMenuScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
     {
         this._contentManager = contentManager;
         this._graphicsDevice = graphicsDevice;
@@ -57,7 +59,6 @@ public class MainMenuScene : IScene
             {
                 case 0:
                     SceneManager.Instance.AddScene(new CharacterSelectScene(_contentManager, _graphicsDevice));
-
                     break;
                 case 1:
                     SceneManager.Instance.AddScene(new SettingsScene(_contentManager, _graphicsDevice));

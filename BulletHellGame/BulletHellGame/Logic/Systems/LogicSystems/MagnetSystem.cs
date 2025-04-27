@@ -16,6 +16,8 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                     continue;
                 }
 
+                if (entity.HasComponent<InvincibilityComponent>() && entity.GetComponent<InvincibilityComponent>().RemainingTime > 0) continue;
+
                 // Find all attractable objects (e.g., collectibles, power-ups)
                 foreach (var attractable in entityManager.GetEntitiesWithComponents(typeof(PositionComponent), typeof(VelocityComponent), typeof(AttractableComponent)))
                 {

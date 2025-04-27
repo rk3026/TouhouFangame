@@ -1,0 +1,46 @@
+{
+    "grunt": {
+        "type": "grunt",
+        "sprite": "Fairy.Pink",
+        "health": 100,
+        "movementPattern": "zigzag",
+        "shootingPattern": "",
+        "weapons": [ "grunt" ],
+        "lootTable": "nameoftable"
+    },
+
+    "superGrunt": {
+        "type": "grunt",
+        "sprite": "Fairy.Pink",
+        "health": 1000,
+        "movementPattern": "zigzag",
+        "shootingPattern": "",
+        "weapons": [ "grunt", "boss", "boss", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt", "grunt" ],
+        "lootTable": "nameoftable"
+    },
+
+    "subBoss": {
+        "type": "boss",
+        "phases": [ "Cirno - Phase 1", "superGrunt" ]
+    },
+
+    "Cirno - Phase 1": {
+        "type": "grunt",
+        "sprite": "Cirno",
+        "health": 7000,
+        "movementPattern": "circle",
+        "shootingPattern": "",
+        "weapons": [ "boss" ],
+        "lootTable": "nameoftable"
+    },
+
+    "subBossPhase2": {
+        "type": "grunt",
+        "sprite": "Cirno",
+        "health": 30000,
+        "movementPattern": "zigzag",
+        "shootingPattern": "",
+        "weapons": [ "grunt" ],
+        "lootTable": "nameoftable"
+    }
+}

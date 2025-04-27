@@ -71,6 +71,12 @@
   "SingleCircle.Orange": { "Default" : [{ "X": 232, "Y": 58, "Width": 16, "Height": 16 }]},
   "SingleCircle.White": { "Default" : [{ "X": 248, "Y": 58, "Width": 16, "Height": 16 }]},
 
+  // Large Bullets
+  "LargeBullet.Red": { "Default" : [{ "X": 9, "Y": 273, "Width": 62, "Height": 62 }]},
+  "LargeBullet.Blue": { "Default" : [{ "X": 73, "Y": 273, "Width": 62, "Height": 62 }]},
+  "LargeBullet.Green": { "Default" : [{ "X": 137, "Y": 273, "Width": 62, "Height": 62 }]},
+  "LargeBullet.Yellow": { "Default" : [{ "X": 201, "Y": 273, "Width": 62, "Height": 62 }]},
+
   // Collectibles
   "PowerUpSmall": { "Default" : [{ "X": 10, "Y": 338, "Width": 13, "Height": 13 }]},
   "PointItem": { "Default" : [{ "X": 26, "Y": 338, "Width": 13, "Height": 13 }]},

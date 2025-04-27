@@ -11,7 +11,7 @@
             builder.BuildVelocity();
             builder.BuildAcceleration();
             builder.BuildSpeed();
-            builder.BuildHitbox();
+            builder.BuildHitbox(); // Hitbox built after sprite because it uses the sprite to determine the size of the hitbox.
             builder.BuildMovementPattern();
             builder.BuildShooting();
             builder.BuildLoot();
@@ -26,9 +26,12 @@
             builder.BuildPlayerStats();
             builder.BuildInvincibility();
             builder.BuildPowerLevel();
-            builder.BuildInput();
+            builder.BuildController();
             builder.BuildIndicator();
             builder.BuildDespawn();
+            builder.BuildCollisionStrategy();
+            builder.BuildBombing();
+            builder.BuildPush();
         }
     }
 }

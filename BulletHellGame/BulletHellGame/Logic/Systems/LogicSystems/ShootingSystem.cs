@@ -12,31 +12,38 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
 
             foreach (var entity in entityManager.GetEntitiesWithComponents(typeof(ShootingComponent), typeof(PositionComponent)))
             {
-                var shooting = entity.GetComponent<ShootingComponent>();
-                var position = entity.GetComponent<PositionComponent>();
-
-                // Update cooldowns for each weapon
-                foreach (var weapon in shooting.Weapons)
+                if (entity.TryGetComponent<ShootingComponent>(out var sc) &&
+                    entity.TryGetComponent<PositionComponent>(out var pc) &&
+                    entity.TryGetComponent<ControllerComponent>(out var cc))
                 {
-                    if (shooting.WeaponCooldowns.ContainsKey(weapon))
+
+                    // Update cooldowns for each weapon
+                    foreach (var weapon in sc.Weapons)
                     {
-                        shooting.WeaponCooldowns[weapon] += deltaTime;
+                        if (sc.WeaponCooldowns.ContainsKey(weapon))
+                        {
+                            sc.WeaponCooldowns[weapon] += deltaTime;
+                        }
                     }
+
+                    // Determine bullet layer (player or enemy)
+                    int bulletLayer = GetBulletLayer(entity);
+                    if (!cc.Controller.IsShooting)
+                        continue;
+
+                    // Fire bullets for all available weapons that are off cooldown
+                    FireBullets(entityManager, entity, sc, pc.Position, bulletLayer);
                 }
-
-                // Determine bullet layer (player or enemy)
-                int bulletLayer = GetBulletLayer(entity);
-                if (!shooting.IsShooting)
-                    continue;
-
-                // Fire bullets for all available weapons that are off cooldown
-                FireBullets(entityManager, entity, shooting, position.Position, bulletLayer);
             }
         }
 
         private int GetBulletLayer(Entity entity)
         {
             if (entity.TryGetComponent<HitboxComponent>(out var hc))
+            {
+                return hc.Layer;
+            }
+            else if (entity.TryGetComponent<OwnerComponent>(out var oc) && oc.Owner.TryGetComponent<HitboxComponent>(out hc))
             {
                 return hc.Layer;
             }
