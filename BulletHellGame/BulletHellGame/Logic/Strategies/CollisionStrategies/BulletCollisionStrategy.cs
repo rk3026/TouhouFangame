@@ -40,6 +40,18 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
                 }
                 entityManager.QueueEntityForRemoval(collidingEntity);
             }
+
+            // Handle pushing interactions
+            if (collidingEntity.HasComponent<PusherComponent>() && other.HasComponent<PushableComponent>())
+            {
+                var pusherVelocity = collidingEntity.GetComponent<VelocityComponent>().Velocity;
+                var pushablePosition = other.GetComponent<PositionComponent>();
+
+                // Move the pushable entity by the pusher's velocity
+                pushablePosition.Position += pusherVelocity;
+            }
+
+
         }
     }
 }

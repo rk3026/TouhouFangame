@@ -30,6 +30,11 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
             return CharacterDataGenerator.CreateSakuyaData();
         }
 
+        public static CharacterData CreateEpicTestData()
+        {
+            return CharacterDataGenerator.CreateEpicTestData();
+        }
+
         public static GruntData CreateEnemyData()
         {
             return GruntDataGenerator.CreateGruntData();

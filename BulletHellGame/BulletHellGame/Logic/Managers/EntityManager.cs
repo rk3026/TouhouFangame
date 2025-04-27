@@ -101,7 +101,7 @@ namespace BulletHellGame.Logic.Managers
             }
         }
 
-        public void SpawnBullet(BulletData bulletData, Vector2 position, int layer, Vector2 velocity = default, Entity owner = null)
+        public Entity SpawnBullet(BulletData bulletData, Vector2 position, int layer, Vector2 velocity = default, Entity owner = null)
         {
             Entity bullet;
 
@@ -124,6 +124,7 @@ namespace BulletHellGame.Logic.Managers
             }
 
             SpawnEntity(EntityType.Bullet, bullet, position, velocity);
+            return bullet;
         }
 
         public Entity SpawnEnemy(GruntData enemyData, Vector2 position, Vector2 velocity = default)
