@@ -14,6 +14,13 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                     entity.TryGetComponent<PositionComponent>(out var pc) &&
                     entity.TryGetComponent<VelocityComponent>(out var vc))
                 {
+                    bc.Lifetime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (bc.Lifetime <= 0)
+                    {
+                        entityManager.QueueEntityForRemoval(entity);
+                        continue;
+                    }
+
                     if (!bc.CanBounce) continue;
                     if (!entityManager.Bounds.Contains(pc.Position))
                     {

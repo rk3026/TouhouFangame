@@ -49,27 +49,40 @@ namespace BulletHellGame.Logic.Builders
                 }
             }
 
-            // Horrible code, but I don't care and it works:
-            // Remove existing push components (if pooled previously)
-            if (bullet.HasComponent<PushableComponent>())
-                bullet.RemoveComponent<PushableComponent>();
+            ResetPushLogicAndSplitting(bullet);
+        }
 
-            if (bullet.HasComponent<PusherComponent>())
-                bullet.RemoveComponent<PusherComponent>();
+        private void ResetPushLogicAndSplitting(Entity bullet)
+        {
+            bullet.RemoveComponent<PushableComponent>();
+            bullet.RemoveComponent<PusherComponent>();
+            bullet.RemoveComponent<BulletContainerComponent>();
 
-            // Re-add push logic if needed
-            float largeBulletMinimumWidth = 50f;
-            //Vector2 bulletSize = _entity.GetComponent<SpriteComponent>().CurrentFrame.Size.ToVector2();
-            Vector2 bulletSize = bullet.GetComponent<HitboxComponent>().Hitbox;
-            if (bulletSize.X > largeBulletMinimumWidth)
+            Vector2 size = bullet.GetComponent<HitboxComponent>().Hitbox;
+            bool isLargeBullet = size.X > 50f;
+
+            if (isLargeBullet)
             {
                 bullet.AddComponent(new PusherComponent());
+
+                var container = new BulletContainerComponent();
+                container.BulletsToSpawn.Add(new BulletData
+                {
+                    BulletType = BulletType.Bouncy,
+                    SpriteName = "SingleCircle.Red",
+                    Damage = _entityData.Damage / 2,
+                    RotationSpeed = _entityData.RotationSpeed,
+                    Acceleration = _entityData.Acceleration,
+                }, 10);
+
+                bullet.AddComponent(container);
             }
             else
             {
                 bullet.AddComponent(new PushableComponent());
             }
         }
+
 
         public override void BuildSprite()
         {
@@ -151,7 +164,7 @@ namespace BulletHellGame.Logic.Builders
             if (bulletSize.X > largeBulletMinimumWidth)
             {
                 BulletContainerComponent bulletContainerComponent = new BulletContainerComponent();
-                BulletData bulletData = new BulletData
+                BulletData smallBulletData = new BulletData
                 {
                     BulletType = BulletType.Bouncy,
                     SpriteName = "SingleCircle.Red",
@@ -159,7 +172,7 @@ namespace BulletHellGame.Logic.Builders
                     RotationSpeed = _entityData.RotationSpeed,
                     Acceleration = _entityData.Acceleration,
                 };
-                bulletContainerComponent.BulletsToSpawn.Add(bulletData, 10);
+                bulletContainerComponent.BulletsToSpawn.Add(smallBulletData, 10);
                 _entity.AddComponent(bulletContainerComponent);
             }
         }
@@ -169,5 +182,6 @@ namespace BulletHellGame.Logic.Builders
 
             _entity.AddComponent(new BounceComponent(_entityData.BulletType == BulletType.Bouncy));
         }
+
     }
 }
