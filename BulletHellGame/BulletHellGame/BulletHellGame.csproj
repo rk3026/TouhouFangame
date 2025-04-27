@@ -136,6 +136,10 @@
       <Content Include="Data\SpriteSheets\SidebarLoadAndPauseScreens.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Data\Cutscenes\Level1Cutscenes.json" />
+      <Content Include="Data\Cutscenes\Level1Cutscenes.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
     <ItemGroup>
         <EmbeddedResource Include="Icon.ico">
