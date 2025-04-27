@@ -1,0 +1,20 @@
+{
+    "1": {
+        "levelName": "Forest Edge",
+        "background": "forest.png",
+        "music": "adventure_theme.mp3",
+        "waveIds": [
+            "wave1_normal",
+            "wave2_normal"
+        ]
+    },
+
+    "2": {
+        "levelName": "Forest Edge2",
+        "background": "forest.png",
+        "music": "adventure_theme.mp3",
+        "waveIds": [
+            "wave1_normal"
+        ]
+    }
+}

@@ -23,6 +23,7 @@
         <None Remove="Data\Characters\Sakuya.json" />
         <None Remove="Data\EnemyData.json" />
         <None Remove="Data\level1.json" />
+        <None Remove="Data\Levels\levels.json" />
         <None Remove="Data\Shots\Extermination.json" />
         <None Remove="Data\Shots\HakureiAmulet.json" />
         <None Remove="Data\Shots\HomingAmulet.json" />
@@ -221,5 +222,10 @@
     </ItemGroup>
     <ItemGroup>
       <None Include="D:\Desktop\cpts_487\BulletHellGame\BulletHellGame\Presentation\Scenes\.editorconfig" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="Data\Levels\levels.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 </Project>

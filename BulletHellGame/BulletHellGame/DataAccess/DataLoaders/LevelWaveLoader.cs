@@ -1,5 +1,6 @@
 using System.IO;
 using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerators;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -14,6 +15,12 @@ namespace BulletHellGame.DataAccess.DataLoaders
      */
     public class LevelWaveLoader
     {
+        public static WaveData GetWave(string waveID, Rectangle playableArea)
+        {
+            WaveData wave = WaveDataGenerator.CreateWaveData(playableArea, false);
+            return wave;
+        }
+
         private static LevelWaveLoader _instance;
         public static LevelWaveLoader Instance => _instance ??= new LevelWaveLoader();
 
