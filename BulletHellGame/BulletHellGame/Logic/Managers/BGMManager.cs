@@ -49,6 +49,20 @@ namespace BulletHellGame.Logic.Managers
                 _currentTrack = null;
             }
         }
+        public void PauseBGM()
+        {
+            if (MediaPlayer.State == MediaState.Playing)
+            {
+                MediaPlayer.Pause();
+            }
+        }
+        public void ResumeBGM()
+        {
+            if (MediaPlayer.State == MediaState.Paused)
+            {
+                MediaPlayer.Resume();
+            }
+        }
 
         private void SetVolume(float volume)
         {

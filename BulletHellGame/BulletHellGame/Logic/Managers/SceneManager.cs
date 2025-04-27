@@ -26,6 +26,7 @@ namespace BulletHellGame.Logic.Managers
         public void RemoveScene()
         {
             if (_sceneStack.Count == 0) return;
+            _instance._sceneStack.Peek().Unload();
             _sceneStack.Pop();
             SceneChanged?.Invoke();
         }

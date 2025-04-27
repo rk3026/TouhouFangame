@@ -79,9 +79,33 @@ namespace BulletHellGame.Logic.Managers
 
         public int TotalEntityCount => _activeEntities.Values.Sum(list => list.Count);
 
+        private void TempBulletSplit(Entity entity)
+        {
+            // Bullets split (move this elsewhere later):
+            if (entity.TryGetComponent<BulletContainerComponent>(out var bcc) &&
+                entity.TryGetComponent<PositionComponent>(out var pc) &&
+                entity.TryGetComponent<HitboxComponent>(out var hc) &&
+                entity.TryGetComponent<OwnerComponent>(out var oc)
+                )
+            {
+                foreach (var bulletData in bcc.BulletsToSpawn.Keys)
+                {
+                    for (int i = 0; i < bcc.BulletsToSpawn[bulletData]; i++)
+                    {
+                        // Assign random direction velocity
+                        float angle = Random.Shared.NextSingle() * MathF.Tau; // 0 to 2π
+                        var direction = new Vector2(MathF.Cos(angle), MathF.Sin(angle));
+                        Entity bullet = SpawnBullet(bulletData, pc.Position, hc.Layer, direction, oc.Owner);
+                    }
+                }
+            }
+            // End bullet split
+        }
+
         public void QueueEntityForRemoval(Entity entity)
         {
             if (entity == null) return;
+            TempBulletSplit(entity);
 
             entity.Deactivate();
 

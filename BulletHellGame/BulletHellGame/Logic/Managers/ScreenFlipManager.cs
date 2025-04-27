@@ -70,6 +70,13 @@ namespace BulletHellGame.Logic.Managers
                         if (flipY) dir.Y *= -1;
 
                         weapon.FireDirections[i] = dir;
+
+                        var accel = weapon.BulletData.Acceleration;
+
+                        if (flipX) accel.X *= -1;
+                        if (flipY) accel.Y *= -1;
+
+                        weapon.BulletData.Acceleration = accel;
                     }
                 }
             }

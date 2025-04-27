@@ -27,6 +27,12 @@ namespace BulletHellGame.Presentation.Scenes
             // Create a 1x1 white pixel texture for the _stageBackground
             whitePixel = new Texture2D(_graphicsDevice, 1, 1);
             whitePixel.SetData(new Color[] { Color.White });
+            BGMManager.Instance.PauseBGM();
+        }
+
+        public void Unload()
+        {
+            BGMManager.Instance.ResumeBGM();
         }
 
         public void Update(GameTime gameTime)
