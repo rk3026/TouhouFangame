@@ -27,14 +27,20 @@ namespace BulletHellGame.Logic.Systems.RenderingSystems
                     SpriteData spriteData = sc.SpriteData;
 
                     // Switch animations based on movement
-                    if (vc.Velocity.LengthSquared() > 0)
+                    if (Math.Abs(vc.Velocity.X) > 0.01f) // small threshold to avoid floating-point issues
                     {
                         sc.SwitchAnimation("MoveLeft", false);
+
+                        if (vc.Velocity.X > 0)
+                            sc.SpriteEffect = SpriteEffects.FlipHorizontally;
+                        else if (vc.Velocity.X < 0)
+                            sc.SpriteEffect = SpriteEffects.None;
                     }
                     else
                     {
                         sc.SwitchAnimation("Idle");
                     }
+
 
                     Vector2 spritePosition = new Vector2(pc.Position.X, pc.Position.Y);
 
