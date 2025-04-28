@@ -9,14 +9,13 @@ namespace BulletHellGame.Logic.Controllers
         public override void Update(EntityManager entityManager, Entity entity)
         {
             // Grab components
-            if (!entity.TryGetComponent<OwnerComponent>(out var oc))
-            {
-                return;
-            }
+            if (!entity.TryGetComponent<OwnerComponent>(out var oc)) return;
+
             this.IsShooting = oc.Owner.GetComponent<ControllerComponent>().Controller.IsShooting; // Only able to shoot if its owner is
 
             var ownerComponent = entity.GetComponent<OwnerComponent>();
             var positionComponent = entity.GetComponent<PositionComponent>();
+            var velocityComponent = entity.GetComponent<VelocityComponent>();
 
             if (ownerComponent.Owner.TryGetComponent<PositionComponent>(out var ownerPos))
             {

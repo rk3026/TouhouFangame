@@ -43,5 +43,10 @@ namespace BulletHellGame.Logic.Builders
         {
             _entity.AddComponent(new ControllerComponent(new SpawnerController()));
         }
+
+        public override void BuildMovementPattern()
+        {
+            _entity.AddComponent(new MovementPatternComponent(_entityData.MovementPattern));
+        }
     }
 }
