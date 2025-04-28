@@ -17,16 +17,16 @@
     },
     "Boss1P1": {
         "type": "grunt",
-        "sprite": "Fairy.Pink",
+        "sprite": "Chen",
         "health": 2000,
-        "movementPattern": "sine_wave",
+        "movementPattern": "none",
         "shootingPattern": "",
-        "weapons": [ "laser" ],
+        "weapons": [ "Boss1Weapon1" ],
         "lootTable": "grunt"
     },
     "Boss2P1": {
         "type": "grunt",
-        "sprite": "Fairy.Blue",
+        "sprite": "Alice Margatroid",
         "health": 2000,
         "movementPattern": "sine_wave",
         "shootingPattern": "",
