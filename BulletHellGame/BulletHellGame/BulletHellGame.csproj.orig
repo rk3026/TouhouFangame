@@ -11,9 +11,6 @@
         <ApplicationIcon>Icon.ico</ApplicationIcon>
     </PropertyGroup>
     <ItemGroup>
-        <None Remove="Content\Fonts\Arial.spritefont" />
-        <None Remove="Content\Fonts\DFPPOPCorn-W12.spritefont" />
-        <None Remove="Content\Fonts\DFPPOPCorn-W12.ttf" />
         <None Remove="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3" />
         <None Remove="Content\Music\激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3" />
         <None Remove="Content\Music\紅魔激走劇  Everlasting....mp3" />
@@ -23,9 +20,15 @@
         <None Remove="Data\Characters\Sakuya.json" />
         <None Remove="Data\EnemyData.json" />
         <None Remove="Data\level1.json" />
+<<<<<<< HEAD
+=======
+        <None Remove="Data\Levels\bullets.json" />
         <None Remove="Data\Levels\enemies.json" />
         <None Remove="Data\Levels\levels.json" />
+        <None Remove="Data\Levels\loots.json" />
         <None Remove="Data\Levels\waves.json" />
+        <None Remove="Data\Levels\weapons.json" />
+>>>>>>> RossBranch
         <None Remove="Data\Shots\Extermination.json" />
         <None Remove="Data\Shots\HakureiAmulet.json" />
         <None Remove="Data\Shots\HomingAmulet.json" />
@@ -45,9 +48,6 @@
         <None Remove="Data\ShotTypes\SpiritSign-PursuitType-.json" />
         <None Remove="Data\ShotTypes\TimeSign-TrickyType-.json" />
         <None Remove="Data\SpriteSheets\Characters.json" />
-        <None Remove="Data\SpriteSheets\CutsceneMarisa.json" />
-        <None Remove="Data\SpriteSheets\CutsceneReimu.json" />
-        <None Remove="Data\SpriteSheets\CutsceneSakuya.json" />
         <None Remove="Data\SpriteSheets\EnemiesAndBosses.json" />
         <None Remove="Data\SpriteSheets\Fonts.json" />
         <None Remove="Data\SpriteSheets\MenuAndOtherScreens.json" />
@@ -58,15 +58,6 @@
         <None Remove="Icon.bmp" />
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Content\Fonts\Arial.spritefont">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="Content\Fonts\DFPPOPCorn-W12.spritefont">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="Content\Fonts\DFPPOPCorn-W12.ttf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <Content Include="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
@@ -91,15 +82,30 @@
       <Content Include="Data\Enemies\EnemyData.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+<<<<<<< HEAD
+      <Content Include="Data\Levels\level1.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+=======
+      <Content Include="Data\Levels\bullets.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Data\Levels\enemies.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\Levels\level1.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <Content Include="Data\Levels\loots.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Data\Levels\waves.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <Content Include="Data\Levels\weapons.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+>>>>>>> RossBranch
       <Content Include="Data\Shots\Extermination.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
@@ -154,15 +160,6 @@
       <Content Include="Data\ShotTypes\TimeSign-TrickyType-.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <Content Include="Data\SpriteSheets\CutsceneMarisa.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="Data\SpriteSheets\CutsceneReimu.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="Data\SpriteSheets\CutsceneSakuya.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <Content Include="Data\SpriteSheets\Fonts.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
@@ -171,6 +168,14 @@
       </Content>
       <None Remove="Data\Cutscenes\Level1Cutscenes.json" />
       <Content Include="Data\Cutscenes\Level1Cutscenes.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Content\Backgrounds\touhou.jpg" />
+      <Content Include="Content\Backgrounds\touhou.jpg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Content\Backgrounds\touhou2.png" />
+      <Content Include="Content\Backgrounds\touhou2.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
@@ -248,12 +253,8 @@
       <None Include="D:\Desktop\cpts_487\BulletHellGame\BulletHellGame\Presentation\Scenes\.editorconfig" />
     </ItemGroup>
     <ItemGroup>
-<<<<<<< HEAD
-      <Folder Include="Content\Backgrounds\" />
-=======
       <Content Include="Data\Levels\levels.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
->>>>>>> DylanBranch
     </ItemGroup>
 </Project>

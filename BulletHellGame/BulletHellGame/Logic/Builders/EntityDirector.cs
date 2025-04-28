@@ -32,6 +32,8 @@
             builder.BuildCollisionStrategy();
             builder.BuildBombing();
             builder.BuildPush();
+            builder.BuildBulletContainer();
+            builder.BuildBounce();
         }
     }
 }

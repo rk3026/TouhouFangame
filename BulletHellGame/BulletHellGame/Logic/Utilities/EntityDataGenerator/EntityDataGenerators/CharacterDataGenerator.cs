@@ -249,6 +249,63 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
             return pd;
         }
 
+        public static CharacterData CreateEpicTestData()
+        {
+            CharacterData pd = new CharacterData
+            {
+                Name = "Sakuya Izayoi",
+                SpriteName = "Sakuya",
+                MovementSpeed = 6f,
+                FocusedSpeed = 2.5f,
+                Health = 1,
+                InitialLives = 3,
+                InitialBombs = 5,
+                ShotTypes = new List<ShotTypeData>()
+                {
+                    new ShotTypeData
+                    {
+                        Name = "Test",
+                        UnfocusedShot = new ShotData { PowerLevels = new Dictionary<int, PowerLevelData>() },
+                        FocusedShot = new ShotData { PowerLevels = new Dictionary<int, PowerLevelData>() }
+                    }
+                }
+            };
+
+            // Bullet data for large bullets
+            BulletData largeBullet = new BulletData
+            {
+                Damage = 100, // Set the damage as desired
+                BulletType = BulletType.Standard,
+                SpriteName = "LargeBullet.Red", // You can change to Blue, Green, or Yellow as needed
+                RotationSpeed = 0f
+            };
+
+            // Weapon data for straight firing
+            WeaponData mainWeapon = new WeaponData
+            {
+                BulletData = largeBullet,
+                FireRate = 0.2f, // Set the fire rate as desired
+                FireDirections = new List<Vector2> { new Vector2(0, -5f) }, // Straight ahead
+                TimeSinceLastShot = 0
+            };
+
+            // Iterate over all possible power levels (0 to 8) and set the same weapon for each level
+            for (int i = 0; i <= 8; i++)
+            {
+                PowerLevelData focusedPld = new PowerLevelData();
+                focusedPld.MainWeapons.Add(mainWeapon);
+                pd.ShotTypes.First().FocusedShot.PowerLevels[i] = focusedPld;
+
+                PowerLevelData unfocusedPld = new PowerLevelData();
+                unfocusedPld.MainWeapons.Add(mainWeapon);
+                pd.ShotTypes.First().UnfocusedShot.PowerLevels[i] = unfocusedPld;
+            }
+
+            return pd;
+        }
+
+
+
         public static SpawnerData CreateOption(string spriteName, BulletData bulletData, float fireRate)
         {
             return new SpawnerData

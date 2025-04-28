@@ -1,0 +1,68 @@
+{
+  "bullet": {
+    "sprite": "Lazer.Gray",
+    "damage": 50,
+    "rotationSpeed": 1,
+    "type": "Standard"
+  },
+  "laser_gray_standard": {
+    "sprite": "Lazer.Gray",
+    "damage": 50,
+    "rotationSpeed": 0.0,
+    "type": "Standard"
+  },
+  "laser_darkred_homing": {
+    "sprite": "Lazer.DarkRed",
+    "damage": 75,
+    "rotationSpeed": 1.0,
+    "type": "Standard"
+  },
+  "laser_red_explosive": {
+    "sprite": "Lazer.Red",
+    "damage": 120,
+    "rotationSpeed": 0.0,
+    "type": "Explosive"
+  },
+  "diamond_teal_standard": {
+    "sprite": "Diamond.Teal",
+    "damage": 60,
+    "rotationSpeed": 0.0,
+    "type": "Standard"
+  },
+  "diamond_blue_bouncy": {
+    "sprite": "Diamond.Blue",
+    "damage": 85,
+    "rotationSpeed": 0.0,
+    "type": "Bouncy"
+  },
+  "doublecircle_pink_homing": {
+    "sprite": "DoubleCircle.Pink",
+    "damage": 50,
+    "rotationSpeed": 1.0,
+    "type": "Homing"
+  },
+  "doublecircle_yellow_explosive": {
+    "sprite": "DoubleCircle.Yellow",
+    "damage": 150,
+    "rotationSpeed": 0.0,
+    "type": "Explosive"
+  },
+  "singlecircle_green_bouncy": {
+    "sprite": "SingleCircle.Green",
+    "damage": 70,
+    "rotationSpeed": 0.0,
+    "type": "Bouncy"
+  },
+  "largebullet_red_standard": {
+    "sprite": "LargeBullet.Red",
+    "damage": 150,
+    "rotationSpeed": 0.0,
+    "type": "Standard"
+  },
+  "lazer_orange_homing": {
+    "sprite": "Lazer.Orange",
+    "damage": 60,
+    "rotationSpeed": 1.0,
+    "type": "Standard"
+  }
+}

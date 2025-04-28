@@ -79,9 +79,33 @@ namespace BulletHellGame.Logic.Managers
 
         public int TotalEntityCount => _activeEntities.Values.Sum(list => list.Count);
 
+        private void TempBulletSplit(Entity entity)
+        {
+            // Bullets split (move this elsewhere later):
+            if (entity.TryGetComponent<BulletContainerComponent>(out var bcc) &&
+                entity.TryGetComponent<PositionComponent>(out var pc) &&
+                entity.TryGetComponent<HitboxComponent>(out var hc) &&
+                entity.TryGetComponent<OwnerComponent>(out var oc)
+                )
+            {
+                foreach (var bulletData in bcc.BulletsToSpawn.Keys)
+                {
+                    for (int i = 0; i < bcc.BulletsToSpawn[bulletData]; i++)
+                    {
+                        // Assign random direction velocity
+                        float angle = Random.Shared.NextSingle() * MathF.Tau; // 0 to 2π
+                        var direction = new Vector2(MathF.Cos(angle), MathF.Sin(angle));
+                        Entity bullet = SpawnBullet(bulletData, pc.Position, hc.Layer, direction, oc.Owner);
+                    }
+                }
+            }
+            // End bullet split
+        }
+
         public void QueueEntityForRemoval(Entity entity)
         {
             if (entity == null) return;
+            TempBulletSplit(entity);
 
             entity.Deactivate();
 
@@ -101,7 +125,7 @@ namespace BulletHellGame.Logic.Managers
             }
         }
 
-        public void SpawnBullet(BulletData bulletData, Vector2 position, int layer, Vector2 velocity = default, Entity owner = null)
+        public Entity SpawnBullet(BulletData bulletData, Vector2 position, HitboxLayer layer, Vector2 velocity = default, Entity owner = null)
         {
             Entity bullet;
 
@@ -124,6 +148,7 @@ namespace BulletHellGame.Logic.Managers
             }
 
             SpawnEntity(EntityType.Bullet, bullet, position, velocity);
+            return bullet;
         }
 
         public Entity SpawnEnemy(GruntData enemyData, Vector2 position, Vector2 velocity = default)

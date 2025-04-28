@@ -20,24 +20,6 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             {
                 csc.CollisionStrategy.ApplyCollision(entityManager, owner, other);
             }
-
-            // Handle pushing interactions
-            if (owner.HasComponent<PusherComponent>() && other.HasComponent<PushableComponent>())
-            {
-                var pusher = owner;
-                var pushable = other;
-
-                var pusherComp = pusher.GetComponent<PusherComponent>();
-                var pushableComp = pushable.GetComponent<PushableComponent>();
-
-                // Calculate direction and apply push force
-                var direction = Vector2.Normalize(pusher.GetComponent<PositionComponent>().Position - pushable.GetComponent<PositionComponent>().Position);
-                var resistance = pushableComp.PushResistance;
-                var velocity = pushable.GetComponent<VelocityComponent>();
-
-                float force = pusherComp.PushPower / resistance;
-                velocity.Velocity += direction * force;
-            }
         }
 
 

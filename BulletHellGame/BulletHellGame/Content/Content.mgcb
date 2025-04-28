@@ -345,6 +345,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Characters/Reimu/ReimuIdle1.png
 
+#begin Sprites/CirnoFumo.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/CirnoFumo.png
+
 #begin Sprites/Enemies/GenericEnemy1Idle1.png
 /importer:TextureImporter
 /processor:TextureProcessor

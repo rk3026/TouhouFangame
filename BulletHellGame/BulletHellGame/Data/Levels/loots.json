@@ -1,0 +1,204 @@
+{
+  "grunt": [
+    {
+      "sprite": "PowerUpSmall",
+      "type": "PowerUp",
+      "quantity": 1,
+      "probability": 0.15
+    },
+    {
+      "sprite": "PowerUpLarge",
+      "type": "PowerUp",
+      "quantity": 8,
+      "probability": 0.11
+    },
+    {
+      "sprite": "PointItem",
+      "type": "PointItem",
+      "quantity": 10,
+      "probability": 0.01
+    },
+    {
+      "sprite": "BombItem",
+      "type": "Bomb",
+      "quantity": 1,
+      "probability": 0.1
+    },
+    {
+      "sprite": "FullPowerItem",
+      "type": "PowerUp",
+      "quantity": 128,
+      "probability": 0.0005
+    },
+    {
+      "sprite": "OneUp",
+      "type": "OneUp",
+      "quantity": 1,
+      "probability": 0.02
+    },
+    {
+      "sprite": "StarItem",
+      "type": "StarItem",
+      "quantity": 10,
+      "probability": 0.1
+    },
+    {
+      "sprite": "CherryItem",
+      "type": "CherryItem",
+      "quantity": 10,
+      "probability": 0.15
+    }
+  ],
+
+  "boss": [
+    {
+      "sprite": "PowerUpSmall",
+      "type": "PowerUp",
+      "quantity": 2,
+      "probability": 0.2
+    },
+    {
+      "sprite": "PowerUpLarge",
+      "type": "PowerUp",
+      "quantity": 10,
+      "probability": 0.15
+    },
+    {
+      "sprite": "PointItem",
+      "type": "PointItem",
+      "quantity": 15,
+      "probability": 0.02
+    },
+    {
+      "sprite": "BombItem",
+      "type": "Bomb",
+      "quantity": 2,
+      "probability": 0.12
+    },
+    {
+      "sprite": "FullPowerItem",
+      "type": "PowerUp",
+      "quantity": 150,
+      "probability": 0.001
+    },
+    {
+      "sprite": "OneUp",
+      "type": "OneUp",
+      "quantity": 2,
+      "probability": 0.03
+    },
+    {
+      "sprite": "StarItem",
+      "type": "StarItem",
+      "quantity": 12,
+      "probability": 0.12
+    },
+    {
+      "sprite": "CherryItem",
+      "type": "CherryItem",
+      "quantity": 12,
+      "probability": 0.18
+    }
+  ],
+  "grunt1": [
+    {
+      "sprite": "PowerUpSmall",
+      "type": "PowerUp",
+      "quantity": 1,
+      "probability": 0.25
+    },
+    {
+      "sprite": "CherryItem",
+      "type": "CherryItem",
+      "quantity": 8,
+      "probability": 0.18
+    },
+    {
+      "sprite": "PointItem",
+      "type": "PointItem",
+      "quantity": 15,
+      "probability": 0.12
+    },
+    {
+      "sprite": "BombItem",
+      "type": "Bomb",
+      "quantity": 1,
+      "probability": 0.10
+    },
+    {
+      "sprite": "StarItem",
+      "type": "StarItem",
+      "quantity": 5,
+      "probability": 0.10
+    },
+    {
+      "sprite": "PowerUpLarge",
+      "type": "PowerUp",
+      "quantity": 4,
+      "probability": 0.07
+    },
+    {
+      "sprite": "OneUp",
+      "type": "OneUp",
+      "quantity": 1,
+      "probability": 0.04
+    },
+    {
+      "sprite": "FullPowerItem",
+      "type": "PowerUp",
+      "quantity": 128,
+      "probability": 0.001
+    }
+  ],
+
+  "boss1": [
+    {
+      "sprite": "PowerUpSmall",
+      "type": "PowerUp",
+      "quantity": 3,
+      "probability": 0.20
+    },
+    {
+      "sprite": "PowerUpLarge",
+      "type": "PowerUp",
+      "quantity": 15,
+      "probability": 0.20
+    },
+    {
+      "sprite": "FullPowerItem",
+      "type": "PowerUp",
+      "quantity": 200,
+      "probability": 0.02
+    },
+    {
+      "sprite": "CherryItem",
+      "type": "CherryItem",
+      "quantity": 15,
+      "probability": 0.15
+    },
+    {
+      "sprite": "StarItem",
+      "type": "StarItem",
+      "quantity": 10,
+      "probability": 0.15
+    },
+    {
+      "sprite": "BombItem",
+      "type": "Bomb",
+      "quantity": 2,
+      "probability": 0.10
+    },
+    {
+      "sprite": "OneUp",
+      "type": "OneUp",
+      "quantity": 2,
+      "probability": 0.10
+    },
+    {
+      "sprite": "PointItem",
+      "type": "PointItem",
+      "quantity": 20,
+      "probability": 0.08
+    }
+  ]
+}
