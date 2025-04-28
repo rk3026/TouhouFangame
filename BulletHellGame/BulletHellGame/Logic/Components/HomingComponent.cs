@@ -12,6 +12,7 @@ namespace BulletHellGame.Logic.Components
         public void Reset()
         {
             this.HomingTimeLeft = 5f;
+            this.CurrentTarget = null;
         }
     }
 }
