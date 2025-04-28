@@ -27,7 +27,7 @@ namespace BulletHellGame.Logic.Systems.RenderingSystems
                     SpriteData spriteData = sc.SpriteData;
 
                     // Switch animations based on movement
-                    if (Math.Abs(vc.Velocity.X) > 0.01f) // small threshold to avoid floating-point issues
+                    if (Math.Abs(vc.Velocity.X) > 1f)
                     {
                         sc.SwitchAnimation("MoveLeft", false);
 
