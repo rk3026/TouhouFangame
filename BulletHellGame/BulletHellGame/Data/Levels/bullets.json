@@ -1,9 +1,9 @@
 {
   "bullet": {
     "sprite": "Lazer.Gray",
-    "damage": 100,
+    "damage": 50,
     "rotationSpeed": 1,
-    "type": "Homing"
+    "type": "Standard"
   },
   "laser_gray_standard": {
     "sprite": "Lazer.Gray",
@@ -15,7 +15,7 @@
     "sprite": "Lazer.DarkRed",
     "damage": 75,
     "rotationSpeed": 1.0,
-    "type": "Homing"
+    "type": "Standard"
   },
   "laser_red_explosive": {
     "sprite": "Lazer.Red",
@@ -37,7 +37,7 @@
   },
   "doublecircle_pink_homing": {
     "sprite": "DoubleCircle.Pink",
-    "damage": 90,
+    "damage": 50,
     "rotationSpeed": 1.0,
     "type": "Homing"
   },
@@ -55,14 +55,14 @@
   },
   "largebullet_red_standard": {
     "sprite": "LargeBullet.Red",
-    "damage": 200,
+    "damage": 150,
     "rotationSpeed": 0.0,
     "type": "Standard"
   },
   "lazer_orange_homing": {
     "sprite": "Lazer.Orange",
-    "damage": 110,
+    "damage": 60,
     "rotationSpeed": 1.0,
-    "type": "Homing"
+    "type": "Standard"
   }
 }
