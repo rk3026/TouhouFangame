@@ -207,8 +207,8 @@
         ]
     },
     "Boss1Weapon2": {
-        "bulletId": "bullet",
-        "fireRate": 3,
+        "bulletId": "largebullet_red_standard",
+        "fireRate": 4,
         "fireDirections": [
             {
                 "x": 0,
