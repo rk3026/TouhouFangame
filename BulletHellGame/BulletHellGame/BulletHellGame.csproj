@@ -140,6 +140,14 @@
       <Content Include="Data\Cutscenes\Level1Cutscenes.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Content\Backgrounds\touhou.jpg" />
+      <Content Include="Content\Backgrounds\touhou.jpg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Content\Backgrounds\touhou2.png" />
+      <Content Include="Content\Backgrounds\touhou2.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
     <ItemGroup>
         <EmbeddedResource Include="Icon.ico">

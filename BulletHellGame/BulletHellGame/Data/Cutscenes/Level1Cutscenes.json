@@ -1,30 +1,30 @@
-[
-  {
-    "BackgroundAsset": "Backgrounds/touhou",
-    "MusicAsset": "02. Paradise ~ Deep Mountain",
-    "SpriteAsset": "SpriteSheets/CutsceneReimu",
-    "Dialogue": [
-      {
-        "SpeakerName": "Reimu",
-        "Line": "Another quiet morning at the shrine...",
-        "SpriteExpression": "Pose1",
-        "TypeDelay": 0.03,
-        "FlashAfterLine": false
-      },
-      {
-        "SpeakerName": "Marisa",
-        "Line": "Yo! Reimu! Already up, ze?",
-        "SpriteExpression": "Pose2",
-        "TypeDelay": 0.03,
-        "FlashAfterLine": false
-      },
-      {
-        "SpeakerName": "Sakuya",
-        "Line": "I sensed something unusual in the air...",
-        "SpriteExpression": "Pose1",
-        "TypeDelay": 0.03,
-        "FlashAfterLine": true
-      }
-    ]
-  }
-]
+
+{
+  "BackgroundAsset": "Backgrounds/touhou",
+  "MusicAsset": "02. Paradise ~ Deep Mountain",
+  "SpriteAsset": "SpriteSheets/CutsceneReimu",
+  "Dialogue": [
+    {
+      "SpeakerName": "Reimu",
+      "Line": "Another quiet morning at the shrine...",
+      "SpriteExpression": "Pose1",
+      "TypeDelay": 0.03,
+      "FlashAfterLine": false
+    },
+    {
+      "SpeakerName": "Marisa",
+      "Line": "Yo! Reimu! Already up, ze?",
+      "SpriteExpression": "Pose2",
+      "TypeDelay": 0.03,
+      "FlashAfterLine": false
+    },
+    {
+      "SpeakerName": "Sakuya",
+      "Line": "I sensed something unusual in the air...",
+      "SpriteExpression": "Pose1",
+      "TypeDelay": 0.03,
+      "FlashAfterLine": true
+    }
+  ]
+}
+

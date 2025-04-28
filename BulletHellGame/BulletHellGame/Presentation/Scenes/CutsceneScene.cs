@@ -46,14 +46,15 @@ namespace BulletHellGame.Presentation.Scenes
                 _currentDialogueIndex++;
                 if (_currentDialogueIndex >= _cutsceneData.Dialogue.Count)
                 {
-                    SceneManager.Instance.RemoveScene();
+                    // SceneManager.Instance.RemoveScene();
+                    SceneManager.Instance.AddScene(new TestLMScene(this._contentManager, this._graphicsDevice, this._characterData));
                 }
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            // spriteBatch.Begin();
 
             // Draw background
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, Color.White);
@@ -79,7 +80,7 @@ namespace BulletHellGame.Presentation.Scenes
                 spriteBatch.DrawString(_font, line, linePosition, Color.White);
             }
 
-            spriteBatch.End();
+            // spriteBatch.End();
         }
     }
 }
