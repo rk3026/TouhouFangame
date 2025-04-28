@@ -89,7 +89,7 @@ namespace BulletHellGame.Logic.Builders
 
         public override void BuildHitbox()
         {
-            HitboxComponent hc = new HitboxComponent(_entity, 2);
+            HitboxComponent hc = new HitboxComponent(_entity, HitboxLayer.PlayerAndPlayerBullets);
             hc.Hitbox = new Vector2(4, 4);
             _entity.AddComponent(hc);
         }

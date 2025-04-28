@@ -38,7 +38,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             }
         }
 
-        private Entity FindNewTarget(EntityManager entityManager, int layer, Vector2 bulletPosition, float homingRange)
+        private Entity FindNewTarget(EntityManager entityManager, HitboxLayer layer, Vector2 bulletPosition, float homingRange)
         {
             List<Entity> potentialTargets = new List<Entity>();
             foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(HitboxComponent)))

@@ -1,7 +1,7 @@
-﻿using BulletHellGame.Logic.Components;
+﻿using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Systems;
 
 namespace BulletHellGame.Logic.Systems.RenderingSystems
 {
@@ -72,6 +72,26 @@ namespace BulletHellGame.Logic.Systems.RenderingSystems
                                                            (int)healthBarPosition.Y,
                                                            filledWidth,
                                                            healthBarHeight), Color.Green);
+                }
+
+                // Draw spawners
+                if (entity.TryGetComponent<SpriteComponent>(out sc) &&
+                    entity.TryGetComponent<ShootingComponent>(out var shc))
+                {
+                    SpriteData spriteData = sc.SpriteData;
+                    Vector2 spritePosition = new Vector2(pc.Position.X, pc.Position.Y);
+
+                    spriteBatch.Draw(
+                        TextureManager.Instance.GetPixelTexture(Color.White, 4, 4),
+                        spritePosition,
+                        sc.CurrentFrame,
+                        sc.Color,
+                        sc.CurrentRotation,
+                        spriteData.Origin,
+                        sc.Scale,
+                        sc.SpriteEffect,
+                        0f
+                    );
                 }
             }
         }

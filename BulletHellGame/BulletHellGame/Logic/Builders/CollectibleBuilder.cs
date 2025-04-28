@@ -48,7 +48,7 @@ namespace BulletHellGame.Logic.Builders
             SpriteComponent sprite = _entity.GetComponent<SpriteComponent>();
             if (sprite != null)
             {
-                HitboxComponent hitbox = new HitboxComponent(_entity, 3)
+                HitboxComponent hitbox = new HitboxComponent(_entity, HitboxLayer.Collectibles)
                 {
                     Hitbox = new Vector2(sprite.CurrentFrame.Width, sprite.CurrentFrame.Height)
                 };

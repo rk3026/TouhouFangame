@@ -27,7 +27,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                     }
 
                     // Determine bullet layer (player or enemy)
-                    int bulletLayer = GetBulletLayer(entity);
+                    HitboxLayer bulletLayer = GetBulletLayer(entity);
                     if (!cc.Controller.IsShooting)
                         continue;
 
@@ -37,7 +37,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             }
         }
 
-        private int GetBulletLayer(Entity entity)
+        private HitboxLayer GetBulletLayer(Entity entity)
         {
             if (entity.TryGetComponent<HitboxComponent>(out var hc))
             {
@@ -47,10 +47,10 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             {
                 return hc.Layer;
             }
-            else return 2; // Default to player layer
+            else return HitboxLayer.PlayerAndPlayerBullets; // Default to player layer
         }
 
-        private void FireBullets(EntityManager entityManager, Entity owner, ShootingComponent shooting, Vector2 spawnPosition, int bulletLayer)
+        private void FireBullets(EntityManager entityManager, Entity owner, ShootingComponent shooting, Vector2 spawnPosition, HitboxLayer bulletLayer)
         {
             foreach (var weapon in shooting.Weapons)
             {

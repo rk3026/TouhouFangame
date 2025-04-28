@@ -126,7 +126,7 @@ namespace BulletHellGame.Logic.Builders
 
         public override void BuildHitbox()
         {
-            HitboxComponent hc = new HitboxComponent(_entity, 3);
+            HitboxComponent hc = new HitboxComponent(_entity, HitboxLayer.EnemiesAndEnemyBullets);
             SpriteComponent sc = _entity.GetComponent<SpriteComponent>();
             hc.Hitbox = new Vector2(sc.CurrentFrame.Width, sc.CurrentFrame.Width);
             _entity.AddComponent(hc); // Layer 1 = enemies and their bullets
