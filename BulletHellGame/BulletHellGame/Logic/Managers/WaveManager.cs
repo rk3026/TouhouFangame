@@ -51,6 +51,7 @@ namespace BulletHellGame.Logic.Managers
                 // If the wave type is Boss, invoke the BossSpawned event when switching to a boss wave
                 if (_currentWave.Wave.WaveType == WaveType.Boss || _currentWave.Wave.WaveType == WaveType.SubBoss)
                 {
+                   // TODO: Check back here later
                     BossSpawned?.Invoke();
                 }
             }

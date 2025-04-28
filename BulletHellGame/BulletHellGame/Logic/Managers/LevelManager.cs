@@ -3,6 +3,7 @@ using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.Logic.Utilities.EntityDataGenerator;
 using BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerators;
+using BulletHellGame.Presentation.Scenes;
 
 public class LevelManager
 {
@@ -56,6 +57,7 @@ public class LevelManager
         {
             _waveManager.AddWave(wave);
         }
+        
     }
 
     public void Update(GameTime gameTime)

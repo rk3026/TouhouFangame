@@ -20,7 +20,7 @@ namespace BulletHellGame.Presentation.Scenes
         private int _currentDialogueIndex = 0;
 
         public bool IsOverlay => false;
-        public bool IsMenu { get; }
+        public bool IsMenu => false;
 
         public CutsceneScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CutsceneData cutsceneData, CharacterData characterData)
         {
@@ -46,8 +46,8 @@ namespace BulletHellGame.Presentation.Scenes
                 _currentDialogueIndex++;
                 if (_currentDialogueIndex >= _cutsceneData.Dialogue.Count)
                 {
-                    // SceneManager.Instance.RemoveScene();
-                    SceneManager.Instance.AddScene(new TestLMScene(this._contentManager, this._graphicsDevice, this._characterData));
+                    SceneManager.Instance.RemoveScene();
+                    // SceneManager.Instance.AddScene(new TestLMScene(this._contentManager, this._graphicsDevice, this._characterData));
                 }
             }
         }

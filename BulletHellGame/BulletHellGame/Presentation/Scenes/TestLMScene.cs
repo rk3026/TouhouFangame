@@ -71,6 +71,9 @@ namespace BulletHellGame.Presentation.Scenes
 
             _levelManager.OnBossSpawned += () =>
             {
+                
+                var cutsceneData = CutsceneDataLoader.LoadCutsceneData("Level1Cutscenes");
+                SceneManager.Instance.AddScene(new CutsceneScene(this._contentManager, this._graphicsDevice, cutsceneData, this._characterData));
                 // Determine the current phase and play the corresponding song
                 if (_levelManager.GetCurrentWaveType() == WaveType.SubBoss)
                 {
@@ -131,6 +134,7 @@ namespace BulletHellGame.Presentation.Scenes
 
         public void Update(GameTime gameTime)
         {
+            
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             HandleTransitionStates(gameTime);
