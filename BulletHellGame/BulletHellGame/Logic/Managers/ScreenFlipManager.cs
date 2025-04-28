@@ -11,6 +11,10 @@
         private Vector2 _targetScale = Vector2.One;  // Target scale for flipping
         private float _scaleSpeed = 5f; // Speed at which to scale (adjust as needed)
 
+        private float _currentRotation = 0f; // Current rotation in radians (0 or PI)
+        private float _targetRotation = 0f; // Target rotation (0 or PI)
+        private float _rotationSpeed = MathHelper.Pi / 0.5f; // Speed for rotation (rotate 180 degrees in 0.5s)
+
         private bool _isFlipping = false;
 
         public ScreenFlipManager(Rectangle playableArea)
@@ -38,6 +42,12 @@
                     _targetScale.X = -_targetScale.X; // Flip horizontally by inverting X scale
                     _isFlipping = true;
                 }
+                if (InputManager.Instance.ActionPressed(GameAction.MenuRight))
+                {
+                    // Toggle rotation flip (180 degrees)
+                    _targetRotation += MathHelper.Pi; // Add 180 degrees (PI radians)
+                    _isFlipping = true;
+                }
             }
             else
             {
@@ -59,15 +69,26 @@
                     _currentScale.Y = MathHelper.Clamp(_currentScale.Y + scaleStep.Y, -1f, 1f);
                 }
 
-                // If the scale has reached the target, stop flipping
+                // Animate rotation
+                float rotationStep = _rotationSpeed * delta;
+                if (_currentRotation < _targetRotation)
+                {
+                    _currentRotation = Math.Min(_currentRotation + rotationStep, _targetRotation);
+                }
+                else
+                {
+                    _currentRotation = Math.Max(_currentRotation - rotationStep, _targetRotation);
+                }
+
+                // If the scale and rotation have reached their targets, stop flipping
                 if (Math.Abs(_currentScale.X - _targetScale.X) < 0.01f &&
-                    Math.Abs(_currentScale.Y - _targetScale.Y) < 0.01f)
+                    Math.Abs(_currentScale.Y - _targetScale.Y) < 0.01f &&
+                    Math.Abs(_currentRotation - _targetRotation) < 0.01f)
                 {
                     _currentScale = _targetScale;
+                    _currentRotation = _targetRotation;
                     _isFlipping = false;
                     _currentFlip = _targetFlip;
-
-                    // You can also apply any final entity flips here if necessary
                 }
             }
         }
@@ -78,7 +99,7 @@
 
             spriteBatch.End(); // Ensure you're not drawing anything yet
 
-            // Apply scaling for screen flip using individual scale factors
+            // Apply scaling and rotation for screen flip
             spriteBatch.Begin(
                 SpriteSortMode.Deferred,
                 BlendState.AlphaBlend,
@@ -87,7 +108,8 @@
                 RasterizerState.CullNone,
                 null,
                 Matrix.CreateTranslation(-center.X, -center.Y, 0) *
-                Matrix.CreateScale(_currentScale.X, _currentScale.Y, 1f) *  // Use scaling for flip
+                Matrix.CreateRotationZ(_currentRotation) *  // Apply rotation
+                Matrix.CreateScale(_currentScale.X, _currentScale.Y, 1f) *  // Apply scaling for flip
                 Matrix.CreateTranslation(center.X, center.Y, 0)
             );
 
@@ -102,7 +124,5 @@
             // Start drawing normally for the next pass
             spriteBatch.Begin();
         }
-
-
     }
 }
