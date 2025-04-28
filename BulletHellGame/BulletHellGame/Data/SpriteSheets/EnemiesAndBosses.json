@@ -7,7 +7,7 @@
       { "X": 856, "Y": 985, "Width": 28, "Height": 27 },
       { "X": 889, "Y": 985, "Width": 27, "Height": 27 }
     ],
-    "Moving": [
+    "MoveLeft": [
       { "X": 921, "Y": 984, "Width": 27, "Height": 28 },
       { "X": 954, "Y": 984, "Width": 26, "Height": 28 },
       { "X": 985, "Y": 984, "Width": 28, "Height": 28 },
@@ -22,7 +22,7 @@
       { "X": 856, "Y": 1017, "Width": 28, "Height": 27 },
       { "X": 889, "Y": 1017, "Width": 27, "Height": 27 }
     ],
-    "Moving": [
+    "MoveLeft": [
       { "X": 921, "Y": 1016, "Width": 27, "Height": 28 },
       { "X": 954, "Y": 1016, "Width": 26, "Height": 28 },
       { "X": 985, "Y": 1016, "Width": 28, "Height": 28 },
@@ -37,7 +37,7 @@
       { "X": 856, "Y": 1050, "Width": 28, "Height": 27 },
       { "X": 889, "Y": 1050, "Width": 27, "Height": 27 }
     ],
-    "Moving": [
+    "MoveLeft": [
       { "X": 921, "Y": 1049, "Width": 27, "Height": 28 },
       { "X": 954, "Y": 1049, "Width": 26, "Height": 28 },
       { "X": 985, "Y": 1049, "Width": 28, "Height": 28 },
@@ -54,7 +54,7 @@
       { "X": 242, "Y": 42, "Width": 44, "Height": 51 },
       { "X": 293, "Y": 42, "Width": 35, "Height": 51 }
     ],
-    "Moving": [
+    "MoveLeft": [
       { "X": 64, "Y": 40, "Width": 28, "Height": 52 },
       { "X": 104, "Y": 42, "Width": 33, "Height": 49 }
     ]
@@ -68,7 +68,7 @@
       { "X": 139, "Y": 145, "Width": 29, "Height": 63 },
       { "X": 187, "Y": 145, "Width": 29, "Height": 63 }
     ],
-    "Moving": [
+    "MoveLeft": [
       { "X": 42, "Y": 209, "Width": 29, "Height": 63 },
       { "X": 91, "Y": 209, "Width": 29, "Height": 63 },
       { "X": 139, "Y": 209, "Width": 30, "Height": 62 },
@@ -88,7 +88,7 @@
       { "X": 483, "Y": 41, "Width": 36, "Height": 59 },
       { "X": 531, "Y": 41, "Width": 36, "Height": 59 }
     ],
-    "Moving": [
+    "MoveLeft": [
       { "X": 391, "Y": 168, "Width": 30, "Height": 61 },
       { "X": 436, "Y": 168, "Width": 32, "Height": 58 },
       { "X": 487, "Y": 168, "Width": 29, "Height": 44 }
@@ -109,7 +109,7 @@
     "Idle": [
       { "X": 707, "Y": 41, "Width": 27, "Height": 59 }
     ],
-    "Moving": [
+    "MoveLeft": [
       { "X": 705, "Y": 105, "Width": 30, "Height": 59 },
       { "X": 749, "Y": 105, "Width": 34, "Height": 51 },
       { "X": 794, "Y": 105, "Width": 39, "Height": 44 },
