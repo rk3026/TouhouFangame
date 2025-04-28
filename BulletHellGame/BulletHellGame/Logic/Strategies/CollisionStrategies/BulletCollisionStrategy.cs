@@ -17,19 +17,18 @@ namespace BulletHellGame.Logic.Strategies.CollisionStrategies
                 health.TakeDamage(damageVal);
                 ParticleEffectManager.Instance.SpawnDamageNumber(other.GetComponent<PositionComponent>().Position, damageVal);
 
-                if (ic != null)
-                {
-                    ic.RemainingTime = 2f;
-                }
-
                 if (other.TryGetComponent<SpriteComponent>(out var sprite))
                 {
                     sprite.FlashRed();
                 }
 
-                if (other.TryGetComponent<PlayerStatsComponent>(out var psc))
+                if (health.CurrentHealth <= 0)
                 {
-                    if (health.CurrentHealth <= 0) // Check if the player is out of health
+                    if (ic != null)
+                    {
+                        ic.RemainingTime = 2f; // Apply 2 seconds of invincibility
+                    }
+                    if (other.TryGetComponent<PlayerStatsComponent>(out var psc))
                     {
                         if (psc.Lives > 0) // Only decrement if they have extra lives
                         {

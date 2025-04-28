@@ -71,5 +71,10 @@ namespace BulletHellGame.Logic.Builders
         {
             _entity.AddComponent(new DamageComponent(100));
         }
+
+        public override void BuildInvincibility()
+        {
+            _entity.AddComponent(new InvincibilityComponent());
+        }
     }
 }

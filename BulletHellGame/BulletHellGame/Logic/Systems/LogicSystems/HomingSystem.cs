@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Systems;
 
 namespace BulletHellGame.Logic.Systems.LogicSystems
 {
@@ -23,7 +22,10 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                     Entity currentTarget = hc.CurrentTarget;
 
                     // Check if current target is valid or find a new one
-                    if (currentTarget == null || !currentTarget.IsActive || !IsWithinRange(pc.Position, currentTarget.GetComponent<PositionComponent>().Position, hc.HomingRange))
+                    if (currentTarget == null ||
+                        !currentTarget.IsActive ||
+                        !IsWithinRange(pc.Position, currentTarget.GetComponent<PositionComponent>().Position, hc.HomingRange) ||
+                        currentTarget.TryGetComponent<InvincibilityComponent>(out var invincibility) && invincibility.RemainingTime > 0)
                     {
                         currentTarget = FindNewTarget(entityManager, hbc.Layer, pc.Position, hc.HomingRange);
                         hc.CurrentTarget = currentTarget;
@@ -43,6 +45,8 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             List<Entity> potentialTargets = new List<Entity>();
             foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(HitboxComponent)))
             {
+                if (entity.TryGetComponent<InvincibilityComponent>(out var invincibility) && invincibility.RemainingTime > 0) continue; // Don't home on invincible things
+
                 if (entity.TryGetComponent<HitboxComponent>(out  var hbc) && entity.TryGetComponent<HealthComponent>(out var hc))
                 {
                     if (hbc.Layer == layer) continue;
