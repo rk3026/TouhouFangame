@@ -59,6 +59,7 @@ public class MainMenuScene : IScene
 
     public void Draw(SpriteBatch spriteBatch)
     {
+        // Draw the background
         spriteBatch.Draw(background.Texture, Vector2.Zero, background.Animations.First().Value[0], Color.White);
 
         // Draw the menu options using their specific styles

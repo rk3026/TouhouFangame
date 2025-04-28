@@ -26,30 +26,30 @@
 
         public bool IsFlipping => _isFlipping; // If you ever want to know
 
+        public void FlipAcrossHorizontal()
+        {
+            _targetFlip ^= SpriteEffects.FlipVertically;
+            _targetScale.Y = -_targetScale.Y;
+            _isFlipping = true;
+        }
+
+        public void FlipAcrossVertical()
+        {
+            _targetFlip ^= SpriteEffects.FlipHorizontally;
+            _targetScale.X = -_targetScale.X;
+            _isFlipping = true;
+        }
+
+        public void Rotate180()
+        {
+            // Toggle rotation flip (180 degrees)
+            _targetRotation += MathHelper.Pi; // Add 180 degrees (PI radians)
+            _isFlipping = true;
+        }
+
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            if (!_isFlipping)
-            {
-                if (InputManager.Instance.ActionPressed(GameAction.MenuUp))
-                {
-                    _targetFlip ^= SpriteEffects.FlipVertically;
-                    _targetScale.Y = -_targetScale.Y; // Flip vertically by inverting Y scale
-                    _isFlipping = true;
-                }
-                if (InputManager.Instance.ActionPressed(GameAction.MenuLeft))
-                {
-                    _targetFlip ^= SpriteEffects.FlipHorizontally;
-                    _targetScale.X = -_targetScale.X; // Flip horizontally by inverting X scale
-                    _isFlipping = true;
-                }
-                if (InputManager.Instance.ActionPressed(GameAction.MenuRight))
-                {
-                    // Toggle rotation flip (180 degrees)
-                    _targetRotation += MathHelper.Pi; // Add 180 degrees (PI radians)
-                    _isFlipping = true;
-                }
-            }
-            else
+            if (_isFlipping)
             {
                 // Animate scale
                 float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;

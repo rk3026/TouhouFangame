@@ -135,7 +135,12 @@ namespace BulletHellGame.Presentation.Scenes
 
             HandleTransitionStates(gameTime);
 
+            // Screen Flip stuff:
+            if (InputManager.Instance.ActionPressed(GameAction.MenuUp)) _screenFlipManager.FlipAcrossHorizontal();
+            if (InputManager.Instance.ActionPressed(GameAction.MenuLeft)) _screenFlipManager.FlipAcrossVertical();
+            if (InputManager.Instance.ActionPressed(GameAction.MenuRight)) _screenFlipManager.Rotate180();
             _screenFlipManager.Update(_entityManager, gameTime);
+
             _systemManager.Update(_entityManager, gameTime);
             ParticleEffectManager.Instance.Update(gameTime);
             _levelManager.Update(gameTime);
