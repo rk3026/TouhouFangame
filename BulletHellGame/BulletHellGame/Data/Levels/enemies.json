@@ -2,7 +2,7 @@
   "grunt": {
     "type": "grunt",
     "sprite": "Fairy.Pink",
-    "health": 100,
+    "health": 200,
     "movementPattern": "sine_wave",
     "shootingPattern": "",
     "weapons": [ "laser" ],
@@ -42,7 +42,7 @@
   "fastGrunt": {
     "type": "grunt",
     "sprite": "Fairy.Blue",
-    "health": 80,
+    "health": 180,
     "movementPattern": "up_down",
     "shootingPattern": "",
     "weapons": [ "spray_standard" ],
@@ -52,7 +52,7 @@
   "armoredGrunt": {
     "type": "grunt",
     "sprite": "Fairy.White",
-    "health": 200,
+    "health": 800,
     "movementPattern": "down_up",
     "shootingPattern": "",
     "weapons": [ "big_red_standard" ],
@@ -72,7 +72,7 @@
   "swarmGrunt": {
     "type": "grunt",
     "sprite": "Fairy.Blue",
-    "health": 60,
+    "health": 600,
     "movementPattern": "diagonal_tr_bl",
     "shootingPattern": "",
     "weapons": [ "diamond_teal_triple" ],
@@ -82,7 +82,7 @@
   "shieldGrunt": {
     "type": "grunt",
     "sprite": "Fairy.White",
-    "health": 150,
+    "health": 1500,
     "movementPattern": "bounce",
     "shootingPattern": "",
     "weapons": [ "horizontal_homing" ],
@@ -92,7 +92,7 @@
   "kamikazeGrunt": {
     "type": "grunt",
     "sprite": "Fairy.Pink",
-    "health": 50,
+    "health": 500,
     "movementPattern": "figure_eight",
     "shootingPattern": "",
     "weapons": [ "blast_explosive" ],
