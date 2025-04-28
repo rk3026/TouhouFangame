@@ -1,426 +1,482 @@
 {
-  "subBoss": {
-    "startTime": 0,
-    "duration": 60,
-    "waveType": "SubBoss",
-    "enemySpawnData": [
-      {
-        "type": "subBoss",
-        "spawnTime": 2,
-        "exitTime": 12,
-        "x": 0.5,
-        "y": 0.1
-      }
-    ]
-  },
+    "Boss1": {
+        "startTime": 0,
+        "duration": 600,
+        "waveType": "Boss",
+        "enemySpawnData": [
+            {
+                "type": "Boss1",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.5,
+                "y": 0.3
+            }
+        ]
+    },
+    "Boss2": {
+        "startTime": 0,
+        "duration": 600,
+        "waveType": "Boss",
+        "enemySpawnData": [
+            {
+                "type": "Boss2",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.5,
+                "y": 0.1
+            }
+        ]
+    },
+    "Boss3": {
+        "startTime": 0,
+        "duration": 600,
+        "waveType": "Boss",
+        "enemySpawnData": [
+            {
+                "type": "Boss3",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.5,
+                "y": 0.1
+            }
+        ]
+    },
+    "Boss4": {
+        "startTime": 0,
+        "duration": 600,
+        "waveType": "Boss",
+        "enemySpawnData": [
+            {
+                "type": "Boss4",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.5,
+                "y": 0.1
+            }
+        ]
+    },
+    "subBoss": {
+        "startTime": 0,
+        "duration": 60,
+        "waveType": "SubBoss",
+        "enemySpawnData": [
+            {
+                "type": "subBoss",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.5,
+                "y": 0.1
+            }
+        ]
+    },
 
-  "grunt": {
-    "startTime": 0,
-    "duration": 30,
-    "waveType": "Normal",
-    "enemySpawnData": [
-      {
-        "type": "grunt",
-        "spawnTime": 2,
-        "exitTime": 12,
-        "x": 0.1,
-        "y": 0.1
-      },
+    "grunt": {
+        "startTime": 0,
+        "duration": 30,
+        "waveType": "Normal",
+        "enemySpawnData": [
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.1,
+                "y": 0.1
+            },
 
-      {
-        "type": "grunt",
-        "spawnTime": 2,
-        "exitTime": 12,
-        "x": 0.2,
-        "y": 0.1
-      },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.2,
+                "y": 0.1
+            },
 
-      {
-        "type": "grunt",
-        "spawnTime": 2,
-        "exitTime": 12,
-        "x": 0.3,
-        "y": 0.1
-      },
-      {
-        "type": "grunt",
-        "spawnTime": 2,
-        "exitTime": 12,
-        "x": 0.4,
-        "y": 0.1
-      },
-      {
-        "type": "grunt",
-        "spawnTime": 2,
-        "exitTime": 12,
-        "x": 0.5,
-        "y": 0.1
-      },
-      {
-        "type": "grunt",
-        "spawnTime": 2,
-        "exitTime": 12,
-        "x": 0.6,
-        "y": 0.1
-      },
-      {
-        "type": "grunt",
-        "spawnTime": 2,
-        "exitTime": 12,
-        "x": 0.7,
-        "y": 0.1
-      },
-      {
-        "type": "grunt",
-        "spawnTime": 2,
-        "exitTime": 12,
-        "x": 0.8,
-        "y": 0.1
-      },
-      {
-        "type": "grunt",
-        "spawnTime": 2,
-        "exitTime": 12,
-        "x": 0.9,
-        "y": 0.1
-      }
-    ]
-  },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.3,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.4,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.5,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.6,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.7,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.8,
+                "y": 0.1
+            },
+            {
+                "type": "grunt",
+                "spawnTime": 2,
+                "exitTime": 12,
+                "x": 0.9,
+                "y": 0.1
+            }
+        ]
+    },
 
-  "wave_armoredWave": {
-    "startTime": 5,
-    "duration": 30,
-    "waveType": "Normal",
-    "enemySpawnData": [
-      {
-        "type": "armoredGrunt",
-        "spawnTime": 5,
-        "exitTime": 28,
-        "x": 0.1,
-        "y": 0.3
-      },
-      {
-        "type": "armoredGrunt",
-        "spawnTime": 6,
-        "exitTime": 29,
-        "x": 0.3,
-        "y": 0.5
-      },
-      {
-        "type": "armoredGrunt",
-        "spawnTime": 7,
-        "exitTime": 30,
-        "x": 0.5,
-        "y": 0.3
-      },
-      {
-        "type": "armoredGrunt",
-        "spawnTime": 8,
-        "exitTime": 30,
-        "x": 0.7,
-        "y": 0.5
-      },
-      {
-        "type": "armoredGrunt",
-        "spawnTime": 9,
-        "exitTime": 30,
-        "x": 0.9,
-        "y": 0.3
-      }
-    ]
-  },
-  "wave_fastWave": {
-    "duration": 25,
-    "enemySpawnData": [
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.05,
-        "y": 0.25
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.15,
-        "y": 0.35
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.25,
-        "y": 0.25
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.35,
-        "y": 0.35
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.45,
-        "y": 0.25
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.55,
-        "y": 0.35
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.65,
-        "y": 0.25
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.75,
-        "y": 0.35
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.85,
-        "y": 0.25
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.95,
-        "y": 0.35
-      }
-    ],
-    "startTime": 0,
-    "waveType": "Normal"
-  },
-  "wave_goblinKing": {
-    "startTime": 0,
-    "duration": 60,
-    "waveType": "SubBoss",
-    "enemySpawnData": [
-      {
-        "type": "goblinKingSubBoss",
-        "spawnTime": 5,
-        "exitTime": 55,
-        "x": 0.5,
-        "y": 0.1
-      }
-    ]
-  },
-  "wave_iceQueen": {
-    "startTime": 0,
-    "duration": 60,
-    "waveType": "SubBoss",
-    "enemySpawnData": [
-      {
-        "type": "iceQueenSubBoss",
-        "spawnTime": 5,
-        "exitTime": 55,
-        "x": 0.5,
-        "y": 0.1
-      }
-    ]
-  },
-  "wave_lettyFinal": {
-    "startTime": 0,
-    "duration": 120,
-    "waveType": "Boss",
-    "enemySpawnData": [
-      {
-        "type": "LettyWhiterockBoss",
-        "spawnTime": 8,
-        "exitTime": 120,
-        "x": 0.5,
-        "y": 0.1
-      }
-    ]
-  },
-  "wave_megaBoss": {
-    "startTime": 0,
-    "duration": 90,
-    "waveType": "Boss",
-    "enemySpawnData": [
-      {
-        "type": "megaBoss",
-        "spawnTime": 10,
-        "exitTime": 90,
-        "x": 0.5,
-        "y": 0.1
-      }
-    ]
-  },
-  "wave_mixedGrunt": {
-    "startTime": 0,
-    "duration": 40,
-    "waveType": "Normal",
-    "enemySpawnData": [
-      {
-        "type": "swarmGrunt",
-        "spawnTime": 3,
-        "exitTime": 30,
-        "x": 0.2,
-        "y": 0.2
-      },
-      {
-        "type": "shieldGrunt",
-        "spawnTime": 6,
-        "exitTime": 33,
-        "x": 0.8,
-        "y": 0.2
-      },
-      {
-        "type": "kamikazeGrunt",
-        "spawnTime": 10,
-        "exitTime": 40,
-        "x": 0.5,
-        "y": 0.2
-      }
-    ]
-  },
-  "wave_rush": {
-    "startTime": 0,
-    "duration": 20,
-    "waveType": "Normal",
-    "enemySpawnData": [
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.1,
-        "y": 0.15
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.2,
-        "y": 0.4
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.3,
-        "y": 0.15
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.4,
-        "y": 0.4
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.5,
-        "y": 0.15
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.6,
-        "y": 0.4
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.7,
-        "y": 0.15
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.8,
-        "y": 0.4
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.9,
-        "y": 0.15
-      },
-      {
-        "type": "fastGrunt",
-        "spawnTime": 1,
-        "exitTime": 20,
-        "x": 0.95,
-        "y": 0.4
-      }
-    ]
-  },
-  "wave_sniperSquad": {
-    "startTime": 0,
-    "duration": 25,
-    "waveType": "Normal",
-    "enemySpawnData": [
-      {
-        "type": "sniperGrunt",
-        "spawnTime": 3,
-        "exitTime": 23,
-        "x": 0.1,
-        "y": 0.1
-      },
-      {
-        "type": "sniperGrunt",
-        "spawnTime": 3,
-        "exitTime": 23,
-        "x": 0.3,
-        "y": 0.3
-      },
-      {
-        "type": "sniperGrunt",
-        "spawnTime": 3,
-        "exitTime": 23,
-        "x": 0.5,
-        "y": 0.1
-      },
-      {
-        "type": "sniperGrunt",
-        "spawnTime": 3,
-        "exitTime": 23,
-        "x": 0.7,
-        "y": 0.3
-      },
-      {
-        "type": "sniperGrunt",
-        "spawnTime": 3,
-        "exitTime": 23,
-        "x": 0.9,
-        "y": 0.1
-      }
-    ]
-  },
-  "wave_sniperWave": {
-    "startTime": 0,
-    "duration": 20,
-    "waveType": "Normal",
-    "enemySpawnData": [
-      {
-        "type": "sniperGrunt",
-        "spawnTime": 2,
-        "exitTime": 18,
-        "x": 0.5,
-        "y": 0.1
-      }
-    ]
-  }
+    "wave_armoredWave": {
+        "startTime": 5,
+        "duration": 30,
+        "waveType": "Normal",
+        "enemySpawnData": [
+            {
+                "type": "armoredGrunt",
+                "spawnTime": 5,
+                "exitTime": 28,
+                "x": 0.1,
+                "y": 0.3
+            },
+            {
+                "type": "armoredGrunt",
+                "spawnTime": 6,
+                "exitTime": 29,
+                "x": 0.3,
+                "y": 0.5
+            },
+            {
+                "type": "armoredGrunt",
+                "spawnTime": 7,
+                "exitTime": 30,
+                "x": 0.5,
+                "y": 0.3
+            },
+            {
+                "type": "armoredGrunt",
+                "spawnTime": 8,
+                "exitTime": 30,
+                "x": 0.7,
+                "y": 0.5
+            },
+            {
+                "type": "armoredGrunt",
+                "spawnTime": 9,
+                "exitTime": 30,
+                "x": 0.9,
+                "y": 0.3
+            }
+        ]
+    },
+    "wave_fastWave": {
+        "duration": 25,
+        "enemySpawnData": [
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.05,
+                "y": 0.25
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.15,
+                "y": 0.35
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.25,
+                "y": 0.25
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.35,
+                "y": 0.35
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.45,
+                "y": 0.25
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.55,
+                "y": 0.35
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.65,
+                "y": 0.25
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.75,
+                "y": 0.35
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.85,
+                "y": 0.25
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.95,
+                "y": 0.35
+            }
+        ],
+        "startTime": 0,
+        "waveType": "Normal"
+    },
+    "wave_goblinKing": {
+        "startTime": 0,
+        "duration": 60,
+        "waveType": "SubBoss",
+        "enemySpawnData": [
+            {
+                "type": "goblinKingSubBoss",
+                "spawnTime": 5,
+                "exitTime": 55,
+                "x": 0.5,
+                "y": 0.1
+            }
+        ]
+    },
+    "wave_iceQueen": {
+        "startTime": 0,
+        "duration": 60,
+        "waveType": "SubBoss",
+        "enemySpawnData": [
+            {
+                "type": "iceQueenSubBoss",
+                "spawnTime": 5,
+                "exitTime": 55,
+                "x": 0.5,
+                "y": 0.1
+            }
+        ]
+    },
+    "wave_lettyFinal": {
+        "startTime": 0,
+        "duration": 120,
+        "waveType": "Boss",
+        "enemySpawnData": [
+            {
+                "type": "LettyWhiterockBoss",
+                "spawnTime": 8,
+                "exitTime": 120,
+                "x": 0.5,
+                "y": 0.1
+            }
+        ]
+    },
+    "wave_megaBoss": {
+        "startTime": 0,
+        "duration": 90,
+        "waveType": "Boss",
+        "enemySpawnData": [
+            {
+                "type": "megaBoss",
+                "spawnTime": 10,
+                "exitTime": 90,
+                "x": 0.5,
+                "y": 0.1
+            }
+        ]
+    },
+    "wave_mixedGrunt": {
+        "startTime": 0,
+        "duration": 40,
+        "waveType": "Normal",
+        "enemySpawnData": [
+            {
+                "type": "swarmGrunt",
+                "spawnTime": 3,
+                "exitTime": 30,
+                "x": 0.2,
+                "y": 0.2
+            },
+            {
+                "type": "shieldGrunt",
+                "spawnTime": 6,
+                "exitTime": 33,
+                "x": 0.8,
+                "y": 0.2
+            },
+            {
+                "type": "kamikazeGrunt",
+                "spawnTime": 10,
+                "exitTime": 40,
+                "x": 0.5,
+                "y": 0.2
+            }
+        ]
+    },
+    "wave_rush": {
+        "startTime": 0,
+        "duration": 20,
+        "waveType": "Normal",
+        "enemySpawnData": [
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.1,
+                "y": 0.15
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.2,
+                "y": 0.4
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.3,
+                "y": 0.15
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.4,
+                "y": 0.4
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.5,
+                "y": 0.15
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.6,
+                "y": 0.4
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.7,
+                "y": 0.15
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.8,
+                "y": 0.4
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.9,
+                "y": 0.15
+            },
+            {
+                "type": "fastGrunt",
+                "spawnTime": 1,
+                "exitTime": 20,
+                "x": 0.95,
+                "y": 0.4
+            }
+        ]
+    },
+    "wave_sniperSquad": {
+        "startTime": 0,
+        "duration": 25,
+        "waveType": "Normal",
+        "enemySpawnData": [
+            {
+                "type": "sniperGrunt",
+                "spawnTime": 3,
+                "exitTime": 23,
+                "x": 0.1,
+                "y": 0.1
+            },
+            {
+                "type": "sniperGrunt",
+                "spawnTime": 3,
+                "exitTime": 23,
+                "x": 0.3,
+                "y": 0.3
+            },
+            {
+                "type": "sniperGrunt",
+                "spawnTime": 3,
+                "exitTime": 23,
+                "x": 0.5,
+                "y": 0.1
+            },
+            {
+                "type": "sniperGrunt",
+                "spawnTime": 3,
+                "exitTime": 23,
+                "x": 0.7,
+                "y": 0.3
+            },
+            {
+                "type": "sniperGrunt",
+                "spawnTime": 3,
+                "exitTime": 23,
+                "x": 0.9,
+                "y": 0.1
+            }
+        ]
+    },
+    "wave_sniperWave": {
+        "startTime": 0,
+        "duration": 20,
+        "waveType": "Normal",
+        "enemySpawnData": [
+            {
+                "type": "sniperGrunt",
+                "spawnTime": 2,
+                "exitTime": 18,
+                "x": 0.5,
+                "y": 0.1
+            }
+        ]
+    }
 }
