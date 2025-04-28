@@ -1,14 +1,21 @@
-﻿using BulletHellGame.Logic.Components;
-using BulletHellGame.Logic.Entities;
-
-namespace BulletHellGame.Logic.Managers
+﻿namespace BulletHellGame.Logic.Managers
 {
     public class ScreenFlipManager
     {
         private SpriteEffects _currentFlip = SpriteEffects.None;
-        private SpriteEffects _lastFlip = SpriteEffects.None;
+        private SpriteEffects _targetFlip = SpriteEffects.None;
 
         private Rectangle _playableArea;
+
+        private Vector2 _currentScale = Vector2.One; // Default scale is normal (1, 1)
+        private Vector2 _targetScale = Vector2.One;  // Target scale for flipping
+        private float _scaleSpeed = 5f; // Speed at which to scale (adjust as needed)
+
+        private float _currentRotation = 0f; // Current rotation in radians (0 or PI)
+        private float _targetRotation = 0f; // Target rotation (0 or PI)
+        private float _rotationSpeed = MathHelper.Pi / 0.5f; // Speed for rotation (rotate 180 degrees in 0.5s)
+
+        private bool _isFlipping = false;
 
         public ScreenFlipManager(Rectangle playableArea)
         {
@@ -17,72 +24,105 @@ namespace BulletHellGame.Logic.Managers
 
         public SpriteEffects CurrentFlip => _currentFlip;
 
-        public void Update(EntityManager entityManager)
+        public bool IsFlipping => _isFlipping; // If you ever want to know
+
+        public void FlipAcrossHorizontal()
         {
-            // Input handling
-            if (InputManager.Instance.ActionPressed(GameAction.MenuUp))
-                _currentFlip ^= SpriteEffects.FlipVertically;
+            _targetFlip ^= SpriteEffects.FlipVertically;
+            _targetScale.Y = -_targetScale.Y;
+            _isFlipping = true;
+        }
 
-            if (InputManager.Instance.ActionPressed(GameAction.MenuLeft))
-                _currentFlip ^= SpriteEffects.FlipHorizontally;
+        public void FlipAcrossVertical()
+        {
+            _targetFlip ^= SpriteEffects.FlipHorizontally;
+            _targetScale.X = -_targetScale.X;
+            _isFlipping = true;
+        }
 
-            if (_currentFlip == _lastFlip)
-                return;
+        public void Rotate180()
+        {
+            // Toggle rotation flip (180 degrees)
+            _targetRotation += MathHelper.Pi; // Add 180 degrees (PI radians)
+            _isFlipping = true;
+        }
 
-            bool flipX = (_currentFlip & SpriteEffects.FlipHorizontally) != (_lastFlip & SpriteEffects.FlipHorizontally);
-            bool flipY = (_currentFlip & SpriteEffects.FlipVertically) != (_lastFlip & SpriteEffects.FlipVertically);
-
-            float centerX = (_playableArea.X + _playableArea.Width) / 2f;
-            float centerY = (_playableArea.Y + _playableArea.Height) / 2f;
-
-            foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(PositionComponent), typeof(VelocityComponent), typeof(SpriteComponent)))
+        public void Update(EntityManager entityManager, GameTime gameTime)
+        {
+            if (_isFlipping)
             {
-                var pc = entity.GetComponent<PositionComponent>();
-                var vc = entity.GetComponent<VelocityComponent>();
-                var sc = entity.GetComponent<SpriteComponent>();
+                // Animate scale
+                float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Vector2 scaleStep = new Vector2(
+                    Math.Sign(_targetScale.X - _currentScale.X) * _scaleSpeed * delta,
+                    Math.Sign(_targetScale.Y - _currentScale.Y) * _scaleSpeed * delta
+                );
 
-                sc.SpriteEffect = _currentFlip;
-
-                if (flipX)
+                // Incrementally adjust the scale
+                if (_currentScale.X != _targetScale.X)
                 {
-                    pc.Position = new Vector2(2 * centerX - pc.Position.X, pc.Position.Y);
-                    vc.Velocity = new Vector2(-vc.Velocity.X, vc.Velocity.Y);
+                    _currentScale.X = MathHelper.Clamp(_currentScale.X + scaleStep.X, -1f, 1f);
                 }
 
-                if (flipY)
+                if (_currentScale.Y != _targetScale.Y)
                 {
-                    pc.Position = new Vector2(pc.Position.X, 2 * centerY - pc.Position.Y);
-                    vc.Velocity = new Vector2(vc.Velocity.X, -vc.Velocity.Y);
+                    _currentScale.Y = MathHelper.Clamp(_currentScale.Y + scaleStep.Y, -1f, 1f);
+                }
+
+                // Animate rotation
+                float rotationStep = _rotationSpeed * delta;
+                if (_currentRotation < _targetRotation)
+                {
+                    _currentRotation = Math.Min(_currentRotation + rotationStep, _targetRotation);
+                }
+                else
+                {
+                    _currentRotation = Math.Max(_currentRotation - rotationStep, _targetRotation);
+                }
+
+                // If the scale and rotation have reached their targets, stop flipping
+                if (Math.Abs(_currentScale.X - _targetScale.X) < 0.01f &&
+                    Math.Abs(_currentScale.Y - _targetScale.Y) < 0.01f &&
+                    Math.Abs(_currentRotation - _targetRotation) < 0.01f)
+                {
+                    _currentScale = _targetScale;
+                    _currentRotation = _targetRotation;
+                    _isFlipping = false;
+                    _currentFlip = _targetFlip;
                 }
             }
+        }
 
-            foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(ShootingComponent)))
-            {
-                var shooting = entity.GetComponent<ShootingComponent>();
+        public void Draw(SpriteBatch spriteBatch, Action drawSystems, Action<SpriteBatch> drawBackground)
+        {
+            Vector2 center = new Vector2(_playableArea.X + _playableArea.Width / 2f, _playableArea.Y + _playableArea.Height / 2f);
 
-                foreach (var weapon in shooting.Weapons)
-                {
-                    for (int i = 0; i < weapon.FireDirections.Count; i++)
-                    {
-                        var dir = weapon.FireDirections[i];
+            spriteBatch.End(); // Ensure you're not drawing anything yet
 
-                        if (flipX) dir.X *= -1;
-                        if (flipY) dir.Y *= -1;
+            // Apply scaling and rotation for screen flip
+            spriteBatch.Begin(
+                SpriteSortMode.Deferred,
+                BlendState.AlphaBlend,
+                SamplerState.PointClamp,
+                DepthStencilState.Default,
+                RasterizerState.CullNone,
+                null,
+                Matrix.CreateTranslation(-center.X, -center.Y, 0) *
+                Matrix.CreateRotationZ(_currentRotation) *  // Apply rotation
+                Matrix.CreateScale(_currentScale.X, _currentScale.Y, 1f) *  // Apply scaling for flip
+                Matrix.CreateTranslation(center.X, center.Y, 0)
+            );
 
-                        weapon.FireDirections[i] = dir;
+            // Draw the background with the same transformation
+            drawBackground(spriteBatch);
 
-                        var accel = weapon.BulletData.Acceleration;
+            // Now draw all systems with the flipped sprite batch context
+            drawSystems();
 
-                        if (flipX) accel.X *= -1;
-                        if (flipY) accel.Y *= -1;
+            spriteBatch.End(); // End after custom drawing
 
-                        weapon.BulletData.Acceleration = accel;
-                    }
-                }
-            }
-
-            _lastFlip = _currentFlip;
+            // Start drawing normally for the next pass
+            spriteBatch.Begin();
         }
     }
-
 }

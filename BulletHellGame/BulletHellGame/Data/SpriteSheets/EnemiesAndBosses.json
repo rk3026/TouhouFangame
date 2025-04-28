@@ -80,5 +80,46 @@
       { "X": 135, "Y": 273, "Width": 37, "Height": 60 },
       { "X": 181, "Y": 273, "Width": 41, "Height": 55 }
     ]
+  },
+  "Chen": {
+    "Idle": [
+      { "X": 387, "Y": 41, "Width": 36, "Height": 59 },
+      { "X": 435, "Y": 41, "Width": 36, "Height": 59 },
+      { "X": 483, "Y": 41, "Width": 36, "Height": 59 },
+      { "X": 531, "Y": 41, "Width": 36, "Height": 59 }
+    ],
+    "Moving": [
+      { "X": 391, "Y": 168, "Width": 30, "Height": 61 },
+      { "X": 436, "Y": 168, "Width": 32, "Height": 58 },
+      { "X": 487, "Y": 168, "Width": 29, "Height": 44 }
+    ],
+    "Attack": [
+      { "X": 387, "Y": 105, "Width": 36, "Height": 59 },
+      { "X": 435, "Y": 105, "Width": 36, "Height": 59 },
+      { "X": 483, "Y": 105, "Width": 36, "Height": 59 },
+      { "X": 529, "Y": 105, "Width": 36, "Height": 59 }
+    ],
+    "Special": [
+      { "X": 530, "Y": 169, "Width": 37, "Height": 59 },
+      { "X": 579, "Y": 169, "Width": 39, "Height": 59 },
+      { "X": 627, "Y": 169, "Width": 36, "Height": 59 }
+    ]
+  },
+  "Alice Margatroid": {
+    "Idle": [
+      { "X": 707, "Y": 41, "Width": 27, "Height": 59 }
+    ],
+    "Moving": [
+      { "X": 705, "Y": 105, "Width": 30, "Height": 59 },
+      { "X": 749, "Y": 105, "Width": 34, "Height": 51 },
+      { "X": 794, "Y": 105, "Width": 39, "Height": 44 },
+      { "X": 842, "Y": 105, "Width": 45, "Height": 44 },
+      { "X": 893, "Y": 105, "Width": 42, "Height": 43 }
+    ],
+    "Attack": [
+      { "X": 755, "Y": 40, "Width": 27, "Height": 60 },
+      { "X": 800, "Y": 40, "Width": 30, "Height": 60 },
+      { "X": 846, "Y": 41, "Width": 32, "Height": 60 }
+    ]
   }
 }

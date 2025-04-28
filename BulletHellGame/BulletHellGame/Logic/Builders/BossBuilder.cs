@@ -46,7 +46,7 @@ namespace BulletHellGame.Logic.Builders
 
         public override void BuildHitbox()
         {
-            HitboxComponent hc = new HitboxComponent(_entity, 1);
+            HitboxComponent hc = new HitboxComponent(_entity, HitboxLayer.EnemiesAndEnemyBullets);
             SpriteComponent sc = _entity.GetComponent<SpriteComponent>();
             hc.Hitbox = new Vector2(sc.CurrentFrame.Width, sc.CurrentFrame.Height);
             _entity.AddComponent(hc);
@@ -70,6 +70,11 @@ namespace BulletHellGame.Logic.Builders
         public override void BuildDamage()
         {
             _entity.AddComponent(new DamageComponent(100));
+        }
+
+        public override void BuildInvincibility()
+        {
+            _entity.AddComponent(new InvincibilityComponent());
         }
     }
 }

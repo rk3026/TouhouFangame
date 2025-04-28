@@ -1,8 +1,6 @@
 ﻿using BulletHellGame.DataAccess.DataLoaders;
 using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Utilities.EntityDataGenerator;
-using BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerators;
 
 public class LevelManager
 {

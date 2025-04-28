@@ -42,7 +42,7 @@ namespace BulletHellGame.Logic.Builders
 
         public override void BuildHitbox()
         {
-            HitboxComponent hc = new HitboxComponent(_entity, 1);
+            HitboxComponent hc = new HitboxComponent(_entity, HitboxLayer.EnemiesAndEnemyBullets);
             float spriteWidth = _entity.GetComponent<SpriteComponent>().CurrentFrame.Width;
             float spriteHeight = _entity.GetComponent<SpriteComponent>().CurrentFrame.Height;
             hc.Hitbox = new Vector2(spriteWidth, spriteHeight);

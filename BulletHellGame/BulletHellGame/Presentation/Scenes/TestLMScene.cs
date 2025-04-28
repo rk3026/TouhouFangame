@@ -135,7 +135,12 @@ namespace BulletHellGame.Presentation.Scenes
 
             HandleTransitionStates(gameTime);
 
-            _screenFlipManager.Update(_entityManager);
+            // Screen Flip stuff:
+            if (InputManager.Instance.ActionPressed(GameAction.MenuUp)) _screenFlipManager.FlipAcrossHorizontal();
+            if (InputManager.Instance.ActionPressed(GameAction.MenuLeft)) _screenFlipManager.FlipAcrossVertical();
+            if (InputManager.Instance.ActionPressed(GameAction.MenuRight)) _screenFlipManager.Rotate180();
+            _screenFlipManager.Update(_entityManager, gameTime);
+
             _systemManager.Update(_entityManager, gameTime);
             ParticleEffectManager.Instance.Update(gameTime);
             _levelManager.Update(gameTime);
@@ -193,8 +198,14 @@ namespace BulletHellGame.Presentation.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            _parallaxBackground.Draw(spriteBatch, _screenFlipManager.CurrentFlip);
-            _systemManager.Draw(_entityManager, spriteBatch);
+            _screenFlipManager.Draw(spriteBatch, () =>
+            {
+                _systemManager.Draw(_entityManager, spriteBatch);
+            }, (bgSpriteBatch) =>
+            {
+                _parallaxBackground.Draw(bgSpriteBatch, _screenFlipManager.CurrentFlip);
+            });
+            //_systemManager.Draw(_entityManager, spriteBatch);
             ParticleEffectManager.Instance.Draw(spriteBatch);
 
             DrawSidebar(spriteBatch);

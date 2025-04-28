@@ -2,6 +2,7 @@
 using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.Logic.Utilities.EntityDataGenerator;
+using BulletHellGame.Presentation.UI.Menu;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
 using System.Text;
@@ -15,16 +16,18 @@ namespace BulletHellGame.Presentation.Scenes
 
         private string[] difficulties = { "Easy", "Normal", "Hard", "Lunatic" };
         private CharacterData[] characters;
-        private SpriteFont _font;
         private SpriteData backgroundSprite;
         private SpriteData[] characterSprites;
-        private int selectedIndex = 0;
+        private SpriteFont _font;
+        private ContentManager _contentManager;
+        private GraphicsDevice _graphicsDevice;
+
+        private List<MenuOption> menuOptions;
+        private MenuNavigator menuNavigator;
+
         private int selectedDifficulty = 0;
         private int selectedHeroine = 0;
         private int selectedWeapon = 0;
-
-        private ContentManager _contentManager;
-        private GraphicsDevice _graphicsDevice;
 
         private bool tweeningDifficulty = false;
         private float difficultyTweenProgress = 0f;
@@ -33,7 +36,6 @@ namespace BulletHellGame.Presentation.Scenes
         private Vector2 difficultyEndPos;
 
         public bool IsOverlay => false;
-
         public bool IsMenu => true;
 
         public CharacterSelectScene(ContentManager contentManager, GraphicsDevice graphicsDevice)
@@ -60,7 +62,17 @@ namespace BulletHellGame.Presentation.Scenes
                 EntityDataGenerator.CreateSakuyaData(),
                 EntityDataGenerator.CreateEpicTestData()
             };
+
             difficultyEndPos = new Vector2(_graphicsDevice.Viewport.X + 50, _graphicsDevice.Viewport.Y + _graphicsDevice.Viewport.Height - 50);
+
+            BuildMenuOptions();
+        }
+
+        private void BuildMenuOptions()
+        {
+            var style = new MenuOptionStyle1(_contentManager, _graphicsDevice);
+            menuOptions = GetCurrentOptions().Select(option => new MenuOption(option, () => { }, style)).ToList();
+            menuNavigator = new MenuNavigator(menuOptions.Count);
         }
 
         public void Update(GameTime gameTime)
@@ -78,45 +90,11 @@ namespace BulletHellGame.Presentation.Scenes
                 if (difficultyTweenProgress < 0f) difficultyTweenProgress = 0f;
             }
 
-            HandleMenuNavigation();
-
-            if (currentPhase == SelectionPhase.Heroine)
-            {
-                selectedHeroine = selectedIndex;
-            }
-        }
-
-        private void HandleMenuNavigation()
-        {
-            if (InputManager.Instance.ActionPressed(GameAction.MenuUp))
-            {
-                selectedIndex--;
-                if (selectedIndex < 0) selectedIndex = GetCurrentOptions().Length - 1;
-            }
-            if (InputManager.Instance.ActionPressed(GameAction.MenuDown))
-            {
-                selectedIndex++;
-                if (selectedIndex >= GetCurrentOptions().Length) selectedIndex = 0;
-            }
+            menuNavigator.Update(gameTime);
 
             if (InputManager.Instance.ActionPressed(GameAction.Select))
             {
-                switch (currentPhase)
-                {
-                    case SelectionPhase.Difficulty:
-                        selectedDifficulty = selectedIndex;
-                        difficultyStartPos = new Vector2(100, 100 + selectedDifficulty * 60);
-                        break;
-                    case SelectionPhase.Heroine:
-                        selectedHeroine = selectedIndex;
-                        break;
-                    case SelectionPhase.Weapon:
-                        selectedWeapon = selectedIndex;
-                        SceneManager.Instance.AddScene(new TestLMScene(_contentManager, _graphicsDevice, characters[selectedHeroine]));
-                        return;
-                }
-                selectedIndex = 0;
-                currentPhase++;
+                HandleSelection();
             }
 
             if (InputManager.Instance.ActionPressed(GameAction.Pause))
@@ -124,13 +102,36 @@ namespace BulletHellGame.Presentation.Scenes
                 if (currentPhase > SelectionPhase.Difficulty)
                 {
                     currentPhase--;
-                    selectedIndex = 0;
+                    BuildMenuOptions();
                 }
                 else
                 {
                     SceneManager.Instance.RemoveScene();
                 }
             }
+        }
+
+        private void HandleSelection()
+        {
+            int selected = menuNavigator.SelectedIndex;
+
+            switch (currentPhase)
+            {
+                case SelectionPhase.Difficulty:
+                    selectedDifficulty = selected;
+                    difficultyStartPos = new Vector2(100, 100 + selectedDifficulty * 60);
+                    break;
+                case SelectionPhase.Heroine:
+                    selectedHeroine = selected;
+                    break;
+                case SelectionPhase.Weapon:
+                    selectedWeapon = selected;
+                    SceneManager.Instance.AddScene(new TestLMScene(_contentManager, _graphicsDevice, characters[selectedHeroine]));
+                    return;
+            }
+
+            currentPhase++;
+            BuildMenuOptions();
         }
 
         private string[] GetCurrentOptions()
@@ -160,14 +161,12 @@ namespace BulletHellGame.Presentation.Scenes
             Vector2 titlePosition = new Vector2((_graphicsDevice.Viewport.Width - titleSize.X) / 2, 20);
             spriteBatch.DrawString(_font, phaseText, titlePosition, Color.White);
 
-            // Draw difficulty at bottom left if selected
             if (currentPhase > SelectionPhase.Difficulty || difficultyTweenProgress > 0f)
             {
                 Vector2 difficultyPosition = Vector2.Lerp(difficultyStartPos, difficultyEndPos, difficultyTweenProgress);
                 spriteBatch.DrawString(_font, difficulties[selectedDifficulty], difficultyPosition, Color.White);
             }
 
-            // Draw selected heroine portrait
             if (currentPhase >= SelectionPhase.Heroine && selectedHeroine >= 0 && characterSprites[selectedHeroine] != null)
             {
                 float opacity = currentPhase > SelectionPhase.Heroine ? 0.3f : 1f;
@@ -175,56 +174,41 @@ namespace BulletHellGame.Presentation.Scenes
                 spriteBatch.Draw(characterSprites[selectedHeroine].Texture, portraitPosition, characterSprites[selectedHeroine].Animations["Default"][0], Color.White * opacity);
             }
 
-            // Draw current options
+            float yOffset = 100;
             float descriptionScale = 0.7f;
-            float maxDescriptionWidth = _graphicsDevice.Viewport.Width - 50; // Adjust as needed
-            string[] options = GetCurrentOptions();
-            float yOffset = 100; // Initial Y offset
+            float maxDescriptionWidth = _graphicsDevice.Viewport.Width - 50;
 
-            for (int i = 0; i < options.Length; i++)
+            for (int i = 0; i < menuOptions.Count; i++)
             {
-                Vector2 optionPosition = new Vector2(100, yOffset);
-                Color textColor = (i == selectedIndex) ? Color.Red : Color.White;
-
-                // Draw the option
-                spriteBatch.DrawString(_font, options[i], optionPosition, textColor);
+                Vector2 position = new Vector2(100, yOffset);
+                menuOptions[i].Draw(spriteBatch, null, i, position, menuNavigator.SelectedIndex);
 
                 if (currentPhase == SelectionPhase.Weapon)
                 {
-                    yOffset += _font.LineSpacing; // Move down after option
+                    yOffset += _font.LineSpacing;
                     var shotType = characters[selectedHeroine].ShotTypes[i];
-                    string focusedDescription = shotType.FocusedShot?.Description ?? "No description available";
-                    string unfocusedDescription = shotType.UnfocusedShot?.Description ?? "No description available";
+                    string focusedDesc = shotType.FocusedShot?.Description ?? "No description available";
+                    string unfocusedDesc = shotType.UnfocusedShot?.Description ?? "No description available";
 
-                    string wrappedFocusedDescription = WrapText(_font, focusedDescription, maxDescriptionWidth);
-                    string wrappedUnfocusedDescription = WrapText(_font, unfocusedDescription, maxDescriptionWidth);
-
-                    // Draw "Focused Shot" label at normal size
                     Vector2 focusedLabelPos = new Vector2(120, yOffset);
                     spriteBatch.DrawString(_font, "Focused Shot:", focusedLabelPos, Color.LightGray);
-                    yOffset += _font.LineSpacing; // Move down after label
+                    yOffset += _font.LineSpacing;
 
-                    // Draw wrapped description in smaller size
-                    Vector2 focusedShotPos = new Vector2(140, yOffset);
-                    spriteBatch.DrawString(_font, wrappedFocusedDescription, focusedShotPos, Color.LightGray, 0f, Vector2.Zero, descriptionScale, SpriteEffects.None, 0f);
-                    float wrappedFocusedHeight = _font.MeasureString(wrappedFocusedDescription).Y * descriptionScale;
-                    yOffset += wrappedFocusedHeight;
+                    Vector2 focusedDescPos = new Vector2(140, yOffset);
+                    spriteBatch.DrawString(_font, WrapText(_font, focusedDesc, maxDescriptionWidth), focusedDescPos, Color.LightGray, 0f, Vector2.Zero, descriptionScale, SpriteEffects.None, 0f);
+                    yOffset += _font.MeasureString(focusedDesc).Y * descriptionScale;
 
-                    // Draw "Unfocused Shot" label at normal size
-                    Vector2 unfocusedLabelPos = new Vector2(120, yOffset + 10); // Small gap
+                    Vector2 unfocusedLabelPos = new Vector2(120, yOffset + 10);
                     spriteBatch.DrawString(_font, "Unfocused Shot:", unfocusedLabelPos, Color.LightGray);
-                    yOffset += _font.LineSpacing + 10; // Move down after label
+                    yOffset += _font.LineSpacing + 10;
 
-                    // Draw wrapped description in smaller size
-                    Vector2 unfocusedShotPos = new Vector2(140, yOffset);
-                    spriteBatch.DrawString(_font, wrappedUnfocusedDescription, unfocusedShotPos, Color.LightGray, 0f, Vector2.Zero, descriptionScale, SpriteEffects.None, 0f);
-                    float wrappedUnfocusedHeight = _font.MeasureString(wrappedUnfocusedDescription).Y * descriptionScale;
+                    Vector2 unfocusedDescPos = new Vector2(140, yOffset);
+                    spriteBatch.DrawString(_font, WrapText(_font, unfocusedDesc, maxDescriptionWidth), unfocusedDescPos, Color.LightGray, 0f, Vector2.Zero, descriptionScale, SpriteEffects.None, 0f);
                 }
-                yOffset += 60; // Space between options
+
+                yOffset += 60;
             }
         }
-
-
 
         private string WrapText(SpriteFont font, string text, float maxLineWidth)
         {
@@ -235,21 +219,16 @@ namespace BulletHellGame.Presentation.Scenes
 
             foreach (var word in words)
             {
-                Vector2 wordSize = font.MeasureString(word);
-
-                // Check if adding the word would exceed the max width
-                if (lineWidth + wordSize.X > maxLineWidth)
+                Vector2 size = font.MeasureString(word);
+                if (lineWidth + size.X > maxLineWidth)
                 {
                     wrappedText.AppendLine();
                     lineWidth = 0f;
                 }
-
                 wrappedText.Append(word + " ");
-                lineWidth += wordSize.X + spaceWidth;
+                lineWidth += size.X + spaceWidth;
             }
-
             return wrappedText.ToString();
         }
-
     }
 }
