@@ -1,5 +1,7 @@
 ﻿using BulletHellGame.Logic.Managers;
+using BulletHellGame.Logic.Utilities;
 using System.IO;
+using System.Linq;
 
 namespace BulletHellGame
 {
@@ -48,6 +50,8 @@ namespace BulletHellGame
             // Create a 1x1 white pixel texture for fullscreen shader
             _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
             _whitePixel.SetData(new[] { Color.White });
+
+            TextureManager.Instance.Initialize(this.GraphicsDevice);
 
             base.Initialize();
         }
@@ -106,12 +110,28 @@ namespace BulletHellGame
             base.Draw(gameTime);
         }
 
-
         private void LoadFonts()
         {
-            // Loading fonts
-            FontManager.Instance.LoadFont(Content, "DFPPOPCorn-W12");
-            FontManager.Instance.LoadFont(Content, "Arial");
+            string projectRoot = AppContext.BaseDirectory;
+            string fontsPath = Path.Combine(projectRoot, "Content", "Fonts");
+
+            if (!Directory.Exists(fontsPath))
+            {
+                Console.WriteLine($"Error: Fonts directory not found: {fontsPath}");
+                return;
+            }
+
+            string[] fontFiles = Directory.GetFiles(fontsPath, "*.*")
+                                          .Where(file => file.EndsWith(".spritefont"))
+                                          .ToArray();
+
+            foreach (string fontFile in fontFiles)
+            {
+                // Extract filename without extension (MonoGame loads fonts by name, not file path)
+                string fontName = Path.GetFileNameWithoutExtension(fontFile);
+
+                FontManager.Instance.LoadFont(Content, fontName);
+            }
         }
 
         private void LoadTextures()
