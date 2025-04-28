@@ -1,4 +1,5 @@
-﻿using BulletHellGame.DataAccess.DataTransferObjects;
+﻿using BulletHellGame.DataAccess.DataLoaders;
+using BulletHellGame.DataAccess.DataTransferObjects;
 using BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerators;
 
 namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
@@ -12,6 +13,7 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator
 
         public static LevelData GenerateLevelData(Rectangle playableArea)
         {
+            //return LevelDataLoader.GetLevel("type");
             return LevelDataGenerator.GenerateLevelData(playableArea);
         }
 

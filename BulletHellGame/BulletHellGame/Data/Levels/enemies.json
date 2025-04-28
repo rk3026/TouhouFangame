@@ -1,0 +1,170 @@
+{
+  "grunt": {
+    "type": "grunt",
+    "sprite": "Fairy.Pink",
+    "health": 200,
+    "movementPattern": "sine_wave",
+    "shootingPattern": "",
+    "weapons": [ "laser" ],
+    "lootTable": "grunt"
+  },
+
+  "superGrunt": {
+    "type": "grunt",
+    "sprite": "Fairy.Pink",
+    "health": 1000,
+    "movementPattern": "random_walk",
+    "shootingPattern": "",
+    "weapons": [ "laser", "blast_explosive" ],
+    "lootTable": "boss"
+  },
+
+  "Cirno - Phase 1": {
+    "type": "grunt",
+    "sprite": "Cirno",
+    "health": 7000,
+    "movementPattern": "spiral_out",
+    "shootingPattern": "",
+    "weapons": [ "laser" ],
+    "lootTable": "boss"
+  },
+
+  "subBossPhase2": {
+    "type": "grunt",
+    "sprite": "Cirno",
+    "health": 30000,
+    "movementPattern": "spiral_in",
+    "shootingPattern": "",
+    "weapons": [ "laser" ],
+    "lootTable": "boss"
+  },
+
+  "fastGrunt": {
+    "type": "grunt",
+    "sprite": "Fairy.Blue",
+    "health": 180,
+    "movementPattern": "up_down",
+    "shootingPattern": "",
+    "weapons": [ "spray_standard" ],
+    "lootTable": "grunt"
+  },
+
+  "armoredGrunt": {
+    "type": "grunt",
+    "sprite": "Fairy.White",
+    "health": 800,
+    "movementPattern": "down_up",
+    "shootingPattern": "",
+    "weapons": [ "big_red_standard" ],
+    "lootTable": "grunt"
+  },
+
+  "sniperGrunt": {
+    "type": "grunt",
+    "sprite": "Fairy.Pink",
+    "health": 120,
+    "movementPattern": "diagonal_tl_br",
+    "shootingPattern": "",
+    "weapons": [ "orange_homing_shot" ],
+    "lootTable": "grunt"
+  },
+
+  "swarmGrunt": {
+    "type": "grunt",
+    "sprite": "Fairy.Blue",
+    "health": 600,
+    "movementPattern": "diagonal_tr_bl",
+    "shootingPattern": "",
+    "weapons": [ "diamond_teal_triple" ],
+    "lootTable": "grunt"
+  },
+
+  "shieldGrunt": {
+    "type": "grunt",
+    "sprite": "Fairy.White",
+    "health": 1500,
+    "movementPattern": "bounce",
+    "shootingPattern": "",
+    "weapons": [ "horizontal_homing" ],
+    "lootTable": "grunt"
+  },
+
+  "kamikazeGrunt": {
+    "type": "grunt",
+    "sprite": "Fairy.Pink",
+    "health": 500,
+    "movementPattern": "figure_eight",
+    "shootingPattern": "",
+    "weapons": [ "blast_explosive" ],
+    "lootTable": "grunt"
+  },
+
+  "heavyGrunt": {
+    "type": "grunt",
+    "sprite": "Fairy.Pink",
+    "health": 500,
+    "movementPattern": "sine_wave",
+    "shootingPattern": "",
+    "weapons": [ "blast_explosive" ],
+    "lootTable": "boss"
+  },
+
+  "subBoss": {
+    "type": "boss",
+    "phases": [ "Cirno - Phase 1", "superGrunt" ]
+  },
+
+  "goblinKingSubBoss": {
+    "type": "boss",
+    "phases": [ "fastGrunt", "sniperGrunt" ]
+  },
+
+  "iceQueenSubBoss": {
+    "type": "boss",
+    "phases": [ "shieldGrunt", "swarmGrunt" ]
+  },
+
+  "megaBoss": {
+    "type": "boss",
+    "phases": [ "heavyGrunt", "kamikazeGrunt", "superGrunt" ]
+  },
+
+  "Letty Whiterock - Phase 1": {
+    "type": "grunt",
+    "sprite": "LettyWhiterock",
+    "health": 10000,
+    "movementPattern": "spiral_out",
+    "shootingPattern": "",
+    "weapons": [ "spray_standard" ],
+    "lootTable": "boss"
+  },
+
+  "Letty Whiterock - Phase 2": {
+    "type": "grunt",
+    "sprite": "LettyWhiterock",
+    "health": 15000,
+    "movementPattern": "circular",
+    "shootingPattern": "",
+    "weapons": [ "horizontal_homing" ],
+    "lootTable": "boss"
+  },
+
+  "Letty Whiterock - Phase 3": {
+    "type": "grunt",
+    "sprite": "LettyWhiterock",
+    "health": 30000,
+    "movementPattern": "bounce",
+    "shootingPattern": "",
+    "weapons": [ "diamond_teal_triple" ],
+    "lootTable": "boss"
+  },
+
+  "LettyWhiterockBoss": {
+    "type": "boss",
+    "phases": [
+      "Letty Whiterock - Phase 1",
+      "Letty Whiterock - Phase 2",
+      "Letty Whiterock - Phase 3"
+    ]
+  }
+}

@@ -4,8 +4,8 @@ namespace BulletHellGame.Logic.Components
 {
     public class HealthComponent : IComponent
     {
-        public int MaxHealth { get; private set; } = 0;
-        public int CurrentHealth { get; private set; } = 0;
+        public int MaxHealth { get; set; } = 0;
+        public int CurrentHealth { get; set; } = 0;
 
         public HealthComponent(int health = 100) {
             MaxHealth = health;

@@ -1,0 +1,59 @@
+{
+  "1": {
+    "levelName": "Forest Edge",
+    "background": "forest.png",
+    "music": "adventure_theme.mp3",
+    "waveIds": [
+      "grunt",
+      "grunt",
+      "subBoss"
+    ]
+  },
+
+  "2": {
+    "levelName": "Forest Edge 2",
+    "background": "forest.png",
+    "music": "adventure_theme.mp3",
+    "waveIds": [
+      "grunt"
+    ]
+  },
+
+  "3": {
+    "levelName": "Cavern Depths",
+    "background": "cave.png",
+    "music": "dark_echoes.mp3",
+    "waveIds": [
+      "wave_rush",
+      "wave_mixedGrunt",
+      "wave_armoredWave",
+      "wave_sniperSquad",
+      "wave_goblinKing"
+    ]
+  },
+
+  "4": {
+    "levelName": "Icy Peak",
+    "background": "ice.png",
+    "music": "ice_theme.mp3",
+    "waveIds": [
+      "wave_fastWave",
+      "wave_sniperWave",
+      "wave_mixedGrunt",
+      "wave_iceQueen"
+    ]
+  },
+
+  "5": {
+    "levelName": "Fortress Summit",
+    "background": "clouds.png",
+    "music": "sky_guardians_theme.mp3",
+    "waveIds": [
+      "wave_rush",
+      "wave_fastWave",
+      "wave_armoredWave",
+      "wave_megaBoss",
+      "wave_lettyFinal"
+    ]
+  }
+}
