@@ -88,7 +88,6 @@ namespace BulletHellGame.Logic.Controllers
             var playerSpawner = entityManager.GetEntitiesWithComponents(typeof(OwnerComponent), typeof(ShootingComponent))
                 .FirstOrDefault(e =>
                     e.TryGetComponent<OwnerComponent>(out var owner) && owner.Owner == player);
-
             if (playerSpawner != null && playerSpawner.TryGetComponent<ShootingComponent>(out var spawnerShootingComponent))
             {
                 spawnerShootingComponent.SetWeapons(mainWeapons);
@@ -102,7 +101,6 @@ namespace BulletHellGame.Logic.Controllers
                     owner.Owner.TryGetComponent<OwnerComponent>(out var optionOwner) &&
                     optionOwner.Owner == player)
                 .ToList();
-
             for (int i = 0; i < optionSpawners.Count; i++)
             {
                 if (optionSpawners[i].TryGetComponent<ShootingComponent>(out var optionSpawnerComponent))

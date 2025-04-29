@@ -23,10 +23,7 @@
       ],
       "SideWeapons": [
         {
-          "Offset": {
-            "X": -20,
-            "Y": 0
-          },
+          "Offset": { "X": -20, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
           "FireRate": 0.5,
           "FireDirections": [
@@ -42,17 +39,11 @@
           }
         },
         {
-          "Offset": {
-            "X": 20,
-            "Y": 0
-          },
+          "Offset": { "X": 20, "Y": 0 },
           "SpriteName": "Reimu.YinYangOrb",
           "FireRate": 0.5,
           "FireDirections": [
-            {
-              "X": 0.2,
-              "Y": -3
-            }
+            { "X": 0.2, "Y": -3 }
           ],
           "BulletData": {
             "SpriteName": "Reimu.WhiteBullet",
@@ -71,7 +62,7 @@
           "FireDirections": [
             { "X": 0, "Y": -5 },
             { "X": -0.5, "Y": -5},
-            { "X": -0.5, "Y": -5}
+            { "X": 0.5, "Y": -5}
           ],
           "BulletData": {
             "SpriteName": "Reimu.OrangeBullet",

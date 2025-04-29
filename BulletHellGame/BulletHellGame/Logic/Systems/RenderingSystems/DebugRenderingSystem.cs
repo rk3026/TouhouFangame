@@ -39,10 +39,10 @@ namespace BulletHellGame.Logic.Systems.RenderingSystems
                     int outlineThickness = 2; // Set the thickness of the outline
 
                     // Draw the outline (four lines for the edges of the hitbox)
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, width, outlineThickness), Color.Cyan); // Top
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y + height - outlineThickness, width, outlineThickness), Color.LightPink); // Bottom
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, outlineThickness, height), Color.BlueViolet); // Left
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X + width - outlineThickness, (int)position.Y, outlineThickness, height), Color.Salmon); // Right
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, width, outlineThickness), Color.Red); // Top
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y + height - outlineThickness, width, outlineThickness), Color.Red); // Bottom
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, outlineThickness, height), Color.Red); // Left
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X + width - outlineThickness, (int)position.Y, outlineThickness, height), Color.Red); // Right
                 }
 
                 // Draw Health Bar
