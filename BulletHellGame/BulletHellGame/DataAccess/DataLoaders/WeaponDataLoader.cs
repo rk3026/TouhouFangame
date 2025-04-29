@@ -24,14 +24,12 @@ namespace BulletHellGame.DataAccess.DataLoaders
 
             weapon.BulletData = BulletDataLoader.GetBullet(weaponJson["bulletId"].Value<string>());
             weapon.FireRate = weaponJson["fireRate"].Value<float>();
-            weapon.MovementPattern = weaponJson["movementPattern"] is null ? string.Empty : weaponJson["movementPattern"].Value<string>();  
+            weapon.MovementPattern = weaponJson["movementPattern"] is null ? string.Empty : weaponJson["movementPattern"].Value<string>();
+            float startDelay = weaponJson["startDelay"] is null ? 0.0f : weaponJson["startDelay"].Value<float>();
 
-            foreach (var fireDirection in weaponJson["fireDirections"])
-            {
-                float x = fireDirection["x"].Value<float>();
-                float y = fireDirection["y"].Value<float>();
-                weapon.FireDirections.Add(new Vector2(x, y));
-            }
+            weapon.TimeSinceLastShot = (weapon.FireRate - startDelay);
+
+            weapon.FireDirections = BulletPatternLoader.GetPattern(weaponJson["bulletPattern"].Value<string>());
 
             return weapon;
         }

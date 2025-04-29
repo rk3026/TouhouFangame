@@ -78,7 +78,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                         if (i == j) continue; // Don't check the same hitbox
                         var hitboxA = hitboxes[i];
                         var hitboxB = hitboxes[j];
-                        if (hitboxA.Layer == hitboxB.Layer) continue; // Don't collide if on same layer
+                        if (hitboxA.Layer == hitboxB.Layer && !(hitboxA.Owner.HasComponent<PusherComponent>() && hitboxB.Owner.HasComponent<PushableComponent>())) continue; // Don't collide if on same layer
 
                         Vector2 hitAPos = hitboxA.Owner.GetComponent<PositionComponent>().Position;
                         Vector2 hitBPos = hitboxB.Owner.GetComponent<PositionComponent>().Position;
