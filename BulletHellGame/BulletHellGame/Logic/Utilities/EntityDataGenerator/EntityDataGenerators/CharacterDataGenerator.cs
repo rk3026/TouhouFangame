@@ -68,9 +68,9 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
                 giantCardWeapon.FireDirections = new List<Vector2>();
                 giantCardWeapon.TimeSinceLastShot = 0;
 
-                OptionData leftOption = CreateOption("Reimu.YinYangOrb", homingBullet, fireRate: 1f - i * 0.02f);
+                SpawnerData leftOption = CreateOption("Reimu.YinYangOrb", homingBullet, fireRate: 1f - i * 0.02f);
                 leftOption.Offset = new Vector2(-20, 0);
-                OptionData rightOption = CreateOption("Reimu.YinYangOrb", homingBullet, fireRate: 1f - i * 0.02f);
+                SpawnerData rightOption = CreateOption("Reimu.YinYangOrb", homingBullet, fireRate: 1f - i * 0.02f);
                 rightOption.Offset = new Vector2(20, 0);
 
                 if (i >= 0)
@@ -138,9 +138,9 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
                 WeaponData laserWeapon = new WeaponData { BulletData = laser, FireRate = Math.Max(minFireRate, maxFireRate - i * stepFireRate), FireDirections = new List<Vector2> { new Vector2(0, -5f) }, TimeSinceLastShot = 0 };
                 WeaponData rocketWeapon = new WeaponData { BulletData = rocket, FireRate = Math.Max(minFireRate, maxFireRate - i * stepFireRate), FireDirections = new List<Vector2>(), TimeSinceLastShot = 0 };
 
-                OptionData leftOption = CreateOption("Marisa.StarOption", rocket, fireRate: 1f - i * 0.02f);
+                SpawnerData leftOption = CreateOption("Marisa.StarOption", rocket, fireRate: 1f - i * 0.02f);
                 leftOption.Offset = new Vector2(-20, 0);
-                OptionData rightOption = CreateOption("Marisa.StarOption", rocket, fireRate: 1f - i * 0.02f);
+                SpawnerData rightOption = CreateOption("Marisa.StarOption", rocket, fireRate: 1f - i * 0.02f);
                 rightOption.Offset = new Vector2(20, 0);
 
                 if (i >= 0)
@@ -212,9 +212,9 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
 
                 WeaponData mainWeapon = new WeaponData { BulletData = pinkKnife, FireRate = Math.Max(minFireRate, maxFireRate - i * stepFireRate), FireDirections = new List<Vector2> { new Vector2(0, -4f) }, TimeSinceLastShot = 0 };
 
-                OptionData leftOption = CreateOption("Sakuya.Option", blueKnife, fireRate: 1f - i * 0.02f);
+                SpawnerData leftOption = CreateOption("Sakuya.Option", blueKnife, fireRate: 1f - i * 0.02f);
                 leftOption.Offset = new Vector2(-20, 0);
-                OptionData rightOption = CreateOption("Sakuya.Option", pinkKnife, fireRate: 1f - i * 0.02f);
+                SpawnerData rightOption = CreateOption("Sakuya.Option", pinkKnife, fireRate: 1f - i * 0.02f);
                 rightOption.Offset = new Vector2(20, 0);
 
                 if (i >= 0)
@@ -249,9 +249,66 @@ namespace BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerator
             return pd;
         }
 
-        public static OptionData CreateOption(string spriteName, BulletData bulletData, float fireRate)
+        public static CharacterData CreateEpicTestData()
         {
-            return new OptionData
+            CharacterData pd = new CharacterData
+            {
+                Name = "Sakuya Izayoi",
+                SpriteName = "Sakuya",
+                MovementSpeed = 6f,
+                FocusedSpeed = 2.5f,
+                Health = 1,
+                InitialLives = 3,
+                InitialBombs = 5,
+                ShotTypes = new List<ShotTypeData>()
+                {
+                    new ShotTypeData
+                    {
+                        Name = "Test",
+                        UnfocusedShot = new ShotData { PowerLevels = new Dictionary<int, PowerLevelData>() },
+                        FocusedShot = new ShotData { PowerLevels = new Dictionary<int, PowerLevelData>() }
+                    }
+                }
+            };
+
+            // Bullet data for large bullets
+            BulletData largeBullet = new BulletData
+            {
+                Damage = 100, // Set the damage as desired
+                BulletType = BulletType.Standard,
+                SpriteName = "LargeBullet.Red", // You can change to Blue, Green, or Yellow as needed
+                RotationSpeed = 0f
+            };
+
+            // Weapon data for straight firing
+            WeaponData mainWeapon = new WeaponData
+            {
+                BulletData = largeBullet,
+                FireRate = 0.2f, // Set the fire rate as desired
+                FireDirections = new List<Vector2> { new Vector2(0, -5f) }, // Straight ahead
+                TimeSinceLastShot = 0
+            };
+
+            // Iterate over all possible power levels (0 to 8) and set the same weapon for each level
+            for (int i = 0; i <= 8; i++)
+            {
+                PowerLevelData focusedPld = new PowerLevelData();
+                focusedPld.MainWeapons.Add(mainWeapon);
+                pd.ShotTypes.First().FocusedShot.PowerLevels[i] = focusedPld;
+
+                PowerLevelData unfocusedPld = new PowerLevelData();
+                unfocusedPld.MainWeapons.Add(mainWeapon);
+                pd.ShotTypes.First().UnfocusedShot.PowerLevels[i] = unfocusedPld;
+            }
+
+            return pd;
+        }
+
+
+
+        public static SpawnerData CreateOption(string spriteName, BulletData bulletData, float fireRate)
+        {
+            return new SpawnerData
             {
                 SpriteName = spriteName,
                 Weapons = new List<WeaponData>

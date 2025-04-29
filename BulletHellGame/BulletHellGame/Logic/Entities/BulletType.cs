@@ -5,5 +5,7 @@
         Standard,
         Homing,
         Explosive,
+        Bouncy,
+        Laser,
     }
 }

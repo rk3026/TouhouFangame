@@ -27,23 +27,17 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/DFPPOPCorn-W12.spritefont
 
-#begin Fonts/TouhouFontWhite.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Fonts/TouhouFontWhite.png
-
 #begin Music/01. Ghostly Dream ~ Snow or Cherry Petal.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/01. Ghostly Dream ~ Snow or Cherry Petal.mp3
+
+#begin Music/AlanWalker_Fade.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/AlanWalker_Fade.mp3
 
 #begin Music/CallToAdventure1.wav
 /importer:WavImporter
@@ -51,11 +45,11 @@
 /processorParam:Quality=Best
 /build:Music/CallToAdventure1.wav
 
-#begin Music/DeathDeservioli.mp3
+#begin Music/CheerfulHeart_Victory.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Music/DeathDeservioli.mp3
+/build:Music/CheerfulHeart_Victory.mp3
 
 #begin Music/広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3
 /importer:Mp3Importer
@@ -98,6 +92,24 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Shaders/MagicAura_Shader.fx
+
+#begin Sounds/menu_back.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/menu_back.wav
+
+#begin Sounds/menu_move.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/menu_move.wav
+
+#begin Sounds/menu_select.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/menu_select.wav
 
 #begin Sounds/se_bonus.wav
 /importer:WavImporter
@@ -320,6 +332,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Characters/Reimu/ReimuIdle1.png
+
+#begin Sprites/CirnoFumo.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/CirnoFumo.png
 
 #begin Sprites/Enemies/GenericEnemy1Idle1.png
 /importer:TextureImporter

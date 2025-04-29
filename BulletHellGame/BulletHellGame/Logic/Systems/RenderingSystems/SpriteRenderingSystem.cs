@@ -2,7 +2,6 @@
 using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Systems;
 
 namespace BulletHellGame.Logic.Systems.RenderingSystems
 {
@@ -26,24 +25,22 @@ namespace BulletHellGame.Logic.Systems.RenderingSystems
                     entity.TryGetComponent<VelocityComponent>(out var vc))
                 {
                     SpriteData spriteData = sc.SpriteData;
-                    if (vc.Velocity.X > 0)
-                    {
-                        sc.SpriteEffect = SpriteEffects.FlipHorizontally;
-                    }
-                    else if (vc.Velocity.X < 0)
-                    {
-                        sc.SpriteEffect = SpriteEffects.None;
-                    }
 
                     // Switch animations based on movement
-                    if (vc.Velocity.LengthSquared() > 0)
+                    if (Math.Abs(vc.Velocity.X) > 1f)
                     {
                         sc.SwitchAnimation("MoveLeft", false);
+
+                        if (vc.Velocity.X > 0)
+                            sc.SpriteEffect = SpriteEffects.FlipHorizontally;
+                        else if (vc.Velocity.X < 0)
+                            sc.SpriteEffect = SpriteEffects.None;
                     }
                     else
                     {
                         sc.SwitchAnimation("Idle");
                     }
+
 
                     Vector2 spritePosition = new Vector2(pc.Position.X, pc.Position.Y);
 

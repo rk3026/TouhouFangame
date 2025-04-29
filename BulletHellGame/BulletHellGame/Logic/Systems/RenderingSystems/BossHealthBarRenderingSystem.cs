@@ -1,6 +1,5 @@
 ﻿using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Systems;
 
 namespace BulletHellGame.Logic.Systems.RenderingSystems
 {
@@ -11,7 +10,7 @@ namespace BulletHellGame.Logic.Systems.RenderingSystems
         private GraphicsDevice _graphicsDevice;
         private Texture2D _barTexture;
         private float _displayedHealthPercent = 0f;
-        private float _fillSpeed = 1.0f; // Controls the speed of the fill-up effect
+        private float _fillSpeed = 1.0f; // Controls the GAME_SPEED of the fill-up effect
         private SpriteFont _font;
 
         public BossHealthBarRenderingSystem(GraphicsDevice gd)
@@ -51,7 +50,7 @@ namespace BulletHellGame.Logic.Systems.RenderingSystems
                 spriteBatch.Draw(_barTexture, new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthBarWidth, healthBarHeight), foregroundColor);
 
                 // Draw Phase Text next to the health bar
-                string phaseText = $"Phase: {phaseComponent.CurrentPhase + 1}/{phaseComponent.Phases.Count}";
+                string phaseText = $"{phaseComponent.Phases[phaseComponent.CurrentPhase].Name}({phaseComponent.CurrentPhase + 1}/{phaseComponent.Phases.Count})";
                 Vector2 phaseTextPosition = new Vector2(bounds.X + offset, healthBarPosition.Y + healthBarHeight + 5);
                 spriteBatch.DrawString(_font, phaseText, phaseTextPosition, Color.White);
             }

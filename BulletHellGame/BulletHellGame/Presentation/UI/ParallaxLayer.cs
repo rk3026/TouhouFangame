@@ -1,4 +1,6 @@
-﻿namespace BulletHellGame.Presentation.UI
+﻿using Assimp;
+
+namespace BulletHellGame.Presentation.UI
 {
     public class ParallaxLayer
     {
@@ -17,54 +19,62 @@
             _scrollOffset = 0f;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, SpriteEffects se = SpriteEffects.None)
         {
-            _scrollOffset += _speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float direction = 1f;
+            if ((se & SpriteEffects.FlipVertically) != 0)
+                direction = -1f;
 
-            // Wrap the scroll offset properly for both directions
+            _scrollOffset += direction * _speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            // Wrap the scroll offset for both directions
             if (_scrollOffset >= _sourceRect.Height)
                 _scrollOffset -= _sourceRect.Height;
             else if (_scrollOffset <= -_sourceRect.Height)
                 _scrollOffset += _sourceRect.Height;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteEffects screenFlip = SpriteEffects.None)
         {
             // Handle negative offset correctly
             int topClippedAmount = (int)(_scrollOffset % _sourceRect.Height);
             if (topClippedAmount < 0)
                 topClippedAmount += _sourceRect.Height;
 
-            // Calculate the vertical starting position to ensure tiles align properly
-            int startY = _parallaxArea.Top - topClippedAmount;
+            float startY = _parallaxArea.Top - topClippedAmount;
+            bool flipVertically = (screenFlip & SpriteEffects.FlipVertically) != 0;
 
-            // Iterate through the tiles and clip the top and bottom edges
             for (int i = 0; i <= _parallaxArea.Height / _sourceRect.Height + 1; i++)
             {
-                int tileY = startY + i * _sourceRect.Height;
+                float tileY = startY + i * _sourceRect.Height;
 
                 // Calculate the visible part of the tile that fits inside the parallax area
-                int visibleTop = Math.Max(_parallaxArea.Top, tileY);
-                int visibleBottom = Math.Min(_parallaxArea.Bottom, tileY + _sourceRect.Height);
+                int visibleTop = (int)Math.Max(_parallaxArea.Top, tileY);
+                int visibleBottom = (int)Math.Min(_parallaxArea.Bottom, tileY + _sourceRect.Height);
                 int visibleHeight = visibleBottom - visibleTop;
 
-                if (visibleHeight > 0) // Only draw if part of the tile is visible
+                if (visibleHeight > 0)
                 {
-                    // Calculate the source rectangle to only draw the visible part of the tile
-                    int sourceY = _sourceRect.Y + (visibleTop - tileY);
+                    int sourceY = _sourceRect.Y + (visibleTop - (int)tileY);
                     Rectangle clippedSourceRect = new Rectangle(_sourceRect.X, sourceY, _sourceRect.Width, visibleHeight);
 
-                    // Calculate the destination rectangle to align with the parallax area
-                    Rectangle destinationRect = new Rectangle(
-                        _parallaxArea.Left,
-                        visibleTop,
-                        _parallaxArea.Width,
-                        visibleHeight
-                    );
+                    Rectangle destinationRect;
 
-                    spriteBatch.Draw(_texture, destinationRect, clippedSourceRect, Color.White);
+                    if (flipVertically)
+                    {
+                        // Flip vertically: draw from the bottom up
+                        int flippedY = _parallaxArea.Bottom - (visibleTop - _parallaxArea.Top) - visibleHeight;
+                        destinationRect = new Rectangle(_parallaxArea.Left, flippedY, _parallaxArea.Width, visibleHeight);
+                    }
+                    else
+                    {
+                        destinationRect = new Rectangle(_parallaxArea.Left, visibleTop, _parallaxArea.Width, visibleHeight);
+                    }
+
+                    spriteBatch.Draw(_texture, destinationRect, clippedSourceRect, Color.White, 0f, Vector2.Zero, screenFlip, 0f);
                 }
             }
         }
+
     }
 }

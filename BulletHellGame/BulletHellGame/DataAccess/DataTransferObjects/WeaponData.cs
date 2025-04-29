@@ -1,4 +1,6 @@
-﻿namespace BulletHellGame.DataAccess.DataTransferObjects
+﻿using BulletHellGame.Logic.Components;
+
+namespace BulletHellGame.DataAccess.DataTransferObjects
 {
     public class WeaponData
     {
@@ -6,7 +8,8 @@
         public float FireRate { get; set; }
         public float TimeSinceLastShot { get; set; }
 
-        public List<Vector2> FireDirections { get; set; }
+        public List<Vector2> FireDirections { get; set; } = new();
 
+        public string MovementPattern { get; set; } = string.Empty;
     }
 }

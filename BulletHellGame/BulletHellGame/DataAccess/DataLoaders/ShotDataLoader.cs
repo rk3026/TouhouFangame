@@ -37,7 +37,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
                             .Select(ParseWeapon).ToList(),
                         Options = level.TryGetProperty("SideWeapons", out JsonElement sideWeapons)
                             ? sideWeapons.EnumerateArray().Select(ParseOption).ToList()
-                            : new List<OptionData>()
+                            : new List<SpawnerData>()
                     };
                 }
 
@@ -87,12 +87,10 @@ namespace BulletHellGame.DataAccess.DataLoaders
             };
         }
 
-        private static OptionData ParseOption(JsonElement optionElement)
+        private static SpawnerData ParseOption(JsonElement optionElement)
         {
-            return new OptionData
+            return new SpawnerData
             {
-                SpriteName = optionElement.GetProperty("SpriteName").GetString(),
-                Offset = ParseVector2(optionElement.GetProperty("Offset")),
                 Weapons = new List<WeaponData>
                 {
                     new WeaponData
@@ -102,7 +100,9 @@ namespace BulletHellGame.DataAccess.DataLoaders
                             .Select(ParseVector2).ToList(),
                         BulletData = ParseBullet(optionElement.GetProperty("BulletData"))
                     }
-                }
+                },
+                SpriteName = optionElement.GetProperty("SpriteName").GetString(),
+                Offset = ParseVector2(optionElement.GetProperty("Offset"))
             };
         }
 

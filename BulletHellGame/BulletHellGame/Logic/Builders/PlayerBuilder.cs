@@ -3,6 +3,7 @@ using BulletHellGame.Logic.Controllers;
 using BulletHellGame.Logic.Managers;
 using System.Linq;
 using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Strategies.CollisionStrategies;
 
 namespace BulletHellGame.Logic.Builders
 {
@@ -54,7 +55,7 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(new PlayerStatsComponent(_entityData.InitialLives, _entityData.InitialBombs));
         }
 
-        public override void BuildInput()
+        public override void BuildController()
         {
             _entity.AddComponent(new ControllerComponent(new PlayerController()));
         }
@@ -86,25 +87,21 @@ namespace BulletHellGame.Logic.Builders
             _entity.AddComponent(plc);
         }
 
-        public override void BuildShooting()
-        {
-            if (_entityData.ShotTypes.First().UnfocusedShot.PowerLevels.ContainsKey(0))
-            {
-                List<WeaponData> weapons = new List<WeaponData>();
-                foreach (var weapon in _entityData.ShotTypes.First().UnfocusedShot.PowerLevels[0].MainWeapons)
-                {
-                    weapons.Add(weapon);
-                }
-                ShootingComponent sc = new ShootingComponent(weapons);
-                _entity.AddComponent(sc);
-            }
-        }
-
         public override void BuildHitbox()
         {
-            HitboxComponent hc = new HitboxComponent(_entity, 2);
+            HitboxComponent hc = new HitboxComponent(_entity, HitboxLayer.PlayerAndPlayerBullets);
             hc.Hitbox = new Vector2(4, 4);
             _entity.AddComponent(hc);
+        }
+
+        public override void BuildCollisionStrategy()
+        {
+            _entity.AddComponent(new CollisionStrategyComponent(new PlayerCollisionStrategy()));
+        }
+
+        public override void BuildBombing()
+        {
+            _entity.AddComponent(new BombingComponent(_entityData.InitialBombs, 3f));
         }
     }
 }

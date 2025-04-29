@@ -17,7 +17,6 @@ namespace BulletHellGame.Logic.Controllers
                   entity.TryGetComponent<VelocityComponent>(out var vc) &&
                   entity.TryGetComponent<SpriteComponent>(out var sc) &&
                   entity.TryGetComponent<SpeedComponent>(out var speedComponent) &&
-                  entity.TryGetComponent<ShootingComponent>(out var shootingComponent) &&
                   entity.TryGetComponent<PowerLevelComponent>(out var powerLevelComponent) &&
                   entity.TryGetComponent<PlayerStatsComponent>(out var psc)))
             {
@@ -34,23 +33,37 @@ namespace BulletHellGame.Logic.Controllers
             if (direction.LengthSquared() > 0)
                 direction.Normalize();
 
-            // Adjust speed if focused
+            // Adjust GAME_SPEED if focused
             bool isFocused = inputManager.ActionDown(GameAction.Slow);
             float currentSpeed = isFocused ? speedComponent.FocusedSpeed : speedComponent.Speed;
-            vc.Velocity = direction * currentSpeed;
+            Vector2 proposedVelocity = direction * currentSpeed;
 
-            // Clamp position to stay in bounds
+            // Calculate predicted position
+            Vector2 predictedPosition = pc.Position + proposedVelocity;
+
+            var bounds = entityManager.Bounds;
             float halfWidth = sc.CurrentFrame.Width / 2f;
             float halfHeight = sc.CurrentFrame.Height / 2f;
-            pc.Position = new Vector2(
-                Math.Clamp(pc.Position.X, entityManager.Bounds.Left + halfWidth, entityManager.Bounds.Right - halfWidth),
-                Math.Clamp(pc.Position.Y, entityManager.Bounds.Top + halfHeight, entityManager.Bounds.Bottom - halfHeight)
-            );
+
+            // Clamp velocity based on predicted position
+            if (predictedPosition.X - halfWidth < bounds.Left || predictedPosition.X + halfWidth > bounds.Right)
+            {
+                proposedVelocity.X = 0;
+            }
+            if (predictedPosition.Y - halfHeight < bounds.Top || predictedPosition.Y + halfHeight > bounds.Bottom)
+            {
+                proposedVelocity.Y = 0;
+            }
+
+            vc.Velocity = proposedVelocity;
 
             // Shooting input
-            shootingComponent.IsShooting = inputManager.ActionDown(GameAction.Shoot);
+            this.IsShooting = inputManager.ActionDown(GameAction.Shoot);
+            this.IsBombing = inputManager.ActionDown(GameAction.Bomb);
+            this.IsMoving = direction.LengthSquared() > 0;
+            this.Direction = (float)Math.Atan2(direction.Y, direction.X);
 
-            // Option switching logic
+            // Power level switching logic
             UpdateShootingModes(entity, entityManager, isFocused, psc, powerLevelComponent);
         }
 
@@ -69,25 +82,31 @@ namespace BulletHellGame.Logic.Controllers
                 ? plc.FocusedPowerLevels[currentPowerLevel].Options
                 : plc.UnfocusedPowerLevels.ContainsKey(currentPowerLevel)
                     ? plc.UnfocusedPowerLevels[currentPowerLevel].Options
-                    : new List<OptionData>(); // Default to empty list if not found
+                    : new List<SpawnerData>(); // Default to empty list if not found
 
-            // Update the player's shooting component
-            if (player.TryGetComponent<ShootingComponent>(out var playerShooting))
+            // Find the player's spawner and update its weapons
+            var playerSpawner = entityManager.GetEntitiesWithComponents(typeof(OwnerComponent), typeof(ShootingComponent))
+                .FirstOrDefault(e =>
+                    e.TryGetComponent<OwnerComponent>(out var owner) && owner.Owner == player);
+            if (playerSpawner != null && playerSpawner.TryGetComponent<ShootingComponent>(out var spawnerShootingComponent))
             {
-                playerShooting.SetWeapons(mainWeapons);
+                spawnerShootingComponent.SetWeapons(mainWeapons);
             }
 
-            // Get all options owned by the player
-            List<Entity> options = entityManager.GetEntitiesWithComponents(typeof(OwnerComponent), typeof(ShootingComponent))
-                .Where(option => option.TryGetComponent<OwnerComponent>(out var owner) && owner.Owner == player)
+            // Find all option spawners (spawners whose owner is an option of the player)
+            var optionSpawners = entityManager.GetEntitiesWithComponents(typeof(OwnerComponent), typeof(ShootingComponent))
+                .Where(e =>
+                    e.TryGetComponent<OwnerComponent>(out var owner) &&
+                    owner.Owner != null &&
+                    owner.Owner.TryGetComponent<OwnerComponent>(out var optionOwner) &&
+                    optionOwner.Owner == player)
                 .ToList();
-
-            for (int i = 0; i < options.Count; i++)
+            for (int i = 0; i < optionSpawners.Count; i++)
             {
-                if (options[i].TryGetComponent<ShootingComponent>(out var optionShooting))
+                if (optionSpawners[i].TryGetComponent<ShootingComponent>(out var optionSpawnerComponent))
                 {
                     List<WeaponData> optionWeaponData = i < optionWeapons.Count ? optionWeapons[i].Weapons : new List<WeaponData>();
-                    optionShooting.SetWeapons(optionWeaponData);
+                    optionSpawnerComponent.SetWeapons(optionWeaponData);
                 }
             }
         }

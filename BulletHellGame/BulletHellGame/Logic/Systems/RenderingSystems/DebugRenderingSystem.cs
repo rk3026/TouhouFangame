@@ -1,7 +1,7 @@
-﻿using BulletHellGame.Logic.Components;
+﻿using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Systems;
 
 namespace BulletHellGame.Logic.Systems.RenderingSystems
 {
@@ -39,10 +39,10 @@ namespace BulletHellGame.Logic.Systems.RenderingSystems
                     int outlineThickness = 2; // Set the thickness of the outline
 
                     // Draw the outline (four lines for the edges of the hitbox)
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, width, outlineThickness), Color.Cyan); // Top
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y + height - outlineThickness, width, outlineThickness), Color.LightPink); // Bottom
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, outlineThickness, height), Color.BlueViolet); // Left
-                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X + width - outlineThickness, (int)position.Y, outlineThickness, height), Color.Salmon); // Right
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, width, outlineThickness), Color.Red); // Top
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y + height - outlineThickness, width, outlineThickness), Color.Red); // Bottom
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X, (int)position.Y, outlineThickness, height), Color.Red); // Left
+                    spriteBatch.Draw(_pixel, new Rectangle((int)position.X + width - outlineThickness, (int)position.Y, outlineThickness, height), Color.Red); // Right
                 }
 
                 // Draw Health Bar
@@ -73,6 +73,29 @@ namespace BulletHellGame.Logic.Systems.RenderingSystems
                                                            filledWidth,
                                                            healthBarHeight), Color.Green);
                 }
+
+                // Draw spawners
+                if (entity.TryGetComponent<PositionComponent>(out var psc) &&
+                    entity.TryGetComponent<ShootingComponent>(out var shc))
+                {
+                    var spritePosition = pc.Position;
+                    var texture = TextureManager.Instance.GetPixelTexture(Color.LightGoldenrodYellow, 10, 10);
+
+                    Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f); // center of 10x10 = (5,5)
+
+                    spriteBatch.Draw(
+                        texture,
+                        spritePosition,
+                        null, // full texture
+                        Color.White, // or sc.Color if you want custom color
+                        0f,          // no rotation
+                        origin,      // center it
+                        1f,          // normal scale
+                        Microsoft.Xna.Framework.Graphics.SpriteEffects.None,
+                        0f
+                    );
+                }
+
             }
         }
     }

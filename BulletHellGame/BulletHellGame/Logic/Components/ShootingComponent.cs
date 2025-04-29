@@ -4,8 +4,6 @@ namespace BulletHellGame.Logic.Components
 {
     public class ShootingComponent : IComponent
     {
-        public bool IsShooting { get; set; } = false;
-
         public List<WeaponData> Weapons { get; private set; } = new List<WeaponData>();
 
         // Stores cooldowns per weapon
@@ -25,7 +23,7 @@ namespace BulletHellGame.Logic.Components
             {
                 if (!WeaponCooldowns.ContainsKey(weapon))
                 {
-                    WeaponCooldowns[weapon] = 0f; // Start with no cooldown
+                    WeaponCooldowns[weapon] = weapon.TimeSinceLastShot; // Start with no cooldown
                 }
             }
         }

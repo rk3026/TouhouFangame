@@ -1,6 +1,7 @@
 ﻿using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Managers;
 using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Strategies.CollisionStrategies;
 
 namespace BulletHellGame.Logic.Builders
 {
@@ -47,7 +48,7 @@ namespace BulletHellGame.Logic.Builders
             SpriteComponent sprite = _entity.GetComponent<SpriteComponent>();
             if (sprite != null)
             {
-                HitboxComponent hitbox = new HitboxComponent(_entity, 3)
+                HitboxComponent hitbox = new HitboxComponent(_entity, HitboxLayer.Collectibles)
                 {
                     Hitbox = new Vector2(sprite.CurrentFrame.Width, sprite.CurrentFrame.Height)
                 };
@@ -58,6 +59,11 @@ namespace BulletHellGame.Logic.Builders
         public override void BuildDespawn()
         {
             _entity.AddComponent(new DespawnComponent());
+        }
+
+        public override void BuildCollisionStrategy()
+        {
+            _entity.AddComponent(new CollisionStrategyComponent(new CollectibleCollisionStrategy()));
         }
     }
 }

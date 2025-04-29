@@ -11,6 +11,9 @@
         <ApplicationIcon>Icon.ico</ApplicationIcon>
     </PropertyGroup>
     <ItemGroup>
+        <None Remove="Content\Fonts\Arial.spritefont" />
+        <None Remove="Content\Fonts\DFPPOPCorn-W12.spritefont" />
+        <None Remove="Content\Fonts\DFPPOPCorn-W12.ttf" />
         <None Remove="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3" />
         <None Remove="Content\Music\激戦アレンジ 有頂天変  wonderful heaven 東方緋想天.mp3" />
         <None Remove="Content\Music\紅魔激走劇  Everlasting....mp3" />
@@ -20,6 +23,13 @@
         <None Remove="Data\Characters\Sakuya.json" />
         <None Remove="Data\EnemyData.json" />
         <None Remove="Data\level1.json" />
+        <None Remove="Data\Levels\bulletPatterns.jason" />
+        <None Remove="Data\Levels\bullets.json" />
+        <None Remove="Data\Levels\enemies.json" />
+        <None Remove="Data\Levels\levels.json" />
+        <None Remove="Data\Levels\loots.json" />
+        <None Remove="Data\Levels\waves.json" />
+        <None Remove="Data\Levels\weapons.json" />
         <None Remove="Data\Shots\Extermination.json" />
         <None Remove="Data\Shots\HakureiAmulet.json" />
         <None Remove="Data\Shots\HomingAmulet.json" />
@@ -49,6 +59,15 @@
         <None Remove="Icon.bmp" />
     </ItemGroup>
     <ItemGroup>
+      <Content Include="Content\Fonts\Arial.spritefont">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Fonts\DFPPOPCorn-W12.spritefont">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Fonts\DFPPOPCorn-W12.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Content\Music\広有射怪鳥事Till When原曲広有射怪鳥事Till When.mp3">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
@@ -73,7 +92,25 @@
       <Content Include="Data\Enemies\EnemyData.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <Content Include="Data\Levels\bulletPatterns.jason">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Levels\bullets.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Levels\enemies.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Data\Levels\level1.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Levels\loots.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Levels\waves.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Levels\weapons.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\Shots\Extermination.json">
@@ -209,5 +246,10 @@
     </ItemGroup>
     <ItemGroup>
       <None Include="D:\Desktop\cpts_487\BulletHellGame\BulletHellGame\Presentation\Scenes\.editorconfig" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="Data\Levels\levels.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 </Project>

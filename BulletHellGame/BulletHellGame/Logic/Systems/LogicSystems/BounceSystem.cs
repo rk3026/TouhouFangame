@@ -1,6 +1,5 @@
 ﻿using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Systems;
 
 namespace BulletHellGame.Logic.Systems.LogicSystems
 {
@@ -14,6 +13,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                     entity.TryGetComponent<PositionComponent>(out var pc) &&
                     entity.TryGetComponent<VelocityComponent>(out var vc))
                 {
+
                     if (!bc.CanBounce) continue;
                     if (!entityManager.Bounds.Contains(pc.Position))
                     {
@@ -24,6 +24,12 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                         if (pc.Position.X < entityManager.Bounds.Left || pc.Position.X > entityManager.Bounds.Right)
                         {
                             vc.Velocity = new Vector2(-vc.Velocity.X, vc.Velocity.Y);
+                        }
+                        // Decrease the bounce count:
+                        bc.BounceCount--;
+                        if (bc.BounceCount <= 0)
+                        {
+                            entityManager.QueueEntityForRemoval(entity);
                         }
                     }
                 }

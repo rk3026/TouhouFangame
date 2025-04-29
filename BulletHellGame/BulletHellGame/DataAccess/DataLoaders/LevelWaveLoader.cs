@@ -1,5 +1,6 @@
 using System.IO;
 using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerators;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -12,70 +13,48 @@ namespace BulletHellGame.DataAccess.DataLoaders
      * Wave 4: Grunt fights with additional complexity
      * Wave 5: Final boss which can spawn grunts in its path
      */
-    public class LevelWaveLoader
+    public static class LevelWaveLoader
     {
-        private static LevelWaveLoader _instance;
-        public static LevelWaveLoader Instance => _instance ??= new LevelWaveLoader();
+        const string WAVE_JSON_PATH = "./Data/Levels/waves.json";
 
-        private Dictionary<string, LevelData> _levels;
-
-        private LevelWaveLoader()
+        private static IEnemyData GetEnemyData(string type)
         {
-            _levels = new Dictionary<string, LevelData>();
-            LoadLevels();
+            return EnemyDataLoader.GetEnemy(type);
         }
 
-        private void LoadLevels()
+        public static WaveData GetWave(string waveId, Rectangle playableArea)
         {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/Levels/level1.json");
-            string json = File.ReadAllText(filePath);
+            var waveJson = JsonUtility.LoadJson(WAVE_JSON_PATH)[waveId];
 
-            // Deserialize the levels from the JSON file
-            var levelJson = JObject.Parse(json);
+            WaveData wave = new WaveData();
 
-            LevelData levelData = new LevelData
+            wave.StartTime = waveJson["startTime"].Value<float>();
+            wave.Duration = waveJson["duration"].Value<float>();
+            wave.WaveType = Enum.Parse<WaveType>(waveJson["waveType"].Value<string>());
+
+            List<EnemySpawnData> enemies = new List<EnemySpawnData>();
+            foreach(var enemyJson in waveJson["enemySpawnData"])
             {
-                Waves = new List<WaveData>()
-            };
-
-            foreach (var wave in levelJson["waves"])
-            {
-                WaveData waveData = new WaveData
+                enemies.Add(new EnemySpawnData
                 {
-                    SpawnTime = wave["spawn_time"].Value<float>(),
-                    Formation = wave["formation"].Value<string>(),
-                    Enemies = new List<EnemySpawnData>()
-                };
-
-                foreach (var enemy in wave["enemies"])
-                {
-                    waveData.Enemies.Add(new EnemySpawnData
-                    {
-                        Type = enemy["type"].Value<string>(), // TODO: Switch to EnemyDataLoader.cs which will reference EnemyData.json in Data Directory
-                        SpawnPosition = new Vector2(enemy["spawn_position"]["x"].Value<float>(), enemy["spawn_position"]["y"].Value<float>()),
-                        Health = enemy["health"].Value<int>()
-                    });
-                }
-
-                levelData.Waves.Add(waveData);
+                    EnemyData = GetEnemyData(enemyJson["type"].Value<string>()),
+                    SpawnTime = enemyJson["spawnTime"].Value<float>(),
+                    ExitTime = enemyJson["exitTime"].Value<float>(),
+                    SpawnPosition = new Vector2(
+                        enemyJson["x"].Value<float>() * playableArea.Width,
+                        enemyJson["y"].Value<float>() * playableArea.Height
+                    )
+                });
             }
 
-            // Cache the level data for reuse
-            _levels[levelJson["level_name"].Value<string>()] = levelData;
+            wave.Enemies = enemies;
+
+            //Enum.Parse<WaveType>("Normal");
+
+            return wave;
         }
 
-        // Retrieve a level by name
-        public LevelData GetLevel(string levelName)
-        {
-            if (_levels.ContainsKey(levelName))
-            {
-                return _levels[levelName];
-            }
-            else
-            {
-                Console.WriteLine($"Level '{levelName}' not found");
-                return null;
-            }
-        }
+
+
     }
 }

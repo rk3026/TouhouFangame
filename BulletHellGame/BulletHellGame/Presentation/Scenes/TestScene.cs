@@ -17,7 +17,7 @@ namespace BulletHellGame.Presentation.Scenes
         private ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
 
-        // Sprite/Texture Assets:
+        // SpriteName/Texture Assets:
         private SpriteData _sidebarBackground;
         private SpriteData _stageBackground;
         private SpriteData _bush1Sprite;
@@ -37,6 +37,7 @@ namespace BulletHellGame.Presentation.Scenes
         private CharacterData _characterData;
 
         public bool IsOverlay => false;
+        public bool IsMenu => false;
 
         public TestScene(ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {

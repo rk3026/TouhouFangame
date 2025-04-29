@@ -1,100 +1,100 @@
 ﻿using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Systems;
 
 namespace BulletHellGame.Logic.Systems.LogicSystems
 {
     public class HealthSystem : ILogicSystem
     {
+        private const float LootSpreadRadius = 8f;
+        private readonly Vector2 lootVelocity = new Vector2(0, 1);
+
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
             var entitiesToRemove = new List<Entity>();
 
             foreach (var entity in entityManager.GetEntitiesWithComponents(typeof(HealthComponent)))
             {
-                if (entity.TryGetComponent<HealthComponent>(out var healthComponent))
+                if (entity.TryGetComponent<HealthComponent>(out var health))
                 {
-                    HandleEntityHealth(entityManager, entity, healthComponent, entitiesToRemove);
+                    ProcessHealth(entityManager, entity, health, entitiesToRemove);
                 }
             }
 
-            // After iterating, remove entities that should be destroyed (stops the list was modified error)
             foreach (var entity in entitiesToRemove)
             {
                 entityManager.QueueEntityForRemoval(entity);
             }
         }
 
-        private void HandleEntityHealth(EntityManager entityManager, Entity entity, HealthComponent healthComponent, List<Entity> entitiesToRemove)
+        private void ProcessHealth(EntityManager entityManager, Entity entity, HealthComponent health, List<Entity> entitiesToRemove)
         {
-            if (healthComponent.CurrentHealth <= 0)
+            if (health.CurrentHealth > 0)
+                return;
+
+            if (entity.TryGetComponent<BossPhaseComponent>(out var bossPhase))
             {
-                if (entity.TryGetComponent<BossPhaseComponent>(out var bossPhase))
-                {
-                    HandleBossPhase(entity, healthComponent, bossPhase, entitiesToRemove);
-                }
-                else
-                {
-                    HandleLootDrop(entityManager, entity);
-                    entitiesToRemove.Add(entity);
-                }
-            }
-        }
-
-        private const float LOOT_SPREAD_RADIUS = 8f; // Maximum distance from enemy center
-        private Vector2 lootVelocity = new Vector2(0,1);
-        private void HandleLootDrop(EntityManager entityManager, Entity entity)
-        {
-            if (entity.TryGetComponent<LootComponent>(out var lc) &&
-                entity.TryGetComponent<PositionComponent>(out var pc))
-            {
-                Random rng = new Random();
-
-                foreach (var lootData in lc.Loot)
-                {
-                    // Random offset for loot position
-                    float offsetX = (float)(rng.NextDouble() * 2 * LOOT_SPREAD_RADIUS - LOOT_SPREAD_RADIUS);
-                    float offsetY = (float)(rng.NextDouble() * 2 * LOOT_SPREAD_RADIUS - LOOT_SPREAD_RADIUS);
-                    Vector2 lootPosition = pc.Position + new Vector2(offsetX, offsetY);
-
-                    entityManager.SpawnCollectible(lootData, lootPosition, lootVelocity);
-                }
-            }
-        }
-
-        private void HandleBossPhase(Entity entity, HealthComponent healthComponent, BossPhaseComponent bossPhase, List<Entity> entitiesToRemove)
-        {
-            if (bossPhase.AdvancePhase())
-            {
-                // Reset stats for the new phase
-                ResetBossStats(entity, healthComponent, bossPhase);
+                HandleBossPhase(entityManager, entity, health, bossPhase, entitiesToRemove);
             }
             else
             {
-                // No more phases left, remove the boss
+                DropLoot(entityManager, entity);
                 entitiesToRemove.Add(entity);
             }
         }
 
-        private void ResetBossStats(Entity entity, HealthComponent healthComponent, BossPhaseComponent bossPhase)
+        private void HandleBossPhase(EntityManager entityManager, Entity entity, HealthComponent health, BossPhaseComponent phase, List<Entity> entitiesToRemove)
         {
-            var newPhaseData = bossPhase.GetCurrentPhaseData();
+            if (phase.AdvancePhase())
+            {
+                ResetBossForNewPhase(entityManager, entity, health, phase);
+            }
+            else
+            {
+                entitiesToRemove.Add(entity);
+            }
+        }
+
+        private void ResetBossForNewPhase(EntityManager entityManager, Entity boss, HealthComponent health, BossPhaseComponent phase)
+        {
+            var data = phase.GetCurrentPhaseData();
+
+            health.MaxHealth = data.Health;
 
             // Reset health
-            healthComponent.Heal(newPhaseData.Health);
+            health.Heal(data.Health);
 
-            // Reset sprite
-            var spriteComponent = entity.GetComponent<SpriteComponent>();
-            spriteComponent.SpriteData = TextureManager.Instance.GetSpriteData(newPhaseData.SpriteName);
+            // Reset visual and movement
+            boss.GetComponent<SpriteComponent>().SpriteData = TextureManager.Instance.GetSpriteData(data.SpriteName);
+            boss.GetComponent<MovementPatternComponent>().PatternData = MovementPatternManager.Instance.GetPattern(data.MovementPattern);
 
-            // Reset movement pattern
-            var movementPatternComponent = entity.GetComponent<MovementPatternComponent>();
-            movementPatternComponent.PatternData = MovementPatternManager.Instance.GetPattern(newPhaseData.MovementPattern);
+            // Update weapons on owned spawner entities
+            foreach (var spawner in entityManager.GetEntitiesWithComponents(typeof(ShootingComponent), typeof(OwnerComponent)))
+            {
+                var ownerComponent = spawner.GetComponent<OwnerComponent>();
+                if (ownerComponent.Owner == boss)
+                {
+                    spawner.GetComponent<ShootingComponent>().SetWeapons(data.Weapons);
+                }
+            }
+        }
 
-            // Reset weapon stats
-            var shootingComponent = entity.GetComponent<ShootingComponent>();
-            shootingComponent.SetWeapons(newPhaseData.Weapons);
+        private void DropLoot(EntityManager entityManager, Entity entity)
+        {
+            if (!entity.TryGetComponent<LootComponent>(out var loot) ||
+                !entity.TryGetComponent<PositionComponent>(out var position))
+                return;
+
+            var rng = new Random();
+            foreach (var item in loot.Loot)
+            {
+                var offset = new Vector2(
+                    (float)(rng.NextDouble() * 2 * LootSpreadRadius - LootSpreadRadius),
+                    (float)(rng.NextDouble() * 2 * LootSpreadRadius - LootSpreadRadius)
+                );
+
+                entityManager.SpawnCollectible(item, position.Position + offset, lootVelocity);
+            }
         }
     }
 }

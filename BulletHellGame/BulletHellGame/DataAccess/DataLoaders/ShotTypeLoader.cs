@@ -6,7 +6,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
 {
     public class ShotTypeLoader
     {
-        private static string SHOT_TYPES_PATH = "Data/ShotTypes"; // Folder containing shot type JSONs
+        private static string SHOT_TYPES_PATH = "Data/ShotTypes"; // Folder containing shot id JSONs
 
         public static ShotTypeData LoadShotTypes(string shotTypeName)
         {
@@ -14,7 +14,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
 
             if (!File.Exists(shotTypeFilePath))
             {
-                throw new FileNotFoundException($"Shot type file not found: {shotTypeFilePath}");
+                throw new FileNotFoundException($"Shot id file not found: {shotTypeFilePath}");
             }
 
             string json = File.ReadAllText(shotTypeFilePath);

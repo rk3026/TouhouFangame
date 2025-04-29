@@ -15,6 +15,7 @@ namespace BulletHellGame.Presentation.Scenes
         private CharacterData _characterData;
 
         public bool IsOverlay => true;
+        public bool IsMenu => true;
 
         public WinScene(Rectangle menuLocation, ContentManager contentManager, GraphicsDevice graphicsDevice, CharacterData characterData)
         {
@@ -27,7 +28,7 @@ namespace BulletHellGame.Presentation.Scenes
         public void Load()
         {
             FontManager.Instance.LoadFont(_contentManager, "DFPPOPCorn-W12");
-            BGMManager.Instance.PlayBGM(_contentManager, "CallToAdventure1");
+            BGMManager.Instance.PlayBGM(_contentManager, "CheerfulHeart_Victory");
 
             // Create a 1x1 white pixel texture for the _stageBackground
             whitePixel = new Texture2D(_graphicsDevice, 1, 1);

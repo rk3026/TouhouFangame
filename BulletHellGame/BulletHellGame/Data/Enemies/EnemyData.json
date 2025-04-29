@@ -1,42 +1,24 @@
 {
   "enemies": [
     {
-      "id": "EnemyTypeA",
-      "name": "Fairy",
-      "sprite": "fairy_sprite.png",
-      "audio": {
-        "hit_sound": "enemy_hit.wav",
-        "death_sound": "enemy_death.wav"
-      },
-      "loot": [
-        {
-          "item_type": "collectible",
-          "item_id": "small_heal"
-        }
-      ],
-      "default_attributes": {
-        "health": 10,
-        "speed": 2
-      }
+      "id": "0",
+      "spriteName": "Fairy.White",
+      "health": 25,
+      "movement_pattern": "zigzag",
+      "loot_table": [
+        { "collectible_type": "PowerUp", "drop_rate": 0.5 },
+        { "collectible_type": "PointItem", "drop_rate": 0.3 }
+      ]
     },
     {
-      "id": "EnemyTypeB",
-      "name": "Bat",
-      "sprite": "bat_sprite.png",
-      "audio": {
-        "hit_sound": "bat_hit.wav",
-        "death_sound": "bat_death.wav"
-      },
-      "loot": [
-        {
-          "item_type": "collectible",
-          "item_id": "mana_orb"
-        }
-      ],
-      "default_attributes": {
-        "health": 20,
-        "speed": 3
-      }
+      "id": "1",
+      "spriteName": "Fairy.Green",
+      "health": 50,
+      "movement_pattern": "circular",
+      "loot_table": [
+        { "collectible_type": "OneUp", "drop_rate": 0.2 },
+        { "collectible_type": "Bomb", "drop_rate": 0.4 }
+      ]
     }
   ]
 }

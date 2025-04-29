@@ -6,7 +6,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
 {
     public class InvincibilitySystem : ILogicSystem
     {
-        private const float FlickerInterval = 0.1f;  // Controls flicker speed (in seconds)
+        private const float FlickerInterval = 0.1f;  // Controls flicker GAME_SPEED (in seconds)
 
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
@@ -14,6 +14,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             {
                 var invincibility = entity.GetComponent<InvincibilityComponent>();
                 invincibility.RemainingTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                invincibility.RemainingTime = Math.Max(0f, invincibility.RemainingTime);
 
                 if (entity.TryGetComponent<SpriteComponent>(out var sprite))
                 {

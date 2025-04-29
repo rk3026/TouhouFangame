@@ -2,8 +2,12 @@
   // Level 1
   "Level1.Background": { "Default": [ { "X": 32, "Y": 314, "Width": 257, "Height": 255 } ] },
   "Level1.Bush1": { "Default": [ { "X": 292, "Y": 332, "Width": 106, "Height": 108 } ] },
-  "Level1.Bush2": { "Default": [ { "X": 427, "Y": 323, "Width": 107, "Height": 108 } ] }
+  "Level1.Bush2": { "Default": [ { "X": 427, "Y": 323, "Width": 107, "Height": 108 } ] },
 
   // Level 2
+  "Level2.Background": { "Default": [ { "X": 576, "Y": 313, "Width": 257, "Height": 255 } ] },
+  "Level2.Bush1": { "Default": [ { "X": 836, "Y": 332, "Width": 106, "Height": 108 } ] },
+  "Level2.Bush2": { "Default": [ { "X": 971, "Y": 323, "Width": 107, "Height": 108 } ] }
+
   // Level 3
 }

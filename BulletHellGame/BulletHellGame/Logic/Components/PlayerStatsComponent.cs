@@ -6,7 +6,6 @@
         public int CherryPoints { get; set; }
         public int CherryPlus { get; set; }
         public int Lives { get; set; }
-        public int Bombs { get; set; }
         public float Power { get; set; }
         public int CurrentPowerLevel { get; set; }
 
@@ -16,7 +15,6 @@
             CherryPoints = 0;
             CherryPlus = 0;
             Lives = initialLives;
-            Bombs = initialBombs;
             Power = 0;
         }
     }

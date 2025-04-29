@@ -1,7 +1,6 @@
 ﻿using BulletHellGame.Logic.Components;
 using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Systems;
 
 namespace BulletHellGame.Logic.Systems.LogicSystems
 {
@@ -23,7 +22,10 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                     Entity currentTarget = hc.CurrentTarget;
 
                     // Check if current target is valid or find a new one
-                    if (currentTarget == null || !currentTarget.IsActive || !IsWithinRange(pc.Position, currentTarget.GetComponent<PositionComponent>().Position, hc.HomingRange))
+                    if (currentTarget == null ||
+                        !currentTarget.IsActive ||
+                        !IsWithinRange(pc.Position, currentTarget.GetComponent<PositionComponent>().Position, hc.HomingRange) ||
+                        currentTarget.TryGetComponent<InvincibilityComponent>(out var invincibility) && invincibility.RemainingTime > 0)
                     {
                         currentTarget = FindNewTarget(entityManager, hbc.Layer, pc.Position, hc.HomingRange);
                         hc.CurrentTarget = currentTarget;
@@ -38,11 +40,13 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
             }
         }
 
-        private Entity FindNewTarget(EntityManager entityManager, int layer, Vector2 bulletPosition, float homingRange)
+        private Entity FindNewTarget(EntityManager entityManager, HitboxLayer layer, Vector2 bulletPosition, float homingRange)
         {
             List<Entity> potentialTargets = new List<Entity>();
             foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(HitboxComponent)))
             {
+                if (entity.TryGetComponent<InvincibilityComponent>(out var invincibility) && invincibility.RemainingTime > 0) continue; // Don't home on invincible things
+
                 if (entity.TryGetComponent<HitboxComponent>(out  var hbc) && entity.TryGetComponent<HealthComponent>(out var hc))
                 {
                     if (hbc.Layer == layer) continue;
@@ -91,10 +95,20 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                 homingComponent.HomingStrength * (float)gameTime.ElapsedGameTime.TotalSeconds
             );
 
-            // Clamp to maximum speed
+            // Clamp to maximum GAME_SPEED
             if (velocityComponent.Velocity.LengthSquared() > homingComponent.MaxHomingSpeed * homingComponent.MaxHomingSpeed)
             {
                 velocityComponent.Velocity = Vector2.Normalize(velocityComponent.Velocity) * homingComponent.MaxHomingSpeed;
+            }
+
+            // Rotate the sprite to face the target
+            if (bullet.TryGetComponent<SpriteComponent>(out var spriteComponent))
+            {
+                // Calculate the angle to the target
+                float angle = MathF.Atan2(directionToTarget.Y, directionToTarget.X);
+
+                // Update the sprite's rotation
+                spriteComponent.CurrentRotation = angle;
             }
         }
     }

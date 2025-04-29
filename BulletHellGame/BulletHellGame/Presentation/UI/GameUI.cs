@@ -44,16 +44,17 @@ namespace BulletHellGame.Presentation.UI
             position.Y += 20;
 
             // Display Player Stats
-            foreach (Entity player in _entityManager.GetEntitiesWithComponents(typeof(PlayerStatsComponent)))
+            foreach (Entity player in _entityManager.GetEntitiesWithComponents(typeof(PlayerStatsComponent), typeof(BombingComponent)))
             {
                 var stats = player.GetComponent<PlayerStatsComponent>();
+                var bomb = player.GetComponent<BombingComponent>();
                 if (stats != null)
                 {
                     spriteBatch.DrawString(_font, $"Score: {stats.Score}", position, Color.White);
                     position.Y += 20;
                     spriteBatch.DrawString(_font, $"Lives: {stats.Lives}", position, Color.White);
                     position.Y += 20;
-                    spriteBatch.DrawString(_font, $"Bombs: {stats.Bombs}", position, Color.White);
+                    spriteBatch.DrawString(_font, $"Bombs: {bomb.BombCount}", position, Color.White);
                     position.Y += 20;
                     spriteBatch.DrawString(_font, $"Power: {stats.Power}", position, Color.White);
                     position.Y += 20;

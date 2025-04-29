@@ -12,38 +12,45 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
 
             foreach (var entity in entityManager.GetEntitiesWithComponents(typeof(ShootingComponent), typeof(PositionComponent)))
             {
-                var shooting = entity.GetComponent<ShootingComponent>();
-                var position = entity.GetComponent<PositionComponent>();
-
-                // Update cooldowns for each weapon
-                foreach (var weapon in shooting.Weapons)
+                if (entity.TryGetComponent<ShootingComponent>(out var sc) &&
+                    entity.TryGetComponent<PositionComponent>(out var pc) &&
+                    entity.TryGetComponent<ControllerComponent>(out var cc))
                 {
-                    if (shooting.WeaponCooldowns.ContainsKey(weapon))
+
+                    // Update cooldowns for each weapon
+                    foreach (var weapon in sc.Weapons)
                     {
-                        shooting.WeaponCooldowns[weapon] += deltaTime;
+                        if (sc.WeaponCooldowns.ContainsKey(weapon))
+                        {
+                            sc.WeaponCooldowns[weapon] += deltaTime;
+                        }
                     }
+
+                    // Determine bullet layer (player or enemy)
+                    HitboxLayer bulletLayer = GetBulletLayer(entity);
+                    if (!cc.Controller.IsShooting)
+                        continue;
+
+                    // Fire bullets for all available weapons that are off cooldown
+                    FireBullets(entityManager, entity, sc, pc.Position, bulletLayer);
                 }
-
-                // Determine bullet layer (player or enemy)
-                int bulletLayer = GetBulletLayer(entity);
-                if (!shooting.IsShooting)
-                    continue;
-
-                // Fire bullets for all available weapons that are off cooldown
-                FireBullets(entityManager, entity, shooting, position.Position, bulletLayer);
             }
         }
 
-        private int GetBulletLayer(Entity entity)
+        private HitboxLayer GetBulletLayer(Entity entity)
         {
             if (entity.TryGetComponent<HitboxComponent>(out var hc))
             {
                 return hc.Layer;
             }
-            else return 2; // Default to player layer
+            else if (entity.TryGetComponent<OwnerComponent>(out var oc) && oc.Owner.TryGetComponent<HitboxComponent>(out hc))
+            {
+                return hc.Layer;
+            }
+            else return HitboxLayer.PlayerAndPlayerBullets; // Default to player layer
         }
 
-        private void FireBullets(EntityManager entityManager, Entity owner, ShootingComponent shooting, Vector2 spawnPosition, int bulletLayer)
+        private void FireBullets(EntityManager entityManager, Entity owner, ShootingComponent shooting, Vector2 spawnPosition, HitboxLayer bulletLayer)
         {
             foreach (var weapon in shooting.Weapons)
             {

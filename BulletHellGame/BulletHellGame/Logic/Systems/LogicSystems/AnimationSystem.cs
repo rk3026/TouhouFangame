@@ -1,6 +1,6 @@
-﻿using BulletHellGame.Logic.Entities;
+﻿using BulletHellGame.Logic.Components;
+using BulletHellGame.Logic.Entities;
 using BulletHellGame.Logic.Managers;
-using BulletHellGame.Logic.Systems;
 
 namespace BulletHellGame.Logic.Systems.LogicSystems
 {
@@ -8,9 +8,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
     {
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
-            var entitiesWithSpriteComponent = entityManager.GetEntitiesWithComponents(typeof(SpriteComponent));
-
-            foreach (Entity entity in entitiesWithSpriteComponent)
+            foreach (Entity entity in entityManager.GetEntitiesWithComponents(typeof(SpriteComponent)))
             {
                 if (entity.TryGetComponent<SpriteComponent>(out var sc))
                 {
@@ -32,7 +30,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                     if (sc._currentAnimation == null || !sc.SpriteData.Animations.ContainsKey(sc._currentAnimation))
                     {
                         // No animation to update
-                        return;
+                        continue;
                     }
 
                     if (sc.SpriteData.Animations[sc._currentAnimation].Count > 1)

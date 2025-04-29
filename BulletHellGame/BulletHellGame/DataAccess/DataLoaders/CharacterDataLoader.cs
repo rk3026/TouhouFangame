@@ -7,7 +7,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
     public class CharacterDataLoader
     {
         private static string CHARACTERS_PATH = "Data/Characters"; // Folder containing character JSONs
-        private static string SHOT_TYPES_PATH = "Data/ShotTypes"; // Folder containing shot type JSONs
+        private static string SHOT_TYPES_PATH = "Data/ShotTypes"; // Folder containing shot id JSONs
 
         public static CharacterData LoadCharacterData(string characterName)
         {

@@ -1,71 +1,315 @@
 {
-  "zigzag": [
-    {
-      "time": 0,
-      "velocity": {
-        "x": 0,
-        "y": 0.25
+
+    "none": [],
+    "spawner_updown": [
+      {
+        "time": 0.0,
+        "velocity": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "time": 0.1,
+        "velocity": {
+          "x": 0,
+          "y": -1
+        }
+      },
+       {
+        "time": 0.2,
+        "velocity": {
+          "x": 0,
+          "y": 1
+        }
       }
-    },
-    {
-      "time": 0.5,
-      "velocity": {
-        "x": 1,
-        "y": 0
-      }
-    },
-    {
-      "time": 1,
-      "velocity": {
-        "x": -1,
-        "y": -0.25
-      }
-    }
-  ],
-  "circular": [
-    {
-      "time": 0,
-      "velocity": {
-        "x": 1,
-        "y": 1
-      }
-    },
-    {
-      "time": 0.5,
-      "velocity": {
-        "x": -1,
-        "y": 1
-      }
-    },
-    {
-      "time": 1,
-      "velocity": {
-        "x": -1,
-        "y": -1
-      }
-    },
-    {
-      "time": 1.5,
-      "velocity": {
-        "x": 1,
-        "y": -1
-      }
-    }
-  ],
-  "left_right": [
-    {
-      "time": 0,
-      "velocity": {
-        "x": 1,
-        "y": 0
-      }
-    },
-    {
-      "time": 1,
-      "velocity": {
-        "x": -1,
-        "y": 0
-      }
-    }
-  ]
+    ],
+    "down_up": [
+        {
+            "time": 0.0,
+            "velocity": {
+                "x": 0,
+                "y": 1
+            }
+        },
+        {
+            "time": 1.0,
+            "velocity": {
+                "x": 0,
+                "y": -1
+            }
+        }
+    ],
+
+    "up_down": [
+        {
+            "time": 0.0,
+            "velocity": {
+                "x": 0,
+                "y": -1
+            }
+        },
+        {
+            "time": 1.0,
+            "velocity": {
+                "x": 0,
+                "y": 1
+            }
+        }
+    ],
+
+    "diagonal_tl_br": [
+        {
+            "time": 0.0,
+            "velocity": {
+                "x": -1,
+                "y": -1
+            }
+        },
+        {
+            "time": 1.0,
+            "velocity": {
+                "x": 1,
+                "y": 1
+            }
+        }
+    ],
+
+    "diagonal_tr_bl": [
+        {
+            "time": 0.0,
+            "velocity": {
+                "x": 1,
+                "y": -1
+            }
+        },
+        {
+            "time": 1.0,
+            "velocity": {
+                "x": -1,
+                "y": 1
+            }
+        }
+    ],
+
+    "spiral_out": [
+        {
+            "time": 0.0,
+            "velocity": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        {
+            "time": 0.5,
+            "velocity": {
+                "x": 0.2,
+                "y": 0.8
+            }
+        },
+        {
+            "time": 1.0,
+            "velocity": {
+                "x": 0.8,
+                "y": 0.2
+            }
+        },
+        {
+            "time": 1.5,
+            "velocity": {
+                "x": -0.2,
+                "y": -0.8
+            }
+        },
+        {
+            "time": 2.0,
+            "velocity": {
+                "x": -0.8,
+                "y": -0.2
+            }
+        }
+    ],
+
+    "spiral_in": [
+        {
+            "time": 0.0,
+            "velocity": {
+                "x": -0.8,
+                "y": -0.2
+            }
+        },
+        {
+            "time": 0.5,
+            "velocity": {
+                "x": -0.2,
+                "y": -0.8
+            }
+        },
+        {
+            "time": 1.0,
+            "velocity": {
+                "x": 0.2,
+                "y": 0.8
+            }
+        },
+        {
+            "time": 1.5,
+            "velocity": {
+                "x": 0.8,
+                "y": 0.2
+            }
+        },
+        {
+            "time": 2.0,
+            "velocity": {
+                "x": 0,
+                "y": 0
+            }
+        }
+    ],
+
+    "sine_wave": [
+        {
+            "time": 0.0,
+            "velocity": {
+                "x": 1,
+                "y": 0
+            }
+        },
+        {
+            "time": 0.5,
+            "velocity": {
+                "x": 1,
+                "y": 1
+            }
+        },
+        {
+            "time": 1.0,
+            "velocity": {
+                "x": 1,
+                "y": 0
+            }
+        },
+        {
+            "time": 1.5,
+            "velocity": {
+                "x": 1,
+                "y": -1
+            }
+        },
+        {
+            "time": 2.0,
+            "velocity": {
+                "x": 1,
+                "y": 0
+            }
+        }
+    ],
+
+    "bounce": [
+        {
+            "time": 0.0,
+            "velocity": {
+                "x": 1,
+                "y": 1
+            }
+        },
+        {
+            "time": 0.5,
+            "velocity": {
+                "x": -1,
+                "y": 1
+            }
+        },
+        {
+            "time": 1.0,
+            "velocity": {
+                "x": -1,
+                "y": -1
+            }
+        },
+        {
+            "time": 1.5,
+            "velocity": {
+                "x": 1,
+                "y": -1
+            }
+        },
+        {
+            "time": 2.0,
+            "velocity": {
+                "x": 1,
+                "y": 1
+            }
+        }
+    ],
+
+    "figure_eight": [
+        {
+            "time": 0.0,
+            "velocity": {
+                "x": 1,
+                "y": 0
+            }
+        },
+        {
+            "time": 0.5,
+            "velocity": {
+                "x": 0,
+                "y": 1
+            }
+        },
+        {
+            "time": 1.0,
+            "velocity": {
+                "x": -1,
+                "y": 0
+            }
+        },
+        {
+            "time": 1.5,
+            "velocity": {
+                "x": 0,
+                "y": -1
+            }
+        },
+        {
+            "time": 2.0,
+            "velocity": {
+                "x": 1,
+                "y": 0
+            }
+        }
+    ],
+
+    "random_walk": [
+        {
+            "time": 0.0,
+            "velocity": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "time": 0.3,
+            "velocity": {
+                "x": -0.4,
+                "y": 0.2
+            }
+        },
+        {
+            "time": 0.6,
+            "velocity": {
+                "x": 0.7,
+                "y": -0.3
+            }
+        },
+        {
+            "time": 1.0,
+            "velocity": {
+                "x": -0.6,
+                "y": -0.6
+            }
+        }
+    ]
 }
