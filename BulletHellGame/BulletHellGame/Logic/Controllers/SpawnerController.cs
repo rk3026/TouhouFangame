@@ -13,14 +13,9 @@ namespace BulletHellGame.Logic.Controllers
 
             this.IsShooting = oc.Owner.GetComponent<ControllerComponent>().Controller.IsShooting; // Only able to shoot if its owner is
 
-            var ownerComponent = entity.GetComponent<OwnerComponent>();
-            var positionComponent = entity.GetComponent<PositionComponent>();
-            var velocityComponent = entity.GetComponent<VelocityComponent>();
+            var pc = entity.GetComponent<PositionComponent>();
+            var vc = entity.GetComponent<VelocityComponent>();
 
-            if (ownerComponent.Owner.TryGetComponent<PositionComponent>(out var ownerPos))
-            {
-                positionComponent.Position = ownerPos.Position + ownerComponent.Offset;
-            }
         }
     }
 }

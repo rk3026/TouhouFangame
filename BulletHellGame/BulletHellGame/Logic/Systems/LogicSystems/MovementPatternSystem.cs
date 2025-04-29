@@ -14,6 +14,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                     entity.TryGetComponent<PositionComponent>(out var pc))
                 {
                     if (mpc.PatternData == null) continue;
+
                     // Update the movement pattern
                     mpc.TimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -25,6 +26,12 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                             vc.Velocity = currentStep.Velocity;
                             mpc.TimeElapsed = 0f;
                             mpc.CurrentStepIndex++;
+                            if (mpc.CurrentStepIndex >= mpc.PatternData.Count)
+                            {
+                                // Reset the pattern if all steps have been completed
+                                mpc.CurrentStepIndex = 0;
+                                mpc.TimeElapsed = 0f;
+                            }
                         }
                     }
                 }

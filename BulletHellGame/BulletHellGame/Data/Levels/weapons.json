@@ -2,7 +2,7 @@
   "Boss1Weapon1": {
     "bulletId": "bullet",
     "fireRate": 3,
-    "movementPattern": "figure_eight",
+    "movementPattern": "spawner_updown",
     "fireDirections": [
       {
         "x": 1.0,

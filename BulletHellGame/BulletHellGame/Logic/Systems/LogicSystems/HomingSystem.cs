@@ -95,7 +95,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
                 homingComponent.HomingStrength * (float)gameTime.ElapsedGameTime.TotalSeconds
             );
 
-            // Clamp to maximum speed
+            // Clamp to maximum GAME_SPEED
             if (velocityComponent.Velocity.LengthSquared() > homingComponent.MaxHomingSpeed * homingComponent.MaxHomingSpeed)
             {
                 velocityComponent.Velocity = Vector2.Normalize(velocityComponent.Velocity) * homingComponent.MaxHomingSpeed;
