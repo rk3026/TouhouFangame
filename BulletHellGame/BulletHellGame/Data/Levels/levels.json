@@ -4,10 +4,10 @@
         "background": "forest.png",
         "music": "adventure_theme.mp3",
         "waveIds": [
-            "Boss1",
-            "Boss2",
-            "Boss3",
-            "Boss4"
+            "grunt",
+            "grunt",
+            "grunt",
+            "Boss1"
         ]
     },
 

@@ -1,4 +1,16 @@
 {
+    "w1": {
+        "bulletId": "singlecircle_green_bouncy",
+        "fireRate": 3,
+        "movementPattern": "none",
+        "bulletPattern": "down5"
+    },
+    "w2": {
+        "bulletId": "diamond_teal_standardH",
+        "fireRate": 1,
+        "movementPattern": "none",
+        "bulletPattern": "down"
+    },
     "Boss1Weapon1": {
         "bulletId": "bullet",
         "fireRate": 3,

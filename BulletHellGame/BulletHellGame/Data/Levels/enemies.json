@@ -1,7 +1,7 @@
 {
     "Boss1": {
         "type": "boss",
-        "phases": [ "Boss1P1" ]
+        "phases": [ "Boss1P1", "Boss1P2" ]
     },
     "Boss2": {
         "type": "boss",
@@ -18,10 +18,19 @@
     "Boss1P1": {
         "type": "grunt",
         "sprite": "Chen",
-        "health": 2000,
-        "movementPattern": "none",
+        "health": 3000,
+        "movementPattern": "figure_eight",
         "shootingPattern": "",
         "weapons": [ "Boss1Weapon1", "Boss1Weapon2", "Boss1Weapon3", "Boss1Weapon4", "Boss1Weapon5" ],
+        "lootTable": "grunt"
+    },
+    "Boss1P2": {
+        "type": "grunt",
+        "sprite": "Chen",
+        "health": 6000,
+        "movementPattern": "none",
+        "shootingPattern": "",
+        "weapons": [ "w1", "w2"],
         "lootTable": "grunt"
     },
     "Boss2P1": {
