@@ -19,7 +19,7 @@
         "type": "grunt",
         "sprite": "Chen",
         "health": 2000,
-        "movementPattern": "figure_eight",
+        "movementPattern": "none",
         "shootingPattern": "",
         "weapons": [ "Boss1Weapon1", "Boss1Weapon2", "Boss1Weapon3", "Boss1Weapon4", "Boss1Weapon5" ],
         "lootTable": "grunt"

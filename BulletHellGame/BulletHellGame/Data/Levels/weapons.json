@@ -2,28 +2,28 @@
     "Boss1Weapon1": {
         "bulletId": "bullet",
         "fireRate": 3,
-        "movementPattern": "circular",
+        "movementPattern": "spawner_updown",
         "bulletPattern": "circle50"
     },
     "Boss1Weapon2": {
         "bulletId": "bullet",
         "fireRate": 3,
         "startDelay": 0.3,
-        "movementPattern": "circular",
+        "movementPattern": "spawner_updown",
         "bulletPattern": "circle50"
     },
     "Boss1Weapon3": {
         "bulletId": "bullet",
         "fireRate": 3,
         "startDelay": 0.6,
-        "movementPattern": "circular",
+        "movementPattern": "spawner_updown",
         "bulletPattern": "circle50"
     },
     "Boss1Weapon4": {
         "bulletId": "bullet",
         "fireRate": 3,
         "startDelay": 0.9,
-        "movementPattern": "circular",
+        "movementPattern": "spawner_updown",
         "bulletPattern": "circle50"
     },
     "Boss1Weapon5": {
