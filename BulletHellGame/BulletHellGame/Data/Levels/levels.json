@@ -11,7 +11,7 @@
         ]
     },
 
-    "1": {
+    "2": {
         "levelName": "Forest Edge",
         "background": "forest.png",
         "music": "adventure_theme.mp3",
@@ -25,7 +25,7 @@
       ]
     },
 
-    "2": {
+    "3": {
         "levelName": "Forest Edge 2",
         "background": "forest.png",
         "music": "adventure_theme.mp3",
@@ -40,7 +40,7 @@
       ]
     },
 
-    "3": {
+    "4": {
         "levelName": "Cavern Depths",
         "background": "cave.png",
         "music": "dark_echoes.mp3",
@@ -54,7 +54,7 @@
         ]
     },
 
-    "4": {
+    "5": {
         "levelName": "Icy Peak",
         "background": "ice.png",
         "music": "ice_theme.mp3",
@@ -68,7 +68,7 @@
       ]
     },
 
-    "5": {
+    "6": {
         "levelName": "Fortress Summit",
         "background": "clouds.png",
         "music": "sky_guardians_theme.mp3",
