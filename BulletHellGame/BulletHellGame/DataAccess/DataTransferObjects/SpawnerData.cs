@@ -8,15 +8,17 @@ namespace BulletHellGame.DataAccess.DataTransferObjects
         public Entity Owner { get; set; }
         public string SpriteName { get; set; }
         public Vector2 Offset { get; set; }
+        public string MovementPattern { get; set; } = string.Empty;
 
         public SpawnerData() { }
 
-        public SpawnerData(List<WeaponData> weapons, Entity owner, string spriteName)
+        public SpawnerData(List<WeaponData> weapons, Entity owner, string spriteName, string movementPattern)
         {
             Weapons = weapons;
             Owner = owner;
             SpriteName = spriteName;
             Offset = Vector2.Zero;
+            MovementPattern = movementPattern;
         }
     }
 }

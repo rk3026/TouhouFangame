@@ -144,7 +144,7 @@ namespace BulletHellGame.Logic.Managers
                 bullet = _bulletBuilder.GetResult();
                 bullet.AddComponent(new OwnerComponent(owner));
                 bullet.GetComponent<HitboxComponent>().Layer = layer;
-                bullet.GetComponent<SpriteComponent>().CurrentRotation = (float)Math.Atan2(velocity.Y, velocity.X)+(float)Math.PI/2;
+                bullet.GetComponent<SpriteComponent>().CurrentRotation = (float)Math.Atan2(velocity.Y, velocity.X) + (float)Math.PI / 2;
             }
 
             SpawnEntity(EntityType.Bullet, bullet, position, velocity);
@@ -162,11 +162,16 @@ namespace BulletHellGame.Logic.Managers
             // Create a spawner for the enemy's weapons
             if (enemyData.Weapons != null && enemyData.Weapons.Count > 0)
             {
-                SpawnerData enemySpawnerData = new SpawnerData(enemyData.Weapons, enemy, string.Empty);
-                _spawnerBuilder.SetEntityData(enemySpawnerData);
-                _entityDirector.ConstructEntity(_spawnerBuilder);
-                Entity enemySpawner = _spawnerBuilder.GetResult();
-                SpawnEntity(EntityType.Spawner, enemySpawner, position, velocity);
+                for (int i = 0; i < enemyData.Weapons.Count; i++)
+                {
+                    WeaponData weapon = enemyData.Weapons[i];
+                    SpawnerData enemySpawnerData = new SpawnerData(new List<WeaponData>() { weapon }, enemy, string.Empty, weapon.MovementPattern);
+                    _spawnerBuilder.SetEntityData(enemySpawnerData);
+                    _entityDirector.ConstructEntity(_spawnerBuilder);
+                    Entity enemySpawner = _spawnerBuilder.GetResult();
+                    SpawnEntity(EntityType.Spawner, enemySpawner, position, velocity);
+                }
+
             }
 
             return enemy;
@@ -181,12 +186,16 @@ namespace BulletHellGame.Logic.Managers
             Entity player = _playerBuilder.GetResult();
             SpawnEntity(EntityType.Player, player, playerStartPosition, Vector2.Zero);
 
-            // Create the main spawner for the player
-            SpawnerData playerSpawnerData = new SpawnerData(playerData.ShotTypes.First().UnfocusedShot.PowerLevels[0].MainWeapons, player, string.Empty);
-            _spawnerBuilder.SetEntityData(playerSpawnerData);
-            _entityDirector.ConstructEntity(_spawnerBuilder);
-            Entity playerSpawner = _spawnerBuilder.GetResult();
-            SpawnEntity(EntityType.Spawner, playerSpawner, playerStartPosition, Vector2.Zero);
+            // Create the main spawners for the player
+            for (int i = 0; i < playerData.ShotTypes.First().UnfocusedShot.PowerLevels[0].MainWeapons.Count; i++)
+            {
+                WeaponData weapon = playerData.ShotTypes.First().UnfocusedShot.PowerLevels[0].MainWeapons[i];
+                SpawnerData playerSpawnerData = new SpawnerData(new List<WeaponData>() { weapon }, player, string.Empty, weapon.MovementPattern);
+                _spawnerBuilder.SetEntityData(playerSpawnerData);
+                _entityDirector.ConstructEntity(_spawnerBuilder);
+                Entity playerSpawner = _spawnerBuilder.GetResult();
+                SpawnEntity(EntityType.Spawner, playerSpawner, playerStartPosition, Vector2.Zero);
+            }
 
             // Create additional spawners that were previously "Options"
             var powerLevelData = playerData.ShotTypes.First().UnfocusedShot.PowerLevels.FirstOrDefault().Value;
@@ -198,7 +207,7 @@ namespace BulletHellGame.Logic.Managers
                 _spawnerBuilder.SetEntityData(optionSpawnerData);
                 _entityDirector.ConstructEntity(_spawnerBuilder);
                 Entity optionSpawner = _spawnerBuilder.GetResult();
-                SpawnEntity(EntityType.Spawner, optionSpawner, optionSpawnerData.Offset, Vector2.Zero);
+                SpawnEntity(EntityType.Spawner, optionSpawner, playerStartPosition + optionSpawnerData.Offset, Vector2.Zero);
             }
         }
 
@@ -222,11 +231,15 @@ namespace BulletHellGame.Logic.Managers
                 // Create a spawner for the boss's weapons
                 if (bossData.Weapons != null && bossData.Weapons.Count > 0)
                 {
-                    SpawnerData bossSpawnerData = new SpawnerData(bossData.Weapons, boss, string.Empty);
-                    _spawnerBuilder.SetEntityData(bossSpawnerData);
-                    _entityDirector.ConstructEntity(_spawnerBuilder);
-                    Entity bossSpawner = _spawnerBuilder.GetResult();
-                    SpawnEntity(EntityType.Spawner, bossSpawner, position, Vector2.Zero);
+                    for (int i = 0; i < bossData.Weapons.Count; i++)
+                    {
+                        WeaponData weapon = bossData.Weapons[i];
+                        SpawnerData bossSpawnerData = new SpawnerData(new List<WeaponData>() { weapon }, boss, string.Empty, weapon.MovementPattern);
+                        _spawnerBuilder.SetEntityData(bossSpawnerData);
+                        _entityDirector.ConstructEntity(_spawnerBuilder);
+                        Entity bossSpawner = _spawnerBuilder.GetResult();
+                        SpawnEntity(EntityType.Spawner, bossSpawner, position, Vector2.Zero);
+                    }
                 }
             }
             return boss;
