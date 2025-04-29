@@ -23,6 +23,7 @@
         <None Remove="Data\Characters\Sakuya.json" />
         <None Remove="Data\EnemyData.json" />
         <None Remove="Data\level1.json" />
+        <None Remove="Data\Levels\bulletPatterns.jason" />
         <None Remove="Data\Levels\bullets.json" />
         <None Remove="Data\Levels\enemies.json" />
         <None Remove="Data\Levels\levels.json" />
@@ -89,6 +90,9 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\Enemies\EnemyData.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Levels\bulletPatterns.jason">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\Levels\bullets.json">

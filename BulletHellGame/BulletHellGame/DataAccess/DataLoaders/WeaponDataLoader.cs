@@ -29,12 +29,7 @@ namespace BulletHellGame.DataAccess.DataLoaders
 
             weapon.TimeSinceLastShot = (weapon.FireRate - startDelay);
 
-            foreach (var fireDirection in weaponJson["fireDirections"])
-            {
-                float x = fireDirection["x"].Value<float>();
-                float y = fireDirection["y"].Value<float>();
-                weapon.FireDirections.Add(new Vector2(x, y));
-            }
+            weapon.FireDirections = BulletPatternLoader.GetPattern(weaponJson["bulletPattern"].Value<string>());
 
             return weapon;
         }
