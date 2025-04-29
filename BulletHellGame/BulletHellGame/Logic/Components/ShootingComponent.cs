@@ -23,7 +23,7 @@ namespace BulletHellGame.Logic.Components
             {
                 if (!WeaponCooldowns.ContainsKey(weapon))
                 {
-                    WeaponCooldowns[weapon] = 0f; // Start with no cooldown
+                    WeaponCooldowns[weapon] = weapon.TimeSinceLastShot; // Start with no cooldown
                 }
             }
         }

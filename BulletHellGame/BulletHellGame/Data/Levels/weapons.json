@@ -1,475 +1,100 @@
 {
-  "Boss1Weapon1": {
-    "bulletId": "bullet",
-    "fireRate": 3,
-    "movementPattern": "spawner_updown",
-    "fireDirections": [
-      {
-        "x": 1.0,
-        "y": 0.0
-      },
-      {
-        "x": 0.99,
-        "y": 0.13
-      },
-      {
-        "x": 0.97,
-        "y": 0.25
-      },
-      {
-        "x": 0.93,
-        "y": 0.37
-      },
-      {
-        "x": 0.88,
-        "y": 0.48
-      },
-      {
-        "x": 0.81,
-        "y": 0.59
-      },
-      {
-        "x": 0.73,
-        "y": 0.68
-      },
-      {
-        "x": 0.64,
-        "y": 0.77
-      },
-      {
-        "x": 0.54,
-        "y": 0.84
-      },
-      {
-        "x": 0.43,
-        "y": 0.9
-      },
-      {
-        "x": 0.31,
-        "y": 0.95
-      },
-      {
-        "x": 0.19,
-        "y": 0.98
-      },
-      {
-        "x": 0.06,
-        "y": 1.0
-      },
-      {
-        "x": -0.06,
-        "y": 1.0
-      },
-      {
-        "x": -0.19,
-        "y": 0.98
-      },
-      {
-        "x": -0.31,
-        "y": 0.95
-      },
-      {
-        "x": -0.43,
-        "y": 0.9
-      },
-      {
-        "x": -0.54,
-        "y": 0.84
-      },
-      {
-        "x": -0.64,
-        "y": 0.77
-      },
-      {
-        "x": -0.73,
-        "y": 0.68
-      },
-      {
-        "x": -0.81,
-        "y": 0.59
-      },
-      {
-        "x": -0.88,
-        "y": 0.48
-      },
-      {
-        "x": -0.93,
-        "y": 0.37
-      },
-      {
-        "x": -0.97,
-        "y": 0.25
-      },
-      {
-        "x": -0.99,
-        "y": 0.13
-      },
-      {
-        "x": -1.0,
-        "y": 0.0
-      },
-      {
-        "x": -0.99,
-        "y": -0.13
-      },
-      {
-        "x": -0.97,
-        "y": -0.25
-      },
-      {
-        "x": -0.93,
-        "y": -0.37
-      },
-      {
-        "x": -0.88,
-        "y": -0.48
-      },
-      {
-        "x": -0.81,
-        "y": -0.59
-      },
-      {
-        "x": -0.73,
-        "y": -0.68
-      },
-      {
-        "x": -0.64,
-        "y": -0.77
-      },
-      {
-        "x": -0.54,
-        "y": -0.84
-      },
-      {
-        "x": -0.43,
-        "y": -0.9
-      },
-      {
-        "x": -0.31,
-        "y": -0.95
-      },
-      {
-        "x": -0.19,
-        "y": -0.98
-      },
-      {
-        "x": -0.06,
-        "y": -1.0
-      },
-      {
-        "x": 0.06,
-        "y": -1.0
-      },
-      {
-        "x": 0.19,
-        "y": -0.98
-      },
-      {
-        "x": 0.31,
-        "y": -0.95
-      },
-      {
-        "x": 0.43,
-        "y": -0.9
-      },
-      {
-        "x": 0.54,
-        "y": -0.84
-      },
-      {
-        "x": 0.64,
-        "y": -0.77
-      },
-      {
-        "x": 0.73,
-        "y": -0.68
-      },
-      {
-        "x": 0.81,
-        "y": -0.59
-      },
-      {
-        "x": 0.88,
-        "y": -0.48
-      },
-      {
-        "x": 0.93,
-        "y": -0.37
-      },
-      {
-        "x": 0.97,
-        "y": -0.25
-      },
-      {
-        "x": 0.99,
-        "y": -0.13
-      }
-    ]
-  },
+    "Boss1Weapon1": {
+        "bulletId": "bullet",
+        "fireRate": 3,
+        "movementPattern": "circular",
+        "bulletPattern": "circle50"
+    },
     "Boss1Weapon2": {
         "bulletId": "bullet",
         "fireRate": 3,
-        "fireDirections": [
-            {
-                "x": 0,
-                "y": 1
-            },
-            {
-                "x": 2,
-                "y": 2
-            }
-        ]
+        "startDelay": 0.3,
+        "movementPattern": "circular",
+        "bulletPattern": "circle50"
+    },
+    "Boss1Weapon3": {
+        "bulletId": "bullet",
+        "fireRate": 3,
+        "startDelay": 0.6,
+        "movementPattern": "circular",
+        "bulletPattern": "circle50"
+    },
+    "Boss1Weapon4": {
+        "bulletId": "bullet",
+        "fireRate": 3,
+        "startDelay": 0.9,
+        "movementPattern": "circular",
+        "bulletPattern": "circle50"
+    },
+    "Boss1Weapon5": {
+        "bulletId": "largebullet_red_standard",
+        "fireRate": 3,
+        "startDelay": 2.5,
+        "bulletPattern": "circle4"
     },
     "laser": {
         "bulletId": "bullet",
         "fireRate": 3,
-        "fireDirections": [
-            {
-                "x": 0,
-                "y": 1
-            },
-            {
-                "x": 2,
-                "y": 2
-            }
-        ]
+        "bulletPattern": "circle4"
     },
 
     "spray_standard": {
         "bulletId": "laser_gray_standard",
         "fireRate": 5,
-        "fireDirections": [
-            {
-                "x": -0.5,
-                "y": 1
-            },
-            {
-                "x": -0.25,
-                "y": 1
-            },
-            {
-                "x": 0,
-                "y": 1
-            },
-            {
-                "x": 0.25,
-                "y": 1
-            },
-            {
-                "x": 0.5,
-                "y": 1
-            }
-        ]
+        "bulletPattern": "circle4"
     },
 
     "horizontal_homing": {
         "bulletId": "laser_darkred_homing",
         "fireRate": 2,
-        "fireDirections": [
-            {
-                "x": 1,
-                "y": 0
-            },
-            {
-                "x": -1,
-                "y": 0
-            }
-        ]
+        "bulletPattern": "circle4"
     },
 
     "blast_explosive": {
         "bulletId": "laser_red_explosive",
         "fireRate": 1,
-        "fireDirections": [
-            {
-                "x": 0,
-                "y": 1
-            },
-            {
-                "x": 1,
-                "y": 0
-            },
-            {
-                "x": 0,
-                "y": -1
-            },
-            {
-                "x": -1,
-                "y": 0
-            }
-        ]
+        "bulletPattern": "circle4"
     },
 
     "diamond_teal_triple": {
         "bulletId": "diamond_teal_standard",
         "fireRate": 4,
-        "fireDirections": [
-            {
-                "x": 0,
-                "y": 1
-            },
-            {
-                "x": 0.866,
-                "y": 0.5
-            },
-            {
-                "x": -0.866,
-                "y": 0.5
-            }
-        ]
+        "bulletPattern": "circle4"
     },
 
     "diamond_blue_burst": {
         "bulletId": "diamond_blue_bouncy",
         "fireRate": 3,
-        "fireDirections": [
-            {
-                "x": 0,
-                "y": 1
-            },
-            {
-                "x": 0.707,
-                "y": 0.707
-            },
-            {
-                "x": 1,
-                "y": 0
-            },
-            {
-                "x": 0.707,
-                "y": -0.707
-            },
-            {
-                "x": 0,
-                "y": -1
-            },
-            {
-                "x": -0.707,
-                "y": -0.707
-            }
-        ]
+        "bulletPattern": "circle4"
     },
 
     "pink_homing_wave": {
         "bulletId": "doublecircle_pink_homing",
         "fireRate": 1.5,
-        "fireDirections": [
-            {
-                "x": 0,
-                "y": 1
-            },
-            {
-                "x": -0.1,
-                "y": 0.9
-            },
-            {
-                "x": 0.1,
-                "y": 0.9
-            },
-            {
-                "x": -0.2,
-                "y": 0.8
-            },
-            {
-                "x": 0.2,
-                "y": 0.8
-            }
-        ]
+        "bulletPattern": "circle4"
     },
 
     "yellow_explosive_grid": {
         "bulletId": "doublecircle_yellow_explosive",
         "fireRate": 0.8,
-        "fireDirections": [
-            {
-                "x": -1,
-                "y": 1
-            },
-            {
-                "x": 1,
-                "y": 1
-            },
-            {
-                "x": -1,
-                "y": -1
-            },
-            {
-                "x": 1,
-                "y": -1
-            }
-        ]
+        "bulletPattern": "circle4"
     },
 
     "green_bouncy_spread": {
         "bulletId": "singlecircle_green_bouncy",
         "fireRate": 2.5,
-        "fireDirections": [
-            {
-                "x": -0.6,
-                "y": 1
-            },
-            {
-                "x": -0.2,
-                "y": 1
-            },
-            {
-                "x": 0,
-                "y": 1
-            },
-            {
-                "x": 0.2,
-                "y": 1
-            },
-            {
-                "x": 0.6,
-                "y": 1
-            },
-            {
-                "x": -0.4,
-                "y": 0.8
-            },
-            {
-                "x": 0.4,
-                "y": 0.8
-            }
-        ]
+        "bulletPattern": "circle4"
     },
 
     "big_red_standard": {
         "bulletId": "largebullet_red_standard",
         "fireRate": 0.5,
-        "fireDirections": [
-            {
-                "x": 0,
-                "y": 1
-            }
-        ]
+        "bulletPattern": "circle4"
     },
 
     "orange_homing_shot": {
         "bulletId": "lazer_orange_homing",
         "fireRate": 1,
-        "fireDirections": [
-            {
-                "x": 0,
-                "y": 1
-            },
-            {
-                "x": 0.7,
-                "y": 0.7
-            },
-            {
-                "x": -0.7,
-                "y": 0.7
-            },
-            {
-                "x": 0.7,
-                "y": -0.7
-            },
-            {
-                "x": -0.7,
-                "y": -0.7
-            }
-        ]
+        "bulletPattern": "circle4"
     }
 }

@@ -5,7 +5,7 @@ namespace BulletHellGame.Logic.Entities
 {
     public class Entity
     {
-        private List<IComponent> _components = new();
+        private Dictionary<Type, IComponent> _components = new();
         public event Action<IComponent> OnComponentAdded;
         public event Action<IComponent> OnComponentRemoved;
 
@@ -26,7 +26,7 @@ namespace BulletHellGame.Logic.Entities
 
         private void Reset(Vector2 position, Vector2 velocity)
         {
-            foreach (var component in _components)
+            foreach (var component in _components.Values)
             {
                 component.Reset();
             }
@@ -37,48 +37,41 @@ namespace BulletHellGame.Logic.Entities
             vc.Velocity = velocity;
         }
 
-        public List<IComponent> GetComponents()
+        public ISet<IComponent> GetComponents()
         {
-            return _components;
+            return _components.Values.ToHashSet();
         }
 
         public void AddComponent(IComponent component)
         {
-            _components.Add(component);
+            _components[component.GetType()] = component;
             OnComponentAdded?.Invoke(component);
         }
 
         // Probably not use this (removing components is costly, it has to loop through all the components)
         public void RemoveComponent<T>() where T : class, IComponent
         {
-            // Find the component of id T
-            var component = _components.OfType<T>().FirstOrDefault();
-
-            if (component != null)
-            {
-                // Remove the component from the list
-                _components.Remove(component);
-
-                // Invoke the event notifying that the component was removed
+            if (_components.Remove(typeof(T), out var component))
                 OnComponentRemoved?.Invoke(component);
-            }
         }
 
 
         public T GetComponent<T>() where T : class, IComponent
         {
-            return _components.OfType<T>().FirstOrDefault();
+            return (T)_components[typeof(T)];
         }
 
         public bool HasComponent<T>() where T : class, IComponent
         {
-            return _components.OfType<T>().Any();
+            return _components.ContainsKey(typeof(T));
         }
 
         public bool TryGetComponent<T>(out T component) where T : class, IComponent
         {
-            component = _components.OfType<T>().FirstOrDefault();
-            return component != null;
+            IComponent test;
+            bool worked = _components.TryGetValue(typeof(T), out test);
+            component = (T)test;
+            return worked;
         }
     }
 }

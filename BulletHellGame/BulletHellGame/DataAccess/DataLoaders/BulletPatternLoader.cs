@@ -1,46 +1,35 @@
-﻿using Newtonsoft.Json;
-using System.IO;
+﻿using BulletHellGame.DataAccess.DataTransferObjects;
+using BulletHellGame.Logic.Entities;
+using BulletHellGame.Logic.Utilities.EntityDataGenerator;
+using BulletHellGame.Logic.Utilities.EntityDataGenerator.EntityDataGenerators;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using System.Linq.Expressions;
 
 namespace BulletHellGame.DataAccess.DataLoaders
 {
-    public class BulletPatternLoader
+    public static class BulletPatternLoader
     {
-        public Dictionary<string, BulletPatternData> LoadBulletPatterns()
+        const string BULLET_PATTERN_JSON_PATH = "./Data/Levels/bulletPatterns.jason";
+
+        public static List<Vector2> GetPattern(string patternId)
         {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/BulletPatterns/BulletPatterns.json");
-            string json = File.ReadAllText(filePath);
+            var patternJson = JsonUtility.LoadJson(BULLET_PATTERN_JSON_PATH)[patternId];
 
-            var bulletPatterns = JsonConvert.DeserializeObject<BulletPatternContainer>(json);
-            var patternDict = new Dictionary<string, BulletPatternData>();
+            List<Vector2> bulletPattern = new List<Vector2>();
 
-            foreach (var pattern in bulletPatterns.Patterns)
+            foreach (var fireDirection in patternJson)
             {
-                patternDict[pattern.Id] = pattern;
+                float x = fireDirection["x"].Value<float>();
+                float y = fireDirection["y"].Value<float>();
+                bulletPattern.Add(new Vector2(x, y));
             }
 
-            return patternDict;
+            return bulletPattern;
         }
-    }
-
-    public class BulletPatternContainer
-    {
-        [JsonProperty("patterns")]
-        public List<BulletPatternData> Patterns { get; set; }
-    }
-
-    public class BulletPatternData
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-        [JsonProperty("id")]
-        public string Type { get; set; }
-        [JsonProperty("GAME_SPEED")]
-        public float Speed { get; set; }
-        [JsonProperty("angle_offset")]
-        public float AngleOffset { get; set; }
-        [JsonProperty("spread")]
-        public float Spread { get; set; }
-        [JsonProperty("fire_rate")]
-        public float FireRate { get; set; }
     }
 }
