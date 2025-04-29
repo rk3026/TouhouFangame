@@ -1,27 +1,32 @@
-{
-  "BackgroundAsset": "Backgrounds/touhou",
-  "MusicAsset": "02. Paradise ~ Deep Mountain",
-  "SpriteAsset": "SpriteSheets/CutsceneReimu",
-  "Dialogue": [
-    {
-      "Speaker": "Reimu",
-      "Line": "Another quiet morning at the shrine...",
-      "Expression": "Pose1"
-    },
-    {
-      "Speaker": "Marisa",
-      "Line": "Yo! Reimu! Already up, ze?",
-      "Expression": "Pose2"
-    },
-    {
-      "Speaker": "Sakuya",
-      "Line": "I sensed something unusual in the air today.",
-      "Expression": "Pose3"
-    },
-    {
-      "Speaker": "Reimu",
-      "Line": "Time to investigate then.",
-      "Expression": "Pose5"
-    }
-  ]
-}
+[
+  {
+    "BackgroundAsset": "Backgrounds/touhou",
+    "MusicAsset": "02. Paradise ~ Deep Mountain",
+    "Dialogue": [
+      {
+        "Speaker": "Reimu",
+        "Line": "Another quiet morning at the shrine...",
+        "Expression": "Pose1",
+        "SpriteAsset": "SpriteSheets/CutsceneReimu"
+      },
+      {
+        "Speaker": "Marisa",
+        "Line": "Yo! Reimu! Already up, ze?",
+        "Expression": "Pose2",
+        "SpriteAsset": "SpriteSheets/CutsceneMarisa"
+      },
+      {
+        "Speaker": "Sakuya",
+        "Line": "I sensed something unusual in the air today.",
+        "Expression": "Pose3",
+        "SpriteAsset": "SpriteSheets/CutsceneSakuya"
+      },
+      {
+        "Speaker": "Reimu",
+        "Line": "Time to investigate then.",
+        "Expression": "Pose5",
+        "SpriteAsset": "SpriteSheets/CutsceneReimu"
+      }
+    ]
+  }
+]

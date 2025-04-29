@@ -52,13 +52,15 @@ namespace BulletHellGame.Presentation.Scenes
 
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
+            _characterData = characterData;
+            
+            // Initialize managers and components
             _entityManager = new EntityManager(_playableArea);
             _systemManager = new SystemManager(graphicsDevice);
             _screenFlipManager = new ScreenFlipManager(_playableArea);
             _enemyIndicatorRenderer = new EnemyIndicatorRenderer(graphicsDevice);
             _levelManager = new LevelManager(_entityManager, _playableArea);
 
-            _characterData = characterData;
             _entityManager.SpawnPlayer(characterData);
 
             // Define phase songs
@@ -69,12 +71,12 @@ namespace BulletHellGame.Presentation.Scenes
                 { "Normal", "紅魔激走劇  Everlasting..."}
             };
 
+            // Show opening cutscene before starting
+            
+
+            // Boss event handlers
             _levelManager.OnBossSpawned += () =>
             {
-                
-                var cutsceneData = CutsceneDataLoader.LoadCutsceneData("Level1Cutscenes");
-                SceneManager.Instance.AddScene(new CutsceneScene(this._contentManager, this._graphicsDevice, cutsceneData, this._characterData));
-                // Determine the current phase and play the corresponding song
                 if (_levelManager.GetCurrentWaveType() == WaveType.SubBoss)
                 {
                     BGMManager.Instance.PlayBGM(_contentManager, phaseSongs["SubBoss"]);
@@ -121,9 +123,7 @@ namespace BulletHellGame.Presentation.Scenes
 
             List<string> bgms = new()
             {
-                "紅魔激走劇  Everlasting...",
-                //"激戦アレンジ U.N.オーエンは彼女なのか -11th- 東方紅魔郷",
-                //"広有射怪鳥事Till When原曲広有射怪鳥事Till When"
+                "紅魔激走劇  Everlasting..."
             };
             string bgm = bgms[new Random().Next(bgms.Count)];
 
