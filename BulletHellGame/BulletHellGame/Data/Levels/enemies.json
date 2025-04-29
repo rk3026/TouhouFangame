@@ -36,7 +36,7 @@
     "Boss2P1": {
         "type": "grunt",
         "sprite": "Alice Margatroid",
-        "health": 2000,
+        "health": 12500,
         "movementPattern": "sine_wave",
         "shootingPattern": "",
         "weapons": [ "laser" ],
@@ -45,7 +45,7 @@
     "Boss3P1": {
         "type": "grunt",
         "sprite": "Fairy.White",
-        "health": 2000,
+        "health": 15000,
         "movementPattern": "sine_wave",
         "shootingPattern": "",
         "weapons": [ "laser" ],
@@ -54,7 +54,7 @@
     "Boss4P1": {
         "type": "grunt",
         "sprite": "Fairy.Pink",
-        "health": 2000,
+        "health": 17500,
         "movementPattern": "sine_wave",
         "shootingPattern": "",
         "weapons": [ "laser" ],

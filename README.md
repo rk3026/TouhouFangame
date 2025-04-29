@@ -60,22 +60,49 @@ This game is an arcade-like vertical-scrolling bullet hell where players dodge b
    - The player’s performance is evaluated based on score, lives remaining, and grazing bonuses.  
 
 ---
+## 🧱 Architecture
 
-## 🏗️ Design Patterns and Architecture
-We aimed to follow good architectural/design principles throughout the project. Below are lists of the patterns/design choices implemented or planned to be implemented.
+### Main Architecture: Multi-layered  
+### Sub-Architecture: Entity-Component System (ECS)  
 
-### ✅ Implemented
-- **Entity-Component-System (ECS):** Bullets, Enemies, Players, Collectibles, etc. are entities. We attach components to these entities holding data. Then systems operate on entities with specific components.
-- **Builder Pattern:** We use the builder pattern to construct the Entities by attaching all the components they need.
-- **Singleton Pattern:** For managers like InputManager and TextureManager.
-- **Observer Pattern:** For updating UI elements like the game Window.
-- **State Pattern:** The scenes act as 'states' and the scene manager is the 'context' in the state pattern.
-- **Facade Pattern:** We have an EntityDataGenerator class for generating test data without having to load from a JSON. This class acts as a facade for the other generator classes.
-- **Flyweight Pattern:** The TextureManager is a Flyweight, and SpriteComponent holds some extrinsic state while utilizing the intrinsic state of texture sprite data.
-- **JSON Loading:** We load all the data we need in our game from JSON files (Character stats, Level descriptions, etc).
+**Description:**  
+Our software architecture combines a multi-layered structure with an Entity-Component System. We separate the system into four layers: Presentation, Logic, Data-Access, and Data. Within the Logic layer, we implement ECS—where Bullets, Enemies, Collectibles, etc., are Entities composed of Components holding data, and Systems operate on those entities based on their components.
 
-### 🛠️ To be Implemented  
-- **Command Pattern:** For scheduling events with Bullets and handling player input.
+**Rationale:**  
+We chose a multi-layered architecture for its clean separation of concerns and compatibility with ECS. It allows us to decouple and modularize subsystems such as JSON loading, game logic, and rendering. We opted for an *open* layered architecture—allowing higher layers to directly access lower ones when needed—because performance is a key priority in games. For example, scenes in the Presentation layer can directly access the Data-Access layer to quickly load needed resources, bypassing intermediate logic layers when appropriate.
+
+**Breakdown of Layers:**
+
+1. **Presentation Layer**  
+   - Includes all Scenes and UI classes.  
+   - Each Scene has a `Draw()` function to render to the screen.  
+   - UI classes are reusable and integrated into various scenes.  
+
+2. **Logic Layer**  
+   - Core of the game's behavior and mechanics.  
+   - Contains the ECS architecture, where Systems manipulate Entities via their Components.  
+
+3. **Data-Access Layer**  
+   - Handles reading from and writing to external data sources (e.g., JSON).  
+   - Contains DataLoader classes for converting JSON data into usable game objects.  
+
+4. **Data Layer**  
+   - Raw JSON files that define game assets, entity stats, patterns, and configurations.
+
+![Architecture Diagram](https://github.com/user-attachments/assets/e816a722-531f-4407-980e-a284517c1d27)
+
+---
+
+## Design Patterns
+
+We used various design patterns to promote clean code, reuse, and flexibility:
+- **Builder:** Used for constructing Entities by attaching the required Components step-by-step.
+- **Singleton:** Used for manager classes like `InputManager` and `TextureManager` to ensure only one instance exists globally.
+- **Observer:** Enables UI elements (like the main window) to update in response to internal changes/events.
+- **State:** Scenes represent "states" in the game, and a `SceneManager` acts as the context managing scene transitions.
+- **Facade:** The `EntityDataGenerator` class acts as a simplified interface to multiple generator classes, used for generating test game data.
+- **Flyweight:** `TextureManager` stores and reuses textures (intrinsic state), while `SpriteComponent` carries extrinsic state like position and scale.
+- **Strategy:** Entities use interchangeable collision strategies via `ICollisionStrategy`, allowing different responses based on type (e.g., bullets, enemies, player).
 
 ---
 
