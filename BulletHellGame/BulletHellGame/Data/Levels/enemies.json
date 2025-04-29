@@ -18,8 +18,8 @@
     "Boss1P1": {
         "type": "grunt",
         "sprite": "Chen",
-        "health": 10000,
-        "movementPattern": "none",
+        "health": 2000,
+        "movementPattern": "figure_eight",
         "shootingPattern": "",
         "weapons": [ "Boss1Weapon1", "Boss1Weapon2", "Boss1Weapon3", "Boss1Weapon4", "Boss1Weapon5" ],
         "lootTable": "grunt"

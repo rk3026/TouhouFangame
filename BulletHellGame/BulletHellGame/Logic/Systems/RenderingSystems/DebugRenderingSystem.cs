@@ -75,24 +75,27 @@ namespace BulletHellGame.Logic.Systems.RenderingSystems
                 }
 
                 // Draw spawners
-                if (entity.TryGetComponent<SpriteComponent>(out sc) &&
+                if (entity.TryGetComponent<PositionComponent>(out var psc) &&
                     entity.TryGetComponent<ShootingComponent>(out var shc))
                 {
-                    SpriteData spriteData = sc.SpriteData;
-                    Vector2 spritePosition = new Vector2(pc.Position.X, pc.Position.Y);
+                    var spritePosition = pc.Position;
+                    var texture = TextureManager.Instance.GetPixelTexture(Color.LightGoldenrodYellow, 10, 10);
+
+                    Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f); // center of 10x10 = (5,5)
 
                     spriteBatch.Draw(
-                        TextureManager.Instance.GetPixelTexture(Color.White, 4, 4),
+                        texture,
                         spritePosition,
-                        sc.CurrentFrame,
-                        sc.Color,
-                        sc.CurrentRotation,
-                        spriteData.Origin,
-                        sc.Scale,
-                        sc.SpriteEffect,
+                        null, // full texture
+                        Color.White, // or sc.Color if you want custom color
+                        0f,          // no rotation
+                        origin,      // center it
+                        1f,          // normal scale
+                        Microsoft.Xna.Framework.Graphics.SpriteEffects.None,
                         0f
                     );
                 }
+
             }
         }
     }

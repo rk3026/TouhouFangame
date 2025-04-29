@@ -33,18 +33,29 @@ namespace BulletHellGame.Logic.Controllers
             if (direction.LengthSquared() > 0)
                 direction.Normalize();
 
-            // Adjust speed if focused
+            // Adjust GAME_SPEED if focused
             bool isFocused = inputManager.ActionDown(GameAction.Slow);
             float currentSpeed = isFocused ? speedComponent.FocusedSpeed : speedComponent.Speed;
-            vc.Velocity = direction * currentSpeed;
+            Vector2 proposedVelocity = direction * currentSpeed;
 
-            // Clamp position to stay in bounds
+            // Calculate predicted position
+            Vector2 predictedPosition = pc.Position + proposedVelocity;
+
+            var bounds = entityManager.Bounds;
             float halfWidth = sc.CurrentFrame.Width / 2f;
             float halfHeight = sc.CurrentFrame.Height / 2f;
-            pc.Position = new Vector2(
-                Math.Clamp(pc.Position.X, entityManager.Bounds.Left + halfWidth, entityManager.Bounds.Right - halfWidth),
-                Math.Clamp(pc.Position.Y, entityManager.Bounds.Top + halfHeight, entityManager.Bounds.Bottom - halfHeight)
-            );
+
+            // Clamp velocity based on predicted position
+            if (predictedPosition.X - halfWidth < bounds.Left || predictedPosition.X + halfWidth > bounds.Right)
+            {
+                proposedVelocity.X = 0;
+            }
+            if (predictedPosition.Y - halfHeight < bounds.Top || predictedPosition.Y + halfHeight > bounds.Bottom)
+            {
+                proposedVelocity.Y = 0;
+            }
+
+            vc.Velocity = proposedVelocity;
 
             // Shooting input
             this.IsShooting = inputManager.ActionDown(GameAction.Shoot);
@@ -101,7 +112,5 @@ namespace BulletHellGame.Logic.Controllers
                 }
             }
         }
-
-
     }
 }

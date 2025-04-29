@@ -10,7 +10,7 @@ namespace BulletHellGame.Logic.Systems.RenderingSystems
         private GraphicsDevice _graphicsDevice;
         private Texture2D _barTexture;
         private float _displayedHealthPercent = 0f;
-        private float _fillSpeed = 1.0f; // Controls the speed of the fill-up effect
+        private float _fillSpeed = 1.0f; // Controls the GAME_SPEED of the fill-up effect
         private SpriteFont _font;
 
         public BossHealthBarRenderingSystem(GraphicsDevice gd)

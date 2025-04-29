@@ -1,7 +1,30 @@
 {
 
     "none": [],
-    "up_down": [
+    "spawner_updown": [
+      {
+        "time": 0.0,
+        "velocity": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "time": 0.1,
+        "velocity": {
+          "x": 0,
+          "y": -1
+        }
+      },
+       {
+        "time": 0.2,
+        "velocity": {
+          "x": 0,
+          "y": -1
+        }
+      }
+    ],
+    "down_up": [
         {
             "time": 0.0,
             "velocity": {
@@ -18,7 +41,7 @@
         }
     ],
 
-    "down_up": [
+    "up_down": [
         {
             "time": 0.0,
             "velocity": {

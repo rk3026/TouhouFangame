@@ -6,7 +6,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
 {
     public class InvincibilitySystem : ILogicSystem
     {
-        private const float FlickerInterval = 0.1f;  // Controls flicker speed (in seconds)
+        private const float FlickerInterval = 0.1f;  // Controls flicker GAME_SPEED (in seconds)
 
         public void Update(EntityManager entityManager, GameTime gameTime)
         {

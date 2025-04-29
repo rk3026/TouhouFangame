@@ -29,7 +29,25 @@ namespace BulletHellGame.DataAccess.DataLoaders
                 bulletPattern.Add(new Vector2(x, y));
             }
 
-            return bulletPattern;
-        }
+    public class BulletPatternContainer
+    {
+        [JsonProperty("patterns")]
+        public List<BulletPatternData> Patterns { get; set; }
+    }
+
+    public class BulletPatternData
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+        [JsonProperty("id")]
+        public string Type { get; set; }
+        [JsonProperty("GAME_SPEED")]
+        public float Speed { get; set; }
+        [JsonProperty("angle_offset")]
+        public float AngleOffset { get; set; }
+        [JsonProperty("spread")]
+        public float Spread { get; set; }
+        [JsonProperty("fire_rate")]
+        public float FireRate { get; set; }
     }
 }
