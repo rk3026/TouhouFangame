@@ -5,7 +5,7 @@ namespace BulletHellGame.Logic.Systems.LogicSystems
 {
     public class MovementSystem : ILogicSystem
     {
-        private float GAME_SPEED = 100f;
+        private float GAME_SPEED = 50f;
 
         public void Update(EntityManager entityManager, GameTime gameTime)
         {
