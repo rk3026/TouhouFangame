@@ -13,10 +13,24 @@
         "bulletPattern": "circle50"
     },
     "Boss1Weapon3": {
+        "bulletId": "bullet",
+        "fireRate": 3,
+        "startDelay": 0.6,
+        "movementPattern": "circular",
+        "bulletPattern": "circle50"
+    },
+    "Boss1Weapon4": {
+        "bulletId": "bullet",
+        "fireRate": 3,
+        "startDelay": 0.9,
+        "movementPattern": "circular",
+        "bulletPattern": "circle50"
+    },
+    "Boss1Weapon5": {
         "bulletId": "largebullet_red_standard",
         "fireRate": 3,
-        "startDelay": 1,
-        "bulletPattern":  "circle4"
+        "startDelay": 2.5,
+        "bulletPattern": "circle4"
     },
     "laser": {
         "bulletId": "bullet",
