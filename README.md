@@ -66,7 +66,7 @@ This game is an arcade-like vertical-scrolling bullet hell where players dodge b
 ### Sub-Architecture: Entity-Component System (ECS)  
 
 **Description:**  
-Our software architecture combines a multi-layered structure with an Entity-Component System. We separate the system into four layers: Presentation, Logic, Data-Access, and Data. Within the Logic layer, we implement ECS—where Bullets, Enemies, Collectibles, etc., are Entities composed of Components holding data, and Systems operate on those entities based on their components.
+Our software architecture utilizes the multi-layered architecture and Entity-Component System design. We separate the system into four layers: Presentation, Logic, Data-Access, and Data. Within the Logic layer, we implement ECS—where Bullets, Enemies, Collectibles, etc., are Entities composed of Components holding data, and Systems operate on those entities based on their components.
 
 **Rationale:**  
 We chose a multi-layered architecture for its clean separation of concerns and compatibility with ECS. It allows us to decouple and modularize subsystems such as JSON loading, game logic, and rendering. We opted for an *open* layered architecture—allowing higher layers to directly access lower ones when needed—because performance is a key priority in games. For example, scenes in the Presentation layer can directly access the Data-Access layer to quickly load needed resources, bypassing intermediate logic layers when appropriate.
@@ -103,6 +103,24 @@ We used various design patterns to promote clean code, reuse, and flexibility:
 - **Facade:** The `EntityDataGenerator` class acts as a simplified interface to multiple generator classes, used for generating test game data.
 - **Flyweight:** `TextureManager` stores and reuses textures (intrinsic state), while `SpriteComponent` carries extrinsic state like position and scale.
 - **Strategy:** Entities use interchangeable collision strategies via `ICollisionStrategy`, allowing different responses based on type (e.g., bullets, enemies, player).
+
+---
+
+## Project Evaluation
+
+After wrapping up the project (at least for now), we wanted to reflect on what went well in our game design and what could have been improved.
+What went well:
+-Scenes as the state pattern made it very easy and intuitive to construct a scene.
+-BGM and SFX managers were perfect for what we needed in this kind of game.
+-Textures on spritesheets helped with performance.
+-Splitting UI components of scenes into their own reusable class (We only got to doing this near the end of our project, but what little we did was great for shortening code).
+-The Builder classes worked well to construct entities. Builders could still probably be implemented even if we changed our ECS to be more like a traditional with Entities being just an index.
+-Strategy pattern for the Collision types was cool, though I don't know how well it would work with a more traditional ECS system (since components as structs wouldn't allow for containing a class as a field).
+
+What did not go well:
+-Our ECS design was lacking. because this was the first time utilizing ECS in a game, we had to learn along the way. If we redid this project, we would definitely change our ECS design. Namely, we would go with a more performant and traditional design. We would remove the Entity class entirely, and just make Entities an integer (id). Additionally, components would be structs instead of classes. By using this design, we could get the actual performance benefits of ECS that a bullet-hell game would benefit from. Another poor design was the EntityManager class, which had too much responsibility. In traditional ECS systems, our EntityManager is similar to the 'world', and we could have made it more single-responsibility.
+-Our animation system was hard to work with. It was tedious to have to define things like currently animating, loop animation, etc. Would like to redo that design and make it more clean.
+-Collision detection was okay for what we needed, but we would've liked to research and try to improve it more so we could have more bullets on screen in game.
 
 ---
 
