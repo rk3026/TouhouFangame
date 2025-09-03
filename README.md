@@ -110,17 +110,17 @@ We used various design patterns to promote clean code, reuse, and flexibility:
 
 After wrapping up the project (at least for now), we wanted to reflect on what went well in our game design and what could have been improved.
 What went well:
--Scenes as the state pattern made it very easy and intuitive to construct a scene.
--BGM and SFX managers were perfect for what we needed in this kind of game.
--Textures on spritesheets helped with performance.
--Splitting UI components of scenes into their own reusable class (We only got to doing this near the end of our project, but what little we did was great for shortening code).
--The Builder classes worked well to construct entities. Builders could still probably be implemented even if we changed our ECS to be more like a traditional with Entities being just an index.
--Strategy pattern for the Collision types was cool, though I don't know how well it would work with a more traditional ECS system (since components as structs wouldn't allow for containing a class as a field).
+- Scenes as the state pattern made it very easy and intuitive to construct a scene.
+- BGM and SFX managers were perfect for what we needed in this kind of game.
+- Textures on spritesheets helped with performance.
+- Splitting UI components of scenes into their own reusable class (We only got to doing this near the end of our project, but what little we did was great for shortening code).
+- The Builder classes worked well to construct entities. Builders could still probably be implemented even if we changed our ECS to be more like a traditional with Entities being just an index.
+- Strategy pattern for the Collision types was cool, though I don't know how well it would work with a more traditional ECS system (since components as structs wouldn't allow for containing a class as a field).
 
 What did not go well:
--Our ECS design was lacking. because this was the first time utilizing ECS in a game, we had to learn along the way. If we redid this project, we would definitely change our ECS design. Namely, we would go with a more performant and traditional design. We would remove the Entity class entirely, and just make Entities an integer (id). Additionally, components would be structs instead of classes. By using this design, we could get the actual performance benefits of ECS that a bullet-hell game would benefit from. Another poor design was the EntityManager class, which had too much responsibility. In traditional ECS systems, our EntityManager is similar to the 'world', and we could have made it more single-responsibility.
--Our animation system was hard to work with. It was tedious to have to define things like currently animating, loop animation, etc. Would like to redo that design and make it more clean.
--Collision detection was okay for what we needed, but we would've liked to research and try to improve it more so we could have more bullets on screen in game.
+- Our ECS design was lacking. because this was the first time utilizing ECS in a game, we had to learn along the way. If we redid this project, we would definitely change our ECS design. Namely, we would go with a more performant and traditional design. We would remove the Entity class entirely, and just make Entities an integer (id). Additionally, components would be structs instead of classes. By using this design, we could get the actual performance benefits of ECS that a bullet-hell game would benefit from. Another poor design was the EntityManager class, which had too much responsibility. In traditional ECS systems, our EntityManager is similar to the 'world', and we could have made it more single-responsibility.
+- Our animation system was hard to work with. It was tedious to have to define things like currently animating, loop animation, etc. Would like to redo that design and make it more clean.
+- Collision detection was okay for what we needed, but we would've liked to research and try to improve it more so we could have more bullets on screen in game.
 
 ---
 
