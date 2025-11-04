@@ -15,6 +15,9 @@ This game is an arcade-like vertical-scrolling bullet hell where players dodge b
 
 ![image](https://github.com/user-attachments/assets/474ad122-4b9c-4dab-928d-204cf3081e2e)
 
+![Recording 2025-11-03 183802](https://github.com/user-attachments/assets/60287e69-b319-4de8-a716-3c1f60bca6bb)
+
+
 ---
 
 ## 🎮 Game Features
