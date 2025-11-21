@@ -10,16 +10,25 @@ Ben Bordon — [GitHub](https://github.com/wizkid0101)
 
 ---
 
-## 🌟 Overview
+![image](https://github.com/user-attachments/assets/474ad122-4b9c-4dab-928d-204cf3081e2e)
+
+## Overview
 This game is an arcade-like vertical-scrolling bullet hell where players dodge bullet patterns, defeat enemies and bosses, and collect items to increase their score for a level. Our goal was to replicate the core gameplay of *Touhou 7: Perfect Cherry Blossom* while focusing on robust game architecture and well-structured design patterns.
 
-![image](https://github.com/user-attachments/assets/474ad122-4b9c-4dab-928d-204cf3081e2e)
+## Screenshots
+
+<img width="642" height="512" alt="Screenshot 2025-11-20 170056" src="https://github.com/user-attachments/assets/c251909c-4759-462e-a16a-5023b6a5a273" />
+<img width="642" height="512" alt="Screenshot 2025-11-20 170204" src="https://github.com/user-attachments/assets/728e0409-43a7-42b6-9b11-8f65cfd746d4" />
+<img width="642" height="512" alt="Screenshot 2025-11-20 170344" src="https://github.com/user-attachments/assets/e00cd1b8-0c1c-42ff-9b9f-7f264505ed90" />
+<img width="642" height="512" alt="Screenshot 2025-11-20 170735" src="https://github.com/user-attachments/assets/dd25c2c2-65ea-49f1-8752-165d69be2a5c" />
+<img width="642" height="512" alt="Screenshot 2025-11-20 170742" src="https://github.com/user-attachments/assets/bb7235c0-4dc0-4353-981f-332b3c4ce6f5" />
+<img width="642" height="512" alt="Screenshot 2025-11-20 170810" src="https://github.com/user-attachments/assets/1c643cb8-7a81-4e0a-9d71-fd35bc324a6b" />
 
 ![ezgif com-speed](https://github.com/user-attachments/assets/56822863-69cd-42da-8b45-8e81dfdc30f4)
 
 ---
 
-## 🎮 Game Features
+## Game Features
 - **Bullet dodging** with precise hitboxes.  
 - **Unique playable characters** with distinct attack styles.  
 - **The Touhou "grazing" mechanic**, rewarding players for narrowly avoiding bullets.
@@ -31,7 +40,7 @@ This game is an arcade-like vertical-scrolling bullet hell where players dodge b
 
 ---
 
-## ⚙️ Gameplay Flow
+## Gameplay Flow
 
 0. **Main Menu:**
    - At the main menu, a player selects a character to play as, an attack type for their character, and a level.
@@ -62,7 +71,7 @@ This game is an arcade-like vertical-scrolling bullet hell where players dodge b
    - The player’s performance is evaluated based on score, lives remaining, and grazing bonuses.  
 
 ---
-## 🧱 Architecture
+## Architecture
 
 ### Main Architecture: Multi-layered  
 ### Sub-Architecture: Entity-Component System (ECS)  
