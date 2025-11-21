@@ -1,4 +1,4 @@
-# 🎇 Touhou-Inspired Bullet Hell Fangame
+# Touhou-Inspired Bullet Hell Fangame
 
 **Developers:**  
 Ross Kugler — [GitHub](https://github.com/rk3026)  
@@ -13,7 +13,7 @@ Ben Bordon — [GitHub](https://github.com/wizkid0101)
 ![image](https://github.com/user-attachments/assets/474ad122-4b9c-4dab-928d-204cf3081e2e)
 
 ## Overview
-This game is an arcade-like vertical-scrolling bullet hell where players dodge bullet patterns, defeat enemies and bosses, and collect items to increase their score for a level. Our goal was to replicate the core gameplay of *Touhou 7: Perfect Cherry Blossom* while focusing on robust game architecture and well-structured design patterns.
+This project is an arcade-like vertical-scrolling bullet hell video game. Our goal was to replicate the core gameplay of *Touhou 7: Perfect Cherry Blossom* while focusing on game architecture and design patterns. The game was built in C# utilizing the Monogame engine.
 
 ## Screenshots
 
@@ -29,13 +29,12 @@ This game is an arcade-like vertical-scrolling bullet hell where players dodge b
 ---
 
 ## Game Features
-- **Bullet dodging** with precise hitboxes.  
-- **Unique playable characters** with distinct attack styles.  
-- **The Touhou "grazing" mechanic**, rewarding players for narrowly avoiding bullets.
-- **Score tracking**, like an arcade game.
-- **Collectibles and Power-Ups** to improve the player's strength and raise their score.
-- **Unique levels** that contain different enemy and boss layouts.
-- **Pausing and Setting Management** to allow the user customization.
+- **Player movement, shooting, and dodging bullets**
+- **Unique playable characters** with different attack styles.  
+- **The Touhou "grazing" mechanic** - narrowly avoiding bullets increases score.
+- **Collectibles and Power-Ups** to improve the player's shooting ability and raise their score.
+- **Unique levels** that contain different enemy and boss layouts as well as various parallax backgrounds.
+- **Pausing and Setting Management** for key binding, volume management, etc.
 - **Time-Based Level Progression** so players can do 'Pacifist Runs', playing levels without shooting.
 
 ---
@@ -43,41 +42,42 @@ This game is an arcade-like vertical-scrolling bullet hell where players dodge b
 ## Gameplay Flow
 
 0. **Main Menu:**
-   - At the main menu, a player selects a character to play as, an attack type for their character, and a level.
+   - At the main menu, a player selects a difficulty, a character to play as, an attack type for their character, and a level.
 
 1. **Level Start:**
    - The level begins, and after a few seconds, some grunt enemies will spawn and fly around the level.
-   - These early enemies have simpler bullet patterns, giving the player time to warm up.
-   - Enemies may drop collectible loot that either increases score or gives the player extra shooting power, lives, or bombs.
+   - The early enemies have simpler bullet patterns, giving the player time to warm up.
+   - Enemies have a chance to drop collectible loot that either increases score or gives the player extra shooting power, lives, or bombs.
 
 3. **Escalation:**  
-   - As the level progresses, enemies grow stronger, attack in larger numbers, and unleash more intricate bullet patterns.  
-   - Players must skillfully weave through increasingly dense bullet formations while maximizing their score through grazing and enemy takedowns.  
+   - As the level progresses, the grunt enemies get stronger.
+   - Larger enemy groups.
 
-4. **Mid-Boss Encounter:**  
-   - Midway through the level, a **Mid-Boss** appears with multiple attack phases and faster movement.  
-   - The Mid-Boss must either be defeated by reducing its HP to **0** or outlasted until it retreats.  
+4. **Mini-Boss Encounter:**  
+   - Midway through the level, a **Mini-Boss** appears with multiple attack phases and better stats (faster movement, more damage, etc.)
+   - Its health bar shows at top of screen.
+   - The Mini-Boss must either be defeated by reducing its HP to **0** or outlasted until it retreats.  
 
 5. **Second Enemy Section:**  
-   - After the Mid-Boss, another section of enemies spawning occurs, this time with greater intensity.  
-   - New enemy types are introduced, each with unique bullet patterns.  
+   - After the Mini-Boss, another section of grunt enemies spawning occurs.  
+   - New enemy types are introduced.  
 
 6. **Final Boss Battle:**  
-   - At the end of the level, the **Final Boss** appears, boasting the most complex attack patterns and highest HP of any enemy.  
-   - The Final Boss fight consists of multiple phases, each ramping up in difficulty.  
+   - At the end of the level, the **Final Boss** appears.
+   - The Final Boss fight consists of multiple phases.
+   - Will be the most difficult to defeat.
 
 7. **Victory:**  
-   - The level ends when the player either defeats the Final Boss or survives long enough.  
+   - The level ends when the player either defeats the Final Boss (by lowering its HP to 0) or survives long enough.  
    - The player’s performance is evaluated based on score, lives remaining, and grazing bonuses.  
 
 ---
 ## Architecture
 
-### Main Architecture: Multi-layered  
-### Sub-Architecture: Entity-Component System (ECS)  
+### Main Architecture: Multi-layered and ECS
 
 **Description:**  
-Our software architecture utilizes the multi-layered architecture and Entity-Component System design. We separate the system into four layers: Presentation, Logic, Data-Access, and Data. Within the Logic layer, we implement ECS—where Bullets, Enemies, Collectibles, etc., are Entities composed of Components holding data, and Systems operate on those entities based on their components.
+Our software architecture utilizes the multi-layered architecture and Entity-Component System design. We separate the system into four layers: Presentation, Logic, Data-Access, and Data. Within the Logic layer, we implement ECS. Bullets, Enemies, Collectibles, etc., are Entities composed of Components holding data, and Systems operate on those entities based on their components.
 
 **Rationale:**  
 We chose a multi-layered architecture for its clean separation of concerns and compatibility with ECS. It allows us to decouple and modularize subsystems such as JSON loading, game logic, and rendering. We opted for an *open* layered architecture—allowing higher layers to directly access lower ones when needed—because performance is a key priority in games. For example, scenes in the Presentation layer can directly access the Data-Access layer to quickly load needed resources, bypassing intermediate logic layers when appropriate.
@@ -129,12 +129,12 @@ What went well:
 - Strategy pattern for the Collision types was cool, though I don't know how well it would work with a more traditional ECS system (since components as structs wouldn't allow for containing a class as a field).
 
 What did not go well:
-- Our ECS design was lacking. because this was the first time utilizing ECS in a game, we had to learn along the way. If we redid this project, we would definitely change our ECS design. Namely, we would go with a more performant and traditional design. We would remove the Entity class entirely, and just make Entities an integer (id). Additionally, components would be structs instead of classes. By using this design, we could get the actual performance benefits of ECS that a bullet-hell game would benefit from. Another poor design was the EntityManager class, which had too much responsibility. In traditional ECS systems, our EntityManager is similar to the 'world', and we could have made it more single-responsibility.
+- Our ECS design could have been better. Because this was our first time utilizing ECS in a game, we had to learn along the way. If we redid this project, we would definitely change our ECS design. Namely, we would go with a more performant and traditional design. Our current design had an Entity class. For improvement, we would remove the Entity class entirely, and just make Entities an integer (id). Additionally, components would be structs instead of classes. By using this design, we could get the actual performance benefits of ECS that a bullet-hell game would benefit from. Another poor design within the ECS was the EntityManager class, which had too much responsibility. In traditional ECS systems, our EntityManager is similar to the 'world', and we could have made it more single-responsibility (and fewer lines of code).
 - Our animation system was hard to work with. It was tedious to have to define things like currently animating, loop animation, etc. Would like to redo that design and make it more clean.
 - Collision detection was okay for what we needed, but we would've liked to research and try to improve it more so we could have more bullets on screen in game.
 
 ---
 
-## 🎨 Credits & Attribution
+## Credits & Attribution
 - **Assets & Inspiration:** ZUN, creator of the Touhou Project.  
 - **Engine:** Built using **MonoGame** in **C#**.  
